@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreatorPulse 跨平台创作者实时数据大屏</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --neon-green: #bcff00;
+            --neon-purple: #9a8eff;
+            --neon-cyan: #61f4ff;
+            --hot-red: #ff5e5e;
+            --text-white: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.58);
+            --text-muted: rgba(255, 255, 255, 0.34);
+            --glass-bg: rgba(30, 35, 36, 0.62);
+            --glass-card-bg: rgba(255, 255, 255, 0.075);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.14);
+            --radius-main: 40px;
+            --radius-card: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Microsoft YaHei', sans-serif;
+            letter-spacing: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px 24px;
+            color: var(--text-white);
+            background:
+                linear-gradient(90deg, rgba(8, 15, 19, 0.72), rgba(8, 16, 18, 0.18)),
+                url('https://images.unsplash.com/photo-1616469829581-73993eb86b02?w=1800&auto=format&fit=crop') center/cover fixed;
+        }
+
+        .left-dock {
+            width: 64px;
+            background: rgba(255, 255, 255, 0.09);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 0;
+            gap: 22px;
+            margin-right: -18px;
+            z-index: 3;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .dock-item {
+            color: var(--text-dim);
+            font-size: 17px;
+            text-decoration: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: 0.2s ease;
+        }
+
+        .dock-item.active,
+        .dock-item:hover {
+            color: var(--text-white);
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .glass-board {
+            width: 100%;
+            max-width: 96%;
+            min-height: 690px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(42px) saturate(145%);
+            -webkit-backdrop-filter: blur(42px) saturate(145%);
+            border: var(--glass-border);
+            border-radius: var(--radius-main);
+            box-shadow:
+                0 30px 70px rgba(0, 0, 0, 0.45),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2);
+            padding: 38px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-board::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 18%, rgba(188, 255, 0, 0.12), transparent 27%),
+                radial-gradient(circle at 74% 70%, rgba(97, 244, 255, 0.09), transparent 28%);
+            pointer-events: none;
+        }
+
+        .dashboard-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .board-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .brand-logo {
+            font-size: 18px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 188px;
+        }
+
+        .brand-logo i {
+            color: var(--neon-green);
+            filter: drop-shadow(0 0 10px rgba(188, 255, 0, 0.55));
+        }
+
+        .top-pills-tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.22);
+            padding: 4px;
+            border-radius: 30px;
+        }
+
+        .top-pill {
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .top-pill.active {
+            background: #ffffff;
+            color: #111111;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            min-width: 150px;
+        }
+
+        .sync-chip {
+            font-size: 11px;
+            font-weight: 700;
+            color: #111;
+            background: var(--neon-green);
+            border-radius: 999px;
+            padding: 6px 10px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #fff url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop') center/cover;
+            border: 2px solid rgba(255, 255, 255, 0.45);
+        }
+
+        .main-data-layout {
+            display: grid;
+            grid-template-columns: minmax(330px, 1fr) minmax(640px, 1.8fr);
+            gap: 36px;
+        }
+
+        .hero-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 0;
+        }
+
+        .eyebrow {
+            color: var(--neon-green);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .hero-panel h1 {
+            font-size: clamp(34px, 3vw, 48px);
+            font-weight: 600;
+            line-height: 1.12;
+            margin-bottom: 14px;
+        }
+
+        .hero-copy {
+            max-width: 320px;
+            color: var(--text-dim);
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        .huge-circle-chart {
+            position: relative;
+            width: min(250px, 68vw);
+            height: min(250px, 68vw);
+            margin: 22px auto 28px;
+        }
+
+        .circle-inner-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 160px;
+        }
+
+        .circle-value {
+            display: block;
+            font-size: 31px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .circle-label {
+            color: var(--text-dim);
+            font-size: 12px;
+            margin-top: 7px;
+        }
+
+        .circle-live {
+            color: var(--neon-green);
+            font-size: 11px;
+            font-weight: 800;
+            margin-top: 10px;
+        }
+
+        .bottom-stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        .stat-block-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+        }
+
+        .stat-block-mini .num {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .stat-block-mini .num.small {
+            font-size: 17px;
+            margin-top: 10px;
+        }
+
+        .stat-block-mini .lbl {
+            font-size: 11px;
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+
+        .right-charts-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            min-width: 0;
+        }
+
+        .insight-strip {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+        }
+
+        .filter-node {
+            background: rgba(0, 0, 0, 0.18);
+            border-radius: 14px;
+            padding: 12px;
+            min-width: 0;
+        }
+
+        .filter-node p {
+            font-size: 10px;
+            color: var(--text-dim);
+            margin-bottom: 5px;
+            white-space: nowrap;
+        }
+
+        .filter-node strong {
+            display: block;
+            font-size: 15px;
+            font-weight: 800;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cards-sub-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .sub-grid-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .white-inner-card,
+        .purple-inner-card,
+        .dark-glass-card {
+            border-radius: var(--radius-card);
+            padding: 24px;
+            position: relative;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .white-inner-card {
+            background: #ffffff;
+            color: #111111;
+        }
+
+        .purple-inner-card {
+            background: var(--neon-purple);
+            color: #111111;
+        }
+
+        .dark-glass-card {
+            background: var(--glass-card-bg);
+            border: var(--glass-border);
+        }
+
+        .card-arrow {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            color: rgba(0, 0, 0, 0.55);
+            font-size: 12px;
+        }
+
+        .dark-glass-card .card-arrow {
+            color: var(--text-dim);
+        }
+
+        .card-label {
+            display: block;
+            color: #626262;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .dark-title {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin-bottom: 18px;
+            line-height: 1.35;
+            padding-right: 18px;
+        }
+
+        .card-value {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .delta-red {
+            font-size: 11px;
+            color: var(--hot-red);
+            font-weight: 800;
+        }
+
+        .delta-light {
+            font-size: 11px;
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        .interaction-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .metric-row {
+            height: 34px;
+            display: flex;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #e7e7e7;
+        }
+
+        .metric-row span {
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .metric-row .like {
+            width: 48%;
+            background: #111111;
+            color: #ffffff;
+        }
+
+        .metric-row .comment {
+            width: 31%;
+            background: var(--neon-green);
+            color: #111111;
+        }
+
+        .metric-row .share {
+            width: 21%;
+            background: #dcdcdc;
+            color: #111111;
+        }
+
+        .latest-video-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 14px;
+            height: 92px;
+            margin-top: 17px;
+        }
+
+        .step-bar {
+            flex: 1;
+            min-width: 0;
+            background: rgba(0, 0, 0, 0.15);
+            border-top: 3px solid #111111;
+            position: relative;
+        }
+
+        .step-bar span {
+            position: absolute;
+            top: -18px;
+            left: 4px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .neon-bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 70px;
+        }
+
+        .neon-bar {
+            flex: 1;
+            min-width: 7px;
+            max-width: 16px;
+            background: rgba(255, 255, 255, 0.22);
+            border-radius: 4px 4px 1px 1px;
+        }
+
+        .neon-bar.green {
+            background: var(--neon-green);
+        }
+
+        .neon-bar.purple {
+            background: var(--neon-purple);
+        }
+
+        .neon-bar.cyan {
+            background: var(--neon-cyan);
+        }
+
+        .topic-radar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            height: 72px;
+            justify-content: center;
+        }
+
+        .topic-dot {
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 800;
+            color: #111;
+        }
+
+        .topic-dot.hot {
+            width: 50px;
+            height: 50px;
+            background: var(--neon-green);
+        }
+
+        .topic-dot.rising {
+            width: 40px;
+            height: 40px;
+            background: var(--neon-purple);
+        }
+
+        .topic-dot.small {
+            width: 30px;
+            height: 30px;
+            color: var(--text-white);
+        }
+
+        .recommendation-card {
+            padding-bottom: 0;
+        }
+
+        .time-wave {
+            height: 70px;
+            background: linear-gradient(180deg, rgba(188, 255, 0, 0.34) 0%, rgba(188, 255, 0, 0.04) 100%);
+            clip-path: polygon(0 76%, 18% 48%, 34% 64%, 51% 28%, 67% 54%, 82% 38%, 100% 24%, 100% 100%, 0 100%);
+            border-radius: 0 0 12px 12px;
+            margin: 16px -24px 0;
+        }
+
+        .platform-labels {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 10px;
+            color: var(--text-dim);
+            font-size: 10px;
+        }
+
+        @media (max-width: 1180px) {
+            body {
+                align-items: flex-start;
+                padding: 20px;
+            }
+
+            .left-dock {
+                display: none;
+            }
+
+            .glass-board {
+                max-width: 100%;
+            }
+
+            .main-data-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-panel {
+                display: grid;
+                grid-template-columns: minmax(280px, 1fr) 280px;
+                align-items: center;
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 820px) {
+            body {
+                padding: 12px;
+            }
+
+            .glass-board {
+                border-radius: 28px;
+                padding: 24px;
+            }
+
+            .board-header,
+            .hero-panel {
+                grid-template-columns: 1fr;
+                display: grid;
+            }
+
+            .top-pills-tabs,
+            .insight-strip,
+            .cards-sub-grid,
+            .sub-grid-3col,
+            .bottom-stats-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .top-pills-tabs {
+                overflow-x: auto;
+                border-radius: 18px;
+            }
+
+            .cards-sub-grid,
+            .sub-grid-3col {
+                display: grid;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .insight-strip,
+            .cards-sub-grid,
+            .sub-grid-3col,
+            .bottom-stats-row {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-panel h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="left-dock" aria-label="CreatorPulse 主导航">
+        <a href="#" class="dock-item active" aria-label="实时总览"><i class="fa-solid fa-house"></i></a>
+        <a href="#" class="dock-item" aria-label="内容搜索"><i class="fa-solid fa-magnifying-glass-chart"></i></a>
+        <a href="#" class="dock-item" aria-label="热点预警"><i class="fa-regular fa-bell"></i></a>
+        <a href="#" class="dock-item" aria-label="报告中心"><i class="fa-regular fa-file-lines"></i></a>
+        <a href="#" class="dock-item" aria-label="收藏洞察"><i class="fa-regular fa-bookmark"></i></a>
+        <a href="#" class="dock-item" aria-label="系统设置"><i class="fa-solid fa-gear"></i></a>
+    </nav>
+
+    <main class="glass-board">
+        <div class="dashboard-content">
+            <header class="board-header">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-circle-notch"></i> CreatorPulse
+                </div>
+                <div class="top-pills-tabs" aria-label="分析视图切换">
+                    <a href="#" class="top-pill active">实时总览</a>
+                    <a href="#" class="top-pill">内容分析</a>
+                    <a href="#" class="top-pill">热点推荐</a>
+                    <a href="#" class="top-pill">竞品追踪</a>
+                </div>
+                <div class="user-profile">
+                    <span class="sync-chip">5s Sync</span>
+                    <i class="fa-regular fa-bell" style="color:var(--text-dim)"></i>
+                    <div class="user-avatar" aria-hidden="true"></div>
+                </div>
+            </header>
+
+            <section class="main-data-layout">
+                <div class="hero-panel">
+                    <div>
+                        <p class="eyebrow">Cross-platform Creator Intelligence</p>
+                        <h1>跨平台创作者<br>实时数据大屏</h1>
+                        <p class="hero-copy">聚合抖音、B站、小红书、视频号、YouTube 和微博数据，秒级追踪播放增长、互动转化、粉丝变化与热点机会。</p>
+                    </div>
+
+                    <div class="huge-circle-chart" aria-label="实时播放飞轮">
+                        <svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);">
+                            <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="3.5"/>
+                            <circle cx="18" cy="18" r="14" fill="none" stroke="var(--neon-green)" stroke-width="3.5" stroke-dasharray="82 100"/>
+                            <circle cx="18" cy="18" r="10.2" fill="none" stroke="rgba(154,142,255,0.9)" stroke-width="1.6" stroke-dasharray="56 100"/>
+                        </svg>
+                        <div class="circle-inner-text">
+                            <span class="circle-value">1,286万</span>
+                            <p class="circle-label">全平台总播放</p>
+                            <p class="circle-live">+18.6万 / 5s</p>
+                        </div>
+                    </div>
+
+                    <div class="bottom-stats-row">
+                        <div class="stat-block-mini">
+                            <span class="num">7.82%</span>
+                            <span class="lbl">● 实时互动率</span>
+                            <span class="num small">142.8万</span>
+                            <span class="lbl">● 点赞总量</span>
+                        </div>
+                        <div class="stat-block-mini">
+                            <span class="num">+3.2万</span>
+                            <span class="lbl">○ 今日净增粉丝</span>
+                            <span class="num small">42.6万</span>
+                            <span class="lbl">● 评论与分享</span>
+                        </div>
+                        <div class="stat-block-mini">
+                            <span class="num">0.85</span>
+                            <span class="lbl">● 爆发速度分</span>
+                            <span class="num small">8.7s</span>
+                            <span class="lbl">● 聚合延迟</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-charts-column">
+                    <div class="insight-strip">
+                        <div class="filter-node"><p>Platforms</p><strong>6 个</strong></div>
+                        <div class="filter-node"><p>Creators</p><strong>128</strong></div>
+                        <div class="filter-node"><p>Videos</p><strong>15,191</strong></div>
+                        <div class="filter-node"><p>Today Play</p><strong>386万</strong></div>
+                        <div class="filter-node"><p>Engage Rate</p><strong>7.82%</strong></div>
+                        <div class="filter-node"><p>Kafka Lag</p><strong>8.7s</strong></div>
+                    </div>
+
+                    <div class="cards-sub-grid">
+                        <article class="white-inner-card">
+                            <i class="fa-solid fa-arrow-trend-up card-arrow"></i>
+                            <span class="card-label">实时互动面板</span>
+                            <div class="card-value">248.6万</div>
+                            <span class="delta-red">+12.4% / hour</span>
+
+                            <div class="interaction-bars">
+                                <div class="metric-row">
+                                    <span class="like">点赞 142.8万</span>
+                                    <span class="comment">评论 61.5万</span>
+                                    <span class="share">分享 44.3万</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span style="width: 64%; background:#111; color:#fff;">收藏 82.1万</span>
+                                    <span style="width: 36%; background:var(--neon-green); color:#111;">弹幕 18.9万</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="purple-inner-card">
+                            <i class="fa-solid fa-arrow-trend-up card-arrow"></i>
+                            <span style="font-size: 12px; font-weight: 700;">最新视频表现</span>
+                            <div class="card-value">92.4万</div>
+                            <span class="delta-light">发布后 4h 播放增长 +68.5%</span>
+
+                            <div class="latest-video-chart">
+                                <div class="step-bar" style="height: 42px;"><span>0.5h</span></div>
+                                <div class="step-bar" style="height: 58px;"><span>1h</span></div>
+                                <div class="step-bar" style="height: 74px;"><span>2h</span></div>
+                                <div class="step-bar" style="height: 92px;"><span>4h</span></div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="sub-grid-3col">
+                        <article class="dark-glass-card">
+                            <i class="fa-solid fa-arrow-trend-up card-arrow"></i>
+                            <div class="dark-title">平台分布对比</div>
+                            <div style="font-size: 24px; font-weight:800; margin-bottom:10px;">抖音 37.8%</div>
+
+                            <div class="neon-bar-chart" aria-label="平台播放分布">
+                                <div class="neon-bar green" style="height: 68px;" title="抖音"></div>
+                                <div class="neon-bar purple" style="height: 50px;" title="B站"></div>
+                                <div class="neon-bar cyan" style="height: 45px;" title="小红书"></div>
+                                <div class="neon-bar" style="height: 33px;" title="视频号"></div>
+                                <div class="neon-bar green" style="height: 26px;" title="YouTube"></div>
+                                <div class="neon-bar purple" style="height: 22px;" title="微博"></div>
+                            </div>
+                            <div class="platform-labels">
+                                <span>抖音</span><span>B站</span><span>小红书</span>
+                            </div>
+                        </article>
+
+                        <article class="dark-glass-card">
+                            <i class="fa-solid fa-arrow-trend-up card-arrow"></i>
+                            <div class="dark-title">热点话题雷达</div>
+                            <div style="font-size: 24px; font-weight:800; margin-bottom:8px;">#通勤妆</div>
+                            <span style="font-size: 11px; color: var(--text-dim);">3 平台同时爆发，热度 +56%/h</span>
+
+                            <div class="topic-radar">
+                                <div class="topic-dot small">AI</div>
+                                <div class="topic-dot hot">妆</div>
+                                <div class="topic-dot rising">穿搭</div>
+                                <div class="topic-dot small">测评</div>
+                            </div>
+                        </article>
+
+                        <article class="dark-glass-card recommendation-card">
+                            <i class="fa-solid fa-arrow-trend-up card-arrow"></i>
+                            <div class="dark-title">竞品追踪 & 最佳发布时间</div>
+                            <div style="font-size: 24px; font-weight:800; margin-bottom:5px;">周五 20:00</div>
+                            <span style="font-size: 11px; color: var(--text-dim);">竞品 A 近 5 条均播高 30%，建议跟进教程类选题</span>
+
+                            <div class="time-wave" aria-label="粉丝活跃时间波形"></div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorPulse — 跨平台数据大屏</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+/* ============================================================
+   CreatorPulse — Design System v2
+   Aesthetic: Refined Dark · Editorial · Data-Dense But Airy
+   ============================================================ */
+:root {
+  --bg-root: #08080C;
+  --bg-surface: #0E0E15;
+  --bg-card: #13131D;
+  --bg-card-alt: #171723;
+  --bg-hover: #1C1C2A;
+
+  --border-dim: rgba(255,255,255,0.05);
+  --border-card: rgba(255,255,255,0.07);
+  --border-glow: rgba(34,211,238,0.18);
+
+  --text-heading: #F4F4F9;
+  --text-body: #C8C8D4;
+  --text-muted: #6B6B80;
+  --text-dim: #48485A;
+
+  --accent: #22D3EE;
+  --accent-soft: rgba(34,211,238,0.10);
+  --accent-glow: rgba(34,211,238,0.20);
+
+  --green: #34D399;
+  --green-soft: rgba(52,211,153,0.10);
+  --red: #F87171;
+  --red-soft: rgba(248,113,113,0.10);
+  --amber: #FBBF24;
+  --amber-soft: rgba(251,191,36,0.10);
+
+  --plat-douyin:     #FF2E56;
+  --plat-bilibili:   #FB7299;
+  --plat-xiaohongshu:#FE2C55;
+  --plat-wechat:     #2AA952;
+  --plat-youtube:    #FF4444;
+  --plat-weibo:      #FF8200;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'DM Mono', 'SF Mono', 'Cascadia Code', monospace;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.03), 0 2px 16px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 32px var(--accent-glow);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-root);
+  color: var(--text-body);
+  font-size: 13.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 30% 0%, rgba(34,211,238,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 70% 90%, rgba(52,211,153,0.03) 0%, transparent 60%);
+}
+
+#app { position: relative; z-index: 1; display: flex; height: 100vh; }
+
+/* ============================================================
+   Sidebar — minimal, iconic
+   ============================================================ */
+.sidebar {
+  width: 200px; flex-shrink: 0;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-dim);
+  display: flex; flex-direction: column;
+  padding: 28px 14px;
+  gap: 6px;
+}
+
+.sidebar-brand {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 10px; margin-bottom: 32px;
+}
+
+.sidebar-brand .mark {
+  width: 34px; height: 34px;
+  background: var(--accent);
+  border-radius: 10px;
+  box-shadow: var(--shadow-glow);
+}
+
+.sidebar-brand h3 {
+  font-size: 16px; font-weight: 700; color: var(--text-heading);
+  letter-spacing: -0.4px;
+}
+
+.nav-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 1.8px;
+  color: var(--text-dim); text-transform: uppercase;
+  padding: 0 10px; margin: 18px 0 6px;
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: var(--radius-sm);
+  cursor: pointer; transition: all 120ms ease;
+  color: var(--text-muted); font-size: 13px; font-weight: 500;
+}
+.nav-item:hover { background: rgba(255,255,255,0.03); color: var(--text-body); }
+.nav-item.on {
+  background: var(--accent-soft); color: var(--accent);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.nav-dot { width: 18px; text-align: center; font-size: 15px; }
+.nav-badge {
+  margin-left: auto; background: var(--red); color: #fff;
+  font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 10px;
+}
+
+.sidebar-footer {
+  margin-top: auto; padding-top: 16px;
+  border-top: 1px solid var(--border-dim);
+  display: flex; align-items: center; gap: 10px; padding: 12px 10px 0;
+}
+.avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #0891B2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #fff;
+}
+.user-meta { font-size: 12px; }
+.user-meta .name { font-weight: 600; color: var(--text-heading); }
+.user-meta .role { font-size: 10px; color: var(--text-dim); }
+
+/* ============================================================
+   Main
+   ============================================================ */
+.main { flex: 1; overflow-y: auto; padding: 24px 28px 32px; display: flex; flex-direction: column; gap: 20px; }
+
+/* Top row */
+.topbar { display: flex; align-items: center; justify-content: space-between; }
+.topbar h2 { font-size: 20px; font-weight: 700; color: var(--text-heading); letter-spacing: -0.4px; }
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+.live-tag {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--green-soft); padding: 5px 12px;
+  border-radius: 20px; font-size: 11px; font-weight: 600; color: var(--green);
+  font-family: var(--font-mono);
+}
+.live-tag .ring { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse-ring 2s infinite; }
+@keyframes pulse-ring { 0%,100%{opacity:1;box-shadow:0 0 0 0 var(--green)}50%{opacity:.6;box-shadow:0 0 0 6px transparent} }
+
+/* ============================================================
+   KPI strip
+   ============================================================ */
+.kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+.kpi {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  transition: border-color 200ms ease;
+}
+.kpi:hover { border-color: rgba(255,255,255,0.12); }
+.kpi-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+.kpi-value { font-size: 32px; font-weight: 800; font-family: var(--font-mono); color: var(--text-heading); letter-spacing: -1px; line-height: 1; }
+.kpi-sub {
+  font-size: 11px; font-family: var(--font-mono); margin-top: 8px;
+  display: flex; align-items: center; gap: 5px;
+}
+.kpi-sub.up { color: var(--green); }
+.kpi-platforms { display: flex; gap: 4px; margin-top: 10px; }
+.kpi-platforms span { width: 7px; height: 7px; border-radius: 50%; opacity: 0.6; }
+
+/* ============================================================
+   Grid
+   ============================================================ */
+.grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.grid-2 { grid-column: span 2; }
+.grid-3 { grid-column: span 3; }
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  transition: border-color 200ms ease;
+}
+.card:hover { border-color: rgba(255,255,255,0.10); }
+.card-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.card-head h4 { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.chart-wrap { width: 100%; height: 280px; }
+.chart-wrap-sm { height: 240px; }
+
+/* ============================================================
+   Flywheel strip
+   ============================================================ */
+.fly-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+
+.fly-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 16px 14px; text-align: center;
+  transition: all 180ms ease;
+  cursor: default;
+}
+.fly-item:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.14); box-shadow: var(--shadow-card); }
+.fly-name { font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+.fly-count { font-size: 22px; font-weight: 700; font-family: var(--font-mono); }
+.fly-delta { font-size: 10px; font-family: var(--font-mono); margin-top: 5px; }
+.fly-delta.rise { color: var(--green); }
+.fly-delta.fall { color: var(--red); }
+
+/* ============================================================
+   Competitor table
+   ============================================================ */
+.ctable { width: 100%; border-collapse: collapse; font-size: 12px; }
+.ctable th {
+  text-align: left; padding: 7px 12px;
+  font-size: 10px; font-weight: 700; color: var(--text-dim);
+  text-transform: uppercase; letter-spacing: 0.8px;
+  border-bottom: 1px solid var(--border-dim);
+}
+.ctable td { padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+.ctable .rnk { font-weight: 800; color: var(--accent); font-size: 14px; font-family: var(--font-mono); }
+.ctable .pos { color: var(--green); font-weight: 600; }
+.ctable .neg { color: var(--red); font-weight: 600; }
+
+/* ============================================================
+   Alert items
+   ============================================================ */
+.alerts { display: flex; flex-direction: column; gap: 8px; max-height: 240px; overflow-y: auto; }
+.alert {
+  padding: 10px 12px; border-radius: var(--radius-sm);
+  font-size: 11.5px; line-height: 1.5; border-left: 3px solid transparent;
+}
+.alert.u { border-left-color: var(--red); background: var(--red-soft); }
+.alert.w { border-left-color: var(--amber); background: var(--amber-soft); }
+.alert.i { border-left-color: var(--accent); background: var(--accent-soft); }
+.alert.s { border-left-color: var(--green); background: var(--green-soft); }
+.alert-time { font-size: 10px; color: var(--text-dim); font-family: var(--font-mono); margin-top: 3px; }
+
+/* ============================================================
+   Heatmap
+   ============================================================ */
+.hm-wrap { overflow-x: auto; }
+.hm-row { display: flex; align-items: center; gap: 2px; margin-bottom: 2px; }
+.hm-label { width: 32px; text-align: right; font-size: 9px; color: var(--text-dim); font-family: var(--font-mono); padding-right: 6px; flex-shrink: 0; }
+.hm-cell { width: 18px; height: 18px; border-radius: 2px; flex-shrink: 0; cursor: pointer; transition: all 120ms ease; }
+.hm-cell:hover { transform: scale(1.4); z-index: 2; box-shadow: 0 0 10px rgba(0,0,0,0.6); }
+.hm-cell.h0 { background: rgba(255,255,255,0.03); }
+.hm-cell.h1 { background: rgba(34,211,238,0.12); }
+.hm-cell.h2 { background: rgba(34,211,238,0.30); }
+.hm-cell.h3 { background: rgba(34,211,238,0.55); }
+.hm-cell.h4 { background: rgba(34,211,238,0.85); box-shadow: 0 0 6px rgba(34,211,238,0.3); }
+.hm-day-row { display: flex; align-items: center; gap: 2px; margin-bottom: 6px; padding-left: 38px; }
+.hm-day-row span { width: 18px; text-align: center; font-size: 9px; color: var(--text-dim); flex-shrink: 0; }
+.hm-legend { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--text-dim); margin-top: 10px; }
+.hm-legend .swatch { width: 14px; height: 14px; border-radius: 2px; }
+
+/* ============================================================
+   Scrollbar
+   ============================================================ */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 4px; }
+
+/* ============================================================
+   Card entrance animation
+   ============================================================ */
+.kpi, .card, .fly-item { animation: rise 0.45s ease-out both; }
+.kpi:nth-child(1){animation-delay:0.03s} .kpi:nth-child(2){animation-delay:0.08s}
+.kpi:nth-child(3){animation-delay:0.13s} .kpi:nth-child(4){animation-delay:0.18s}
+.card:nth-child(1){animation-delay:0.05s} .card:nth-child(2){animation-delay:0.10s}
+.fly-item:nth-child(1){animation-delay:0.02s} .fly-item:nth-child(2){animation-delay:0.06s}
+.fly-item:nth-child(3){animation-delay:0.10s} .fly-item:nth-child(4){animation-delay:0.14s}
+.fly-item:nth-child(5){animation-delay:0.18s} .fly-item:nth-child(6){animation-delay:0.22s}
+@keyframes rise { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="mark"></div>
+      <h3>CreatorPulse</h3>
+    </div>
+    <div class="nav-label">主菜单</div>
+    <div class="nav-item on"><span class="nav-dot">▣</span> 数据大屏</div>
+    <div class="nav-item"><span class="nav-dot">◈</span> 数据中心</div>
+    <div class="nav-item"><span class="nav-dot">◎</span> 视频分析</div>
+    <div class="nav-item"><span class="nav-dot">◆</span> 选题推荐<span class="nav-badge">3</span></div>
+    <div class="nav-item"><span class="nav-dot">⬡</span> 竞品追踪</div>
+    <div class="nav-label">设置</div>
+    <div class="nav-item"><span class="nav-dot">◉</span> 账号管理</div>
+    <div class="nav-item"><span class="nav-dot">○</span> 数据源</div>
+    <div class="sidebar-footer">
+      <div class="avatar">A</div>
+      <div class="user-meta">
+        <div class="name">美妆达人小A</div>
+        <div class="role">内容创作者</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+    <!-- Top bar -->
+    <div class="topbar">
+      <h2>实时数据大屏</h2>
+      <div class="topbar-right">
+        <span style="font-size:11px;color:var(--text-dim);font-family:var(--font-mono)">{{ currentTime }} CST</span>
+        <div class="live-tag"><span class="ring"></span>LIVE</div>
+      </div>
+    </div>
+
+    <!-- KPI Strip -->
+    <div class="kpi-strip">
+      <div class="kpi">
+        <div class="kpi-label">全平台总播放量</div>
+        <div class="kpi-value">{{ fnum(metrics.p) }}</div>
+        <div class="kpi-sub up">↗ +{{ fnum(metrics.pg) }}/h</div>
+        <div class="kpi-platforms">
+          <span style="background:var(--plat-douyin)"></span>
+          <span style="background:var(--plat-bilibili)"></span>
+          <span style="background:var(--plat-xiaohongshu)"></span>
+          <span style="background:var(--plat-wechat)"></span>
+          <span style="background:var(--plat-youtube)"></span>
+          <span style="background:var(--plat-weibo)"></span>
+        </div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">全平台总互动</div>
+        <div class="kpi-value">{{ fnum(metrics.e) }}</div>
+        <div class="kpi-sub up">互动率 {{ metrics.er }}%</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">全平台总粉丝</div>
+        <div class="kpi-value">{{ fnum(metrics.f) }}</div>
+        <div class="kpi-sub up">净增 +{{ fnum(metrics.fg) }} 今日</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">预估月收入</div>
+        <div class="kpi-value" style="color:var(--green)">¥{{ fnum(metrics.r) }}</div>
+        <div class="kpi-sub up">CPM ¥{{ metrics.cpm }}</div>
+      </div>
+    </div>
+
+    <!-- Row 1: Trend chart (2/3) + Donut (1/3) -->
+    <div class="grid">
+      <div class="card grid-2">
+        <div class="card-head">
+          <h4>各平台播放量趋势 · 近24小时</h4>
+          <div style="display:flex;gap:14px">
+            <span v-for="p in plats" :key="p.k" style="font-size:10px;display:flex;align-items:center;gap:4px;color:var(--text-dim)">
+              <span :style="{width:7,height:7,borderRadius:'50%',background:p.c,display:'inline-block'}"></span>{{ p.n }}
+            </span>
+          </div>
+        </div>
+        <div class="chart-wrap" ref="cTrend"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h4>平台播放分布</h4></div>
+        <div class="chart-wrap-sm" ref="cDonut"></div>
+      </div>
+    </div>
+
+    <!-- Row 2: Flywheel counters -->
+    <div class="fly-row">
+      <div class="fly-item" v-for="f in flys" :key="f.k">
+        <div class="fly-name">{{ f.n }}</div>
+        <div class="fly-count" :style="{color:f.c}">{{ fnum(f.v) }}</div>
+        <div class="fly-delta" :class="f.d > 0 ? 'rise' : 'fall'">{{ f.d > 0 ? '↗' : '↘' }} {{ Math.abs(f.d) }}/s</div>
+      </div>
+    </div>
+
+    <!-- Row 3: Radar + Video Bars -->
+    <div class="grid">
+      <div class="card">
+        <div class="card-head"><h4>热点话题雷达</h4><span style="font-size:10px;color:var(--amber);font-weight:600">2个爆发中</span></div>
+        <div class="chart-wrap-sm" ref="cRadar"></div>
+      </div>
+      <div class="card grid-2">
+        <div class="card-head"><h4>最新视频各平台播放对比</h4></div>
+        <div class="chart-wrap-sm" ref="cBar"></div>
+      </div>
+    </div>
+
+    <!-- Row 4: Competitor table + Alerts -->
+    <div class="grid">
+      <div class="card grid-2">
+        <div class="card-head"><h4>竞品追踪</h4><span style="font-size:10px;color:var(--text-dim)">实时数据</span></div>
+        <table class="ctable">
+          <thead><tr><th>#</th><th>账号</th><th>总播放(万)</th><th>粉丝(万)</th><th>互动率</th><th>7日涨粉(万)</th></tr></thead>
+          <tbody>
+            <tr v-for="(c,i) in comps" :key="c.id">
+              <td class="rnk">{{ i+1 }}</td><td>{{ c.name }}</td>
+              <td>{{ c.p }}</td><td>{{ c.f }}</td><td>{{ c.ir }}%</td>
+              <td :class="c.g > 0 ? 'pos' : 'neg'">{{ c.g > 0 ? '+' : '' }}{{ c.g }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-head"><h4>实时动态</h4></div>
+        <div class="alerts">
+          <div v-for="(a,i) in alts" :key="i" class="alert" :class="a.l">
+            <div>{{ a.m }}</div><div class="alert-time">{{ a.t }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 5: Posting time heatmap -->
+    <div class="card">
+      <div class="card-head"><h4>最佳发布时间热力图 · 近30天</h4><span style="font-size:10px;color:var(--accent);font-weight:600">最佳: 周五 20:00</span></div>
+      <div class="hm-day-row"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+      <div class="hm-wrap">
+        <div class="hm-row" v-for="h in 24" :key="h">
+          <span class="hm-label">{{ String(h-1).padStart(2,'0') }}:00</span>
+          <div class="hm-cell" v-for="d in 7" :key="d" :class="hmClass(h-1,d)" :title="'周'+d+' '+(h-1)+':00 — '+hmVal(h-1,d)+'万'"></div>
+        </div>
+      </div>
+      <div class="hm-legend">
+        低<span class="swatch h0"></span><span class="swatch h1"></span><span class="swatch h2"></span><span class="swatch h3"></span><span class="swatch h4"></span>高
+        <span style="margin-left:16px">🔥 峰值: 周五 20:00 · 38万平均播放</span>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const { createApp, ref, reactive, onMounted, nextTick, onUnmounted } = Vue;
+
+createApp({
+  setup() {
+    const ct = ref('');
+    const cTrend = ref(null); const cDonut = ref(null);
+    const cRadar = ref(null); const cBar = ref(null);
+
+    let iTrend, iDonut, iRadar, iBar, tTick, dTick;
+
+    const plats = [
+      { k:'douyin',n:'抖音',c:'#FF2E56' },{ k:'bilibili',n:'B站',c:'#FB7299' },
+      { k:'xiaohongshu',n:'小红书',c:'#FE2C55' },{ k:'wechat',n:'视频号',c:'#2AA952' },
+      { k:'youtube',n:'YouTube',c:'#FF4444' },{ k:'weibo',n:'微博',c:'#FF8200' },
+    ];
+
+    const metrics = reactive({ p: 12847200, pg: 28400, e: 1523000, er: '11.85', f: 2850000, fg: 2750, r: 38500, cpm: '9.72' });
+    const flys = reactive([
+      { k:'douyin',n:'抖音',c:'#FF2E56',v:4850000,d:320 },
+      { k:'bilibili',n:'B站',c:'#FB7299',v:2850000,d:180 },
+      { k:'xiaohongshu',n:'小红书',c:'#FE2C55',v:1980000,d:145 },
+      { k:'wechat',n:'视频号',c:'#2AA952',v:1520000,d:95 },
+      { k:'youtube',n:'YouTube',c:'#FF4444',v:980000,d:55 },
+      { k:'weibo',n:'微博',c:'#FF8200',v:667200,d:42 },
+    ]);
+    const comps = ref([
+      { id:1,name:'美妆一姐Lin',p:2850,f:520,ir:14.2,g:3.8 },
+      { id:2,name:'小艾美妆日记',p:1980,f:385,ir:11.5,g:2.1 },
+      { id:3,name:'MUA-Rita',p:1620,f:298,ir:9.8,g:-0.5 },
+      { id:4,name:'化妆师Tina',p:1350,f:245,ir:12.1,g:1.2 },
+      { id:5,name:'C-Beauty官方',p:1120,f:180,ir:8.5,g:0.8 },
+    ]);
+    const alts = ref([
+      { l:'u',m:'抖音「通勤妆教程」播放爆发 +850%',t:'14:23:05' },
+      { l:'s',m:'B站粉丝突破 50 万里程碑',t:'14:20:18' },
+      { l:'w',m:'小红书互动率下降 2.3%，建议优化封面',t:'14:18:42' },
+      { l:'i',m:'#夏季防晒 在4个平台同时爆发',t:'14:15:30' },
+      { l:'w',m:'视频号「日常妆」播放增速放缓',t:'14:12:15' },
+      { l:'s',m:'竞品分析报告已生成',t:'14:10:00' },
+    ]);
+
+    function fnum(n) { if (n >= 1e8) return (n/1e8).toFixed(1)+'亿'; if (n >= 1e4) return (n/1e4).toFixed(1)+'万'; return n.toLocaleString(); }
+
+    function hmVal(h,d) {
+      let b = 1.2;
+      if (d===5 && h>=19 && h<=21) b=38; else if (d===6 && h>=18 && h<=22) b=32;
+      else if (d===7 && h>=18 && h<=21) b=28; else if (h>=12 && h<=13) b=18;
+      else if (h>=19 && h<=21) b=25; else if (h>=8 && h<=10) b=8;
+      else if (h>=22 || h<=5) b=0.3;
+      return (b + Math.sin(h*d)*1.5).toFixed(1);
+    }
+    function hmClass(h,d) {
+      const v = parseFloat(hmVal(h,d));
+      if (v>25) return 'h4'; if (v>15) return 'h3'; if (v>6) return 'h2'; if (v>1) return 'h1'; return 'h0';
+    }
+
+    // ECharts helpers
+    const tc = '#6B6B80'; const gc = 'rgba(255,255,255,0.04)';
+    function mkLineData(id) {
+      const seed = { douyin:120,bilibili:80,xiaohongshu:55,wechat:40,youtube:30,weibo:20 };
+      return Array.from({length:24},(_,i) => {
+        const h = i; let m = 1;
+        if (h>=12&&h<=14) m=1.6; else if (h>=20&&h<=22) m=2.2; else if (h>=8&&h<=10) m=1.5;
+        else if (h<=4) m=0.3;
+        return Math.floor(seed[id]*m*(0.85+Math.random()*0.3));
+      });
+    }
+
+    function initTrend() {
+      if (!cTrend.value) return; iTrend = echarts.init(cTrend.value,'dark');
+      const hrs = Array.from({length:24},(_,i)=>`${String(i).padStart(2,'0')}:00`);
+      iTrend.setOption({
+        tooltip:{trigger:'axis',backgroundColor:'#13131D',borderColor:'rgba(255,255,255,0.08)',textStyle:{fontSize:11}},
+        grid:{left:44,right:16,top:12,bottom:28},
+        xAxis:{type:'category',data:hrs,boundaryGap:false,axisLine:{lineStyle:{color:gc}},axisLabel:{color:tc,fontSize:9,interval:3},axisTick:{show:false}},
+        yAxis:{type:'value',name:'万次',nameTextStyle:{color:tc,fontSize:9},splitLine:{lineStyle:{color:gc}},axisLabel:{color:tc,fontSize:9}},
+        series: plats.map(p=>({
+          name:p.n,type:'line',smooth:true,symbol:'none',data:mkLineData(p.k),
+          lineStyle:{color:p.c,width:2},
+          areaStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:p.c+'28'},{offset:1,color:p.c+'00'}])},
+        })),
+      });
+    }
+
+    function initDonut() {
+      if (!cDonut.value) return; iDonut = echarts.init(cDonut.value,'dark');
+      iDonut.setOption({
+        tooltip:{trigger:'item',backgroundColor:'#13131D',borderColor:'rgba(255,255,255,0.08)',formatter:'{b}: {c}万 ({d}%)'},
+        series:[{type:'pie',radius:['58%','84%'],center:['50%','50%'],emphasis:{label:{fontSize:14,fontWeight:'bold'}},label:{color:tc,fontSize:9,formatter:'{b}\n{d}%'},labelLine:{lineStyle:{color:'rgba(255,255,255,0.12)'}},itemStyle:{borderColor:'#0E0E15',borderWidth:2},
+          data:[{value:485,name:'抖音',itemStyle:{color:'#FF2E56'}},{value:285,name:'B站',itemStyle:{color:'#FB7299'}},{value:198,name:'小红书',itemStyle:{color:'#FE2C55'}},{value:152,name:'视频号',itemStyle:{color:'#2AA952'}},{value:98,name:'YouTube',itemStyle:{color:'#FF4444'}},{value:67,name:'微博',itemStyle:{color:'#FF8200'}}],
+        }],
+      });
+    }
+
+    function initRadar() {
+      if (!cRadar.value) return; iRadar = echarts.init(cRadar.value,'dark');
+      iRadar.setOption({
+        tooltip:{trigger:'item',backgroundColor:'#13131D',borderColor:'rgba(255,255,255,0.08)'},
+        legend:{bottom:0,textStyle:{color:tc,fontSize:9},data:['当前','1h前']},
+        radar:{center:['50%','46%'],radius:'65%',indicator:[{name:'#夏季防晒',max:100},{name:'#日常通勤妆',max:100},{name:'#新手化妆',max:100},{name:'#平价好物',max:100},{name:'#护肤流程',max:100}],axisName:{color:tc,fontSize:9},splitArea:{areaStyle:{color:['rgba(34,211,238,0.01)','rgba(34,211,238,0.01)']}},splitLine:{lineStyle:{color:gc}},axisLine:{lineStyle:{color:gc}}},
+        series:[{type:'radar',data:[{value:[92,78,65,58,45],name:'当前',areaStyle:{color:'rgba(34,211,238,0.15)'},lineStyle:{color:'#22D3EE'},itemStyle:{color:'#22D3EE'}},{value:[65,82,60,52,48],name:'1h前',areaStyle:{color:'rgba(255,255,255,0.03)'},lineStyle:{color:'#48485A'},itemStyle:{color:'#48485A'}}]}],
+      });
+    }
+
+    function initBar() {
+      if (!cBar.value) return; iBar = echarts.init(cBar.value,'dark');
+      const vids = ['通勤妆教程','夏季防晒测评','平价口红试色','新手化妆入门','护肤流程'];
+      iBar.setOption({
+        tooltip:{trigger:'axis',backgroundColor:'#13131D',borderColor:'rgba(255,255,255,0.08)'},
+        grid:{left:24,right:16,top:8,bottom:24},
+        xAxis:{type:'category',data:vids,axisLabel:{color:tc,fontSize:9,rotate:15},axisLine:{lineStyle:{color:gc}}},
+        yAxis:{type:'value',name:'万播放',splitLine:{lineStyle:{color:gc}},axisLabel:{color:tc,fontSize:9}},
+        series: plats.map((p,i)=>({name:p.n,type:'bar',stack:'total',emphasis:{focus:'series'},itemStyle:{color:p.c,borderRadius:i===5?[3,3,0,0]:0},data:vids.map((_,j)=>{const b=[75,58,44,32,20][j]||28;return Math.floor(b*(0.7+Math.random()*0.6));})})),
+      });
+    }
+
+    function tick() {
+      const n = new Date(); ct.value = n.toTimeString().slice(0,8);
+      metrics.p += Math.floor(Math.random()*3000)+800;
+      metrics.pg = Math.floor(metrics.p*0.0022);
+      metrics.e += Math.floor(Math.random()*400)+100;
+      metrics.er = (11.5+Math.random()*1.5).toFixed(2);
+      metrics.fg = Math.floor(Math.random()*80)+20;
+      flys.forEach(f=>{f.v+=Math.floor(Math.random()*200);f.d=Math.floor(Math.random()*40)+15;});
+    }
+
+    function handleResize() { [iTrend,iDonut,iRadar,iBar].forEach(c=>c?.resize()); }
+
+    onMounted(()=>{
+      tTick=setInterval(tick,5000); dTick=setInterval(()=>ct.value=new Date().toTimeString().slice(0,8),1000);
+      nextTick(()=>{initTrend();initDonut();initRadar();initBar();});
+      window.addEventListener('resize',handleResize);
+    });
+    onUnmounted(()=>{
+      clearInterval(tTick);clearInterval(dTick);
+      window.removeEventListener('resize',handleResize);
+      [iTrend,iDonut,iRadar,iBar].forEach(c=>c?.dispose());
+    });
+
+    return { ct:ct.value, cTrend,cDonut,cRadar,cBar, plats, metrics, flys, comps, alts, fnum, hmVal, hmClass };
+  }
+}).mount('#app');
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreatorPulse - 增长总览</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="left-dock" aria-label="主导航">
+    <a class="dock-item active" href="growth-dashboard.html" aria-label="增长总览"><i class="fa-solid fa-house"></i></a>
+    <a class="dock-item" href="fans-analysis.html" aria-label="粉丝分析"><i class="fa-solid fa-users"></i></a>
+    <a class="dock-item" href="video-analysis.html" aria-label="视频分析"><i class="fa-solid fa-play"></i></a>
+    <a class="dock-item" href="content-distribution.html" aria-label="内容分布"><i class="fa-solid fa-chart-pie"></i></a>
+    <a class="dock-item" href="creator-opportunities.html" aria-label="机会建议"><i class="fa-solid fa-fire"></i></a>
+    <a class="dock-item" href="creator-profile.html" aria-label="个人中心"><i class="fa-solid fa-gear"></i></a>
+  </nav>
+
+  <main class="glass-board">
+    <div class="dashboard-content">
+      <header class="board-header">
+        <div class="brand-logo"><i class="fa-solid fa-circle-notch"></i> CreatorPulse</div>
+        <div class="top-pills-tabs" role="tablist">
+          <a class="top-pill active" href="#overview" data-tab-target="overview" role="tab" aria-selected="true">实时概览</a>
+          <a class="top-pill" href="#conversion" data-tab-target="conversion" role="tab" aria-selected="false">粉丝转化</a>
+          <a class="top-pill" href="#stickiness" data-tab-target="stickiness" role="tab" aria-selected="false">粉丝粘性</a>
+          <a class="top-pill" href="#distribution" data-tab-target="distribution" role="tab" aria-selected="false">视频分布</a>
+        </div>
+        <div class="user-profile">
+          <span class="sync-chip">5s Sync</span>
+          <i class="fa-regular fa-bell" style="color:var(--text-dim)"></i>
+          <div class="user-avatar"></div>
+        </div>
+      </header>
+
+      <section class="tab-panel active" data-tab-panel="overview">
+      <section class="layout-main">
+        <div>
+          <p class="eyebrow">Growth Health</p>
+          <h1>你的账号<br>增长健康度</h1>
+          <p class="page-copy">综合粉丝增长趋势、播放转粉率、粉丝粘性和内容效率，判断你的账号今天是否处在健康增长状态。</p>
+
+          <div class="huge-circle" aria-label="账号增长健康度">
+            <svg viewBox="0 0 36 36" style="width:100%;height:100%;transform:rotate(-90deg)">
+              <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="3.6"/>
+              <circle cx="18" cy="18" r="14" fill="none" stroke="var(--neon-green)" stroke-width="3.6" stroke-dasharray="86 100"/>
+              <circle cx="18" cy="18" r="10.2" fill="none" stroke="var(--neon-purple)" stroke-width="1.7" stroke-dasharray="64 100"/>
+            </svg>
+            <div class="circle-copy">
+              <strong>86</strong>
+              <span>账号增长健康度</span>
+              <span style="color:var(--neon-green);font-weight:800">+7.4 较昨日</span>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="metric-card"><p>粉丝增长</p><strong>+3.2万</strong><span class="delta">净增今日</span></div>
+            <div class="metric-card"><p>播放转粉率</p><strong>0.84%</strong><span class="delta">+0.12%</span></div>
+            <div class="metric-card"><p>粘性指数</p><strong>74</strong><span class="delta">高于均值</span></div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:22px">
+          <div class="grid-6">
+            <div class="metric-card"><p>平台</p><strong>6</strong></div>
+            <div class="metric-card"><p>内容</p><strong>342</strong></div>
+            <div class="metric-card"><p>总播放</p><strong>1286万</strong></div>
+            <div class="metric-card"><p>新粉</p><strong>3.2万</strong></div>
+            <div class="metric-card"><p>转粉率</p><strong>0.84%</strong></div>
+            <div class="metric-card"><p>同步延迟</p><strong>8.7s</strong></div>
+          </div>
+
+          <div class="grid-2">
+            <article class="card white">
+              <p class="label" style="color:#666">粉丝转化漏斗</p>
+              <strong class="value large">12.8万</strong>
+              <span style="font-size:12px;color:#ff5e5e;font-weight:800">主页访问到关注 18.4%</span>
+              <div class="bar-stack" style="margin-top:18px">
+                <div class="bar"><span style="width:100%">播放 386万</span></div>
+                <div class="bar purple"><span style="width:62%">互动 248万</span></div>
+                <div class="bar cyan"><span style="width:38%">主页访问 69.5万</span></div>
+                <div class="bar"><span style="width:18%">新增关注 12.8万</span></div>
+              </div>
+            </article>
+            <article class="card purple">
+              <p class="label" style="color:#111">最新视频涨粉表现</p>
+              <strong class="value large">+8,620</strong>
+              <span style="font-size:12px;color:#fff;font-weight:800">发布后 4h 转粉率 1.14%</span>
+              <div class="mini-bars" style="margin-top:20px">
+                <span style="height:38px"></span><span style="height:54px"></span><span style="height:78px"></span><span style="height:92px"></span><span style="height:68px"></span>
+              </div>
+            </article>
+          </div>
+
+          <div class="grid-3">
+            <article class="card">
+              <p class="section-label">视频分布情况</p>
+              <strong class="value">B站 32%</strong>
+              <div class="mini-bars"><span style="height:80px"></span><span style="height:62px"></span><span style="height:46px"></span><span style="height:36px"></span><span style="height:28px"></span></div>
+            </article>
+            <article class="card">
+              <p class="section-label">粉丝粘性信号</p>
+              <strong class="value">74</strong>
+              <span class="delta">收藏率 +18%</span>
+              <div class="bar-stack" style="margin-top:18px">
+                <div class="bar"><span style="width:68%">评论率</span></div>
+                <div class="bar purple"><span style="width:82%">收藏率</span></div>
+              </div>
+            </article>
+            <article class="card">
+              <p class="section-label">下一步创作建议</p>
+              <strong class="value">周五 20:00</strong>
+              <span class="delta">通勤妆教程适配度 91</span>
+              <p class="page-copy" style="margin-top:12px">建议发 3 分钟深度教程，优先 B站和小红书。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="conversion">
+        <section class="page-title">
+          <div><p class="eyebrow">Conversion Path</p><h1>粉丝转化</h1></div>
+          <p class="page-copy">从播放、互动、主页访问到关注，判断你的内容是否真正把流量变成粉丝。</p>
+        </section>
+        <section class="grid-3">
+          <article class="card green"><p class="label" style="color:#111">播放转粉率</p><strong class="value large">0.84%</strong><span style="font-size:12px;font-weight:800">较昨日 +0.12%</span></article>
+          <article class="card"><p class="section-label">互动转粉率</p><strong class="value">2.8%</strong><span class="delta">评论用户更容易关注</span></article>
+          <article class="card"><p class="section-label">主页访问转粉率</p><strong class="value">18.4%</strong><span class="delta">高于 7 日均值</span></article>
+        </section>
+        <section class="grid-2">
+          <article class="card white">
+            <p class="label" style="color:#666">转化漏斗</p>
+            <div class="bar-stack" style="margin-top:18px">
+              <div class="bar"><span style="width:100%">播放 386万</span></div>
+              <div class="bar purple"><span style="width:62%">互动 248万</span></div>
+              <div class="bar cyan"><span style="width:38%">主页访问 69.5万</span></div>
+              <div class="bar"><span style="width:18%">新增关注 12.8万</span></div>
+            </div>
+          </article>
+          <article class="card">
+            <p class="section-label">转化来源贡献</p>
+            <div class="insight-list">
+              <div class="insight-item"><div><strong>B站教程视频</strong><span>长评论和收藏贡献最高</span></div><span class="tag hot">+8,620</span></div>
+              <div class="insight-item"><div><strong>小红书封面收藏</strong><span>收藏后关注路径明显</span></div><span class="tag purple">+3,940</span></div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="stickiness">
+        <section class="page-title">
+          <div><p class="eyebrow">Fan Stickiness</p><h1>粉丝粘性</h1></div>
+          <p class="page-copy">通过评论、收藏、分享、弹幕和持续互动行为判断粉丝是不是愿意留下来。</p>
+        </section>
+        <section class="grid-4">
+          <div class="metric-card"><p>评论率</p><strong>7.2%</strong></div>
+          <div class="metric-card"><p>收藏率</p><strong>12.8%</strong></div>
+          <div class="metric-card"><p>分享率</p><strong>5.8%</strong></div>
+          <div class="metric-card"><p>弹幕密度</p><strong>320/min</strong></div>
+        </section>
+        <section class="grid-2">
+          <article class="card"><p class="section-label">粘性趋势</p><div class="mini-bars" style="height:180px"><span style="height:72px"></span><span style="height:98px"></span><span style="height:116px"></span><span style="height:138px"></span><span style="height:152px"></span></div></article>
+          <article class="card"><p class="section-label">高粘性内容共性</p><div class="insight-list"><div class="insight-item"><div><strong>教程类收藏率最高</strong><span>保存后回看行为明显</span></div><span class="tag hot">12.8%</span></div><div class="insight-item"><div><strong>测评类评论质量高</strong><span>提问与追评更多</span></div><span class="tag purple">7.2%</span></div></div></article>
+        </section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="distribution">
+        <section class="page-title">
+          <div><p class="eyebrow">Video Mix</p><h1>视频分布</h1></div>
+          <p class="page-copy">快速查看首页级别的平台和内容类型分布，完整分析可进入内容分布页。</p>
+        </section>
+        <section class="grid-3">
+          <article class="card"><p class="section-label">平台视频占比</p><strong class="value">抖音 32%</strong><div class="mini-bars"><span style="height:80px"></span><span style="height:62px"></span><span style="height:50px"></span><span style="height:36px"></span></div></article>
+          <article class="card"><p class="section-label">内容类型</p><strong class="value">教程 46%</strong><div class="bar-stack" style="margin-top:18px"><div class="bar"><span style="width:86%">教程</span></div><div class="bar purple"><span style="width:54%">测评</span></div></div></article>
+          <article class="card"><p class="section-label">发布时间</p><strong class="value">周五 20:00</strong><p class="page-copy" style="margin-top:12px">转粉效率最高，建议本周继续验证。</p></article>
+        </section>
+      </section>
+    </div>
+  </main>
+  <script src="tabs.js"></script>
+</body>
+</html>

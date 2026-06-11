@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreatorPulse - 视频分析</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="left-dock" aria-label="主导航">
+    <a class="dock-item" href="growth-dashboard.html" aria-label="增长总览"><i class="fa-solid fa-house"></i></a>
+    <a class="dock-item" href="fans-analysis.html" aria-label="粉丝分析"><i class="fa-solid fa-users"></i></a>
+    <a class="dock-item active" href="video-analysis.html" aria-label="视频分析"><i class="fa-solid fa-play"></i></a>
+    <a class="dock-item" href="content-distribution.html" aria-label="内容分布"><i class="fa-solid fa-chart-pie"></i></a>
+    <a class="dock-item" href="creator-opportunities.html" aria-label="机会建议"><i class="fa-solid fa-fire"></i></a>
+    <a class="dock-item" href="creator-profile.html" aria-label="个人中心"><i class="fa-solid fa-gear"></i></a>
+  </nav>
+  <main class="glass-board">
+    <div class="dashboard-content">
+      <header class="board-header">
+        <div class="brand-logo"><i class="fa-solid fa-circle-notch"></i> CreatorPulse</div>
+        <div class="top-pills-tabs" role="tablist">
+          <a class="top-pill active" href="#latest" data-tab-target="latest" role="tab" aria-selected="true">最新视频</a>
+          <a class="top-pill" href="#contribution" data-tab-target="contribution" role="tab" aria-selected="false">涨粉贡献</a>
+          <a class="top-pill" href="#quality" data-tab-target="quality" role="tab" aria-selected="false">互动质量</a>
+          <a class="top-pill" href="#life" data-tab-target="life" role="tab" aria-selected="false">生命周期</a>
+        </div>
+        <div class="user-profile"><span class="sync-chip">5s Sync</span><i class="fa-regular fa-bell" style="color:var(--text-dim)"></i><div class="user-avatar"></div></div>
+      </header>
+
+      <section class="tab-panel active" data-tab-panel="latest">
+      <section class="page-title">
+        <div>
+          <p class="eyebrow">Video Growth Review</p>
+          <h1>视频分析</h1>
+        </div>
+        <p class="page-copy">找出哪些视频真正带来粉丝增长，哪些只有播放没有转粉，并复盘标题、封面、发布时间和内容类型。</p>
+      </section>
+
+      <section class="grid-4">
+        <article class="card green"><p class="label" style="color:#111">涨粉贡献 TOP</p><strong class="value large">+8,620</strong><span style="font-size:12px;font-weight:800">通勤妆教程</span></article>
+        <article class="card"><p class="section-label">高播放低转粉</p><strong class="value">3 条</strong><span class="delta red">需要复盘封面和 CTA</span></article>
+        <article class="card"><p class="section-label">高粘性视频</p><strong class="value">12 条</strong><span class="delta">收藏率高于 15%</span></article>
+        <article class="card"><p class="section-label">正在加速</p><strong class="value">5 条</strong><span class="delta">5s 增长持续上升</span></article>
+      </section>
+
+      <section class="grid-2">
+        <article class="card">
+          <p class="section-label">单视频增长曲线</p>
+          <div class="media-row">
+            <div class="thumb"></div>
+            <div>
+              <strong>新手必看｜5 分钟通勤妆</strong>
+              <p class="page-copy">B站 / 小红书同步发布，4 小时内进入二次推荐。</p>
+            </div>
+          </div>
+          <div class="mini-bars" style="height:190px;margin-top:20px">
+            <span style="height:36px"></span><span style="height:52px"></span><span style="height:90px"></span><span style="height:136px"></span><span style="height:172px"></span><span style="height:150px"></span>
+          </div>
+        </article>
+        <article class="card white">
+          <p class="label" style="color:#666">推荐复盘</p>
+          <strong class="value large">1.14%</strong>
+          <span style="font-size:12px;color:#ff5e5e;font-weight:800">播放转粉率高于均值 42%</span>
+          <div class="bar-stack" style="margin-top:20px">
+            <div class="bar"><span style="width:82%">标题关键词匹配</span></div>
+            <div class="bar purple"><span style="width:76%">发布时间有效</span></div>
+            <div class="bar cyan"><span style="width:69%">封面收藏倾向</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="card">
+        <p class="section-label">视频列表</p>
+        <table class="table">
+          <thead>
+            <tr><th>视频</th><th>平台</th><th>播放</th><th>涨粉</th><th>转粉率</th><th>完播率</th><th>状态</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><div class="media-row"><div class="thumb"></div><span>5 分钟通勤妆</span></div></td><td>B站</td><td>92.4万</td><td>+8,620</td><td>1.14%</td><td>68%</td><td><span class="tag hot">加速</span></td></tr>
+            <tr><td><div class="media-row"><div class="thumb"></div><span>夏季防晒测评</span></div></td><td>小红书</td><td>58.1万</td><td>+3,940</td><td>0.72%</td><td>61%</td><td><span class="tag purple">高收藏</span></td></tr>
+            <tr><td><div class="media-row"><div class="thumb"></div><span>平价粉底横评</span></div></td><td>抖音</td><td>136万</td><td>+2,180</td><td>0.16%</td><td>43%</td><td><span class="tag">低转粉</span></td></tr>
+          </tbody>
+        </table>
+      </section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="contribution">
+        <section class="page-title"><div><p class="eyebrow">Follower Contribution</p><h1>涨粉贡献</h1></div><p class="page-copy">按视频统计带来的新增粉丝，找出最值得复刻的内容。</p></section>
+        <section class="card"><table class="table"><tr><th>视频</th><th>平台</th><th>涨粉</th><th>转粉率</th><th>复刻建议</th></tr><tr><td>5 分钟通勤妆</td><td>B站</td><td>+8,620</td><td>1.14%</td><td><span class="tag hot">继续做系列</span></td></tr><tr><td>夏季防晒测评</td><td>小红书</td><td>+3,940</td><td>0.72%</td><td><span class="tag purple">强化封面</span></td></tr></table></section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="quality">
+        <section class="page-title"><div><p class="eyebrow">Engagement Quality</p><h1>互动质量</h1></div><p class="page-copy">区分普通点赞和高价值互动，识别更能形成关注的行为。</p></section>
+        <section class="grid-3"><article class="card"><p class="section-label">高价值评论</p><strong class="value">1.8万</strong><span class="delta">提问占比 31%</span></article><article class="card"><p class="section-label">收藏</p><strong class="value">8.2万</strong><span class="delta">教程类最高</span></article><article class="card"><p class="section-label">分享</p><strong class="value">4.4万</strong><span class="delta">小红书增长快</span></article></section>
+        <section class="card"><p class="section-label">互动质量趋势</p><div class="mini-bars" style="height:180px"><span style="height:60px"></span><span style="height:88px"></span><span style="height:120px"></span><span style="height:150px"></span><span style="height:132px"></span></div></section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="life">
+        <section class="page-title"><div><p class="eyebrow">Video Lifecycle</p><h1>生命周期</h1></div><p class="page-copy">判断视频处于爆发、稳定、长尾还是二次推荐阶段。</p></section>
+        <section class="grid-4"><div class="metric-card"><p>爆发期</p><strong>5 条</strong></div><div class="metric-card"><p>稳定期</p><strong>18 条</strong></div><div class="metric-card"><p>长尾期</p><strong>42 条</strong></div><div class="metric-card"><p>二次推荐</p><strong>3 条</strong></div></section>
+        <section class="card"><p class="section-label">生命周期分布</p><div class="bar-stack"><div class="bar"><span style="width:24%">爆发期</span></div><div class="bar purple"><span style="width:58%">稳定期</span></div><div class="bar cyan"><span style="width:72%">长尾期</span></div></div></section>
+      </section>
+    </div>
+  </main>
+  <script src="tabs.js"></script>
+</body>
+</html>

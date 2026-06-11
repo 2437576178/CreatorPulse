@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Enterprise Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-page: #f3f4f3;
+            --bg-card: #fcfdfc;
+            --text-main: #111311;
+            --text-sub: #7a827a;
+            --accent-lime: #e1ff4f;  /* 标志性的荧光黄绿高亮色 */
+            --accent-green: #d2ebd4; /* AI区域的淡绿底色 */
+            --border-light: 1px solid rgba(0, 0, 0, 0.05);
+            --radius-xl: 32px;
+            --radius-pill: 30px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            padding: 24px;
+            overflow-x: hidden;
+        }
+
+        /* ==========================================
+           1. 左侧悬浮极简工具栏 (Mini Sidebar)
+           ========================================== */
+        .mini-sidebar {
+            width: 72px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            margin-right: 20px;
+        }
+
+        .side-logo {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 60px;
+            color: var(--text-main);
+        }
+
+        .side-menu-box {
+            background: var(--bg-card);
+            border-radius: var(--radius-pill);
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border: var(--border-light);
+        }
+
+        .side-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        .side-icon.active {
+            background: var(--text-main);
+            color: #fff;
+        }
+        .side-icon:hover:not(.active) {
+            background: rgba(0,0,0,0.04);
+            color: var(--text-main);
+        }
+
+        /* ==========================================
+           2. 主工作区主架构
+           ========================================== */
+        .workspace {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* 2.1 顶栏药丸导航 (Top Navbar) */
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .pill-tabs {
+            background: var(--bg-card);
+            padding: 6px;
+            border-radius: var(--radius-pill);
+            display: flex;
+            gap: 4px;
+            border: var(--border-light);
+        }
+
+        .pill-btn {
+            padding: 10px 24px;
+            border-radius: var(--radius-pill);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .pill-btn.active {
+            background: var(--text-main);
+            color: #fff;
+        }
+
+        .top-right-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .avatar-group {
+            display: flex;
+            background: var(--bg-card);
+            padding: 4px 12px 4px 4px;
+            border-radius: var(--radius-pill);
+            align-items: center;
+            border: var(--border-light);
+        }
+        .avatar-sm {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            margin-right: -8px;
+            background: #ccc;
+        }
+        .avatar-count {
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 14px;
+        }
+
+        /* 2.2 标题与多功能工具栏 */
+        .page-title-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .breadcrumb {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+        }
+        .page-title-section h1 {
+            font-size: 42px;
+            font-weight: 500;
+        }
+
+        .action-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-round-input {
+            background: var(--bg-card);
+            border: var(--border-light);
+            border-radius: var(--radius-pill);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+        }
+        .date-range-picker {
+            display: flex;
+            background: var(--bg-card);
+            border-radius: var(--radius-pill);
+            padding: 4px;
+            border: var(--border-light);
+            align-items: center;
+        }
+        .date-pill {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        .date-pill.dark {
+            background: var(--text-main);
+            color: #fff;
+            border-radius: var(--radius-pill);
+        }
+
+        /* ==========================================
+           3. 核心大网格系统 (Dashboard Grid)
+           ========================================== */
+        .content-layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* 左1右2的大格局 */
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* 通用高级卡片结构 */
+        .panel-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            border: var(--border-light);
+            padding: 24px;
+            position: relative;
+        }
+
+        .panel-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .panel-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-header-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .mini-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.03);
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-sub);
+            cursor: pointer;
+        }
+
+        /* ------------------------------------------
+           左侧：AI Assistant 垂直巨型面板
+           ------------------------------------------ */
+        .ai-panel {
+            background: var(--accent-green);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow: hidden;
+            padding: 24px 20px;
+        }
+        /* 模拟顶部复杂的3D球体热力图艺术画 */
+        .ai-art-canvas {
+            height: 180px;
+            background: radial-gradient(circle at center, #fca3b5 0%, transparent 60%), 
+                        radial-gradient(circle at 30% 20%, #f9e2ae 0%, transparent 40%);
+            border-radius: 24px;
+            position: relative;
+            opacity: 0.8;
+        }
+        .ai-prompt-pill {
+            background: var(--accent-lime);
+            padding: 16px;
+            border-radius: 24px;
+            font-size: 12px;
+            line-height: 1.4;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .ai-prompt-pill .go-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--text-main);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+        }
+
+        /* 核心精髓：浮动毛玻璃Summary卡片 */
+        .glass-summary-card {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 24px;
+            padding: 20px;
+        }
+        .glass-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 15px;
+        }
+        .glass-stat-box {
+            background: rgba(255,255,255,0.4);
+            padding: 12px;
+            border-radius: 16px;
+        }
+        .glass-stat-box .bar {
+            height: 100px;
+            background: var(--accent-lime);
+            border-radius: 8px;
+            margin-top: 10px;
+            width: 40px;
+        }
+
+        /* ------------------------------------------
+           右侧：2x2 数据图表网格矩阵
+           ------------------------------------------ */
+        .right-charts-matrix {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 24px;
+        }
+
+        .large-value {
+            font-size: 32px;
+            font-weight: 500;
+            margin-top: -10px;
+        }
+
+        /* 柱状图模拟 (Total Sales) */
+        .bar-chart-mock {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 120px;
+            margin-top: 20px;
+        }
+        .chart-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+        .chart-pillar {
+            width: 24px;
+            background: #e3e5e3;
+            border-radius: 12px;
+            height: 60px;
+            position: relative;
+        }
+        .chart-pillar.active {
+            background: repeating-linear-stripes(-45deg, #ddd, #ddd 2px, var(--text-main) 2px, var(--text-main) 4px); /* 斑马线 */
+            height: 90px;
+        }
+        .chart-pillar.active::before {
+            content: '16.520';
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-lime);
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .chart-col span { font-size: 10px; color: var(--text-sub); }
+
+        /* 对比面积图模拟 (Comparison of Revenue) */
+        .revenue-chart-mock {
+            height: 140px;
+            position: relative;
+            margin-top: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .revenue-area-layer {
+            position: absolute;
+            width: 100%;
+            height: 60px;
+            bottom: 20px;
+            background: linear-gradient(180deg, rgba(225,255,79,0.2) 0%, transparent 100%);
+            border-top: 2px solid var(--text-main);
+            clip-path: polygon(0 40%, 30% 20%, 60% 50%, 100% 10%);
+        }
+
+        /* 趋势划线图模拟 (Sales Trend) */
+        .trend-stats-row {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-bottom: 15px;
+        }
+        .trend-stats-row strong { color: var(--text-main); font-size: 14px; }
+
+        .wave-line-svg {
+            width: 100%;
+            height: 80px;
+        }
+
+        /* 环形比例图模拟 (Age Range) */
+        .donut-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .donut-legends {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        .donut-mock-svg {
+            width: 110px;
+            height: 110px;
+            transform: rotate(-90deg);
+        }
+        .donut-circle-bg { fill: none; stroke: #e3e5e3; stroke-width: 16; }
+        .donut-circle-val { fill: none; stroke: var(--text-main); stroke-width: 16; stroke-dasharray: 100 200; }
+
+    </style>
+</head>
+<body>
+
+    <aside class="mini-sidebar">
+        <div class="side-logo"><i class="fa-solid fa-graphene"></i></div>
+        <div class="side-menu-box">
+            <a href="#" class="side-icon"><i class="fa-solid fa-shapes"></i></a>
+            <a href="#" class="side-icon active"><i class="fa-solid fa-chart-pie"></i></a>
+            <a href="#" class="side-icon"><i class="fa-solid fa-bolt-lightning"></i></a>
+            <a href="#" class="side-icon"><i class="fa-solid fa-database"></i></a>
+            <a href="#" class="side-icon"><i class="fa-solid fa-sliders"></i></a>
+        </div>
+        <div class="side-icon"><i class="fa-regular fa-comment-dots"></i></div>
+    </aside>
+
+    <div class="workspace">
+        
+        <header class="top-navbar">
+            <div class="pill-tabs">
+                <a href="#" class="pill-btn"><i class="fa-solid fa-border-all"></i> Dashboard</a>
+                <a href="#" class="pill-btn active"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+                <a href="#" class="pill-btn"><i class="fa-solid fa-wave-square"></i> Pulse</a>
+                <a href="#" class="pill-btn"><i class="fa-solid fa-server"></i> Data</a>
+            </div>
+            
+            <div class="top-right-profile">
+                <div class="avatar-group">
+                    <div class="avatar-sm" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'); background-size: cover;"></div>
+                    <div class="avatar-sm" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'); background-size: cover;"></div>
+                    <div class="avatar-count">+5</div>
+                </div>
+                <div class="pill-tabs" style="padding: 4px 16px;"><i class="fa-solid fa-arrow-up-from-bracket" style="margin-right:8px;"></i> Shared</div>
+                <div class="mini-action-btn" style="background: #fff; width:44px; height:44px;"><i class="fa-regular fa-bell"></i></div>
+            </div>
+        </header>
+
+        <section class="page-title-section">
+            <div>
+                <div class="breadcrumb"><i class="fa-regular fa-folder"></i> Sales &nbsp;→&nbsp; <i class="fa-regular fa-folder"></i> Tech Products</div>
+                <h1>Product Sales Performance</h1>
+            </div>
+            <div class="action-bar">
+                <div class="mini-action-btn" style="background:#fff; width:44px; height:44px;"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <div class="mini-action-btn" style="background:#fff; width:44px; height:44px;"><i class="fa-solid fa-sliders"></i></div>
+                <div class="date-range-picker">
+                    <div class="date-pill">24.04.2022</div>
+                    <div class="date-pill dark">24.04.2023</div>
+                </div>
+                <div class="btn-round-input" style="font-weight: 500;">+ Add Widget</div>
+                <div class="btn-round-input" style="background: var(--text-main); color:#fff;">Create a Report</div>
+            </div>
+        </section>
+
+        <div class="content-layout-grid">
+            
+            <div class="panel-card ai-panel">
+                <div class="panel-card-header">
+                    <div class="panel-title">Ai Assistant</div>
+                    <button class="mini-action-btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                
+                <div class="ai-art-canvas"></div>
+                
+                <div class="ai-prompt-pill">
+                    <span>Analyze product sales over last year. Compare revenue, quality, sales and brand by age and gender</span>
+                    <button class="go-btn"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+
+                <div class="glass-summary-card">
+                    <div class="panel-title" style="font-size: 14px;"><i class="fa-solid fa-chart-simple"></i> Summary <span style="font-weight:normal; font-size:11px; color:var(--text-sub);">Product sales grew 5%</span></div>
+                    <div class="glass-grid">
+                        <div class="glass-stat-box">
+                            <span style="font-size: 11px; color: var(--text-sub);">30-45 age</span>
+                            <div class="bar"></div>
+                        </div>
+                        <div class="glass-stat-box">
+                            <span style="font-size: 11px; color: var(--text-sub);">18-30 age</span>
+                            <div class="bar" style="background: #fff; height: 70px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-charts-matrix">
+                
+                <div class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-title"><i class="fa-solid fa-chart-column"></i> Total sales</div>
+                        <div class="card-header-actions">
+                            <button class="mini-action-btn"><i class="fa-solid fa-sliders"></i></button>
+                            <button class="mini-action-btn"><i class="fa-regular fa-comment"></i></button>
+                        </div>
+                    </div>
+                    <span style="font-size: 11px; color: var(--text-sub);">For all time</span>
+                    <div class="large-value">90,744</div>
+                    
+                    <div class="bar-chart-mock">
+                        <div class="chart-col"><div class="chart-pillar" style="height:30px;"></div><span>Feb</span></div>
+                        <div class="chart-col"><div class="chart-pillar" style="height:55px;"></div><span>Mar</span></div>
+                        <div class="chart-col"><div class="chart-pillar" style="height:40px;"></div><span>Apr</span></div>
+                        <div class="chart-col"><div class="chart-pillar" style="height:70px;"></div><span>May</span></div>
+                        <div class="chart-col"><div class="chart-pillar active"></div><span>Jun</span></div>
+                        <div class="chart-col"><div class="chart-pillar" style="height:65px;"></div><span>Jul</span></div>
+                        <div class="chart-col"><div class="chart-pillar" style="height:50px;"></div><span>Aug</span></div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-title"><i class="fa-solid fa-arrow-trend-up"></i> Comparison of Revenue</div>
+                        <div class="card-header-actions">
+                            <button class="mini-action-btn"><i class="fa-solid fa-sliders"></i></button>
+                        </div>
+                    </div>
+                    <span style="font-size: 11px; color: var(--text-sub);">For all time</span>
+                    <div class="large-value">35,40M</div>
+                    
+                    <div class="revenue-chart-mock">
+                        <div class="revenue-area-layer"></div>
+                        <div style="position: absolute; top:20px; right: 20px; font-size:10px; background:var(--accent-lime); padding:2px 6px; border-radius:10px; font-weight:600;">+5%</div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-title">Sales trend</div>
+                    </div>
+                    <div class="trend-stats-row">
+                        <div><strong>21</strong> pivot points</div>
+                        <div>min <strong>0</strong></div>
+                        <div>max <strong>0.7</strong></div>
+                    </div>
+                    
+                    <svg class="wave-line-svg" viewBox="0 0 300 80">
+                        <path d="M0,60 Q30,40 60,65 T120,40 T180,50 T240,20 T300,50" fill="none" stroke="#bcbcbc" stroke-width="2"/>
+                        <circle cx="240" cy="20" r="4" fill="var(--text-main)"/>
+                    </svg>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-title">Age Range</div>
+                    </div>
+                    
+                    <div class="donut-container">
+                        <div class="donut-legends">
+                            <div class="legend-item"><div class="dot" style="background:#fca3b5"></div> 0-18</div>
+                            <div class="legend-item"><div class="dot" style="background:var(--text-main)"></div> 18-30 (40%)</div>
+                            <div class="legend-item"><div class="dot" style="background:#aae2fe"></div> 30-45</div>
+                            <div class="legend-item"><div class="dot" style="background:#d2ebd4"></div> 45-60</div>
+                        </div>
+                        
+                        <svg class="donut-mock-svg" viewBox="0 0 42 42">
+                            <circle class="donut-circle-bg" cx="21" cy="21" r="15.915"/>
+                            <circle class="donut-circle-val" cx="21" cy="21" r="15.915"/>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+
+</body>
+</html>

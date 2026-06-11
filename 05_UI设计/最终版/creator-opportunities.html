@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreatorPulse - 机会建议</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="left-dock" aria-label="主导航">
+    <a class="dock-item" href="growth-dashboard.html" aria-label="增长总览"><i class="fa-solid fa-house"></i></a>
+    <a class="dock-item" href="fans-analysis.html" aria-label="粉丝分析"><i class="fa-solid fa-users"></i></a>
+    <a class="dock-item" href="video-analysis.html" aria-label="视频分析"><i class="fa-solid fa-play"></i></a>
+    <a class="dock-item" href="content-distribution.html" aria-label="内容分布"><i class="fa-solid fa-chart-pie"></i></a>
+    <a class="dock-item active" href="creator-opportunities.html" aria-label="机会建议"><i class="fa-solid fa-fire"></i></a>
+    <a class="dock-item" href="creator-profile.html" aria-label="个人中心"><i class="fa-solid fa-gear"></i></a>
+  </nav>
+  <main class="glass-board">
+    <div class="dashboard-content">
+      <header class="board-header">
+        <div class="brand-logo"><i class="fa-solid fa-circle-notch"></i> CreatorPulse</div>
+        <div class="top-pills-tabs" role="tablist">
+          <a class="top-pill active" href="#hot" data-tab-target="hot" role="tab" aria-selected="true">热点机会</a>
+          <a class="top-pill" href="#advice" data-tab-target="advice" role="tab" aria-selected="false">创作建议</a>
+          <a class="top-pill" href="#reference" data-tab-target="reference" role="tab" aria-selected="false">参考洞察</a>
+        </div>
+        <div class="user-profile"><span class="sync-chip">60s Sync</span><i class="fa-regular fa-bell" style="color:var(--text-dim)"></i><div class="user-avatar"></div></div>
+      </header>
+
+      <section class="tab-panel active" data-tab-panel="hot">
+      <section class="page-title">
+        <div>
+          <p class="eyebrow">Opportunity Engine</p>
+          <h1>机会建议</h1>
+        </div>
+        <p class="page-copy">把热点、历史内容、粉丝画像和参考账号特征合并成可执行的下一条内容建议。</p>
+      </section>
+
+      <section class="grid-3">
+        <article class="card green"><p class="label" style="color:#111">最高适配话题</p><strong class="value large">#通勤妆</strong><span style="font-size:12px;font-weight:800">适配度 91</span></article>
+        <article class="card"><p class="section-label">建议发布时间</p><strong class="value">周五 20:00</strong><span class="delta">预计转粉率 +24%</span></article>
+        <article class="card"><p class="section-label">重点平台</p><strong class="value">B站 + 小红书</strong><span class="delta">高粘性组合</span></article>
+      </section>
+
+      <section class="grid-2">
+        <article class="card">
+          <p class="section-label">热点机会雷达</p>
+          <div class="radar-cloud">
+            <div class="bubble hot" style="--s:118px">通勤妆</div>
+            <div class="bubble purple" style="--s:88px">防晒</div>
+            <div class="bubble" style="--s:72px">平价粉底</div>
+            <div class="bubble" style="--s:64px">夏日穿搭</div>
+            <div class="bubble purple" style="--s:78px">新手教程</div>
+          </div>
+        </article>
+        <article class="card white">
+          <p class="label" style="color:#666">创作建议</p>
+          <strong class="value large">3 分钟教程</strong>
+          <span style="font-size:12px;color:#ff5e5e;font-weight:800">预计播放转粉率 +28%</span>
+          <div class="bar-stack" style="margin-top:20px">
+            <div class="bar"><span style="width:91%">选题适配度 91</span></div>
+            <div class="bar purple"><span style="width:84%">粉丝活跃匹配 84</span></div>
+            <div class="bar cyan"><span style="width:78%">标题关键词潜力 78</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="grid-3">
+        <article class="card">
+          <p class="section-label">标题封面建议</p>
+          <strong class="value">新手必看</strong>
+          <p class="page-copy" style="margin-top:12px">标题保留“5 分钟”“通勤妆”“新手必看”，封面使用高对比前后效果。</p>
+        </article>
+        <article class="card">
+          <p class="section-label">参考洞察</p>
+          <strong class="value">高转粉结构</strong>
+          <p class="page-copy" style="margin-top:12px">同领域账号高转粉内容通常在前 8 秒给出结果预览，并在结尾引导收藏。</p>
+        </article>
+        <article class="card">
+          <p class="section-label">执行清单</p>
+          <div class="bar-stack">
+            <div class="bar"><span style="width:100%">脚本：痛点开场</span></div>
+            <div class="bar purple"><span style="width:100%">平台：B站首发</span></div>
+            <div class="bar cyan"><span style="width:100%">时间：周五 20:00</span></div>
+          </div>
+        </article>
+      </section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="advice">
+        <section class="page-title"><div><p class="eyebrow">Actionable Advice</p><h1>创作建议</h1></div><p class="page-copy">把热点和粉丝行为转成下一条内容的选题、时间、标题封面和平台建议。</p></section>
+        <section class="grid-3"><article class="card green"><p class="label" style="color:#111">选题</p><strong class="value large">通勤妆教程</strong><span style="font-size:12px;font-weight:800">预计转粉率 +28%</span></article><article class="card"><p class="section-label">发布时间</p><strong class="value">周五 20:00</strong><span class="delta">粉丝活跃最高</span></article><article class="card"><p class="section-label">平台侧重</p><strong class="value">B站首发</strong><span class="delta">长教程粘性高</span></article></section>
+        <section class="card"><p class="section-label">执行清单</p><div class="bar-stack"><div class="bar"><span style="width:100%">标题：新手必看 + 5 分钟</span></div><div class="bar purple"><span style="width:100%">封面：前后对比 + 高饱和</span></div><div class="bar cyan"><span style="width:100%">结尾：收藏引导 + 系列预告</span></div></div></section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="reference">
+        <section class="page-title"><div><p class="eyebrow">Reference Insight</p><h1>参考洞察</h1></div><p class="page-copy">只提取同领域账号高转粉内容特征，不做独立竞品管理。</p></section>
+        <section class="card"><table class="table"><tr><th>参考内容特征</th><th>表现</th><th>可借鉴动作</th></tr><tr><td>前 8 秒结果预览</td><td>完播率 +18%</td><td><span class="tag hot">加入开场</span></td></tr><tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr><tr><td>结尾收藏引导</td><td>收藏率 +31%</td><td><span class="tag">脚本加入</span></td></tr></table></section>
+      </section>
+    </div>
+  </main>
+  <script src="tabs.js"></script>
+</body>
+</html>

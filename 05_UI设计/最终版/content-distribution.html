@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreatorPulse - 内容分布</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="left-dock" aria-label="主导航">
+    <a class="dock-item" href="growth-dashboard.html" aria-label="增长总览"><i class="fa-solid fa-house"></i></a>
+    <a class="dock-item" href="fans-analysis.html" aria-label="粉丝分析"><i class="fa-solid fa-users"></i></a>
+    <a class="dock-item" href="video-analysis.html" aria-label="视频分析"><i class="fa-solid fa-play"></i></a>
+    <a class="dock-item active" href="content-distribution.html" aria-label="内容分布"><i class="fa-solid fa-chart-pie"></i></a>
+    <a class="dock-item" href="creator-opportunities.html" aria-label="机会建议"><i class="fa-solid fa-fire"></i></a>
+    <a class="dock-item" href="creator-profile.html" aria-label="个人中心"><i class="fa-solid fa-gear"></i></a>
+  </nav>
+  <main class="glass-board">
+    <div class="dashboard-content">
+      <header class="board-header">
+        <div class="brand-logo"><i class="fa-solid fa-circle-notch"></i> CreatorPulse</div>
+        <div class="top-pills-tabs" role="tablist">
+          <a class="top-pill active" href="#platform" data-tab-target="platform" role="tab" aria-selected="true">平台分布</a>
+          <a class="top-pill" href="#type" data-tab-target="type" role="tab" aria-selected="false">内容类型</a>
+          <a class="top-pill" href="#time" data-tab-target="time" role="tab" aria-selected="false">发布时间</a>
+          <a class="top-pill" href="#source" data-tab-target="source" role="tab" aria-selected="false">流量来源</a>
+        </div>
+        <div class="user-profile"><span class="sync-chip">30s Sync</span><i class="fa-regular fa-bell" style="color:var(--text-dim)"></i><div class="user-avatar"></div></div>
+      </header>
+
+      <section class="tab-panel active" data-tab-panel="platform">
+      <section class="page-title">
+        <div>
+          <p class="eyebrow">Content Allocation</p>
+          <h1>内容分布</h1>
+        </div>
+        <p class="page-copy">判断你的内容发在哪里、发什么类型、什么时候发是否合理，用分布效率指导下一轮平台和内容投入。</p>
+      </section>
+
+      <section class="grid-4">
+        <article class="metric-card"><p>最高涨粉平台</p><strong>B站</strong><span class="delta">贡献 38%</span></article>
+        <article class="metric-card"><p>最高效率类型</p><strong>教程</strong><span class="delta">转粉率 1.12%</span></article>
+        <article class="metric-card"><p>最佳时间</p><strong>周五 20:00</strong></article>
+        <article class="metric-card"><p>主流量来源</p><strong>推荐流</strong><span class="delta">55%</span></article>
+      </section>
+
+      <section class="grid-2">
+        <article class="card">
+          <p class="section-label">平台投入产出</p>
+          <table class="table">
+            <thead><tr><th>平台</th><th>视频占比</th><th>播放占比</th><th>涨粉占比</th><th>效率</th></tr></thead>
+            <tbody>
+              <tr><td>B站</td><td>24%</td><td>29%</td><td>38%</td><td><span class="tag hot">高</span></td></tr>
+              <tr><td>小红书</td><td>18%</td><td>21%</td><td>26%</td><td><span class="tag purple">稳定</span></td></tr>
+              <tr><td>抖音</td><td>32%</td><td>37%</td><td>19%</td><td><span class="tag">低转粉</span></td></tr>
+              <tr><td>视频号</td><td>12%</td><td>8%</td><td>9%</td><td><span class="tag">长尾</span></td></tr>
+            </tbody>
+          </table>
+        </article>
+        <article class="card white">
+          <p class="label" style="color:#666">内容类型效率</p>
+          <strong class="value large">教程类</strong>
+          <span style="font-size:12px;color:#ff5e5e;font-weight:800">播放占比 31%，涨粉占比 46%</span>
+          <div class="bar-stack" style="margin-top:20px">
+            <div class="bar"><span style="width:86%">教程 46%</span></div>
+            <div class="bar purple"><span style="width:54%">测评 28%</span></div>
+            <div class="bar cyan"><span style="width:37%">种草 19%</span></div>
+            <div class="bar"><span style="width:22%">Vlog 7%</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="grid-2">
+        <article class="card">
+          <p class="section-label">发布时间效率热力图</p>
+          <div class="heat-grid">
+            <div class="heat-cell">一</div><div class="heat-cell">二</div><div class="heat-cell mid">三</div><div class="heat-cell">四</div><div class="heat-cell hot">五</div><div class="heat-cell hot">六</div><div class="heat-cell mid">日</div>
+            <div class="heat-cell">10</div><div class="heat-cell">12</div><div class="heat-cell mid">14</div><div class="heat-cell mid">18</div><div class="heat-cell hot">20</div><div class="heat-cell hot">21</div><div class="heat-cell">22</div>
+            <div class="heat-cell">0.3</div><div class="heat-cell">0.4</div><div class="heat-cell mid">0.6</div><div class="heat-cell mid">0.7</div><div class="heat-cell hot">1.2</div><div class="heat-cell hot">1.1</div><div class="heat-cell">0.5</div>
+          </div>
+        </article>
+        <article class="card">
+          <p class="section-label">流量来源分布</p>
+          <div class="bar-stack">
+            <div class="bar"><span style="width:55%">推荐流 55%</span></div>
+            <div class="bar purple"><span style="width:18%">搜索 18%</span></div>
+            <div class="bar cyan"><span style="width:15%">关注 15%</span></div>
+            <div class="bar"><span style="width:8%">分享 8%</span></div>
+          </div>
+          <p class="page-copy" style="margin-top:18px">搜索流量带来的转粉率高于推荐流，建议标题保留明确关键词。</p>
+        </article>
+      </section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="type">
+        <section class="page-title"><div><p class="eyebrow">Content Type</p><h1>内容类型</h1></div><p class="page-copy">看教程、测评、种草、Vlog 等类型在播放、互动、转粉上的效率差异。</p></section>
+        <section class="grid-2"><article class="card white"><p class="label" style="color:#666">最高效率类型</p><strong class="value large">教程类</strong><div class="bar-stack" style="margin-top:20px"><div class="bar"><span style="width:86%">涨粉贡献 46%</span></div><div class="bar purple"><span style="width:62%">播放占比 31%</span></div></div></article><article class="card"><p class="section-label">类型建议</p><div class="insight-list"><div class="insight-item"><div><strong>增加教程系列</strong><span>转粉率稳定高于均值</span></div><span class="tag hot">优先</span></div><div class="insight-item"><div><strong>测评类保留</strong><span>评论质量高</span></div><span class="tag purple">稳定</span></div></div></article></section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="time">
+        <section class="page-title"><div><p class="eyebrow">Publish Time</p><h1>发布时间</h1></div><p class="page-copy">用星期和小时热力图判断发文时间是否匹配粉丝活跃窗口。</p></section>
+        <section class="card"><p class="section-label">星期 x 小时转粉率热力图</p><div class="heat-grid"><div class="heat-cell">一</div><div class="heat-cell">二</div><div class="heat-cell mid">三</div><div class="heat-cell">四</div><div class="heat-cell hot">五</div><div class="heat-cell hot">六</div><div class="heat-cell mid">日</div><div class="heat-cell">10</div><div class="heat-cell">12</div><div class="heat-cell mid">18</div><div class="heat-cell hot">20</div><div class="heat-cell hot">21</div><div class="heat-cell">22</div><div class="heat-cell">23</div></div></section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="source">
+        <section class="page-title"><div><p class="eyebrow">Traffic Source</p><h1>流量来源</h1></div><p class="page-copy">拆解推荐流、搜索、关注、分享等渠道的播放和转粉贡献。</p></section>
+        <section class="grid-2"><article class="card"><p class="section-label">来源占比</p><div class="bar-stack"><div class="bar"><span style="width:55%">推荐流 55%</span></div><div class="bar purple"><span style="width:18%">搜索 18%</span></div><div class="bar cyan"><span style="width:15%">关注 15%</span></div><div class="bar"><span style="width:8%">分享 8%</span></div></div></article><article class="card"><p class="section-label">来源效率</p><strong class="value">搜索最高</strong><p class="page-copy" style="margin-top:12px">搜索流量播放少，但转粉率高，标题应保留明确关键词。</p></article></section>
+      </section>
+    </div>
+  </main>
+  <script src="tabs.js"></script>
+</body>
+</html>
