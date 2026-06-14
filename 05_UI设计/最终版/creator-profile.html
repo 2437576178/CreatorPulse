@@ -39,6 +39,12 @@
         <p class="page-copy">集中管理你的个人报告、平台绑定、采集频率和通知偏好。报告区用于复盘，设置区用于低频配置。</p>
       </section>
 
+      <section class="diagnosis-strip">
+        <article class="diagnosis-card strong"><span>本周复盘</span><strong>账号增长健康度从 74 提升到 86，教程类内容贡献最大</strong></article>
+        <article class="diagnosis-card warning"><span>待处理</span><strong>YouTube 授权需要刷新，否则 30s 同步会继续延迟</strong></article>
+        <article class="diagnosis-card"><span>提醒策略</span><strong>当前开启 4 项高价值提醒，未启用低价值噪声通知</strong></article>
+      </section>
+
       <section class="profile-band">
         <article class="card green">
           <p class="label" style="color:#111">美妆达人小A</p>
@@ -94,18 +100,21 @@
       </section>
 
       <section class="tab-panel" data-tab-panel="bindings">
-        <section class="page-title"><div><p class="eyebrow">Platform Bindings</p><h1>平台绑定</h1></div><p class="page-copy">管理各平台授权状态和最近同步时间。</p></section>
-        <section class="card"><div class="form-row"><span>抖音</span><span class="tag hot">已绑定</span><span>5s</span></div><div class="form-row"><span>B站</span><span class="tag hot">已绑定</span><span>5s</span></div><div class="form-row"><span>小红书</span><span class="tag hot">已绑定</span><span>10s</span></div><div class="form-row"><span>YouTube</span><span class="tag purple">需刷新授权</span><span>30s</span></div></section>
+        <section class="page-title"><div><p class="eyebrow">Authorization Health</p><h1>授权健康检查</h1></div><p class="page-copy">检查你的平台绑定、同步延迟和授权风险，保证增长分析不会因为数据断流失真。</p></section>
+        <section class="diagnosis-strip"><article class="diagnosis-card strong"><span>健康平台</span><strong>抖音、B站、小红书同步正常，可以继续参与实时分析</strong></article><article class="diagnosis-card warning"><span>授权风险</span><strong>YouTube 授权即将过期，需要刷新后再纳入周报</strong></article><article class="diagnosis-card"><span>同步状态</span><strong>核心平台延迟保持在 5-10s，满足增长总览展示</strong></article></section>
+        <section class="grid-2"><article class="card"><p class="section-label">平台授权状态</p><div class="form-row"><span>抖音</span><span class="tag hot">已绑定</span><span>5s</span></div><div class="form-row"><span>B站</span><span class="tag hot">已绑定</span><span>5s</span></div><div class="form-row"><span>小红书</span><span class="tag hot">已绑定</span><span>10s</span></div><div class="form-row"><span>YouTube</span><span class="tag purple">需刷新授权</span><span>30s</span></div></article><article class="card"><p class="section-label">处理建议</p><div class="action-list"><div><i class="fa-solid fa-rotate"></i><span>优先刷新 YouTube 授权，避免月报缺少海外平台数据。</span></div><div><i class="fa-solid fa-link"></i><span>保持 B站和小红书 5-10s 同步，用于实时转粉判断。</span></div><div><i class="fa-solid fa-shield-halved"></i><span>每周检查一次授权状态，减少数据断点。</span></div></div></article></section>
       </section>
 
       <section class="tab-panel" data-tab-panel="settings">
-        <section class="page-title"><div><p class="eyebrow">Collection Settings</p><h1>采集设置</h1></div><p class="page-copy">设置不同数据类型的采集频率，平衡实时性和稳定性。</p></section>
-        <section class="grid-3"><article class="card"><p class="section-label">视频数据</p><strong class="value">5s</strong><span class="delta">实时增长</span></article><article class="card"><p class="section-label">粉丝数据</p><strong class="value">30s</strong><span class="delta">趋势稳定</span></article><article class="card"><p class="section-label">话题数据</p><strong class="value">60s</strong><span class="delta">机会识别</span></article></section>
+        <section class="page-title"><div><p class="eyebrow">Collection Strategy</p><h1>采集策略配置</h1></div><p class="page-copy">按数据价值设置采集频率，让实时页面够快，复盘页面够稳，不浪费采集资源。</p></section>
+        <section class="diagnosis-strip"><article class="diagnosis-card strong"><span>推荐策略</span><strong>视频和粉丝数据保持高频，话题和报告数据保持稳定批量</strong></article><article class="diagnosis-card"><span>稳定性</span><strong>当前策略可以支撑 5s 增长总览和 30s 粉丝趋势</strong></article><article class="diagnosis-card warning"><span>风险</span><strong>评论情绪采集过低会影响负面提醒准确性</strong></article></section>
+        <section class="grid-2"><article class="card"><p class="section-label">采集频率</p><div class="form-row"><span>视频数据</span><span>5s</span><span class="tag hot">实时增长</span></div><div class="form-row"><span>粉丝数据</span><span>30s</span><span class="tag purple">趋势稳定</span></div><div class="form-row"><span>话题数据</span><span>60s</span><span class="tag">机会识别</span></div><div class="form-row"><span>评论情绪</span><span>30s</span><span class="tag">建议提高</span></div></article><article class="card"><p class="section-label">策略说明</p><div class="action-list"><div><i class="fa-solid fa-gauge-high"></i><span>爆发期视频保持 5s 采集，支撑实时加速判断。</span></div><div><i class="fa-solid fa-chart-line"></i><span>粉丝趋势用 30s 粒度即可，避免短时波动误判。</span></div><div><i class="fa-solid fa-bell"></i><span>负面评论提醒需要 30s 以内采集，否则异常提示会滞后。</span></div></div></article></section>
       </section>
 
       <section class="tab-panel" data-tab-panel="notify">
-        <section class="page-title"><div><p class="eyebrow">Notifications</p><h1>通知偏好</h1></div><p class="page-copy">只保留对达人行动有价值的提醒。</p></section>
-        <section class="card"><div class="form-row"><span>热点提醒</span><span>适配度超过 85 时提醒</span><span class="switch"></span></div><div class="form-row"><span>异常流量</span><span>播放突增或暴跌时提醒</span><span class="switch"></span></div><div class="form-row"><span>掉粉异常</span><span>掉粉超过日均 2 倍时提醒</span><span class="switch"></span></div><div class="form-row"><span>负面评论</span><span>负面占比突增时提醒</span><span class="switch"></span></div></section>
+        <section class="page-title"><div><p class="eyebrow">Action Rules</p><h1>行动提醒规则</h1></div><p class="page-copy">只保留能触发明确行动的提醒，把增长机会、异常风险、复盘任务和授权状态分开管理。</p></section>
+        <section class="diagnosis-strip"><article class="diagnosis-card strong"><span>已开启</span><strong>4 项高价值提醒覆盖热点、异常、掉粉和负面评论</strong></article><article class="diagnosis-card"><span>提醒原则</span><strong>只有能指导下一步创作或修正风险的事件才提醒</strong></article><article class="diagnosis-card warning"><span>建议新增</span><strong>YouTube 授权过期提醒，避免数据断流</strong></article></section>
+        <section class="grid-2"><article class="card"><p class="section-label">提醒规则</p><div class="form-row"><span>增长机会</span><span>话题适配度超过 85 时提醒</span><span class="switch"></span></div><div class="form-row"><span>异常流量</span><span>播放突增或暴跌时提醒</span><span class="switch"></span></div><div class="form-row"><span>掉粉异常</span><span>掉粉超过日均 2 倍时提醒</span><span class="switch"></span></div><div class="form-row"><span>负面评论</span><span>负面占比突增时提醒</span><span class="switch"></span></div></article><article class="card"><p class="section-label">通知分层</p><div class="insight-list"><div class="insight-item"><div><strong>立即处理</strong><span>异常流量、掉粉异常、授权过期</span></div><span class="tag hot">高</span></div><div class="insight-item"><div><strong>当天处理</strong><span>热点机会、负面评论趋势</span></div><span class="tag purple">中</span></div><div class="insight-item"><div><strong>周报处理</strong><span>内容结构复盘、平台投入调整</span></div><span class="tag">低</span></div></div></article></section>
       </section>
     </div>
   </main>

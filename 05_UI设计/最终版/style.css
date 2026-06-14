@@ -485,6 +485,125 @@ h1 {
   background: var(--neon-purple);
 }
 
+.diagnosis-strip {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 14px;
+}
+
+.diagnosis-card {
+  min-height: 96px;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.09);
+  border: var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.diagnosis-card span {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.diagnosis-card strong {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.diagnosis-card.strong {
+  background: var(--neon-green);
+  border-color: transparent;
+}
+
+.diagnosis-card.strong span,
+.diagnosis-card.strong strong,
+.diagnosis-card.warning strong {
+  color: #111;
+}
+
+.diagnosis-card.warning {
+  background: var(--gold);
+  border-color: transparent;
+}
+
+.diagnosis-card.warning span {
+  color: rgba(17, 17, 17, 0.58);
+}
+
+.path-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.path-step {
+  min-height: 148px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(17, 17, 17, 0.06);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.path-step span,
+.path-step em {
+  color: rgba(17, 17, 17, 0.56);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.path-step strong {
+  color: #111;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.path-step.hot {
+  background: rgba(188, 255, 0, 0.42);
+}
+
+.path-step.risk {
+  background: rgba(255, 94, 94, 0.18);
+  border-color: rgba(255, 94, 94, 0.32);
+}
+
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.action-list > div {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 12px;
+  align-items: start;
+  color: var(--text-dim);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.action-list i {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(188, 255, 0, 0.18);
+  color: var(--neon-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
 .heat-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -609,7 +728,8 @@ h1 {
   }
 
   .layout-main,
-  .profile-band {
+  .profile-band,
+  .diagnosis-strip {
     grid-template-columns: 1fr;
   }
 }
@@ -629,7 +749,8 @@ h1 {
   .grid-2,
   .grid-3,
   .grid-4,
-  .grid-6 {
+  .grid-6,
+  .path-flow {
     grid-template-columns: 1fr;
     display: grid;
   }
