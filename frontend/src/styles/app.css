@@ -1,0 +1,18 @@
+.top-pill {
+  border: 0;
+  cursor: pointer;
+}
+
+.dock-item {
+  border: 0;
+  cursor: pointer;
+}
+
+.app-state-card {
+  margin-top: 24px;
+}
+
+.app-state-card .value {
+  display: block;
+  margin-top: 8px;
+}

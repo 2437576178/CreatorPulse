@@ -1,0 +1,6978 @@
+{
+  "meta": {
+    "schemaVersion": "mvp-1",
+    "generatedAt": "2026-06-14T20:00:00+08:00",
+    "randomSeed": 20260614
+  },
+  "creator": {
+    "creatorId": "creator_001",
+    "displayName": "通勤美妆研究所",
+    "avatarUrl": "",
+    "nicheTags": [
+      "通勤妆",
+      "平价测评",
+      "新手教程"
+    ],
+    "timezone": "Asia/Shanghai"
+  },
+  "platformAccounts": [
+    {
+      "accountId": "account_001",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "platformDisplayName": "通勤妆研究所",
+      "bindingStatus": "BOUND",
+      "syncLatencySeconds": 5,
+      "collectionIntervalSeconds": 30,
+      "dataScopes": [
+        "VIDEO",
+        "FOLLOWER",
+        "COMMENT",
+        "TOPIC"
+      ]
+    },
+    {
+      "accountId": "account_002",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "platformDisplayName": "通勤美妆研究所",
+      "bindingStatus": "BOUND",
+      "syncLatencySeconds": 5,
+      "collectionIntervalSeconds": 5,
+      "dataScopes": [
+        "VIDEO",
+        "FOLLOWER",
+        "COMMENT",
+        "TOPIC"
+      ]
+    },
+    {
+      "accountId": "account_003",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "platformDisplayName": "通勤妆实验室",
+      "bindingStatus": "BOUND",
+      "syncLatencySeconds": 10,
+      "collectionIntervalSeconds": 30,
+      "dataScopes": [
+        "VIDEO",
+        "FOLLOWER",
+        "COMMENT",
+        "TOPIC"
+      ]
+    }
+  ],
+  "videos": [
+    {
+      "videoId": "video_douyin_01",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "platformLabel": "抖音",
+      "title": "直播切片：粉底色号答疑",
+      "contentType": "LIVE_CLIP",
+      "contentTypeLabel": "直播切片",
+      "topicTags": [
+        "直播",
+        "答疑",
+        "切片",
+        "粉底"
+      ],
+      "publishTime": "2026-06-09T18:00:00+08:00",
+      "lifecycleStage": "STABLE"
+    },
+    {
+      "videoId": "video_douyin_02",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "platformLabel": "抖音",
+      "title": "平价粉底横评",
+      "contentType": "REVIEW",
+      "contentTypeLabel": "测评",
+      "topicTags": [
+        "测评",
+        "平价",
+        "持妆",
+        "粉底"
+      ],
+      "publishTime": "2026-06-09T21:00:00+08:00",
+      "lifecycleStage": "LONG_TAIL"
+    },
+    {
+      "videoId": "video_douyin_03",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "platformLabel": "抖音",
+      "title": "早八不迟到的快速眼妆",
+      "contentType": "TUTORIAL",
+      "contentTypeLabel": "教程",
+      "topicTags": [
+        "教程",
+        "新手",
+        "通勤妆"
+      ],
+      "publishTime": "2026-05-26T18:00:00+08:00",
+      "lifecycleStage": "STABLE"
+    },
+    {
+      "videoId": "video_douyin_04",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "platformLabel": "抖音",
+      "title": "通勤妆补妆完整流程",
+      "contentType": "TUTORIAL",
+      "contentTypeLabel": "教程",
+      "topicTags": [
+        "教程",
+        "新手",
+        "通勤妆"
+      ],
+      "publishTime": "2026-05-29T18:00:00+08:00",
+      "lifecycleStage": "BURST"
+    },
+    {
+      "videoId": "video_douyin_05",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "platformLabel": "抖音",
+      "title": "新手眼影盘测评",
+      "contentType": "REVIEW",
+      "contentTypeLabel": "测评",
+      "topicTags": [
+        "测评",
+        "平价",
+        "持妆"
+      ],
+      "publishTime": "2026-05-25T21:00:00+08:00",
+      "lifecycleStage": "STABLE"
+    },
+    {
+      "videoId": "video_douyin_06",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "platformLabel": "抖音",
+      "title": "5分钟通勤妆教程",
+      "contentType": "TUTORIAL",
+      "contentTypeLabel": "教程",
+      "topicTags": [
+        "教程",
+        "新手",
+        "通勤妆"
+      ],
+      "publishTime": "2026-06-05T12:00:00+08:00",
+      "lifecycleStage": "DECLINING"
+    },
+    {
+      "videoId": "video_douyin_07",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "platformLabel": "抖音",
+      "title": "新手底妆三步走",
+      "contentType": "TUTORIAL",
+      "contentTypeLabel": "教程",
+      "topicTags": [
+        "教程",
+        "新手",
+        "通勤妆"
+      ],
+      "publishTime": "2026-06-09T18:00:00+08:00",
+      "lifecycleStage": "LONG_TAIL"
+    },
+    {
+      "videoId": "video_douyin_08",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "platformLabel": "抖音",
+      "title": "适合上班的口红合集",
+      "contentType": "SEEDING",
+      "contentTypeLabel": "种草",
+      "topicTags": [
+        "种草",
+        "清单",
+        "好物"
+      ],
+      "publishTime": "2026-06-04T20:00:00+08:00",
+      "lifecycleStage": "LONG_TAIL"
+    },
+    {
+      "videoId": "video_douyin_09",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "platformLabel": "抖音",
+      "title": "通勤妆补妆完整流程",
+      "contentType": "TUTORIAL",
+      "contentTypeLabel": "教程",
+      "topicTags": [
+        "教程",
+        "新手",
+        "通勤妆"
+      ],
+      "publishTime": "2026-06-13T12:00:00+08:00",
+      "lifecycleStage": "LONG_TAIL"
+    },
+    {
+      "videoId": "video_bilibili_01",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "platformLabel": "B站",
+      "title": "5分钟通勤妆教程",
+      "contentType": "TUTORIAL",
+      "contentTypeLabel": "教程",
+      "topicTags": [
+        "教程",
+        "新手",
+        "通勤妆"
+      ],
+      "publishTime": "2026-05-25T21:00:00+08:00",
+      "lifecycleStage": "LONG_TAIL"
+    },
+    {
+      "videoId": "video_bilibili_02",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "platformLabel": "B站",
+      "title": "平价彩妆种草清单",
+      "contentType": "SEEDING",
+      "contentTypeLabel": "种草",
+      "topicTags": [
+        "种草",
+        "清单",
+        "好物"
+      ],
+      "publishTime": "2026-06-12T18:00:00+08:00",
+      "lifecycleStage": "BURST"
+    },
+    {
+      "videoId": "video_bilibili_03",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "platformLabel": "B站",
+      "title": "适合上班的口红合集",
+      "contentType": "SEEDING",
+      "contentTypeLabel": "种草",
+      "topicTags": [
+        "种草",
+        "清单",
+        "好物"
+      ],
+      "publishTime": "2026-06-03T20:00:00+08:00",
+      "lifecycleStage": "STABLE"
+    },
+    {
+      "videoId": "video_bilibili_04",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "platformLabel": "B站",
+      "title": "夏季底妆新品试色",
+      "contentType": "SEEDING",
+      "contentTypeLabel": "种草",
+      "topicTags": [
+        "种草",
+        "清单",
+        "好物"
+      ],
+      "publishTime": "2026-06-03T21:00:00+08:00",
+      "lifecycleStage": "BURST"
+    },
+    {
+      "videoId": "video_bilibili_05",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "platformLabel": "B站",
+      "title": "新手必看持妆教程",
+      "contentType": "TUTORIAL",
+      "contentTypeLabel": "教程",
+      "topicTags": [
+        "教程",
+        "新手",
+        "通勤妆"
+      ],
+      "publishTime": "2026-05-25T21:00:00+08:00",
+      "lifecycleStage": "LONG_TAIL"
+    },
+    {
+      "videoId": "video_bilibili_06",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "platformLabel": "B站",
+      "title": "5分钟通勤妆教程",
+      "contentType": "TUTORIAL",
+      "contentTypeLabel": "教程",
+      "topicTags": [
+        "教程",
+        "新手",
+        "通勤妆"
+      ],
+      "publishTime": "2026-06-02T20:00:00+08:00",
+      "lifecycleStage": "DECLINING"
+    },
+    {
+      "videoId": "video_bilibili_07",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "platformLabel": "B站",
+      "title": "平价彩妆种草清单",
+      "contentType": "SEEDING",
+      "contentTypeLabel": "种草",
+      "topicTags": [
+        "种草",
+        "清单",
+        "好物"
+      ],
+      "publishTime": "2026-06-10T12:00:00+08:00",
+      "lifecycleStage": "STABLE"
+    },
+    {
+      "videoId": "video_bilibili_08",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "platformLabel": "B站",
+      "title": "周末整理化妆台",
+      "contentType": "VLOG",
+      "contentTypeLabel": "Vlog",
+      "topicTags": [
+        "日常",
+        "通勤",
+        "复盘"
+      ],
+      "publishTime": "2026-06-10T18:00:00+08:00",
+      "lifecycleStage": "BURST"
+    },
+    {
+      "videoId": "video_bilibili_09",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "platformLabel": "B站",
+      "title": "夏季底妆新品试色",
+      "contentType": "SEEDING",
+      "contentTypeLabel": "种草",
+      "topicTags": [
+        "种草",
+        "清单",
+        "好物"
+      ],
+      "publishTime": "2026-05-28T18:00:00+08:00",
+      "lifecycleStage": "LONG_TAIL"
+    },
+    {
+      "videoId": "video_xiaohongshu_01",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "platformLabel": "小红书",
+      "title": "夏季防晒测评",
+      "contentType": "REVIEW",
+      "contentTypeLabel": "测评",
+      "topicTags": [
+        "测评",
+        "平价",
+        "持妆",
+        "防晒"
+      ],
+      "publishTime": "2026-05-26T20:00:00+08:00",
+      "lifecycleStage": "STABLE"
+    },
+    {
+      "videoId": "video_xiaohongshu_02",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "platformLabel": "小红书",
+      "title": "平价彩妆种草清单",
+      "contentType": "SEEDING",
+      "contentTypeLabel": "种草",
+      "topicTags": [
+        "种草",
+        "清单",
+        "好物"
+      ],
+      "publishTime": "2026-05-30T20:00:00+08:00",
+      "lifecycleStage": "SECONDARY_BOOST"
+    },
+    {
+      "videoId": "video_xiaohongshu_03",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "platformLabel": "小红书",
+      "title": "通勤持妆喷雾对比",
+      "contentType": "REVIEW",
+      "contentTypeLabel": "测评",
+      "topicTags": [
+        "测评",
+        "平价",
+        "持妆"
+      ],
+      "publishTime": "2026-06-05T20:00:00+08:00",
+      "lifecycleStage": "LONG_TAIL"
+    },
+    {
+      "videoId": "video_xiaohongshu_04",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "platformLabel": "小红书",
+      "title": "通勤妆补妆完整流程",
+      "contentType": "TUTORIAL",
+      "contentTypeLabel": "教程",
+      "topicTags": [
+        "教程",
+        "新手",
+        "通勤妆"
+      ],
+      "publishTime": "2026-05-30T18:00:00+08:00",
+      "lifecycleStage": "SECONDARY_BOOST"
+    },
+    {
+      "videoId": "video_xiaohongshu_05",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "platformLabel": "小红书",
+      "title": "出门包里常备好物",
+      "contentType": "SEEDING",
+      "contentTypeLabel": "种草",
+      "topicTags": [
+        "种草",
+        "清单",
+        "好物"
+      ],
+      "publishTime": "2026-05-27T21:00:00+08:00",
+      "lifecycleStage": "BURST"
+    },
+    {
+      "videoId": "video_xiaohongshu_06",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "platformLabel": "小红书",
+      "title": "5分钟通勤妆教程",
+      "contentType": "TUTORIAL",
+      "contentTypeLabel": "教程",
+      "topicTags": [
+        "教程",
+        "新手",
+        "通勤妆"
+      ],
+      "publishTime": "2026-06-05T18:00:00+08:00",
+      "lifecycleStage": "LONG_TAIL"
+    },
+    {
+      "videoId": "video_xiaohongshu_07",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "platformLabel": "小红书",
+      "title": "平价彩妆种草清单",
+      "contentType": "SEEDING",
+      "contentTypeLabel": "种草",
+      "topicTags": [
+        "种草",
+        "清单",
+        "好物"
+      ],
+      "publishTime": "2026-05-25T21:00:00+08:00",
+      "lifecycleStage": "STABLE"
+    },
+    {
+      "videoId": "video_xiaohongshu_08",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "platformLabel": "小红书",
+      "title": "直播切片：新手刷具怎么选",
+      "contentType": "LIVE_CLIP",
+      "contentTypeLabel": "直播切片",
+      "topicTags": [
+        "直播",
+        "答疑",
+        "切片"
+      ],
+      "publishTime": "2026-06-12T18:00:00+08:00",
+      "lifecycleStage": "STABLE"
+    },
+    {
+      "videoId": "video_xiaohongshu_09",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "platformLabel": "小红书",
+      "title": "夏季底妆新品试色",
+      "contentType": "SEEDING",
+      "contentTypeLabel": "种草",
+      "topicTags": [
+        "种草",
+        "清单",
+        "好物"
+      ],
+      "publishTime": "2026-05-31T21:00:00+08:00",
+      "lifecycleStage": "STABLE"
+    }
+  ],
+  "videoMetricSnapshots": [
+    {
+      "snapshotId": "snapshot_0001",
+      "videoId": "video_douyin_01",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "views": 360340,
+      "likes": 43473,
+      "comments": 4607,
+      "shares": 14496,
+      "saves": 10098,
+      "profileVisits": 4112,
+      "newFollowers": 706,
+      "completionRate": 0.7268,
+      "averageWatchSeconds": 123,
+      "engagementRate": 0.201682,
+      "conversionRate": 0.001959,
+      "commentRate": 0.012785,
+      "saveRate": 0.028024,
+      "shareRate": 0.040229,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0002",
+      "videoId": "video_douyin_02",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "views": 726644,
+      "likes": 64917,
+      "comments": 13648,
+      "shares": 29774,
+      "saves": 73525,
+      "profileVisits": 22223,
+      "newFollowers": 3400,
+      "completionRate": 0.7331,
+      "averageWatchSeconds": 58,
+      "engagementRate": 0.250279,
+      "conversionRate": 0.004679,
+      "commentRate": 0.018782,
+      "saveRate": 0.101184,
+      "shareRate": 0.040975,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0003",
+      "videoId": "video_douyin_03",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "views": 646283,
+      "likes": 37622,
+      "comments": 13326,
+      "shares": 36746,
+      "saves": 78295,
+      "profileVisits": 26770,
+      "newFollowers": 4005,
+      "completionRate": 0.5713,
+      "averageWatchSeconds": 136,
+      "engagementRate": 0.256836,
+      "conversionRate": 0.006197,
+      "commentRate": 0.020619,
+      "saveRate": 0.121147,
+      "shareRate": 0.056857,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0004",
+      "videoId": "video_douyin_04",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "views": 533694,
+      "likes": 65800,
+      "comments": 12203,
+      "shares": 18619,
+      "saves": 75166,
+      "profileVisits": 16643,
+      "newFollowers": 3286,
+      "completionRate": 0.745,
+      "averageWatchSeconds": 106,
+      "engagementRate": 0.321885,
+      "conversionRate": 0.006157,
+      "commentRate": 0.022865,
+      "saveRate": 0.140841,
+      "shareRate": 0.034887,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0005",
+      "videoId": "video_douyin_05",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "views": 1070878,
+      "likes": 129987,
+      "comments": 20121,
+      "shares": 52321,
+      "saves": 77818,
+      "profileVisits": 31690,
+      "newFollowers": 4502,
+      "completionRate": 0.6303,
+      "averageWatchSeconds": 160,
+      "engagementRate": 0.261698,
+      "conversionRate": 0.004204,
+      "commentRate": 0.018789,
+      "saveRate": 0.072667,
+      "shareRate": 0.048858,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0006",
+      "videoId": "video_douyin_06",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "views": 668616,
+      "likes": 59650,
+      "comments": 14309,
+      "shares": 34966,
+      "saves": 97972,
+      "profileVisits": 30561,
+      "newFollowers": 4433,
+      "completionRate": 0.7579,
+      "averageWatchSeconds": 164,
+      "engagementRate": 0.309441,
+      "conversionRate": 0.00663,
+      "commentRate": 0.021401,
+      "saveRate": 0.14653,
+      "shareRate": 0.052296,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0007",
+      "videoId": "video_douyin_07",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "views": 667321,
+      "likes": 54279,
+      "comments": 9517,
+      "shares": 15452,
+      "saves": 100886,
+      "profileVisits": 32142,
+      "newFollowers": 4250,
+      "completionRate": 0.574,
+      "averageWatchSeconds": 123,
+      "engagementRate": 0.269936,
+      "conversionRate": 0.006369,
+      "commentRate": 0.014262,
+      "saveRate": 0.151181,
+      "shareRate": 0.023155,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0008",
+      "videoId": "video_douyin_08",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "views": 718497,
+      "likes": 40294,
+      "comments": 8364,
+      "shares": 28070,
+      "saves": 24529,
+      "profileVisits": 6224,
+      "newFollowers": 948,
+      "completionRate": 0.6482,
+      "averageWatchSeconds": 54,
+      "engagementRate": 0.140929,
+      "conversionRate": 0.001319,
+      "commentRate": 0.011641,
+      "saveRate": 0.034139,
+      "shareRate": 0.039068,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0009",
+      "videoId": "video_douyin_09",
+      "creatorId": "creator_001",
+      "platform": "DOUYIN",
+      "views": 539391,
+      "likes": 40969,
+      "comments": 6649,
+      "shares": 26921,
+      "saves": 70664,
+      "profileVisits": 25443,
+      "newFollowers": 3379,
+      "completionRate": 0.5191,
+      "averageWatchSeconds": 92,
+      "engagementRate": 0.269198,
+      "conversionRate": 0.006264,
+      "commentRate": 0.012327,
+      "saveRate": 0.131007,
+      "shareRate": 0.04991,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0010",
+      "videoId": "video_bilibili_01",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "views": 465214,
+      "likes": 29885,
+      "comments": 5802,
+      "shares": 16692,
+      "saves": 58169,
+      "profileVisits": 35518,
+      "newFollowers": 5784,
+      "completionRate": 0.4376,
+      "averageWatchSeconds": 89,
+      "engagementRate": 0.237628,
+      "conversionRate": 0.012433,
+      "commentRate": 0.012472,
+      "saveRate": 0.125037,
+      "shareRate": 0.03588,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0011",
+      "videoId": "video_bilibili_02",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "views": 734445,
+      "likes": 52842,
+      "comments": 4913,
+      "shares": 13288,
+      "saves": 45716,
+      "profileVisits": 18534,
+      "newFollowers": 2612,
+      "completionRate": 0.6519,
+      "averageWatchSeconds": 181,
+      "engagementRate": 0.158976,
+      "conversionRate": 0.003556,
+      "commentRate": 0.006689,
+      "saveRate": 0.062246,
+      "shareRate": 0.018093,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0012",
+      "videoId": "video_bilibili_03",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "views": 810813,
+      "likes": 56970,
+      "comments": 7762,
+      "shares": 51561,
+      "saves": 49942,
+      "profileVisits": 11633,
+      "newFollowers": 2351,
+      "completionRate": 0.6361,
+      "averageWatchSeconds": 58,
+      "engagementRate": 0.205023,
+      "conversionRate": 0.0029,
+      "commentRate": 0.009573,
+      "saveRate": 0.061595,
+      "shareRate": 0.063592,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0013",
+      "videoId": "video_bilibili_04",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "views": 422064,
+      "likes": 29488,
+      "comments": 3728,
+      "shares": 21346,
+      "saves": 20518,
+      "profileVisits": 10673,
+      "newFollowers": 1548,
+      "completionRate": 0.4256,
+      "averageWatchSeconds": 90,
+      "engagementRate": 0.177888,
+      "conversionRate": 0.003668,
+      "commentRate": 0.008833,
+      "saveRate": 0.048613,
+      "shareRate": 0.050575,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0014",
+      "videoId": "video_bilibili_05",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "views": 697376,
+      "likes": 89272,
+      "comments": 16125,
+      "shares": 33746,
+      "saves": 111310,
+      "profileVisits": 69434,
+      "newFollowers": 10823,
+      "completionRate": 0.5243,
+      "averageWatchSeconds": 229,
+      "engagementRate": 0.359136,
+      "conversionRate": 0.01552,
+      "commentRate": 0.023122,
+      "saveRate": 0.159613,
+      "shareRate": 0.04839,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0015",
+      "videoId": "video_bilibili_06",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "views": 626837,
+      "likes": 73901,
+      "comments": 12034,
+      "shares": 30921,
+      "saves": 65011,
+      "profileVisits": 47172,
+      "newFollowers": 8942,
+      "completionRate": 0.4977,
+      "averageWatchSeconds": 51,
+      "engagementRate": 0.290134,
+      "conversionRate": 0.014265,
+      "commentRate": 0.019198,
+      "saveRate": 0.103713,
+      "shareRate": 0.049329,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0016",
+      "videoId": "video_bilibili_07",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "views": 880109,
+      "likes": 54070,
+      "comments": 9424,
+      "shares": 51090,
+      "saves": 43480,
+      "profileVisits": 22847,
+      "newFollowers": 3079,
+      "completionRate": 0.619,
+      "averageWatchSeconds": 38,
+      "engagementRate": 0.179596,
+      "conversionRate": 0.003498,
+      "commentRate": 0.010708,
+      "saveRate": 0.049403,
+      "shareRate": 0.05805,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0017",
+      "videoId": "video_bilibili_08",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "views": 160460,
+      "likes": 14494,
+      "comments": 1578,
+      "shares": 10347,
+      "saves": 3570,
+      "profileVisits": 4555,
+      "newFollowers": 838,
+      "completionRate": 0.4909,
+      "averageWatchSeconds": 220,
+      "engagementRate": 0.186894,
+      "conversionRate": 0.005222,
+      "commentRate": 0.009834,
+      "saveRate": 0.022249,
+      "shareRate": 0.064483,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0018",
+      "videoId": "video_bilibili_09",
+      "creatorId": "creator_001",
+      "platform": "BILIBILI",
+      "views": 693771,
+      "likes": 45093,
+      "comments": 8300,
+      "shares": 30172,
+      "saves": 41029,
+      "profileVisits": 15702,
+      "newFollowers": 2358,
+      "completionRate": 0.5692,
+      "averageWatchSeconds": 192,
+      "engagementRate": 0.17959,
+      "conversionRate": 0.003399,
+      "commentRate": 0.011964,
+      "saveRate": 0.059139,
+      "shareRate": 0.04349,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0019",
+      "videoId": "video_xiaohongshu_01",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "views": 611444,
+      "likes": 44109,
+      "comments": 11156,
+      "shares": 23566,
+      "saves": 45250,
+      "profileVisits": 34344,
+      "newFollowers": 5100,
+      "completionRate": 0.4581,
+      "averageWatchSeconds": 124,
+      "engagementRate": 0.202931,
+      "conversionRate": 0.008341,
+      "commentRate": 0.018245,
+      "saveRate": 0.074005,
+      "shareRate": 0.038542,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0020",
+      "videoId": "video_xiaohongshu_02",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "views": 294760,
+      "likes": 23730,
+      "comments": 3083,
+      "shares": 5674,
+      "saves": 17138,
+      "profileVisits": 4648,
+      "newFollowers": 749,
+      "completionRate": 0.6335,
+      "averageWatchSeconds": 94,
+      "engagementRate": 0.168357,
+      "conversionRate": 0.002541,
+      "commentRate": 0.010459,
+      "saveRate": 0.058142,
+      "shareRate": 0.01925,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0021",
+      "videoId": "video_xiaohongshu_03",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "views": 540507,
+      "likes": 33902,
+      "comments": 13041,
+      "shares": 19689,
+      "saves": 58566,
+      "profileVisits": 31399,
+      "newFollowers": 4228,
+      "completionRate": 0.6078,
+      "averageWatchSeconds": 141,
+      "engagementRate": 0.231631,
+      "conversionRate": 0.007822,
+      "commentRate": 0.024127,
+      "saveRate": 0.108354,
+      "shareRate": 0.036427,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0022",
+      "videoId": "video_xiaohongshu_04",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "views": 361688,
+      "likes": 43245,
+      "comments": 8794,
+      "shares": 10023,
+      "saves": 40446,
+      "profileVisits": 37723,
+      "newFollowers": 5149,
+      "completionRate": 0.6264,
+      "averageWatchSeconds": 186,
+      "engagementRate": 0.283416,
+      "conversionRate": 0.014236,
+      "commentRate": 0.024314,
+      "saveRate": 0.111826,
+      "shareRate": 0.027712,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0023",
+      "videoId": "video_xiaohongshu_05",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "views": 451649,
+      "likes": 42490,
+      "comments": 2931,
+      "shares": 18407,
+      "saves": 23665,
+      "profileVisits": 7633,
+      "newFollowers": 1173,
+      "completionRate": 0.573,
+      "averageWatchSeconds": 189,
+      "engagementRate": 0.193719,
+      "conversionRate": 0.002597,
+      "commentRate": 0.00649,
+      "saveRate": 0.052397,
+      "shareRate": 0.040755,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0024",
+      "videoId": "video_xiaohongshu_06",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "views": 516756,
+      "likes": 28932,
+      "comments": 9528,
+      "shares": 14212,
+      "saves": 68056,
+      "profileVisits": 45707,
+      "newFollowers": 7277,
+      "completionRate": 0.5654,
+      "averageWatchSeconds": 60,
+      "engagementRate": 0.233627,
+      "conversionRate": 0.014082,
+      "commentRate": 0.018438,
+      "saveRate": 0.131699,
+      "shareRate": 0.027502,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0025",
+      "videoId": "video_xiaohongshu_07",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "views": 458408,
+      "likes": 47311,
+      "comments": 5339,
+      "shares": 23407,
+      "saves": 20399,
+      "profileVisits": 6045,
+      "newFollowers": 1144,
+      "completionRate": 0.5486,
+      "averageWatchSeconds": 123,
+      "engagementRate": 0.210415,
+      "conversionRate": 0.002496,
+      "commentRate": 0.011647,
+      "saveRate": 0.0445,
+      "shareRate": 0.051061,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0026",
+      "videoId": "video_xiaohongshu_08",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "views": 110212,
+      "likes": 8412,
+      "comments": 2082,
+      "shares": 3730,
+      "saves": 5125,
+      "profileVisits": 3582,
+      "newFollowers": 531,
+      "completionRate": 0.53,
+      "averageWatchSeconds": 50,
+      "engagementRate": 0.175562,
+      "conversionRate": 0.004818,
+      "commentRate": 0.018891,
+      "saveRate": 0.046501,
+      "shareRate": 0.033844,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    },
+    {
+      "snapshotId": "snapshot_0027",
+      "videoId": "video_xiaohongshu_09",
+      "creatorId": "creator_001",
+      "platform": "XIAOHONGSHU",
+      "views": 589448,
+      "likes": 35345,
+      "comments": 6564,
+      "shares": 34660,
+      "saves": 24475,
+      "profileVisits": 10771,
+      "newFollowers": 1559,
+      "completionRate": 0.4226,
+      "averageWatchSeconds": 200,
+      "engagementRate": 0.171421,
+      "conversionRate": 0.002645,
+      "commentRate": 0.011136,
+      "saveRate": 0.041522,
+      "shareRate": 0.058801,
+      "collectedAt": "2026-06-14T20:00:00+08:00"
+    }
+  ],
+  "videoTrafficSourceMetrics": [
+    {
+      "videoId": "video_douyin_01",
+      "source": "RECOMMENDATION",
+      "views": 178650,
+      "newFollowers": 208,
+      "conversionRate": 0.001164,
+      "saveRate": 0.024661,
+      "commentRate": 0.012121
+    },
+    {
+      "videoId": "video_douyin_01",
+      "source": "SEARCH",
+      "views": 57238,
+      "newFollowers": 193,
+      "conversionRate": 0.003372,
+      "saveRate": 0.029068,
+      "commentRate": 0.014952
+    },
+    {
+      "videoId": "video_douyin_01",
+      "source": "FOLLOWING",
+      "views": 57574,
+      "newFollowers": 132,
+      "conversionRate": 0.002293,
+      "saveRate": 0.024943,
+      "commentRate": 0.012026
+    },
+    {
+      "videoId": "video_douyin_01",
+      "source": "SHARE",
+      "views": 36657,
+      "newFollowers": 92,
+      "conversionRate": 0.00251,
+      "saveRate": 0.035258,
+      "commentRate": 0.016614
+    },
+    {
+      "videoId": "video_douyin_01",
+      "source": "PROFILE",
+      "views": 30221,
+      "newFollowers": 81,
+      "conversionRate": 0.00268,
+      "saveRate": 0.03447,
+      "commentRate": 0.010048
+    },
+    {
+      "videoId": "video_douyin_02",
+      "source": "RECOMMENDATION",
+      "views": 314116,
+      "newFollowers": 812,
+      "conversionRate": 0.002585,
+      "saveRate": 0.116766,
+      "commentRate": 0.015358
+    },
+    {
+      "videoId": "video_douyin_02",
+      "source": "SEARCH",
+      "views": 147639,
+      "newFollowers": 1112,
+      "conversionRate": 0.007532,
+      "saveRate": 0.120114,
+      "commentRate": 0.021574
+    },
+    {
+      "videoId": "video_douyin_02",
+      "source": "FOLLOWING",
+      "views": 108026,
+      "newFollowers": 556,
+      "conversionRate": 0.005147,
+      "saveRate": 0.109177,
+      "commentRate": 0.01449
+    },
+    {
+      "videoId": "video_douyin_02",
+      "source": "SHARE",
+      "views": 56962,
+      "newFollowers": 320,
+      "conversionRate": 0.005618,
+      "saveRate": 0.093439,
+      "commentRate": 0.02054
+    },
+    {
+      "videoId": "video_douyin_02",
+      "source": "PROFILE",
+      "views": 99901,
+      "newFollowers": 600,
+      "conversionRate": 0.006006,
+      "saveRate": 0.075984,
+      "commentRate": 0.022014
+    },
+    {
+      "videoId": "video_douyin_03",
+      "source": "RECOMMENDATION",
+      "views": 331895,
+      "newFollowers": 1222,
+      "conversionRate": 0.003682,
+      "saveRate": 0.130003,
+      "commentRate": 0.023259
+    },
+    {
+      "videoId": "video_douyin_03",
+      "source": "SEARCH",
+      "views": 109391,
+      "newFollowers": 1175,
+      "conversionRate": 0.010741,
+      "saveRate": 0.150941,
+      "commentRate": 0.025462
+    },
+    {
+      "videoId": "video_douyin_03",
+      "source": "FOLLOWING",
+      "views": 98579,
+      "newFollowers": 724,
+      "conversionRate": 0.007344,
+      "saveRate": 0.148298,
+      "commentRate": 0.019371
+    },
+    {
+      "videoId": "video_douyin_03",
+      "source": "SHARE",
+      "views": 48792,
+      "newFollowers": 391,
+      "conversionRate": 0.008014,
+      "saveRate": 0.11112,
+      "commentRate": 0.015535
+    },
+    {
+      "videoId": "video_douyin_03",
+      "source": "PROFILE",
+      "views": 57626,
+      "newFollowers": 493,
+      "conversionRate": 0.008555,
+      "saveRate": 0.104378,
+      "commentRate": 0.022021
+    },
+    {
+      "videoId": "video_douyin_04",
+      "source": "RECOMMENDATION",
+      "views": 326397,
+      "newFollowers": 1265,
+      "conversionRate": 0.003876,
+      "saveRate": 0.175992,
+      "commentRate": 0.023396
+    },
+    {
+      "videoId": "video_douyin_04",
+      "source": "SEARCH",
+      "views": 109651,
+      "newFollowers": 1241,
+      "conversionRate": 0.011318,
+      "saveRate": 0.134194,
+      "commentRate": 0.021308
+    },
+    {
+      "videoId": "video_douyin_04",
+      "source": "FOLLOWING",
+      "views": 61869,
+      "newFollowers": 478,
+      "conversionRate": 0.007726,
+      "saveRate": 0.179286,
+      "commentRate": 0.028194
+    },
+    {
+      "videoId": "video_douyin_04",
+      "source": "SHARE",
+      "views": 35777,
+      "newFollowers": 302,
+      "conversionRate": 0.008441,
+      "saveRate": 0.164941,
+      "commentRate": 0.022748
+    },
+    {
+      "videoId": "video_douyin_04",
+      "source": "PROFILE",
+      "views": 0,
+      "newFollowers": 0,
+      "conversionRate": 0.0,
+      "saveRate": 0.178992,
+      "commentRate": 0.022658
+    },
+    {
+      "videoId": "video_douyin_05",
+      "source": "RECOMMENDATION",
+      "views": 654525,
+      "newFollowers": 1774,
+      "conversionRate": 0.00271,
+      "saveRate": 0.084733,
+      "commentRate": 0.018426
+    },
+    {
+      "videoId": "video_douyin_05",
+      "source": "SEARCH",
+      "views": 169297,
+      "newFollowers": 1340,
+      "conversionRate": 0.007915,
+      "saveRate": 0.075691,
+      "commentRate": 0.016563
+    },
+    {
+      "videoId": "video_douyin_05",
+      "source": "FOLLOWING",
+      "views": 148560,
+      "newFollowers": 804,
+      "conversionRate": 0.005412,
+      "saveRate": 0.081628,
+      "commentRate": 0.015151
+    },
+    {
+      "videoId": "video_douyin_05",
+      "source": "SHARE",
+      "views": 91546,
+      "newFollowers": 541,
+      "conversionRate": 0.00591,
+      "saveRate": 0.087993,
+      "commentRate": 0.016923
+    },
+    {
+      "videoId": "video_douyin_05",
+      "source": "PROFILE",
+      "views": 6950,
+      "newFollowers": 43,
+      "conversionRate": 0.006187,
+      "saveRate": 0.075196,
+      "commentRate": 0.022115
+    },
+    {
+      "videoId": "video_douyin_06",
+      "source": "RECOMMENDATION",
+      "views": 357532,
+      "newFollowers": 1419,
+      "conversionRate": 0.003969,
+      "saveRate": 0.171158,
+      "commentRate": 0.020031
+    },
+    {
+      "videoId": "video_douyin_06",
+      "source": "SEARCH",
+      "views": 126363,
+      "newFollowers": 1465,
+      "conversionRate": 0.011594,
+      "saveRate": 0.113079,
+      "commentRate": 0.01853
+    },
+    {
+      "videoId": "video_douyin_06",
+      "source": "FOLLOWING",
+      "views": 93217,
+      "newFollowers": 739,
+      "conversionRate": 0.007928,
+      "saveRate": 0.169512,
+      "commentRate": 0.025412
+    },
+    {
+      "videoId": "video_douyin_06",
+      "source": "SHARE",
+      "views": 60309,
+      "newFollowers": 522,
+      "conversionRate": 0.008655,
+      "saveRate": 0.151584,
+      "commentRate": 0.019924
+    },
+    {
+      "videoId": "video_douyin_06",
+      "source": "PROFILE",
+      "views": 31195,
+      "newFollowers": 288,
+      "conversionRate": 0.009232,
+      "saveRate": 0.163797,
+      "commentRate": 0.02603
+    },
+    {
+      "videoId": "video_douyin_07",
+      "source": "RECOMMENDATION",
+      "views": 353186,
+      "newFollowers": 1337,
+      "conversionRate": 0.003786,
+      "saveRate": 0.188223,
+      "commentRate": 0.016351
+    },
+    {
+      "videoId": "video_douyin_07",
+      "source": "SEARCH",
+      "views": 133996,
+      "newFollowers": 1483,
+      "conversionRate": 0.011067,
+      "saveRate": 0.11372,
+      "commentRate": 0.014677
+    },
+    {
+      "videoId": "video_douyin_07",
+      "source": "FOLLOWING",
+      "views": 102843,
+      "newFollowers": 778,
+      "conversionRate": 0.007565,
+      "saveRate": 0.16849,
+      "commentRate": 0.012917
+    },
+    {
+      "videoId": "video_douyin_07",
+      "source": "SHARE",
+      "views": 52696,
+      "newFollowers": 435,
+      "conversionRate": 0.008255,
+      "saveRate": 0.151902,
+      "commentRate": 0.013405
+    },
+    {
+      "videoId": "video_douyin_07",
+      "source": "PROFILE",
+      "views": 24600,
+      "newFollowers": 217,
+      "conversionRate": 0.008821,
+      "saveRate": 0.195273,
+      "commentRate": 0.013638
+    },
+    {
+      "videoId": "video_douyin_08",
+      "source": "RECOMMENDATION",
+      "views": 369020,
+      "newFollowers": 290,
+      "conversionRate": 0.000786,
+      "saveRate": 0.036534,
+      "commentRate": 0.013909
+    },
+    {
+      "videoId": "video_douyin_08",
+      "source": "SEARCH",
+      "views": 120439,
+      "newFollowers": 276,
+      "conversionRate": 0.002292,
+      "saveRate": 0.039086,
+      "commentRate": 0.014047
+    },
+    {
+      "videoId": "video_douyin_08",
+      "source": "FOLLOWING",
+      "views": 108456,
+      "newFollowers": 170,
+      "conversionRate": 0.001567,
+      "saveRate": 0.029908,
+      "commentRate": 0.009973
+    },
+    {
+      "videoId": "video_douyin_08",
+      "source": "SHARE",
+      "views": 72485,
+      "newFollowers": 124,
+      "conversionRate": 0.001711,
+      "saveRate": 0.028521,
+      "commentRate": 0.013897
+    },
+    {
+      "videoId": "video_douyin_08",
+      "source": "PROFILE",
+      "views": 48097,
+      "newFollowers": 88,
+      "conversionRate": 0.00183,
+      "saveRate": 0.040065,
+      "commentRate": 0.012121
+    },
+    {
+      "videoId": "video_douyin_09",
+      "source": "RECOMMENDATION",
+      "views": 242728,
+      "newFollowers": 852,
+      "conversionRate": 0.00351,
+      "saveRate": 0.16078,
+      "commentRate": 0.014747
+    },
+    {
+      "videoId": "video_douyin_09",
+      "source": "SEARCH",
+      "views": 108001,
+      "newFollowers": 1105,
+      "conversionRate": 0.010231,
+      "saveRate": 0.13821,
+      "commentRate": 0.010294
+    },
+    {
+      "videoId": "video_douyin_09",
+      "source": "FOLLOWING",
+      "views": 80774,
+      "newFollowers": 565,
+      "conversionRate": 0.006995,
+      "saveRate": 0.129638,
+      "commentRate": 0.012658
+    },
+    {
+      "videoId": "video_douyin_09",
+      "source": "SHARE",
+      "views": 44175,
+      "newFollowers": 337,
+      "conversionRate": 0.007629,
+      "saveRate": 0.117813,
+      "commentRate": 0.010171
+    },
+    {
+      "videoId": "video_douyin_09",
+      "source": "PROFILE",
+      "views": 63713,
+      "newFollowers": 520,
+      "conversionRate": 0.008162,
+      "saveRate": 0.155333,
+      "commentRate": 0.01498
+    },
+    {
+      "videoId": "video_bilibili_01",
+      "source": "RECOMMENDATION",
+      "views": 240539,
+      "newFollowers": 1786,
+      "conversionRate": 0.007425,
+      "saveRate": 0.161959,
+      "commentRate": 0.016078
+    },
+    {
+      "videoId": "video_bilibili_01",
+      "source": "SEARCH",
+      "views": 73025,
+      "newFollowers": 1584,
+      "conversionRate": 0.021691,
+      "saveRate": 0.115634,
+      "commentRate": 0.013177
+    },
+    {
+      "videoId": "video_bilibili_01",
+      "source": "FOLLOWING",
+      "views": 63030,
+      "newFollowers": 934,
+      "conversionRate": 0.014818,
+      "saveRate": 0.128495,
+      "commentRate": 0.012753
+    },
+    {
+      "videoId": "video_bilibili_01",
+      "source": "SHARE",
+      "views": 47755,
+      "newFollowers": 773,
+      "conversionRate": 0.016187,
+      "saveRate": 0.114172,
+      "commentRate": 0.012578
+    },
+    {
+      "videoId": "video_bilibili_01",
+      "source": "PROFILE",
+      "views": 40865,
+      "newFollowers": 707,
+      "conversionRate": 0.017301,
+      "saveRate": 0.108131,
+      "commentRate": 0.01151
+    },
+    {
+      "videoId": "video_bilibili_02",
+      "source": "RECOMMENDATION",
+      "views": 334415,
+      "newFollowers": 678,
+      "conversionRate": 0.002027,
+      "saveRate": 0.073965,
+      "commentRate": 0.007001
+    },
+    {
+      "videoId": "video_bilibili_02",
+      "source": "SEARCH",
+      "views": 123858,
+      "newFollowers": 733,
+      "conversionRate": 0.005918,
+      "saveRate": 0.054467,
+      "commentRate": 0.008505
+    },
+    {
+      "videoId": "video_bilibili_02",
+      "source": "FOLLOWING",
+      "views": 119610,
+      "newFollowers": 484,
+      "conversionRate": 0.004046,
+      "saveRate": 0.077493,
+      "commentRate": 0.007391
+    },
+    {
+      "videoId": "video_bilibili_02",
+      "source": "SHARE",
+      "views": 71574,
+      "newFollowers": 316,
+      "conversionRate": 0.004415,
+      "saveRate": 0.061399,
+      "commentRate": 0.005264
+    },
+    {
+      "videoId": "video_bilibili_02",
+      "source": "PROFILE",
+      "views": 84988,
+      "newFollowers": 401,
+      "conversionRate": 0.004718,
+      "saveRate": 0.063122,
+      "commentRate": 0.00622
+    },
+    {
+      "videoId": "video_bilibili_03",
+      "source": "RECOMMENDATION",
+      "views": 430872,
+      "newFollowers": 748,
+      "conversionRate": 0.001736,
+      "saveRate": 0.051323,
+      "commentRate": 0.011068
+    },
+    {
+      "videoId": "video_bilibili_03",
+      "source": "SEARCH",
+      "views": 138992,
+      "newFollowers": 705,
+      "conversionRate": 0.005072,
+      "saveRate": 0.047994,
+      "commentRate": 0.007527
+    },
+    {
+      "videoId": "video_bilibili_03",
+      "source": "FOLLOWING",
+      "views": 100086,
+      "newFollowers": 347,
+      "conversionRate": 0.003467,
+      "saveRate": 0.056343,
+      "commentRate": 0.012167
+    },
+    {
+      "videoId": "video_bilibili_03",
+      "source": "SHARE",
+      "views": 69147,
+      "newFollowers": 261,
+      "conversionRate": 0.003775,
+      "saveRate": 0.077989,
+      "commentRate": 0.011551
+    },
+    {
+      "videoId": "video_bilibili_03",
+      "source": "PROFILE",
+      "views": 71716,
+      "newFollowers": 290,
+      "conversionRate": 0.004044,
+      "saveRate": 0.047239,
+      "commentRate": 0.008125
+    },
+    {
+      "videoId": "video_bilibili_04",
+      "source": "RECOMMENDATION",
+      "views": 183095,
+      "newFollowers": 379,
+      "conversionRate": 0.00207,
+      "saveRate": 0.041439,
+      "commentRate": 0.011366
+    },
+    {
+      "videoId": "video_bilibili_04",
+      "source": "SEARCH",
+      "views": 62439,
+      "newFollowers": 376,
+      "conversionRate": 0.006022,
+      "saveRate": 0.047469,
+      "commentRate": 0.010597
+    },
+    {
+      "videoId": "video_bilibili_04",
+      "source": "FOLLOWING",
+      "views": 63180,
+      "newFollowers": 260,
+      "conversionRate": 0.004115,
+      "saveRate": 0.055285,
+      "commentRate": 0.011347
+    },
+    {
+      "videoId": "video_bilibili_04",
+      "source": "SHARE",
+      "views": 35462,
+      "newFollowers": 159,
+      "conversionRate": 0.004484,
+      "saveRate": 0.062159,
+      "commentRate": 0.011227
+    },
+    {
+      "videoId": "video_bilibili_04",
+      "source": "PROFILE",
+      "views": 77888,
+      "newFollowers": 374,
+      "conversionRate": 0.004802,
+      "saveRate": 0.059429,
+      "commentRate": 0.008222
+    },
+    {
+      "videoId": "video_bilibili_05",
+      "source": "RECOMMENDATION",
+      "views": 387939,
+      "newFollowers": 3664,
+      "conversionRate": 0.009445,
+      "saveRate": 0.140654,
+      "commentRate": 0.0195
+    },
+    {
+      "videoId": "video_bilibili_05",
+      "source": "SEARCH",
+      "views": 133716,
+      "newFollowers": 3693,
+      "conversionRate": 0.027618,
+      "saveRate": 0.206825,
+      "commentRate": 0.025343
+    },
+    {
+      "videoId": "video_bilibili_05",
+      "source": "FOLLOWING",
+      "views": 103244,
+      "newFollowers": 1949,
+      "conversionRate": 0.018878,
+      "saveRate": 0.136933,
+      "commentRate": 0.02594
+    },
+    {
+      "videoId": "video_bilibili_05",
+      "source": "SHARE",
+      "views": 55975,
+      "newFollowers": 1154,
+      "conversionRate": 0.020616,
+      "saveRate": 0.195462,
+      "commentRate": 0.021344
+    },
+    {
+      "videoId": "video_bilibili_05",
+      "source": "PROFILE",
+      "views": 16502,
+      "newFollowers": 363,
+      "conversionRate": 0.021997,
+      "saveRate": 0.189796,
+      "commentRate": 0.026173
+    },
+    {
+      "videoId": "video_bilibili_06",
+      "source": "RECOMMENDATION",
+      "views": 325230,
+      "newFollowers": 2757,
+      "conversionRate": 0.008477,
+      "saveRate": 0.089361,
+      "commentRate": 0.0146
+    },
+    {
+      "videoId": "video_bilibili_06",
+      "source": "SEARCH",
+      "views": 110035,
+      "newFollowers": 2727,
+      "conversionRate": 0.024783,
+      "saveRate": 0.102984,
+      "commentRate": 0.015187
+    },
+    {
+      "videoId": "video_bilibili_06",
+      "source": "FOLLOWING",
+      "views": 88080,
+      "newFollowers": 1492,
+      "conversionRate": 0.016939,
+      "saveRate": 0.115678,
+      "commentRate": 0.014425
+    },
+    {
+      "videoId": "video_bilibili_06",
+      "source": "SHARE",
+      "views": 63158,
+      "newFollowers": 1169,
+      "conversionRate": 0.018509,
+      "saveRate": 0.102448,
+      "commentRate": 0.017518
+    },
+    {
+      "videoId": "video_bilibili_06",
+      "source": "PROFILE",
+      "views": 40334,
+      "newFollowers": 797,
+      "conversionRate": 0.01976,
+      "saveRate": 0.12177,
+      "commentRate": 0.019411
+    },
+    {
+      "videoId": "video_bilibili_07",
+      "source": "RECOMMENDATION",
+      "views": 397967,
+      "newFollowers": 788,
+      "conversionRate": 0.00198,
+      "saveRate": 0.0413,
+      "commentRate": 0.011841
+    },
+    {
+      "videoId": "video_bilibili_07",
+      "source": "SEARCH",
+      "views": 147771,
+      "newFollowers": 854,
+      "conversionRate": 0.005779,
+      "saveRate": 0.047977,
+      "commentRate": 0.008828
+    },
+    {
+      "videoId": "video_bilibili_07",
+      "source": "FOLLOWING",
+      "views": 122785,
+      "newFollowers": 485,
+      "conversionRate": 0.00395,
+      "saveRate": 0.058882,
+      "commentRate": 0.009675
+    },
+    {
+      "videoId": "video_bilibili_07",
+      "source": "SHARE",
+      "views": 77832,
+      "newFollowers": 336,
+      "conversionRate": 0.004317,
+      "saveRate": 0.049225,
+      "commentRate": 0.011741
+    },
+    {
+      "videoId": "video_bilibili_07",
+      "source": "PROFILE",
+      "views": 133754,
+      "newFollowers": 616,
+      "conversionRate": 0.004605,
+      "saveRate": 0.041371,
+      "commentRate": 0.009933
+    },
+    {
+      "videoId": "video_bilibili_08",
+      "source": "RECOMMENDATION",
+      "views": 86506,
+      "newFollowers": 275,
+      "conversionRate": 0.003179,
+      "saveRate": 0.02885,
+      "commentRate": 0.010397
+    },
+    {
+      "videoId": "video_bilibili_08",
+      "source": "SEARCH",
+      "views": 28774,
+      "newFollowers": 264,
+      "conversionRate": 0.009175,
+      "saveRate": 0.024896,
+      "commentRate": 0.010636
+    },
+    {
+      "videoId": "video_bilibili_08",
+      "source": "FOLLOWING",
+      "views": 22879,
+      "newFollowers": 143,
+      "conversionRate": 0.00625,
+      "saveRate": 0.025617,
+      "commentRate": 0.011786
+    },
+    {
+      "videoId": "video_bilibili_08",
+      "source": "SHARE",
+      "views": 13527,
+      "newFollowers": 92,
+      "conversionRate": 0.006801,
+      "saveRate": 0.01995,
+      "commentRate": 0.011138
+    },
+    {
+      "videoId": "video_bilibili_08",
+      "source": "PROFILE",
+      "views": 8774,
+      "newFollowers": 64,
+      "conversionRate": 0.007294,
+      "saveRate": 0.022692,
+      "commentRate": 0.007424
+    },
+    {
+      "videoId": "video_bilibili_09",
+      "source": "RECOMMENDATION",
+      "views": 393093,
+      "newFollowers": 819,
+      "conversionRate": 0.002083,
+      "saveRate": 0.049034,
+      "commentRate": 0.010579
+    },
+    {
+      "videoId": "video_bilibili_09",
+      "source": "SEARCH",
+      "views": 141761,
+      "newFollowers": 862,
+      "conversionRate": 0.006081,
+      "saveRate": 0.05044,
+      "commentRate": 0.012743
+    },
+    {
+      "videoId": "video_bilibili_09",
+      "source": "FOLLOWING",
+      "views": 114097,
+      "newFollowers": 474,
+      "conversionRate": 0.004154,
+      "saveRate": 0.04906,
+      "commentRate": 0.011997
+    },
+    {
+      "videoId": "video_bilibili_09",
+      "source": "SHARE",
+      "views": 44820,
+      "newFollowers": 203,
+      "conversionRate": 0.004529,
+      "saveRate": 0.076126,
+      "commentRate": 0.013985
+    },
+    {
+      "videoId": "video_bilibili_09",
+      "source": "PROFILE",
+      "views": 0,
+      "newFollowers": 0,
+      "conversionRate": 0.0,
+      "saveRate": 0.056614,
+      "commentRate": 0.014002
+    },
+    {
+      "videoId": "video_xiaohongshu_01",
+      "source": "RECOMMENDATION",
+      "views": 300768,
+      "newFollowers": 1436,
+      "conversionRate": 0.004774,
+      "saveRate": 0.067343,
+      "commentRate": 0.019513
+    },
+    {
+      "videoId": "video_xiaohongshu_01",
+      "source": "SEARCH",
+      "views": 129619,
+      "newFollowers": 1808,
+      "conversionRate": 0.013949,
+      "saveRate": 0.09565,
+      "commentRate": 0.014948
+    },
+    {
+      "videoId": "video_xiaohongshu_01",
+      "source": "FOLLOWING",
+      "views": 70246,
+      "newFollowers": 669,
+      "conversionRate": 0.009524,
+      "saveRate": 0.072127,
+      "commentRate": 0.015154
+    },
+    {
+      "videoId": "video_xiaohongshu_01",
+      "source": "SHARE",
+      "views": 63120,
+      "newFollowers": 657,
+      "conversionRate": 0.010409,
+      "saveRate": 0.081598,
+      "commentRate": 0.020854
+    },
+    {
+      "videoId": "video_xiaohongshu_01",
+      "source": "PROFILE",
+      "views": 47691,
+      "newFollowers": 530,
+      "conversionRate": 0.011113,
+      "saveRate": 0.068051,
+      "commentRate": 0.015746
+    },
+    {
+      "videoId": "video_xiaohongshu_02",
+      "source": "RECOMMENDATION",
+      "views": 139325,
+      "newFollowers": 206,
+      "conversionRate": 0.001479,
+      "saveRate": 0.060021,
+      "commentRate": 0.010773
+    },
+    {
+      "videoId": "video_xiaohongshu_02",
+      "source": "SEARCH",
+      "views": 44760,
+      "newFollowers": 192,
+      "conversionRate": 0.00429,
+      "saveRate": 0.065989,
+      "commentRate": 0.008212
+    },
+    {
+      "videoId": "video_xiaohongshu_02",
+      "source": "FOLLOWING",
+      "views": 40947,
+      "newFollowers": 120,
+      "conversionRate": 0.002931,
+      "saveRate": 0.062922,
+      "commentRate": 0.012563
+    },
+    {
+      "videoId": "video_xiaohongshu_02",
+      "source": "SHARE",
+      "views": 29528,
+      "newFollowers": 94,
+      "conversionRate": 0.003183,
+      "saveRate": 0.048754,
+      "commentRate": 0.009991
+    },
+    {
+      "videoId": "video_xiaohongshu_02",
+      "source": "PROFILE",
+      "views": 40200,
+      "newFollowers": 137,
+      "conversionRate": 0.003408,
+      "saveRate": 0.065207,
+      "commentRate": 0.009093
+    },
+    {
+      "videoId": "video_xiaohongshu_03",
+      "source": "RECOMMENDATION",
+      "views": 241107,
+      "newFollowers": 1049,
+      "conversionRate": 0.004351,
+      "saveRate": 0.130741,
+      "commentRate": 0.024306
+    },
+    {
+      "videoId": "video_xiaohongshu_03",
+      "source": "SEARCH",
+      "views": 112913,
+      "newFollowers": 1435,
+      "conversionRate": 0.012709,
+      "saveRate": 0.116545,
+      "commentRate": 0.02451
+    },
+    {
+      "videoId": "video_xiaohongshu_03",
+      "source": "FOLLOWING",
+      "views": 82114,
+      "newFollowers": 713,
+      "conversionRate": 0.008683,
+      "saveRate": 0.082634,
+      "commentRate": 0.021656
+    },
+    {
+      "videoId": "video_xiaohongshu_03",
+      "source": "SHARE",
+      "views": 40031,
+      "newFollowers": 379,
+      "conversionRate": 0.009468,
+      "saveRate": 0.109492,
+      "commentRate": 0.022813
+    },
+    {
+      "videoId": "video_xiaohongshu_03",
+      "source": "PROFILE",
+      "views": 64342,
+      "newFollowers": 652,
+      "conversionRate": 0.010133,
+      "saveRate": 0.084549,
+      "commentRate": 0.029811
+    },
+    {
+      "videoId": "video_xiaohongshu_04",
+      "source": "RECOMMENDATION",
+      "views": 165841,
+      "newFollowers": 1318,
+      "conversionRate": 0.007947,
+      "saveRate": 0.087183,
+      "commentRate": 0.030973
+    },
+    {
+      "videoId": "video_xiaohongshu_04",
+      "source": "SEARCH",
+      "views": 76199,
+      "newFollowers": 1768,
+      "conversionRate": 0.023202,
+      "saveRate": 0.092546,
+      "commentRate": 0.023801
+    },
+    {
+      "videoId": "video_xiaohongshu_04",
+      "source": "FOLLOWING",
+      "views": 42069,
+      "newFollowers": 667,
+      "conversionRate": 0.015855,
+      "saveRate": 0.125156,
+      "commentRate": 0.031327
+    },
+    {
+      "videoId": "video_xiaohongshu_04",
+      "source": "SHARE",
+      "views": 33489,
+      "newFollowers": 580,
+      "conversionRate": 0.017319,
+      "saveRate": 0.126943,
+      "commentRate": 0.022561
+    },
+    {
+      "videoId": "video_xiaohongshu_04",
+      "source": "PROFILE",
+      "views": 44090,
+      "newFollowers": 816,
+      "conversionRate": 0.018508,
+      "saveRate": 0.124153,
+      "commentRate": 0.029667
+    },
+    {
+      "videoId": "video_xiaohongshu_05",
+      "source": "RECOMMENDATION",
+      "views": 217631,
+      "newFollowers": 329,
+      "conversionRate": 0.001512,
+      "saveRate": 0.058069,
+      "commentRate": 0.006602
+    },
+    {
+      "videoId": "video_xiaohongshu_05",
+      "source": "SEARCH",
+      "views": 84522,
+      "newFollowers": 370,
+      "conversionRate": 0.004378,
+      "saveRate": 0.043695,
+      "commentRate": 0.004977
+    },
+    {
+      "videoId": "video_xiaohongshu_05",
+      "source": "FOLLOWING",
+      "views": 73643,
+      "newFollowers": 220,
+      "conversionRate": 0.002987,
+      "saveRate": 0.052547,
+      "commentRate": 0.008053
+    },
+    {
+      "videoId": "video_xiaohongshu_05",
+      "source": "SHARE",
+      "views": 46914,
+      "newFollowers": 153,
+      "conversionRate": 0.003261,
+      "saveRate": 0.040147,
+      "commentRate": 0.005349
+    },
+    {
+      "videoId": "video_xiaohongshu_05",
+      "source": "PROFILE",
+      "views": 28939,
+      "newFollowers": 101,
+      "conversionRate": 0.00349,
+      "saveRate": 0.045394,
+      "commentRate": 0.0077
+    },
+    {
+      "videoId": "video_xiaohongshu_06",
+      "source": "RECOMMENDATION",
+      "views": 245390,
+      "newFollowers": 1981,
+      "conversionRate": 0.008073,
+      "saveRate": 0.11348,
+      "commentRate": 0.020771
+    },
+    {
+      "videoId": "video_xiaohongshu_06",
+      "source": "SEARCH",
+      "views": 100332,
+      "newFollowers": 2366,
+      "conversionRate": 0.023582,
+      "saveRate": 0.114563,
+      "commentRate": 0.017651
+    },
+    {
+      "videoId": "video_xiaohongshu_06",
+      "source": "FOLLOWING",
+      "views": 83375,
+      "newFollowers": 1344,
+      "conversionRate": 0.01612,
+      "saveRate": 0.103918,
+      "commentRate": 0.020972
+    },
+    {
+      "videoId": "video_xiaohongshu_06",
+      "source": "SHARE",
+      "views": 51464,
+      "newFollowers": 906,
+      "conversionRate": 0.017605,
+      "saveRate": 0.114773,
+      "commentRate": 0.020594
+    },
+    {
+      "videoId": "video_xiaohongshu_06",
+      "source": "PROFILE",
+      "views": 36195,
+      "newFollowers": 680,
+      "conversionRate": 0.018787,
+      "saveRate": 0.153334,
+      "commentRate": 0.01548
+    },
+    {
+      "videoId": "video_xiaohongshu_07",
+      "source": "RECOMMENDATION",
+      "views": 228178,
+      "newFollowers": 335,
+      "conversionRate": 0.001468,
+      "saveRate": 0.056203,
+      "commentRate": 0.011204
+    },
+    {
+      "videoId": "video_xiaohongshu_07",
+      "source": "SEARCH",
+      "views": 82870,
+      "newFollowers": 353,
+      "conversionRate": 0.00426,
+      "saveRate": 0.05411,
+      "commentRate": 0.011987
+    },
+    {
+      "videoId": "video_xiaohongshu_07",
+      "source": "FOLLOWING",
+      "views": 71751,
+      "newFollowers": 209,
+      "conversionRate": 0.002913,
+      "saveRate": 0.039528,
+      "commentRate": 0.014288
+    },
+    {
+      "videoId": "video_xiaohongshu_07",
+      "source": "SHARE",
+      "views": 39485,
+      "newFollowers": 125,
+      "conversionRate": 0.003166,
+      "saveRate": 0.047732,
+      "commentRate": 0.01096
+    },
+    {
+      "videoId": "video_xiaohongshu_07",
+      "source": "PROFILE",
+      "views": 36124,
+      "newFollowers": 122,
+      "conversionRate": 0.003377,
+      "saveRate": 0.051742,
+      "commentRate": 0.009987
+    },
+    {
+      "videoId": "video_xiaohongshu_08",
+      "source": "RECOMMENDATION",
+      "views": 62770,
+      "newFollowers": 188,
+      "conversionRate": 0.002995,
+      "saveRate": 0.043859,
+      "commentRate": 0.021717
+    },
+    {
+      "videoId": "video_xiaohongshu_08",
+      "source": "SEARCH",
+      "views": 20876,
+      "newFollowers": 181,
+      "conversionRate": 0.00867,
+      "saveRate": 0.058262,
+      "commentRate": 0.018238
+    },
+    {
+      "videoId": "video_xiaohongshu_08",
+      "source": "FOLLOWING",
+      "views": 16083,
+      "newFollowers": 95,
+      "conversionRate": 0.005907,
+      "saveRate": 0.05929,
+      "commentRate": 0.014549
+    },
+    {
+      "videoId": "video_xiaohongshu_08",
+      "source": "SHARE",
+      "views": 10151,
+      "newFollowers": 65,
+      "conversionRate": 0.006403,
+      "saveRate": 0.053702,
+      "commentRate": 0.020258
+    },
+    {
+      "videoId": "video_xiaohongshu_08",
+      "source": "PROFILE",
+      "views": 332,
+      "newFollowers": 2,
+      "conversionRate": 0.006024,
+      "saveRate": 0.052518,
+      "commentRate": 0.017146
+    },
+    {
+      "videoId": "video_xiaohongshu_09",
+      "source": "RECOMMENDATION",
+      "views": 291080,
+      "newFollowers": 445,
+      "conversionRate": 0.001529,
+      "saveRate": 0.051669,
+      "commentRate": 0.009598
+    },
+    {
+      "videoId": "video_xiaohongshu_09",
+      "source": "SEARCH",
+      "views": 113744,
+      "newFollowers": 506,
+      "conversionRate": 0.004449,
+      "saveRate": 0.039434,
+      "commentRate": 0.012844
+    },
+    {
+      "videoId": "video_xiaohongshu_09",
+      "source": "FOLLOWING",
+      "views": 67861,
+      "newFollowers": 206,
+      "conversionRate": 0.003036,
+      "saveRate": 0.049388,
+      "commentRate": 0.011228
+    },
+    {
+      "videoId": "video_xiaohongshu_09",
+      "source": "SHARE",
+      "views": 51053,
+      "newFollowers": 169,
+      "conversionRate": 0.00331,
+      "saveRate": 0.043858,
+      "commentRate": 0.011639
+    },
+    {
+      "videoId": "video_xiaohongshu_09",
+      "source": "PROFILE",
+      "views": 65710,
+      "newFollowers": 233,
+      "conversionRate": 0.003546,
+      "saveRate": 0.033885,
+      "commentRate": 0.012593
+    }
+  ],
+  "creatorMetricSnapshots": [
+    {
+      "snapshotId": "creator_snapshot_6",
+      "creatorId": "creator_001",
+      "date": "2026-06-08",
+      "totalFollowers": 2488235,
+      "newFollowers": 10016,
+      "lostFollowers": 489,
+      "netFollowers": 9527,
+      "totalViews": 2627289,
+      "totalInteractions": 462039,
+      "profileVisits": 97565,
+      "followerGrowthRate": 0.003844,
+      "viewToFollowerRate": 0.003812,
+      "stickinessScore": 70.6,
+      "growthHealthScore": 96
+    },
+    {
+      "snapshotId": "creator_snapshot_5",
+      "creatorId": "creator_001",
+      "date": "2026-06-09",
+      "totalFollowers": 2497584,
+      "newFollowers": 9817,
+      "lostFollowers": 468,
+      "netFollowers": 9349,
+      "totalViews": 2163351,
+      "totalInteractions": 438235,
+      "profileVisits": 76579,
+      "followerGrowthRate": 0.003757,
+      "viewToFollowerRate": 0.004538,
+      "stickinessScore": 73.6,
+      "growthHealthScore": 96
+    },
+    {
+      "snapshotId": "creator_snapshot_4",
+      "creatorId": "creator_001",
+      "date": "2026-06-10",
+      "totalFollowers": 2507943,
+      "newFollowers": 11182,
+      "lostFollowers": 823,
+      "netFollowers": 10359,
+      "totalViews": 2012165,
+      "totalInteractions": 426671,
+      "profileVisits": 75109,
+      "followerGrowthRate": 0.004148,
+      "viewToFollowerRate": 0.005557,
+      "stickinessScore": 71.4,
+      "growthHealthScore": 96
+    },
+    {
+      "snapshotId": "creator_snapshot_3",
+      "creatorId": "creator_001",
+      "date": "2026-06-11",
+      "totalFollowers": 2518686,
+      "newFollowers": 11288,
+      "lostFollowers": 545,
+      "netFollowers": 10743,
+      "totalViews": 2035566,
+      "totalInteractions": 525604,
+      "profileVisits": 69216,
+      "followerGrowthRate": 0.004284,
+      "viewToFollowerRate": 0.005545,
+      "stickinessScore": 71.6,
+      "growthHealthScore": 96
+    },
+    {
+      "snapshotId": "creator_snapshot_2",
+      "creatorId": "creator_001",
+      "date": "2026-06-12",
+      "totalFollowers": 2529833,
+      "newFollowers": 12006,
+      "lostFollowers": 859,
+      "netFollowers": 11147,
+      "totalViews": 2672079,
+      "totalInteractions": 595151,
+      "profileVisits": 82014,
+      "followerGrowthRate": 0.004426,
+      "viewToFollowerRate": 0.004493,
+      "stickinessScore": 80.2,
+      "growthHealthScore": 96
+    },
+    {
+      "snapshotId": "creator_snapshot_1",
+      "creatorId": "creator_001",
+      "date": "2026-06-13",
+      "totalFollowers": 2543095,
+      "newFollowers": 14037,
+      "lostFollowers": 775,
+      "netFollowers": 13262,
+      "totalViews": 1784406,
+      "totalInteractions": 547480,
+      "profileVisits": 87866,
+      "followerGrowthRate": 0.005242,
+      "viewToFollowerRate": 0.007866,
+      "stickinessScore": 75.3,
+      "growthHealthScore": 96
+    },
+    {
+      "snapshotId": "creator_snapshot_0",
+      "creatorId": "creator_001",
+      "date": "2026-06-14",
+      "totalFollowers": 2556212,
+      "newFollowers": 13822,
+      "lostFollowers": 705,
+      "netFollowers": 13117,
+      "totalViews": 2063454,
+      "totalInteractions": 419243,
+      "profileVisits": 85417,
+      "followerGrowthRate": 0.005158,
+      "viewToFollowerRate": 0.006698,
+      "stickinessScore": 69.7,
+      "growthHealthScore": 96
+    }
+  ],
+  "audienceProfileSnapshot": {
+    "snapshotId": "audience_profile_001",
+    "creatorId": "creator_001",
+    "gender": {
+      "female": 0.82,
+      "male": 0.15,
+      "unknown": 0.03
+    },
+    "ageGroups": {
+      "18-24": 0.46,
+      "25-30": 0.31,
+      "31-35": 0.15,
+      "36+": 0.08
+    },
+    "regions": {
+      "广东": 0.18,
+      "浙江": 0.15,
+      "上海": 0.13,
+      "北京": 0.1,
+      "四川": 0.08,
+      "其他": 0.36
+    },
+    "activeHours": {
+      "12": 0.09,
+      "18": 0.16,
+      "20": 0.28,
+      "21": 0.24,
+      "22": 0.14,
+      "other": 0.09
+    },
+    "interestTags": {
+      "通勤妆": 0.35,
+      "防晒测评": 0.22,
+      "平价粉底": 0.18,
+      "新手教程": 0.16,
+      "职场穿搭": 0.09
+    },
+    "highValueSegments": [
+      {
+        "segmentId": "seg_18_24_female",
+        "label": "18-24 女性新手用户",
+        "share": 0.46,
+        "growthRate": 0.18,
+        "preferredContentTypes": [
+          "TUTORIAL"
+        ],
+        "preferredActiveHours": [
+          "20",
+          "21"
+        ],
+        "primaryActions": [
+          "SAVE",
+          "COMMENT"
+        ]
+      },
+      {
+        "segmentId": "seg_25_30_workplace",
+        "label": "25-30 职场女性",
+        "share": 0.31,
+        "growthRate": 0.24,
+        "preferredContentTypes": [
+          "REVIEW",
+          "TUTORIAL"
+        ],
+        "preferredActiveHours": [
+          "20"
+        ],
+        "primaryActions": [
+          "COMMENT",
+          "SHARE"
+        ]
+      }
+    ]
+  },
+  "topicTrendSnapshots": [
+    {
+      "topicId": "topic_001",
+      "topicName": "5分钟通勤妆",
+      "platforms": [
+        "BILIBILI",
+        "XIAOHONGSHU"
+      ],
+      "heatScore": 68,
+      "growthRate": 0.2499,
+      "audienceFitScore": 87,
+      "creatorFitScore": 90,
+      "riskLevel": "LOW"
+    },
+    {
+      "topicId": "topic_002",
+      "topicName": "夏季防晒测评",
+      "platforms": [
+        "DOUYIN",
+        "XIAOHONGSHU"
+      ],
+      "heatScore": 82,
+      "growthRate": 0.1607,
+      "audienceFitScore": 75,
+      "creatorFitScore": 80,
+      "riskLevel": "LOW"
+    },
+    {
+      "topicId": "topic_003",
+      "topicName": "早八快速出门",
+      "platforms": [
+        "BILIBILI",
+        "XIAOHONGSHU"
+      ],
+      "heatScore": 95,
+      "growthRate": 0.2029,
+      "audienceFitScore": 94,
+      "creatorFitScore": 87,
+      "riskLevel": "LOW"
+    },
+    {
+      "topicId": "topic_004",
+      "topicName": "平价粉底横评",
+      "platforms": [
+        "DOUYIN",
+        "XIAOHONGSHU"
+      ],
+      "heatScore": 73,
+      "growthRate": 0.3274,
+      "audienceFitScore": 72,
+      "creatorFitScore": 85,
+      "riskLevel": "LOW"
+    },
+    {
+      "topicId": "topic_005",
+      "topicName": "油皮持妆挑战",
+      "platforms": [
+        "BILIBILI",
+        "XIAOHONGSHU"
+      ],
+      "heatScore": 87,
+      "growthRate": 0.2322,
+      "audienceFitScore": 88,
+      "creatorFitScore": 77,
+      "riskLevel": "LOW"
+    },
+    {
+      "topicId": "topic_006",
+      "topicName": "新手眼妆公式",
+      "platforms": [
+        "DOUYIN",
+        "XIAOHONGSHU"
+      ],
+      "heatScore": 86,
+      "growthRate": 0.3316,
+      "audienceFitScore": 92,
+      "creatorFitScore": 83,
+      "riskLevel": "LOW"
+    },
+    {
+      "topicId": "topic_007",
+      "topicName": "职场淡妆模板",
+      "platforms": [
+        "BILIBILI",
+        "XIAOHONGSHU"
+      ],
+      "heatScore": 93,
+      "growthRate": 0.376,
+      "audienceFitScore": 95,
+      "creatorFitScore": 71,
+      "riskLevel": "LOW"
+    },
+    {
+      "topicId": "topic_008",
+      "topicName": "618彩妆复盘",
+      "platforms": [
+        "DOUYIN",
+        "XIAOHONGSHU"
+      ],
+      "heatScore": 80,
+      "growthRate": 0.1364,
+      "audienceFitScore": 75,
+      "creatorFitScore": 86,
+      "riskLevel": "MEDIUM"
+    },
+    {
+      "topicId": "topic_009",
+      "topicName": "底妆不脱妆",
+      "platforms": [
+        "BILIBILI",
+        "XIAOHONGSHU"
+      ],
+      "heatScore": 70,
+      "growthRate": 0.4151,
+      "audienceFitScore": 72,
+      "creatorFitScore": 89,
+      "riskLevel": "LOW"
+    },
+    {
+      "topicId": "topic_010",
+      "topicName": "通勤包好物",
+      "platforms": [
+        "DOUYIN",
+        "XIAOHONGSHU"
+      ],
+      "heatScore": 87,
+      "growthRate": 0.3145,
+      "audienceFitScore": 82,
+      "creatorFitScore": 86,
+      "riskLevel": "MEDIUM"
+    }
+  ],
+  "insights": [
+    {
+      "insightId": "insight_001",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "VIDEO",
+      "targetId": "video_bilibili_05",
+      "title": "新手必看持妆教程 值得复刻",
+      "summary": "B站的教程内容转粉率达到1.55%，新增粉丝 10823 人。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "播放量",
+          "value": 697376,
+          "unit": "次"
+        },
+        {
+          "label": "新增粉丝",
+          "value": 10823,
+          "unit": "人"
+        },
+        {
+          "label": "转粉率",
+          "value": 1.55,
+          "unit": "%",
+          "direction": "UP"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_001_01",
+          "title": "复刻高转粉结构",
+          "description": "复刻《新手必看持妆教程》的选题、人群表达、开头结构和关注 CTA。",
+          "expectedImpact": "提升同类型内容转粉效率",
+          "relatedPage": "video.contribution"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.conversion",
+        "fans.source",
+        "video.contribution"
+      ]
+    },
+    {
+      "insightId": "insight_002",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "VIDEO",
+      "targetId": "video_bilibili_06",
+      "title": "5分钟通勤妆教程 值得复刻",
+      "summary": "B站的教程内容转粉率达到1.43%，新增粉丝 8942 人。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "播放量",
+          "value": 626837,
+          "unit": "次"
+        },
+        {
+          "label": "新增粉丝",
+          "value": 8942,
+          "unit": "人"
+        },
+        {
+          "label": "转粉率",
+          "value": 1.43,
+          "unit": "%",
+          "direction": "UP"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_002_01",
+          "title": "复刻高转粉结构",
+          "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+          "expectedImpact": "提升同类型内容转粉效率",
+          "relatedPage": "video.contribution"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.conversion",
+        "fans.source",
+        "video.contribution"
+      ]
+    },
+    {
+      "insightId": "insight_003",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "VIDEO",
+      "targetId": "video_xiaohongshu_04",
+      "title": "通勤妆补妆完整流程 值得复刻",
+      "summary": "小红书的教程内容转粉率达到1.42%，新增粉丝 5149 人。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "播放量",
+          "value": 361688,
+          "unit": "次"
+        },
+        {
+          "label": "新增粉丝",
+          "value": 5149,
+          "unit": "人"
+        },
+        {
+          "label": "转粉率",
+          "value": 1.42,
+          "unit": "%",
+          "direction": "UP"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_003_01",
+          "title": "复刻高转粉结构",
+          "description": "复刻《通勤妆补妆完整流程》的选题、人群表达、开头结构和关注 CTA。",
+          "expectedImpact": "提升同类型内容转粉效率",
+          "relatedPage": "video.contribution"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.conversion",
+        "fans.source",
+        "video.contribution"
+      ]
+    },
+    {
+      "insightId": "insight_004",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "VIDEO",
+      "targetId": "video_xiaohongshu_06",
+      "title": "5分钟通勤妆教程 值得复刻",
+      "summary": "小红书的教程内容转粉率达到1.41%，新增粉丝 7277 人。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "播放量",
+          "value": 516756,
+          "unit": "次"
+        },
+        {
+          "label": "新增粉丝",
+          "value": 7277,
+          "unit": "人"
+        },
+        {
+          "label": "转粉率",
+          "value": 1.41,
+          "unit": "%",
+          "direction": "UP"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_004_01",
+          "title": "复刻高转粉结构",
+          "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+          "expectedImpact": "提升同类型内容转粉效率",
+          "relatedPage": "video.contribution"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.conversion",
+        "fans.source",
+        "video.contribution"
+      ]
+    },
+    {
+      "insightId": "insight_005",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "VIDEO",
+      "targetId": "video_bilibili_01",
+      "title": "5分钟通勤妆教程 值得复刻",
+      "summary": "B站的教程内容转粉率达到1.24%，新增粉丝 5784 人。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "播放量",
+          "value": 465214,
+          "unit": "次"
+        },
+        {
+          "label": "新增粉丝",
+          "value": 5784,
+          "unit": "人"
+        },
+        {
+          "label": "转粉率",
+          "value": 1.24,
+          "unit": "%",
+          "direction": "UP"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_005_01",
+          "title": "复刻高转粉结构",
+          "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+          "expectedImpact": "提升同类型内容转粉效率",
+          "relatedPage": "video.contribution"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.conversion",
+        "fans.source",
+        "video.contribution"
+      ]
+    },
+    {
+      "insightId": "insight_006",
+      "creatorId": "creator_001",
+      "type": "RISK",
+      "scope": "VIDEO",
+      "targetId": "video_douyin_05",
+      "title": "新手眼影盘测评 播放高但转粉偏低",
+      "summary": "这条视频播放达到 1070878 次，但转粉率只有 0.42%。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "播放量",
+          "value": 1070878,
+          "unit": "次",
+          "direction": "UP"
+        },
+        {
+          "label": "转粉率",
+          "value": 0.42,
+          "unit": "%",
+          "direction": "DOWN"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_006_01",
+          "title": "提前给出关注理由",
+          "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+          "expectedImpact": "改善播放到关注的转化",
+          "relatedPage": "growth.conversion"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.conversion",
+        "video.contribution",
+        "content.source"
+      ]
+    },
+    {
+      "insightId": "insight_007",
+      "creatorId": "creator_001",
+      "type": "RISK",
+      "scope": "VIDEO",
+      "targetId": "video_bilibili_07",
+      "title": "平价彩妆种草清单 播放高但转粉偏低",
+      "summary": "这条视频播放达到 880109 次，但转粉率只有 0.35%。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "播放量",
+          "value": 880109,
+          "unit": "次",
+          "direction": "UP"
+        },
+        {
+          "label": "转粉率",
+          "value": 0.35,
+          "unit": "%",
+          "direction": "DOWN"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_007_01",
+          "title": "提前给出关注理由",
+          "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+          "expectedImpact": "改善播放到关注的转化",
+          "relatedPage": "growth.conversion"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.conversion",
+        "video.contribution",
+        "content.source"
+      ]
+    },
+    {
+      "insightId": "insight_008",
+      "creatorId": "creator_001",
+      "type": "RISK",
+      "scope": "VIDEO",
+      "targetId": "video_bilibili_03",
+      "title": "适合上班的口红合集 播放高但转粉偏低",
+      "summary": "这条视频播放达到 810813 次，但转粉率只有 0.29%。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "播放量",
+          "value": 810813,
+          "unit": "次",
+          "direction": "UP"
+        },
+        {
+          "label": "转粉率",
+          "value": 0.29,
+          "unit": "%",
+          "direction": "DOWN"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_008_01",
+          "title": "提前给出关注理由",
+          "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+          "expectedImpact": "改善播放到关注的转化",
+          "relatedPage": "growth.conversion"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.conversion",
+        "video.contribution",
+        "content.source"
+      ]
+    },
+    {
+      "insightId": "insight_009",
+      "creatorId": "creator_001",
+      "type": "RISK",
+      "scope": "VIDEO",
+      "targetId": "video_bilibili_02",
+      "title": "平价彩妆种草清单 播放高但转粉偏低",
+      "summary": "这条视频播放达到 734445 次，但转粉率只有 0.36%。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "播放量",
+          "value": 734445,
+          "unit": "次",
+          "direction": "UP"
+        },
+        {
+          "label": "转粉率",
+          "value": 0.36,
+          "unit": "%",
+          "direction": "DOWN"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_009_01",
+          "title": "提前给出关注理由",
+          "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+          "expectedImpact": "改善播放到关注的转化",
+          "relatedPage": "growth.conversion"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.conversion",
+        "video.contribution",
+        "content.source"
+      ]
+    },
+    {
+      "insightId": "insight_010",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "CONTENT_TYPE",
+      "targetId": "TUTORIAL",
+      "title": "教程类内容值得加码",
+      "summary": "教程类贡献 60.9% 新粉，收藏率达到 13.4%。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "涨粉贡献",
+          "value": 60.9,
+          "unit": "%"
+        },
+        {
+          "label": "收藏率",
+          "value": 13.4,
+          "unit": "%"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_010_01",
+          "title": "提高教程发布占比",
+          "description": "下周把教程作为主线内容，优先做通勤妆系列。",
+          "expectedImpact": "提升新粉和收藏回看",
+          "relatedPage": "content.type"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.distribution",
+        "content.type",
+        "opportunities.advice"
+      ]
+    },
+    {
+      "insightId": "insight_012",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "TOPIC",
+      "targetId": "topic_001",
+      "title": "5分钟通勤妆适合作为下一条内容选题",
+      "summary": "话题热度 68，达人适配度 90，受众适配度 87。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "话题热度",
+          "value": 68
+        },
+        {
+          "label": "达人适配度",
+          "value": 90
+        },
+        {
+          "label": "受众适配度",
+          "value": 87
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_012_01",
+          "title": "生成下一条内容方案",
+          "description": "围绕“5分钟通勤妆”做教程或测评结构，明确适合人群和收藏理由。",
+          "expectedImpact": "提升热点承接效率",
+          "relatedPage": "opportunities.advice"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "opportunities.hot",
+        "opportunities.advice"
+      ]
+    },
+    {
+      "insightId": "insight_019",
+      "creatorId": "creator_001",
+      "type": "ACTION",
+      "scope": "CREATOR",
+      "targetId": "creator_001",
+      "title": "下一条内容优先做通勤妆教程",
+      "summary": "教程类内容同时具备高收藏、高评论和高转粉，是当前最稳的增长路径。",
+      "priority": "HIGH",
+      "evidenceMetrics": [
+        {
+          "label": "教程涨粉贡献",
+          "value": 60.9,
+          "unit": "%"
+        },
+        {
+          "label": "教程收藏率",
+          "value": 13.4,
+          "unit": "%"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_019_01",
+          "title": "制作 5 分钟通勤妆脚本",
+          "description": "结构采用结果预览、三步拆解、常见错误、收藏引导。",
+          "expectedImpact": "提升下一条内容转粉率",
+          "relatedPage": "opportunities.advice"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "opportunities.advice",
+        "opportunities.reference"
+      ]
+    },
+    {
+      "insightId": "insight_011",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "CONTENT_TYPE",
+      "targetId": "REVIEW",
+      "title": "测评内容适合承接评论选题",
+      "summary": "测评类评论率达到 1.97%，高于账号平均水平。",
+      "priority": "MEDIUM",
+      "evidenceMetrics": [
+        {
+          "label": "评论率",
+          "value": 1.97,
+          "unit": "%"
+        },
+        {
+          "label": "新增粉丝",
+          "value": 17230,
+          "unit": "人"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_011_01",
+          "title": "把评论问题做成续集",
+          "description": "整理测评视频评论区高频问题，做成下一条 Q&A 视频。",
+          "expectedImpact": "提升连续互动",
+          "relatedPage": "fans.stickiness"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.stickiness",
+        "fans.stickiness",
+        "video.quality"
+      ]
+    },
+    {
+      "insightId": "insight_013",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "TOPIC",
+      "targetId": "topic_009",
+      "title": "底妆不脱妆适合作为下一条内容选题",
+      "summary": "话题热度 70，达人适配度 89，受众适配度 72。",
+      "priority": "MEDIUM",
+      "evidenceMetrics": [
+        {
+          "label": "话题热度",
+          "value": 70
+        },
+        {
+          "label": "达人适配度",
+          "value": 89
+        },
+        {
+          "label": "受众适配度",
+          "value": 72
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_013_01",
+          "title": "生成下一条内容方案",
+          "description": "围绕“底妆不脱妆”做教程或测评结构，明确适合人群和收藏理由。",
+          "expectedImpact": "提升热点承接效率",
+          "relatedPage": "opportunities.advice"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "opportunities.hot",
+        "opportunities.advice"
+      ]
+    },
+    {
+      "insightId": "insight_014",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "TOPIC",
+      "targetId": "topic_003",
+      "title": "早八快速出门适合作为下一条内容选题",
+      "summary": "话题热度 95，达人适配度 87，受众适配度 94。",
+      "priority": "MEDIUM",
+      "evidenceMetrics": [
+        {
+          "label": "话题热度",
+          "value": 95
+        },
+        {
+          "label": "达人适配度",
+          "value": 87
+        },
+        {
+          "label": "受众适配度",
+          "value": 94
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_014_01",
+          "title": "生成下一条内容方案",
+          "description": "围绕“早八快速出门”做教程或测评结构，明确适合人群和收藏理由。",
+          "expectedImpact": "提升热点承接效率",
+          "relatedPage": "opportunities.advice"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "opportunities.hot",
+        "opportunities.advice"
+      ]
+    },
+    {
+      "insightId": "insight_015",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "TOPIC",
+      "targetId": "topic_008",
+      "title": "618彩妆复盘适合作为下一条内容选题",
+      "summary": "话题热度 80，达人适配度 86，受众适配度 75。",
+      "priority": "MEDIUM",
+      "evidenceMetrics": [
+        {
+          "label": "话题热度",
+          "value": 80
+        },
+        {
+          "label": "达人适配度",
+          "value": 86
+        },
+        {
+          "label": "受众适配度",
+          "value": 75
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_015_01",
+          "title": "生成下一条内容方案",
+          "description": "围绕“618彩妆复盘”做教程或测评结构，明确适合人群和收藏理由。",
+          "expectedImpact": "提升热点承接效率",
+          "relatedPage": "opportunities.advice"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "opportunities.hot",
+        "opportunities.advice"
+      ]
+    },
+    {
+      "insightId": "insight_016",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "TOPIC",
+      "targetId": "topic_010",
+      "title": "通勤包好物适合作为下一条内容选题",
+      "summary": "话题热度 87，达人适配度 86，受众适配度 82。",
+      "priority": "MEDIUM",
+      "evidenceMetrics": [
+        {
+          "label": "话题热度",
+          "value": 87
+        },
+        {
+          "label": "达人适配度",
+          "value": 86
+        },
+        {
+          "label": "受众适配度",
+          "value": 82
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_016_01",
+          "title": "生成下一条内容方案",
+          "description": "围绕“通勤包好物”做教程或测评结构，明确适合人群和收藏理由。",
+          "expectedImpact": "提升热点承接效率",
+          "relatedPage": "opportunities.advice"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "opportunities.hot",
+        "opportunities.advice"
+      ]
+    },
+    {
+      "insightId": "insight_017",
+      "creatorId": "creator_001",
+      "type": "DIAGNOSIS",
+      "scope": "CREATOR",
+      "targetId": "creator_001",
+      "title": "账号增长健康度稳定",
+      "summary": "账号平均转粉率 0.61%，内容粘性处于可持续区间。",
+      "priority": "MEDIUM",
+      "evidenceMetrics": [
+        {
+          "label": "平均转粉率",
+          "value": 0.61,
+          "unit": "%"
+        },
+        {
+          "label": "平均收藏率",
+          "value": 8.8,
+          "unit": "%"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_017_01",
+          "title": "保持教程和测评主线",
+          "description": "继续用教程拉收藏，用测评拉评论，把泛种草控制在辅助内容。",
+          "expectedImpact": "稳定增长质量",
+          "relatedPage": "growth.overview"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "growth.overview",
+        "fans.growth"
+      ]
+    },
+    {
+      "insightId": "insight_018",
+      "creatorId": "creator_001",
+      "type": "OPPORTUNITY",
+      "scope": "AUDIENCE",
+      "targetId": "seg_18_24_female",
+      "title": "18-24 女性仍是核心服务人群",
+      "summary": "该人群更偏好可保存的教程内容，晚间 20:00-21:00 活跃度最高。",
+      "priority": "MEDIUM",
+      "evidenceMetrics": [
+        {
+          "label": "人群占比",
+          "value": 46,
+          "unit": "%"
+        },
+        {
+          "label": "高活跃窗口",
+          "value": "20:00-21:00"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_018_01",
+          "title": "固定晚间发布教程主内容",
+          "description": "主内容安排在 20:00-21:00，午间只发轻量切片。",
+          "expectedImpact": "提升收藏和转粉",
+          "relatedPage": "fans.profile"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "fans.profile",
+        "content.time"
+      ]
+    },
+    {
+      "insightId": "insight_020",
+      "creatorId": "creator_001",
+      "type": "DIAGNOSIS",
+      "scope": "ACCOUNT",
+      "targetId": "platform_health",
+      "title": "核心平台授权状态健康",
+      "summary": "抖音、B站和小红书均处于已绑定状态，同步延迟满足 MVP 实时分析需要。",
+      "priority": "MEDIUM",
+      "evidenceMetrics": [
+        {
+          "label": "已绑定平台",
+          "value": 3,
+          "unit": "个"
+        },
+        {
+          "label": "最大同步延迟",
+          "value": 10,
+          "unit": "秒"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_020_01",
+          "title": "保持每周授权检查",
+          "description": "每周检查一次平台授权和同步延迟，避免数据断点影响复盘。",
+          "expectedImpact": "提升数据稳定性",
+          "relatedPage": "profile.bindings"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "profile.bindings"
+      ]
+    },
+    {
+      "insightId": "insight_021",
+      "creatorId": "creator_001",
+      "type": "ACTION",
+      "scope": "ACCOUNT",
+      "targetId": "collection_strategy",
+      "title": "采集频率可以支撑当前 MVP",
+      "summary": "视频数据保持 5-30 秒采集，粉丝和评论数据足够支撑当前诊断页面。",
+      "priority": "LOW",
+      "evidenceMetrics": [
+        {
+          "label": "视频采集频率",
+          "value": "5-30秒"
+        },
+        {
+          "label": "覆盖平台",
+          "value": 3,
+          "unit": "个"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_021_01",
+          "title": "优先保持视频和粉丝高频采集",
+          "description": "暂不提高话题和报告类数据频率，先保证增长总览和视频分析稳定。",
+          "expectedImpact": "控制采集成本",
+          "relatedPage": "profile.settings"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "profile.settings"
+      ]
+    },
+    {
+      "insightId": "insight_022",
+      "creatorId": "creator_001",
+      "type": "ACTION",
+      "scope": "ACCOUNT",
+      "targetId": "notification_rules",
+      "title": "提醒规则应聚焦可执行事件",
+      "summary": "增长机会、异常流量、掉粉异常和授权状态是当前最值得保留的四类提醒。",
+      "priority": "LOW",
+      "evidenceMetrics": [
+        {
+          "label": "高价值提醒",
+          "value": 4,
+          "unit": "类"
+        },
+        {
+          "label": "低价值提醒",
+          "value": "暂不启用"
+        }
+      ],
+      "recommendedActions": [
+        {
+          "actionId": "action_022_01",
+          "title": "只开启可行动提醒",
+          "description": "通知偏好中先保留增长机会、异常风险、内容复盘和授权状态。",
+          "expectedImpact": "减少无效打扰",
+          "relatedPage": "profile.notify"
+        }
+      ],
+      "generatedBy": "RULE_ENGINE",
+      "generatedAt": "2026-06-14T20:00:00+08:00",
+      "pageTargets": [
+        "profile.notify"
+      ]
+    }
+  ],
+  "viewModels": {
+    "growthDashboard": {
+      "currentSnapshot": {
+        "snapshotId": "creator_snapshot_0",
+        "creatorId": "creator_001",
+        "date": "2026-06-14",
+        "totalFollowers": 2556212,
+        "newFollowers": 13822,
+        "lostFollowers": 705,
+        "netFollowers": 13117,
+        "totalViews": 2063454,
+        "totalInteractions": 419243,
+        "profileVisits": 85417,
+        "followerGrowthRate": 0.005158,
+        "viewToFollowerRate": 0.006698,
+        "stickinessScore": 69.7,
+        "growthHealthScore": 96
+      },
+      "topVideos": [
+        {
+          "snapshotId": "snapshot_0014",
+          "videoId": "video_bilibili_05",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 697376,
+          "likes": 89272,
+          "comments": 16125,
+          "shares": 33746,
+          "saves": 111310,
+          "profileVisits": 69434,
+          "newFollowers": 10823,
+          "completionRate": 0.5243,
+          "averageWatchSeconds": 229,
+          "engagementRate": 0.359136,
+          "conversionRate": 0.01552,
+          "commentRate": 0.023122,
+          "saveRate": 0.159613,
+          "shareRate": 0.04839,
+          "collectedAt": "2026-06-14T20:00:00+08:00",
+          "title": "新手必看持妆教程",
+          "contentType": "TUTORIAL"
+        },
+        {
+          "snapshotId": "snapshot_0015",
+          "videoId": "video_bilibili_06",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 626837,
+          "likes": 73901,
+          "comments": 12034,
+          "shares": 30921,
+          "saves": 65011,
+          "profileVisits": 47172,
+          "newFollowers": 8942,
+          "completionRate": 0.4977,
+          "averageWatchSeconds": 51,
+          "engagementRate": 0.290134,
+          "conversionRate": 0.014265,
+          "commentRate": 0.019198,
+          "saveRate": 0.103713,
+          "shareRate": 0.049329,
+          "collectedAt": "2026-06-14T20:00:00+08:00",
+          "title": "5分钟通勤妆教程",
+          "contentType": "TUTORIAL"
+        },
+        {
+          "snapshotId": "snapshot_0024",
+          "videoId": "video_xiaohongshu_06",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 516756,
+          "likes": 28932,
+          "comments": 9528,
+          "shares": 14212,
+          "saves": 68056,
+          "profileVisits": 45707,
+          "newFollowers": 7277,
+          "completionRate": 0.5654,
+          "averageWatchSeconds": 60,
+          "engagementRate": 0.233627,
+          "conversionRate": 0.014082,
+          "commentRate": 0.018438,
+          "saveRate": 0.131699,
+          "shareRate": 0.027502,
+          "collectedAt": "2026-06-14T20:00:00+08:00",
+          "title": "5分钟通勤妆教程",
+          "contentType": "TUTORIAL"
+        },
+        {
+          "snapshotId": "snapshot_0010",
+          "videoId": "video_bilibili_01",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 465214,
+          "likes": 29885,
+          "comments": 5802,
+          "shares": 16692,
+          "saves": 58169,
+          "profileVisits": 35518,
+          "newFollowers": 5784,
+          "completionRate": 0.4376,
+          "averageWatchSeconds": 89,
+          "engagementRate": 0.237628,
+          "conversionRate": 0.012433,
+          "commentRate": 0.012472,
+          "saveRate": 0.125037,
+          "shareRate": 0.03588,
+          "collectedAt": "2026-06-14T20:00:00+08:00",
+          "title": "5分钟通勤妆教程",
+          "contentType": "TUTORIAL"
+        },
+        {
+          "snapshotId": "snapshot_0022",
+          "videoId": "video_xiaohongshu_04",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 361688,
+          "likes": 43245,
+          "comments": 8794,
+          "shares": 10023,
+          "saves": 40446,
+          "profileVisits": 37723,
+          "newFollowers": 5149,
+          "completionRate": 0.6264,
+          "averageWatchSeconds": 186,
+          "engagementRate": 0.283416,
+          "conversionRate": 0.014236,
+          "commentRate": 0.024314,
+          "saveRate": 0.111826,
+          "shareRate": 0.027712,
+          "collectedAt": "2026-06-14T20:00:00+08:00",
+          "title": "通勤妆补妆完整流程",
+          "contentType": "TUTORIAL"
+        }
+      ],
+      "insights": [
+        {
+          "insightId": "insight_001",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_05",
+          "title": "新手必看持妆教程 值得复刻",
+          "summary": "B站的教程内容转粉率达到1.55%，新增粉丝 10823 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 697376,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 10823,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.55,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_001_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《新手必看持妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_002",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_06",
+          "title": "5分钟通勤妆教程 值得复刻",
+          "summary": "B站的教程内容转粉率达到1.43%，新增粉丝 8942 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 626837,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 8942,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.43,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_002_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_003",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_xiaohongshu_04",
+          "title": "通勤妆补妆完整流程 值得复刻",
+          "summary": "小红书的教程内容转粉率达到1.42%，新增粉丝 5149 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 361688,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 5149,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.42,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_003_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《通勤妆补妆完整流程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_004",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_xiaohongshu_06",
+          "title": "5分钟通勤妆教程 值得复刻",
+          "summary": "小红书的教程内容转粉率达到1.41%，新增粉丝 7277 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 516756,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 7277,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.41,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_004_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_005",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_01",
+          "title": "5分钟通勤妆教程 值得复刻",
+          "summary": "B站的教程内容转粉率达到1.24%，新增粉丝 5784 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 465214,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 5784,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.24,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_005_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_006",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_douyin_05",
+          "title": "新手眼影盘测评 播放高但转粉偏低",
+          "summary": "这条视频播放达到 1070878 次，但转粉率只有 0.42%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 1070878,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.42,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_006_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_007",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_07",
+          "title": "平价彩妆种草清单 播放高但转粉偏低",
+          "summary": "这条视频播放达到 880109 次，但转粉率只有 0.35%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 880109,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.35,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_007_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_008",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_03",
+          "title": "适合上班的口红合集 播放高但转粉偏低",
+          "summary": "这条视频播放达到 810813 次，但转粉率只有 0.29%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 810813,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.29,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_008_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_009",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_02",
+          "title": "平价彩妆种草清单 播放高但转粉偏低",
+          "summary": "这条视频播放达到 734445 次，但转粉率只有 0.36%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 734445,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.36,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_009_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_010",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "CONTENT_TYPE",
+          "targetId": "TUTORIAL",
+          "title": "教程类内容值得加码",
+          "summary": "教程类贡献 60.9% 新粉，收藏率达到 13.4%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "涨粉贡献",
+              "value": 60.9,
+              "unit": "%"
+            },
+            {
+              "label": "收藏率",
+              "value": 13.4,
+              "unit": "%"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_010_01",
+              "title": "提高教程发布占比",
+              "description": "下周把教程作为主线内容，优先做通勤妆系列。",
+              "expectedImpact": "提升新粉和收藏回看",
+              "relatedPage": "content.type"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.distribution",
+            "content.type",
+            "opportunities.advice"
+          ]
+        },
+        {
+          "insightId": "insight_011",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "CONTENT_TYPE",
+          "targetId": "REVIEW",
+          "title": "测评内容适合承接评论选题",
+          "summary": "测评类评论率达到 1.97%，高于账号平均水平。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "评论率",
+              "value": 1.97,
+              "unit": "%"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 17230,
+              "unit": "人"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_011_01",
+              "title": "把评论问题做成续集",
+              "description": "整理测评视频评论区高频问题，做成下一条 Q&A 视频。",
+              "expectedImpact": "提升连续互动",
+              "relatedPage": "fans.stickiness"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.stickiness",
+            "fans.stickiness",
+            "video.quality"
+          ]
+        },
+        {
+          "insightId": "insight_017",
+          "creatorId": "creator_001",
+          "type": "DIAGNOSIS",
+          "scope": "CREATOR",
+          "targetId": "creator_001",
+          "title": "账号增长健康度稳定",
+          "summary": "账号平均转粉率 0.61%，内容粘性处于可持续区间。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "平均转粉率",
+              "value": 0.61,
+              "unit": "%"
+            },
+            {
+              "label": "平均收藏率",
+              "value": 8.8,
+              "unit": "%"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_017_01",
+              "title": "保持教程和测评主线",
+              "description": "继续用教程拉收藏，用测评拉评论，把泛种草控制在辅助内容。",
+              "expectedImpact": "稳定增长质量",
+              "relatedPage": "growth.overview"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.overview",
+            "fans.growth"
+          ]
+        }
+      ]
+    },
+    "fansAnalysis": {
+      "trend": [
+        {
+          "snapshotId": "creator_snapshot_6",
+          "creatorId": "creator_001",
+          "date": "2026-06-08",
+          "totalFollowers": 2488235,
+          "newFollowers": 10016,
+          "lostFollowers": 489,
+          "netFollowers": 9527,
+          "totalViews": 2627289,
+          "totalInteractions": 462039,
+          "profileVisits": 97565,
+          "followerGrowthRate": 0.003844,
+          "viewToFollowerRate": 0.003812,
+          "stickinessScore": 70.6,
+          "growthHealthScore": 96
+        },
+        {
+          "snapshotId": "creator_snapshot_5",
+          "creatorId": "creator_001",
+          "date": "2026-06-09",
+          "totalFollowers": 2497584,
+          "newFollowers": 9817,
+          "lostFollowers": 468,
+          "netFollowers": 9349,
+          "totalViews": 2163351,
+          "totalInteractions": 438235,
+          "profileVisits": 76579,
+          "followerGrowthRate": 0.003757,
+          "viewToFollowerRate": 0.004538,
+          "stickinessScore": 73.6,
+          "growthHealthScore": 96
+        },
+        {
+          "snapshotId": "creator_snapshot_4",
+          "creatorId": "creator_001",
+          "date": "2026-06-10",
+          "totalFollowers": 2507943,
+          "newFollowers": 11182,
+          "lostFollowers": 823,
+          "netFollowers": 10359,
+          "totalViews": 2012165,
+          "totalInteractions": 426671,
+          "profileVisits": 75109,
+          "followerGrowthRate": 0.004148,
+          "viewToFollowerRate": 0.005557,
+          "stickinessScore": 71.4,
+          "growthHealthScore": 96
+        },
+        {
+          "snapshotId": "creator_snapshot_3",
+          "creatorId": "creator_001",
+          "date": "2026-06-11",
+          "totalFollowers": 2518686,
+          "newFollowers": 11288,
+          "lostFollowers": 545,
+          "netFollowers": 10743,
+          "totalViews": 2035566,
+          "totalInteractions": 525604,
+          "profileVisits": 69216,
+          "followerGrowthRate": 0.004284,
+          "viewToFollowerRate": 0.005545,
+          "stickinessScore": 71.6,
+          "growthHealthScore": 96
+        },
+        {
+          "snapshotId": "creator_snapshot_2",
+          "creatorId": "creator_001",
+          "date": "2026-06-12",
+          "totalFollowers": 2529833,
+          "newFollowers": 12006,
+          "lostFollowers": 859,
+          "netFollowers": 11147,
+          "totalViews": 2672079,
+          "totalInteractions": 595151,
+          "profileVisits": 82014,
+          "followerGrowthRate": 0.004426,
+          "viewToFollowerRate": 0.004493,
+          "stickinessScore": 80.2,
+          "growthHealthScore": 96
+        },
+        {
+          "snapshotId": "creator_snapshot_1",
+          "creatorId": "creator_001",
+          "date": "2026-06-13",
+          "totalFollowers": 2543095,
+          "newFollowers": 14037,
+          "lostFollowers": 775,
+          "netFollowers": 13262,
+          "totalViews": 1784406,
+          "totalInteractions": 547480,
+          "profileVisits": 87866,
+          "followerGrowthRate": 0.005242,
+          "viewToFollowerRate": 0.007866,
+          "stickinessScore": 75.3,
+          "growthHealthScore": 96
+        },
+        {
+          "snapshotId": "creator_snapshot_0",
+          "creatorId": "creator_001",
+          "date": "2026-06-14",
+          "totalFollowers": 2556212,
+          "newFollowers": 13822,
+          "lostFollowers": 705,
+          "netFollowers": 13117,
+          "totalViews": 2063454,
+          "totalInteractions": 419243,
+          "profileVisits": 85417,
+          "followerGrowthRate": 0.005158,
+          "viewToFollowerRate": 0.006698,
+          "stickinessScore": 69.7,
+          "growthHealthScore": 96
+        }
+      ],
+      "audienceProfile": {
+        "snapshotId": "audience_profile_001",
+        "creatorId": "creator_001",
+        "gender": {
+          "female": 0.82,
+          "male": 0.15,
+          "unknown": 0.03
+        },
+        "ageGroups": {
+          "18-24": 0.46,
+          "25-30": 0.31,
+          "31-35": 0.15,
+          "36+": 0.08
+        },
+        "regions": {
+          "广东": 0.18,
+          "浙江": 0.15,
+          "上海": 0.13,
+          "北京": 0.1,
+          "四川": 0.08,
+          "其他": 0.36
+        },
+        "activeHours": {
+          "12": 0.09,
+          "18": 0.16,
+          "20": 0.28,
+          "21": 0.24,
+          "22": 0.14,
+          "other": 0.09
+        },
+        "interestTags": {
+          "通勤妆": 0.35,
+          "防晒测评": 0.22,
+          "平价粉底": 0.18,
+          "新手教程": 0.16,
+          "职场穿搭": 0.09
+        },
+        "highValueSegments": [
+          {
+            "segmentId": "seg_18_24_female",
+            "label": "18-24 女性新手用户",
+            "share": 0.46,
+            "growthRate": 0.18,
+            "preferredContentTypes": [
+              "TUTORIAL"
+            ],
+            "preferredActiveHours": [
+              "20",
+              "21"
+            ],
+            "primaryActions": [
+              "SAVE",
+              "COMMENT"
+            ]
+          },
+          {
+            "segmentId": "seg_25_30_workplace",
+            "label": "25-30 职场女性",
+            "share": 0.31,
+            "growthRate": 0.24,
+            "preferredContentTypes": [
+              "REVIEW",
+              "TUTORIAL"
+            ],
+            "preferredActiveHours": [
+              "20"
+            ],
+            "primaryActions": [
+              "COMMENT",
+              "SHARE"
+            ]
+          }
+        ]
+      },
+      "insights": [
+        {
+          "insightId": "insight_001",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_05",
+          "title": "新手必看持妆教程 值得复刻",
+          "summary": "B站的教程内容转粉率达到1.55%，新增粉丝 10823 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 697376,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 10823,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.55,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_001_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《新手必看持妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_002",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_06",
+          "title": "5分钟通勤妆教程 值得复刻",
+          "summary": "B站的教程内容转粉率达到1.43%，新增粉丝 8942 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 626837,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 8942,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.43,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_002_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_003",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_xiaohongshu_04",
+          "title": "通勤妆补妆完整流程 值得复刻",
+          "summary": "小红书的教程内容转粉率达到1.42%，新增粉丝 5149 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 361688,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 5149,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.42,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_003_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《通勤妆补妆完整流程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_004",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_xiaohongshu_06",
+          "title": "5分钟通勤妆教程 值得复刻",
+          "summary": "小红书的教程内容转粉率达到1.41%，新增粉丝 7277 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 516756,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 7277,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.41,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_004_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_005",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_01",
+          "title": "5分钟通勤妆教程 值得复刻",
+          "summary": "B站的教程内容转粉率达到1.24%，新增粉丝 5784 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 465214,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 5784,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.24,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_005_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_011",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "CONTENT_TYPE",
+          "targetId": "REVIEW",
+          "title": "测评内容适合承接评论选题",
+          "summary": "测评类评论率达到 1.97%，高于账号平均水平。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "评论率",
+              "value": 1.97,
+              "unit": "%"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 17230,
+              "unit": "人"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_011_01",
+              "title": "把评论问题做成续集",
+              "description": "整理测评视频评论区高频问题，做成下一条 Q&A 视频。",
+              "expectedImpact": "提升连续互动",
+              "relatedPage": "fans.stickiness"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.stickiness",
+            "fans.stickiness",
+            "video.quality"
+          ]
+        },
+        {
+          "insightId": "insight_017",
+          "creatorId": "creator_001",
+          "type": "DIAGNOSIS",
+          "scope": "CREATOR",
+          "targetId": "creator_001",
+          "title": "账号增长健康度稳定",
+          "summary": "账号平均转粉率 0.61%，内容粘性处于可持续区间。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "平均转粉率",
+              "value": 0.61,
+              "unit": "%"
+            },
+            {
+              "label": "平均收藏率",
+              "value": 8.8,
+              "unit": "%"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_017_01",
+              "title": "保持教程和测评主线",
+              "description": "继续用教程拉收藏，用测评拉评论，把泛种草控制在辅助内容。",
+              "expectedImpact": "稳定增长质量",
+              "relatedPage": "growth.overview"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.overview",
+            "fans.growth"
+          ]
+        },
+        {
+          "insightId": "insight_018",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "AUDIENCE",
+          "targetId": "seg_18_24_female",
+          "title": "18-24 女性仍是核心服务人群",
+          "summary": "该人群更偏好可保存的教程内容，晚间 20:00-21:00 活跃度最高。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "人群占比",
+              "value": 46,
+              "unit": "%"
+            },
+            {
+              "label": "高活跃窗口",
+              "value": "20:00-21:00"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_018_01",
+              "title": "固定晚间发布教程主内容",
+              "description": "主内容安排在 20:00-21:00，午间只发轻量切片。",
+              "expectedImpact": "提升收藏和转粉",
+              "relatedPage": "fans.profile"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "fans.profile",
+            "content.time"
+          ]
+        }
+      ]
+    },
+    "videoAnalysis": {
+      "videos": [
+        {
+          "videoId": "video_douyin_01",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "platformLabel": "抖音",
+          "title": "直播切片：粉底色号答疑",
+          "contentType": "LIVE_CLIP",
+          "contentTypeLabel": "直播切片",
+          "topicTags": [
+            "直播",
+            "答疑",
+            "切片",
+            "粉底"
+          ],
+          "publishTime": "2026-06-09T18:00:00+08:00",
+          "lifecycleStage": "STABLE"
+        },
+        {
+          "videoId": "video_douyin_02",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "platformLabel": "抖音",
+          "title": "平价粉底横评",
+          "contentType": "REVIEW",
+          "contentTypeLabel": "测评",
+          "topicTags": [
+            "测评",
+            "平价",
+            "持妆",
+            "粉底"
+          ],
+          "publishTime": "2026-06-09T21:00:00+08:00",
+          "lifecycleStage": "LONG_TAIL"
+        },
+        {
+          "videoId": "video_douyin_03",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "platformLabel": "抖音",
+          "title": "早八不迟到的快速眼妆",
+          "contentType": "TUTORIAL",
+          "contentTypeLabel": "教程",
+          "topicTags": [
+            "教程",
+            "新手",
+            "通勤妆"
+          ],
+          "publishTime": "2026-05-26T18:00:00+08:00",
+          "lifecycleStage": "STABLE"
+        },
+        {
+          "videoId": "video_douyin_04",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "platformLabel": "抖音",
+          "title": "通勤妆补妆完整流程",
+          "contentType": "TUTORIAL",
+          "contentTypeLabel": "教程",
+          "topicTags": [
+            "教程",
+            "新手",
+            "通勤妆"
+          ],
+          "publishTime": "2026-05-29T18:00:00+08:00",
+          "lifecycleStage": "BURST"
+        },
+        {
+          "videoId": "video_douyin_05",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "platformLabel": "抖音",
+          "title": "新手眼影盘测评",
+          "contentType": "REVIEW",
+          "contentTypeLabel": "测评",
+          "topicTags": [
+            "测评",
+            "平价",
+            "持妆"
+          ],
+          "publishTime": "2026-05-25T21:00:00+08:00",
+          "lifecycleStage": "STABLE"
+        },
+        {
+          "videoId": "video_douyin_06",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "platformLabel": "抖音",
+          "title": "5分钟通勤妆教程",
+          "contentType": "TUTORIAL",
+          "contentTypeLabel": "教程",
+          "topicTags": [
+            "教程",
+            "新手",
+            "通勤妆"
+          ],
+          "publishTime": "2026-06-05T12:00:00+08:00",
+          "lifecycleStage": "DECLINING"
+        },
+        {
+          "videoId": "video_douyin_07",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "platformLabel": "抖音",
+          "title": "新手底妆三步走",
+          "contentType": "TUTORIAL",
+          "contentTypeLabel": "教程",
+          "topicTags": [
+            "教程",
+            "新手",
+            "通勤妆"
+          ],
+          "publishTime": "2026-06-09T18:00:00+08:00",
+          "lifecycleStage": "LONG_TAIL"
+        },
+        {
+          "videoId": "video_douyin_08",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "platformLabel": "抖音",
+          "title": "适合上班的口红合集",
+          "contentType": "SEEDING",
+          "contentTypeLabel": "种草",
+          "topicTags": [
+            "种草",
+            "清单",
+            "好物"
+          ],
+          "publishTime": "2026-06-04T20:00:00+08:00",
+          "lifecycleStage": "LONG_TAIL"
+        },
+        {
+          "videoId": "video_douyin_09",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "platformLabel": "抖音",
+          "title": "通勤妆补妆完整流程",
+          "contentType": "TUTORIAL",
+          "contentTypeLabel": "教程",
+          "topicTags": [
+            "教程",
+            "新手",
+            "通勤妆"
+          ],
+          "publishTime": "2026-06-13T12:00:00+08:00",
+          "lifecycleStage": "LONG_TAIL"
+        },
+        {
+          "videoId": "video_bilibili_01",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "platformLabel": "B站",
+          "title": "5分钟通勤妆教程",
+          "contentType": "TUTORIAL",
+          "contentTypeLabel": "教程",
+          "topicTags": [
+            "教程",
+            "新手",
+            "通勤妆"
+          ],
+          "publishTime": "2026-05-25T21:00:00+08:00",
+          "lifecycleStage": "LONG_TAIL"
+        },
+        {
+          "videoId": "video_bilibili_02",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "platformLabel": "B站",
+          "title": "平价彩妆种草清单",
+          "contentType": "SEEDING",
+          "contentTypeLabel": "种草",
+          "topicTags": [
+            "种草",
+            "清单",
+            "好物"
+          ],
+          "publishTime": "2026-06-12T18:00:00+08:00",
+          "lifecycleStage": "BURST"
+        },
+        {
+          "videoId": "video_bilibili_03",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "platformLabel": "B站",
+          "title": "适合上班的口红合集",
+          "contentType": "SEEDING",
+          "contentTypeLabel": "种草",
+          "topicTags": [
+            "种草",
+            "清单",
+            "好物"
+          ],
+          "publishTime": "2026-06-03T20:00:00+08:00",
+          "lifecycleStage": "STABLE"
+        },
+        {
+          "videoId": "video_bilibili_04",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "platformLabel": "B站",
+          "title": "夏季底妆新品试色",
+          "contentType": "SEEDING",
+          "contentTypeLabel": "种草",
+          "topicTags": [
+            "种草",
+            "清单",
+            "好物"
+          ],
+          "publishTime": "2026-06-03T21:00:00+08:00",
+          "lifecycleStage": "BURST"
+        },
+        {
+          "videoId": "video_bilibili_05",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "platformLabel": "B站",
+          "title": "新手必看持妆教程",
+          "contentType": "TUTORIAL",
+          "contentTypeLabel": "教程",
+          "topicTags": [
+            "教程",
+            "新手",
+            "通勤妆"
+          ],
+          "publishTime": "2026-05-25T21:00:00+08:00",
+          "lifecycleStage": "LONG_TAIL"
+        },
+        {
+          "videoId": "video_bilibili_06",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "platformLabel": "B站",
+          "title": "5分钟通勤妆教程",
+          "contentType": "TUTORIAL",
+          "contentTypeLabel": "教程",
+          "topicTags": [
+            "教程",
+            "新手",
+            "通勤妆"
+          ],
+          "publishTime": "2026-06-02T20:00:00+08:00",
+          "lifecycleStage": "DECLINING"
+        },
+        {
+          "videoId": "video_bilibili_07",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "platformLabel": "B站",
+          "title": "平价彩妆种草清单",
+          "contentType": "SEEDING",
+          "contentTypeLabel": "种草",
+          "topicTags": [
+            "种草",
+            "清单",
+            "好物"
+          ],
+          "publishTime": "2026-06-10T12:00:00+08:00",
+          "lifecycleStage": "STABLE"
+        },
+        {
+          "videoId": "video_bilibili_08",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "platformLabel": "B站",
+          "title": "周末整理化妆台",
+          "contentType": "VLOG",
+          "contentTypeLabel": "Vlog",
+          "topicTags": [
+            "日常",
+            "通勤",
+            "复盘"
+          ],
+          "publishTime": "2026-06-10T18:00:00+08:00",
+          "lifecycleStage": "BURST"
+        },
+        {
+          "videoId": "video_bilibili_09",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "platformLabel": "B站",
+          "title": "夏季底妆新品试色",
+          "contentType": "SEEDING",
+          "contentTypeLabel": "种草",
+          "topicTags": [
+            "种草",
+            "清单",
+            "好物"
+          ],
+          "publishTime": "2026-05-28T18:00:00+08:00",
+          "lifecycleStage": "LONG_TAIL"
+        },
+        {
+          "videoId": "video_xiaohongshu_01",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "platformLabel": "小红书",
+          "title": "夏季防晒测评",
+          "contentType": "REVIEW",
+          "contentTypeLabel": "测评",
+          "topicTags": [
+            "测评",
+            "平价",
+            "持妆",
+            "防晒"
+          ],
+          "publishTime": "2026-05-26T20:00:00+08:00",
+          "lifecycleStage": "STABLE"
+        },
+        {
+          "videoId": "video_xiaohongshu_02",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "platformLabel": "小红书",
+          "title": "平价彩妆种草清单",
+          "contentType": "SEEDING",
+          "contentTypeLabel": "种草",
+          "topicTags": [
+            "种草",
+            "清单",
+            "好物"
+          ],
+          "publishTime": "2026-05-30T20:00:00+08:00",
+          "lifecycleStage": "SECONDARY_BOOST"
+        },
+        {
+          "videoId": "video_xiaohongshu_03",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "platformLabel": "小红书",
+          "title": "通勤持妆喷雾对比",
+          "contentType": "REVIEW",
+          "contentTypeLabel": "测评",
+          "topicTags": [
+            "测评",
+            "平价",
+            "持妆"
+          ],
+          "publishTime": "2026-06-05T20:00:00+08:00",
+          "lifecycleStage": "LONG_TAIL"
+        },
+        {
+          "videoId": "video_xiaohongshu_04",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "platformLabel": "小红书",
+          "title": "通勤妆补妆完整流程",
+          "contentType": "TUTORIAL",
+          "contentTypeLabel": "教程",
+          "topicTags": [
+            "教程",
+            "新手",
+            "通勤妆"
+          ],
+          "publishTime": "2026-05-30T18:00:00+08:00",
+          "lifecycleStage": "SECONDARY_BOOST"
+        },
+        {
+          "videoId": "video_xiaohongshu_05",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "platformLabel": "小红书",
+          "title": "出门包里常备好物",
+          "contentType": "SEEDING",
+          "contentTypeLabel": "种草",
+          "topicTags": [
+            "种草",
+            "清单",
+            "好物"
+          ],
+          "publishTime": "2026-05-27T21:00:00+08:00",
+          "lifecycleStage": "BURST"
+        },
+        {
+          "videoId": "video_xiaohongshu_06",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "platformLabel": "小红书",
+          "title": "5分钟通勤妆教程",
+          "contentType": "TUTORIAL",
+          "contentTypeLabel": "教程",
+          "topicTags": [
+            "教程",
+            "新手",
+            "通勤妆"
+          ],
+          "publishTime": "2026-06-05T18:00:00+08:00",
+          "lifecycleStage": "LONG_TAIL"
+        },
+        {
+          "videoId": "video_xiaohongshu_07",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "platformLabel": "小红书",
+          "title": "平价彩妆种草清单",
+          "contentType": "SEEDING",
+          "contentTypeLabel": "种草",
+          "topicTags": [
+            "种草",
+            "清单",
+            "好物"
+          ],
+          "publishTime": "2026-05-25T21:00:00+08:00",
+          "lifecycleStage": "STABLE"
+        },
+        {
+          "videoId": "video_xiaohongshu_08",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "platformLabel": "小红书",
+          "title": "直播切片：新手刷具怎么选",
+          "contentType": "LIVE_CLIP",
+          "contentTypeLabel": "直播切片",
+          "topicTags": [
+            "直播",
+            "答疑",
+            "切片"
+          ],
+          "publishTime": "2026-06-12T18:00:00+08:00",
+          "lifecycleStage": "STABLE"
+        },
+        {
+          "videoId": "video_xiaohongshu_09",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "platformLabel": "小红书",
+          "title": "夏季底妆新品试色",
+          "contentType": "SEEDING",
+          "contentTypeLabel": "种草",
+          "topicTags": [
+            "种草",
+            "清单",
+            "好物"
+          ],
+          "publishTime": "2026-05-31T21:00:00+08:00",
+          "lifecycleStage": "STABLE"
+        }
+      ],
+      "snapshots": [
+        {
+          "snapshotId": "snapshot_0001",
+          "videoId": "video_douyin_01",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "views": 360340,
+          "likes": 43473,
+          "comments": 4607,
+          "shares": 14496,
+          "saves": 10098,
+          "profileVisits": 4112,
+          "newFollowers": 706,
+          "completionRate": 0.7268,
+          "averageWatchSeconds": 123,
+          "engagementRate": 0.201682,
+          "conversionRate": 0.001959,
+          "commentRate": 0.012785,
+          "saveRate": 0.028024,
+          "shareRate": 0.040229,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0002",
+          "videoId": "video_douyin_02",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "views": 726644,
+          "likes": 64917,
+          "comments": 13648,
+          "shares": 29774,
+          "saves": 73525,
+          "profileVisits": 22223,
+          "newFollowers": 3400,
+          "completionRate": 0.7331,
+          "averageWatchSeconds": 58,
+          "engagementRate": 0.250279,
+          "conversionRate": 0.004679,
+          "commentRate": 0.018782,
+          "saveRate": 0.101184,
+          "shareRate": 0.040975,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0003",
+          "videoId": "video_douyin_03",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "views": 646283,
+          "likes": 37622,
+          "comments": 13326,
+          "shares": 36746,
+          "saves": 78295,
+          "profileVisits": 26770,
+          "newFollowers": 4005,
+          "completionRate": 0.5713,
+          "averageWatchSeconds": 136,
+          "engagementRate": 0.256836,
+          "conversionRate": 0.006197,
+          "commentRate": 0.020619,
+          "saveRate": 0.121147,
+          "shareRate": 0.056857,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0004",
+          "videoId": "video_douyin_04",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "views": 533694,
+          "likes": 65800,
+          "comments": 12203,
+          "shares": 18619,
+          "saves": 75166,
+          "profileVisits": 16643,
+          "newFollowers": 3286,
+          "completionRate": 0.745,
+          "averageWatchSeconds": 106,
+          "engagementRate": 0.321885,
+          "conversionRate": 0.006157,
+          "commentRate": 0.022865,
+          "saveRate": 0.140841,
+          "shareRate": 0.034887,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0005",
+          "videoId": "video_douyin_05",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "views": 1070878,
+          "likes": 129987,
+          "comments": 20121,
+          "shares": 52321,
+          "saves": 77818,
+          "profileVisits": 31690,
+          "newFollowers": 4502,
+          "completionRate": 0.6303,
+          "averageWatchSeconds": 160,
+          "engagementRate": 0.261698,
+          "conversionRate": 0.004204,
+          "commentRate": 0.018789,
+          "saveRate": 0.072667,
+          "shareRate": 0.048858,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0006",
+          "videoId": "video_douyin_06",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "views": 668616,
+          "likes": 59650,
+          "comments": 14309,
+          "shares": 34966,
+          "saves": 97972,
+          "profileVisits": 30561,
+          "newFollowers": 4433,
+          "completionRate": 0.7579,
+          "averageWatchSeconds": 164,
+          "engagementRate": 0.309441,
+          "conversionRate": 0.00663,
+          "commentRate": 0.021401,
+          "saveRate": 0.14653,
+          "shareRate": 0.052296,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0007",
+          "videoId": "video_douyin_07",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "views": 667321,
+          "likes": 54279,
+          "comments": 9517,
+          "shares": 15452,
+          "saves": 100886,
+          "profileVisits": 32142,
+          "newFollowers": 4250,
+          "completionRate": 0.574,
+          "averageWatchSeconds": 123,
+          "engagementRate": 0.269936,
+          "conversionRate": 0.006369,
+          "commentRate": 0.014262,
+          "saveRate": 0.151181,
+          "shareRate": 0.023155,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0008",
+          "videoId": "video_douyin_08",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "views": 718497,
+          "likes": 40294,
+          "comments": 8364,
+          "shares": 28070,
+          "saves": 24529,
+          "profileVisits": 6224,
+          "newFollowers": 948,
+          "completionRate": 0.6482,
+          "averageWatchSeconds": 54,
+          "engagementRate": 0.140929,
+          "conversionRate": 0.001319,
+          "commentRate": 0.011641,
+          "saveRate": 0.034139,
+          "shareRate": 0.039068,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0009",
+          "videoId": "video_douyin_09",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "views": 539391,
+          "likes": 40969,
+          "comments": 6649,
+          "shares": 26921,
+          "saves": 70664,
+          "profileVisits": 25443,
+          "newFollowers": 3379,
+          "completionRate": 0.5191,
+          "averageWatchSeconds": 92,
+          "engagementRate": 0.269198,
+          "conversionRate": 0.006264,
+          "commentRate": 0.012327,
+          "saveRate": 0.131007,
+          "shareRate": 0.04991,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0010",
+          "videoId": "video_bilibili_01",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 465214,
+          "likes": 29885,
+          "comments": 5802,
+          "shares": 16692,
+          "saves": 58169,
+          "profileVisits": 35518,
+          "newFollowers": 5784,
+          "completionRate": 0.4376,
+          "averageWatchSeconds": 89,
+          "engagementRate": 0.237628,
+          "conversionRate": 0.012433,
+          "commentRate": 0.012472,
+          "saveRate": 0.125037,
+          "shareRate": 0.03588,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0011",
+          "videoId": "video_bilibili_02",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 734445,
+          "likes": 52842,
+          "comments": 4913,
+          "shares": 13288,
+          "saves": 45716,
+          "profileVisits": 18534,
+          "newFollowers": 2612,
+          "completionRate": 0.6519,
+          "averageWatchSeconds": 181,
+          "engagementRate": 0.158976,
+          "conversionRate": 0.003556,
+          "commentRate": 0.006689,
+          "saveRate": 0.062246,
+          "shareRate": 0.018093,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0012",
+          "videoId": "video_bilibili_03",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 810813,
+          "likes": 56970,
+          "comments": 7762,
+          "shares": 51561,
+          "saves": 49942,
+          "profileVisits": 11633,
+          "newFollowers": 2351,
+          "completionRate": 0.6361,
+          "averageWatchSeconds": 58,
+          "engagementRate": 0.205023,
+          "conversionRate": 0.0029,
+          "commentRate": 0.009573,
+          "saveRate": 0.061595,
+          "shareRate": 0.063592,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0013",
+          "videoId": "video_bilibili_04",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 422064,
+          "likes": 29488,
+          "comments": 3728,
+          "shares": 21346,
+          "saves": 20518,
+          "profileVisits": 10673,
+          "newFollowers": 1548,
+          "completionRate": 0.4256,
+          "averageWatchSeconds": 90,
+          "engagementRate": 0.177888,
+          "conversionRate": 0.003668,
+          "commentRate": 0.008833,
+          "saveRate": 0.048613,
+          "shareRate": 0.050575,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0014",
+          "videoId": "video_bilibili_05",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 697376,
+          "likes": 89272,
+          "comments": 16125,
+          "shares": 33746,
+          "saves": 111310,
+          "profileVisits": 69434,
+          "newFollowers": 10823,
+          "completionRate": 0.5243,
+          "averageWatchSeconds": 229,
+          "engagementRate": 0.359136,
+          "conversionRate": 0.01552,
+          "commentRate": 0.023122,
+          "saveRate": 0.159613,
+          "shareRate": 0.04839,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0015",
+          "videoId": "video_bilibili_06",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 626837,
+          "likes": 73901,
+          "comments": 12034,
+          "shares": 30921,
+          "saves": 65011,
+          "profileVisits": 47172,
+          "newFollowers": 8942,
+          "completionRate": 0.4977,
+          "averageWatchSeconds": 51,
+          "engagementRate": 0.290134,
+          "conversionRate": 0.014265,
+          "commentRate": 0.019198,
+          "saveRate": 0.103713,
+          "shareRate": 0.049329,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0016",
+          "videoId": "video_bilibili_07",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 880109,
+          "likes": 54070,
+          "comments": 9424,
+          "shares": 51090,
+          "saves": 43480,
+          "profileVisits": 22847,
+          "newFollowers": 3079,
+          "completionRate": 0.619,
+          "averageWatchSeconds": 38,
+          "engagementRate": 0.179596,
+          "conversionRate": 0.003498,
+          "commentRate": 0.010708,
+          "saveRate": 0.049403,
+          "shareRate": 0.05805,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0017",
+          "videoId": "video_bilibili_08",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 160460,
+          "likes": 14494,
+          "comments": 1578,
+          "shares": 10347,
+          "saves": 3570,
+          "profileVisits": 4555,
+          "newFollowers": 838,
+          "completionRate": 0.4909,
+          "averageWatchSeconds": 220,
+          "engagementRate": 0.186894,
+          "conversionRate": 0.005222,
+          "commentRate": 0.009834,
+          "saveRate": 0.022249,
+          "shareRate": 0.064483,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0018",
+          "videoId": "video_bilibili_09",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 693771,
+          "likes": 45093,
+          "comments": 8300,
+          "shares": 30172,
+          "saves": 41029,
+          "profileVisits": 15702,
+          "newFollowers": 2358,
+          "completionRate": 0.5692,
+          "averageWatchSeconds": 192,
+          "engagementRate": 0.17959,
+          "conversionRate": 0.003399,
+          "commentRate": 0.011964,
+          "saveRate": 0.059139,
+          "shareRate": 0.04349,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0019",
+          "videoId": "video_xiaohongshu_01",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 611444,
+          "likes": 44109,
+          "comments": 11156,
+          "shares": 23566,
+          "saves": 45250,
+          "profileVisits": 34344,
+          "newFollowers": 5100,
+          "completionRate": 0.4581,
+          "averageWatchSeconds": 124,
+          "engagementRate": 0.202931,
+          "conversionRate": 0.008341,
+          "commentRate": 0.018245,
+          "saveRate": 0.074005,
+          "shareRate": 0.038542,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0020",
+          "videoId": "video_xiaohongshu_02",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 294760,
+          "likes": 23730,
+          "comments": 3083,
+          "shares": 5674,
+          "saves": 17138,
+          "profileVisits": 4648,
+          "newFollowers": 749,
+          "completionRate": 0.6335,
+          "averageWatchSeconds": 94,
+          "engagementRate": 0.168357,
+          "conversionRate": 0.002541,
+          "commentRate": 0.010459,
+          "saveRate": 0.058142,
+          "shareRate": 0.01925,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0021",
+          "videoId": "video_xiaohongshu_03",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 540507,
+          "likes": 33902,
+          "comments": 13041,
+          "shares": 19689,
+          "saves": 58566,
+          "profileVisits": 31399,
+          "newFollowers": 4228,
+          "completionRate": 0.6078,
+          "averageWatchSeconds": 141,
+          "engagementRate": 0.231631,
+          "conversionRate": 0.007822,
+          "commentRate": 0.024127,
+          "saveRate": 0.108354,
+          "shareRate": 0.036427,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0022",
+          "videoId": "video_xiaohongshu_04",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 361688,
+          "likes": 43245,
+          "comments": 8794,
+          "shares": 10023,
+          "saves": 40446,
+          "profileVisits": 37723,
+          "newFollowers": 5149,
+          "completionRate": 0.6264,
+          "averageWatchSeconds": 186,
+          "engagementRate": 0.283416,
+          "conversionRate": 0.014236,
+          "commentRate": 0.024314,
+          "saveRate": 0.111826,
+          "shareRate": 0.027712,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0023",
+          "videoId": "video_xiaohongshu_05",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 451649,
+          "likes": 42490,
+          "comments": 2931,
+          "shares": 18407,
+          "saves": 23665,
+          "profileVisits": 7633,
+          "newFollowers": 1173,
+          "completionRate": 0.573,
+          "averageWatchSeconds": 189,
+          "engagementRate": 0.193719,
+          "conversionRate": 0.002597,
+          "commentRate": 0.00649,
+          "saveRate": 0.052397,
+          "shareRate": 0.040755,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0024",
+          "videoId": "video_xiaohongshu_06",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 516756,
+          "likes": 28932,
+          "comments": 9528,
+          "shares": 14212,
+          "saves": 68056,
+          "profileVisits": 45707,
+          "newFollowers": 7277,
+          "completionRate": 0.5654,
+          "averageWatchSeconds": 60,
+          "engagementRate": 0.233627,
+          "conversionRate": 0.014082,
+          "commentRate": 0.018438,
+          "saveRate": 0.131699,
+          "shareRate": 0.027502,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0025",
+          "videoId": "video_xiaohongshu_07",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 458408,
+          "likes": 47311,
+          "comments": 5339,
+          "shares": 23407,
+          "saves": 20399,
+          "profileVisits": 6045,
+          "newFollowers": 1144,
+          "completionRate": 0.5486,
+          "averageWatchSeconds": 123,
+          "engagementRate": 0.210415,
+          "conversionRate": 0.002496,
+          "commentRate": 0.011647,
+          "saveRate": 0.0445,
+          "shareRate": 0.051061,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0026",
+          "videoId": "video_xiaohongshu_08",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 110212,
+          "likes": 8412,
+          "comments": 2082,
+          "shares": 3730,
+          "saves": 5125,
+          "profileVisits": 3582,
+          "newFollowers": 531,
+          "completionRate": 0.53,
+          "averageWatchSeconds": 50,
+          "engagementRate": 0.175562,
+          "conversionRate": 0.004818,
+          "commentRate": 0.018891,
+          "saveRate": 0.046501,
+          "shareRate": 0.033844,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        },
+        {
+          "snapshotId": "snapshot_0027",
+          "videoId": "video_xiaohongshu_09",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 589448,
+          "likes": 35345,
+          "comments": 6564,
+          "shares": 34660,
+          "saves": 24475,
+          "profileVisits": 10771,
+          "newFollowers": 1559,
+          "completionRate": 0.4226,
+          "averageWatchSeconds": 200,
+          "engagementRate": 0.171421,
+          "conversionRate": 0.002645,
+          "commentRate": 0.011136,
+          "saveRate": 0.041522,
+          "shareRate": 0.058801,
+          "collectedAt": "2026-06-14T20:00:00+08:00"
+        }
+      ],
+      "topVideos": [
+        {
+          "snapshotId": "snapshot_0014",
+          "videoId": "video_bilibili_05",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 697376,
+          "likes": 89272,
+          "comments": 16125,
+          "shares": 33746,
+          "saves": 111310,
+          "profileVisits": 69434,
+          "newFollowers": 10823,
+          "completionRate": 0.5243,
+          "averageWatchSeconds": 229,
+          "engagementRate": 0.359136,
+          "conversionRate": 0.01552,
+          "commentRate": 0.023122,
+          "saveRate": 0.159613,
+          "shareRate": 0.04839,
+          "collectedAt": "2026-06-14T20:00:00+08:00",
+          "title": "新手必看持妆教程",
+          "contentType": "TUTORIAL"
+        },
+        {
+          "snapshotId": "snapshot_0015",
+          "videoId": "video_bilibili_06",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 626837,
+          "likes": 73901,
+          "comments": 12034,
+          "shares": 30921,
+          "saves": 65011,
+          "profileVisits": 47172,
+          "newFollowers": 8942,
+          "completionRate": 0.4977,
+          "averageWatchSeconds": 51,
+          "engagementRate": 0.290134,
+          "conversionRate": 0.014265,
+          "commentRate": 0.019198,
+          "saveRate": 0.103713,
+          "shareRate": 0.049329,
+          "collectedAt": "2026-06-14T20:00:00+08:00",
+          "title": "5分钟通勤妆教程",
+          "contentType": "TUTORIAL"
+        },
+        {
+          "snapshotId": "snapshot_0024",
+          "videoId": "video_xiaohongshu_06",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 516756,
+          "likes": 28932,
+          "comments": 9528,
+          "shares": 14212,
+          "saves": 68056,
+          "profileVisits": 45707,
+          "newFollowers": 7277,
+          "completionRate": 0.5654,
+          "averageWatchSeconds": 60,
+          "engagementRate": 0.233627,
+          "conversionRate": 0.014082,
+          "commentRate": 0.018438,
+          "saveRate": 0.131699,
+          "shareRate": 0.027502,
+          "collectedAt": "2026-06-14T20:00:00+08:00",
+          "title": "5分钟通勤妆教程",
+          "contentType": "TUTORIAL"
+        },
+        {
+          "snapshotId": "snapshot_0010",
+          "videoId": "video_bilibili_01",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "views": 465214,
+          "likes": 29885,
+          "comments": 5802,
+          "shares": 16692,
+          "saves": 58169,
+          "profileVisits": 35518,
+          "newFollowers": 5784,
+          "completionRate": 0.4376,
+          "averageWatchSeconds": 89,
+          "engagementRate": 0.237628,
+          "conversionRate": 0.012433,
+          "commentRate": 0.012472,
+          "saveRate": 0.125037,
+          "shareRate": 0.03588,
+          "collectedAt": "2026-06-14T20:00:00+08:00",
+          "title": "5分钟通勤妆教程",
+          "contentType": "TUTORIAL"
+        },
+        {
+          "snapshotId": "snapshot_0022",
+          "videoId": "video_xiaohongshu_04",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "views": 361688,
+          "likes": 43245,
+          "comments": 8794,
+          "shares": 10023,
+          "saves": 40446,
+          "profileVisits": 37723,
+          "newFollowers": 5149,
+          "completionRate": 0.6264,
+          "averageWatchSeconds": 186,
+          "engagementRate": 0.283416,
+          "conversionRate": 0.014236,
+          "commentRate": 0.024314,
+          "saveRate": 0.111826,
+          "shareRate": 0.027712,
+          "collectedAt": "2026-06-14T20:00:00+08:00",
+          "title": "通勤妆补妆完整流程",
+          "contentType": "TUTORIAL"
+        }
+      ],
+      "insights": [
+        {
+          "insightId": "insight_001",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_05",
+          "title": "新手必看持妆教程 值得复刻",
+          "summary": "B站的教程内容转粉率达到1.55%，新增粉丝 10823 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 697376,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 10823,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.55,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_001_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《新手必看持妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_002",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_06",
+          "title": "5分钟通勤妆教程 值得复刻",
+          "summary": "B站的教程内容转粉率达到1.43%，新增粉丝 8942 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 626837,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 8942,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.43,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_002_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_003",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_xiaohongshu_04",
+          "title": "通勤妆补妆完整流程 值得复刻",
+          "summary": "小红书的教程内容转粉率达到1.42%，新增粉丝 5149 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 361688,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 5149,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.42,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_003_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《通勤妆补妆完整流程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_004",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_xiaohongshu_06",
+          "title": "5分钟通勤妆教程 值得复刻",
+          "summary": "小红书的教程内容转粉率达到1.41%，新增粉丝 7277 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 516756,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 7277,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.41,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_004_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_005",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_01",
+          "title": "5分钟通勤妆教程 值得复刻",
+          "summary": "B站的教程内容转粉率达到1.24%，新增粉丝 5784 人。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 465214,
+              "unit": "次"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 5784,
+              "unit": "人"
+            },
+            {
+              "label": "转粉率",
+              "value": 1.24,
+              "unit": "%",
+              "direction": "UP"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_005_01",
+              "title": "复刻高转粉结构",
+              "description": "复刻《5分钟通勤妆教程》的选题、人群表达、开头结构和关注 CTA。",
+              "expectedImpact": "提升同类型内容转粉效率",
+              "relatedPage": "video.contribution"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "fans.source",
+            "video.contribution"
+          ]
+        },
+        {
+          "insightId": "insight_006",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_douyin_05",
+          "title": "新手眼影盘测评 播放高但转粉偏低",
+          "summary": "这条视频播放达到 1070878 次，但转粉率只有 0.42%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 1070878,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.42,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_006_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_007",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_07",
+          "title": "平价彩妆种草清单 播放高但转粉偏低",
+          "summary": "这条视频播放达到 880109 次，但转粉率只有 0.35%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 880109,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.35,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_007_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_008",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_03",
+          "title": "适合上班的口红合集 播放高但转粉偏低",
+          "summary": "这条视频播放达到 810813 次，但转粉率只有 0.29%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 810813,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.29,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_008_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_009",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_02",
+          "title": "平价彩妆种草清单 播放高但转粉偏低",
+          "summary": "这条视频播放达到 734445 次，但转粉率只有 0.36%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 734445,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.36,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_009_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_011",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "CONTENT_TYPE",
+          "targetId": "REVIEW",
+          "title": "测评内容适合承接评论选题",
+          "summary": "测评类评论率达到 1.97%，高于账号平均水平。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "评论率",
+              "value": 1.97,
+              "unit": "%"
+            },
+            {
+              "label": "新增粉丝",
+              "value": 17230,
+              "unit": "人"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_011_01",
+              "title": "把评论问题做成续集",
+              "description": "整理测评视频评论区高频问题，做成下一条 Q&A 视频。",
+              "expectedImpact": "提升连续互动",
+              "relatedPage": "fans.stickiness"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.stickiness",
+            "fans.stickiness",
+            "video.quality"
+          ]
+        }
+      ]
+    },
+    "contentDistribution": {
+      "insights": [
+        {
+          "insightId": "insight_006",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_douyin_05",
+          "title": "新手眼影盘测评 播放高但转粉偏低",
+          "summary": "这条视频播放达到 1070878 次，但转粉率只有 0.42%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 1070878,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.42,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_006_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_007",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_07",
+          "title": "平价彩妆种草清单 播放高但转粉偏低",
+          "summary": "这条视频播放达到 880109 次，但转粉率只有 0.35%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 880109,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.35,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_007_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_008",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_03",
+          "title": "适合上班的口红合集 播放高但转粉偏低",
+          "summary": "这条视频播放达到 810813 次，但转粉率只有 0.29%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 810813,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.29,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_008_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_009",
+          "creatorId": "creator_001",
+          "type": "RISK",
+          "scope": "VIDEO",
+          "targetId": "video_bilibili_02",
+          "title": "平价彩妆种草清单 播放高但转粉偏低",
+          "summary": "这条视频播放达到 734445 次，但转粉率只有 0.36%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "播放量",
+              "value": 734445,
+              "unit": "次",
+              "direction": "UP"
+            },
+            {
+              "label": "转粉率",
+              "value": 0.36,
+              "unit": "%",
+              "direction": "DOWN"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_009_01",
+              "title": "提前给出关注理由",
+              "description": "前 8 秒明确适合谁关注，减少泛流量空转。",
+              "expectedImpact": "改善播放到关注的转化",
+              "relatedPage": "growth.conversion"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.conversion",
+            "video.contribution",
+            "content.source"
+          ]
+        },
+        {
+          "insightId": "insight_010",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "CONTENT_TYPE",
+          "targetId": "TUTORIAL",
+          "title": "教程类内容值得加码",
+          "summary": "教程类贡献 60.9% 新粉，收藏率达到 13.4%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "涨粉贡献",
+              "value": 60.9,
+              "unit": "%"
+            },
+            {
+              "label": "收藏率",
+              "value": 13.4,
+              "unit": "%"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_010_01",
+              "title": "提高教程发布占比",
+              "description": "下周把教程作为主线内容，优先做通勤妆系列。",
+              "expectedImpact": "提升新粉和收藏回看",
+              "relatedPage": "content.type"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.distribution",
+            "content.type",
+            "opportunities.advice"
+          ]
+        },
+        {
+          "insightId": "insight_018",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "AUDIENCE",
+          "targetId": "seg_18_24_female",
+          "title": "18-24 女性仍是核心服务人群",
+          "summary": "该人群更偏好可保存的教程内容，晚间 20:00-21:00 活跃度最高。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "人群占比",
+              "value": 46,
+              "unit": "%"
+            },
+            {
+              "label": "高活跃窗口",
+              "value": "20:00-21:00"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_018_01",
+              "title": "固定晚间发布教程主内容",
+              "description": "主内容安排在 20:00-21:00，午间只发轻量切片。",
+              "expectedImpact": "提升收藏和转粉",
+              "relatedPage": "fans.profile"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "fans.profile",
+            "content.time"
+          ]
+        }
+      ]
+    },
+    "opportunities": {
+      "topics": [
+        {
+          "topicId": "topic_001",
+          "topicName": "5分钟通勤妆",
+          "platforms": [
+            "BILIBILI",
+            "XIAOHONGSHU"
+          ],
+          "heatScore": 68,
+          "growthRate": 0.2499,
+          "audienceFitScore": 87,
+          "creatorFitScore": 90,
+          "riskLevel": "LOW"
+        },
+        {
+          "topicId": "topic_002",
+          "topicName": "夏季防晒测评",
+          "platforms": [
+            "DOUYIN",
+            "XIAOHONGSHU"
+          ],
+          "heatScore": 82,
+          "growthRate": 0.1607,
+          "audienceFitScore": 75,
+          "creatorFitScore": 80,
+          "riskLevel": "LOW"
+        },
+        {
+          "topicId": "topic_003",
+          "topicName": "早八快速出门",
+          "platforms": [
+            "BILIBILI",
+            "XIAOHONGSHU"
+          ],
+          "heatScore": 95,
+          "growthRate": 0.2029,
+          "audienceFitScore": 94,
+          "creatorFitScore": 87,
+          "riskLevel": "LOW"
+        },
+        {
+          "topicId": "topic_004",
+          "topicName": "平价粉底横评",
+          "platforms": [
+            "DOUYIN",
+            "XIAOHONGSHU"
+          ],
+          "heatScore": 73,
+          "growthRate": 0.3274,
+          "audienceFitScore": 72,
+          "creatorFitScore": 85,
+          "riskLevel": "LOW"
+        },
+        {
+          "topicId": "topic_005",
+          "topicName": "油皮持妆挑战",
+          "platforms": [
+            "BILIBILI",
+            "XIAOHONGSHU"
+          ],
+          "heatScore": 87,
+          "growthRate": 0.2322,
+          "audienceFitScore": 88,
+          "creatorFitScore": 77,
+          "riskLevel": "LOW"
+        },
+        {
+          "topicId": "topic_006",
+          "topicName": "新手眼妆公式",
+          "platforms": [
+            "DOUYIN",
+            "XIAOHONGSHU"
+          ],
+          "heatScore": 86,
+          "growthRate": 0.3316,
+          "audienceFitScore": 92,
+          "creatorFitScore": 83,
+          "riskLevel": "LOW"
+        },
+        {
+          "topicId": "topic_007",
+          "topicName": "职场淡妆模板",
+          "platforms": [
+            "BILIBILI",
+            "XIAOHONGSHU"
+          ],
+          "heatScore": 93,
+          "growthRate": 0.376,
+          "audienceFitScore": 95,
+          "creatorFitScore": 71,
+          "riskLevel": "LOW"
+        },
+        {
+          "topicId": "topic_008",
+          "topicName": "618彩妆复盘",
+          "platforms": [
+            "DOUYIN",
+            "XIAOHONGSHU"
+          ],
+          "heatScore": 80,
+          "growthRate": 0.1364,
+          "audienceFitScore": 75,
+          "creatorFitScore": 86,
+          "riskLevel": "MEDIUM"
+        },
+        {
+          "topicId": "topic_009",
+          "topicName": "底妆不脱妆",
+          "platforms": [
+            "BILIBILI",
+            "XIAOHONGSHU"
+          ],
+          "heatScore": 70,
+          "growthRate": 0.4151,
+          "audienceFitScore": 72,
+          "creatorFitScore": 89,
+          "riskLevel": "LOW"
+        },
+        {
+          "topicId": "topic_010",
+          "topicName": "通勤包好物",
+          "platforms": [
+            "DOUYIN",
+            "XIAOHONGSHU"
+          ],
+          "heatScore": 87,
+          "growthRate": 0.3145,
+          "audienceFitScore": 82,
+          "creatorFitScore": 86,
+          "riskLevel": "MEDIUM"
+        }
+      ],
+      "insights": [
+        {
+          "insightId": "insight_010",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "CONTENT_TYPE",
+          "targetId": "TUTORIAL",
+          "title": "教程类内容值得加码",
+          "summary": "教程类贡献 60.9% 新粉，收藏率达到 13.4%。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "涨粉贡献",
+              "value": 60.9,
+              "unit": "%"
+            },
+            {
+              "label": "收藏率",
+              "value": 13.4,
+              "unit": "%"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_010_01",
+              "title": "提高教程发布占比",
+              "description": "下周把教程作为主线内容，优先做通勤妆系列。",
+              "expectedImpact": "提升新粉和收藏回看",
+              "relatedPage": "content.type"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "growth.distribution",
+            "content.type",
+            "opportunities.advice"
+          ]
+        },
+        {
+          "insightId": "insight_012",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "TOPIC",
+          "targetId": "topic_001",
+          "title": "5分钟通勤妆适合作为下一条内容选题",
+          "summary": "话题热度 68，达人适配度 90，受众适配度 87。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "话题热度",
+              "value": 68
+            },
+            {
+              "label": "达人适配度",
+              "value": 90
+            },
+            {
+              "label": "受众适配度",
+              "value": 87
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_012_01",
+              "title": "生成下一条内容方案",
+              "description": "围绕“5分钟通勤妆”做教程或测评结构，明确适合人群和收藏理由。",
+              "expectedImpact": "提升热点承接效率",
+              "relatedPage": "opportunities.advice"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "opportunities.hot",
+            "opportunities.advice"
+          ]
+        },
+        {
+          "insightId": "insight_019",
+          "creatorId": "creator_001",
+          "type": "ACTION",
+          "scope": "CREATOR",
+          "targetId": "creator_001",
+          "title": "下一条内容优先做通勤妆教程",
+          "summary": "教程类内容同时具备高收藏、高评论和高转粉，是当前最稳的增长路径。",
+          "priority": "HIGH",
+          "evidenceMetrics": [
+            {
+              "label": "教程涨粉贡献",
+              "value": 60.9,
+              "unit": "%"
+            },
+            {
+              "label": "教程收藏率",
+              "value": 13.4,
+              "unit": "%"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_019_01",
+              "title": "制作 5 分钟通勤妆脚本",
+              "description": "结构采用结果预览、三步拆解、常见错误、收藏引导。",
+              "expectedImpact": "提升下一条内容转粉率",
+              "relatedPage": "opportunities.advice"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "opportunities.advice",
+            "opportunities.reference"
+          ]
+        },
+        {
+          "insightId": "insight_013",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "TOPIC",
+          "targetId": "topic_009",
+          "title": "底妆不脱妆适合作为下一条内容选题",
+          "summary": "话题热度 70，达人适配度 89，受众适配度 72。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "话题热度",
+              "value": 70
+            },
+            {
+              "label": "达人适配度",
+              "value": 89
+            },
+            {
+              "label": "受众适配度",
+              "value": 72
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_013_01",
+              "title": "生成下一条内容方案",
+              "description": "围绕“底妆不脱妆”做教程或测评结构，明确适合人群和收藏理由。",
+              "expectedImpact": "提升热点承接效率",
+              "relatedPage": "opportunities.advice"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "opportunities.hot",
+            "opportunities.advice"
+          ]
+        },
+        {
+          "insightId": "insight_014",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "TOPIC",
+          "targetId": "topic_003",
+          "title": "早八快速出门适合作为下一条内容选题",
+          "summary": "话题热度 95，达人适配度 87，受众适配度 94。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "话题热度",
+              "value": 95
+            },
+            {
+              "label": "达人适配度",
+              "value": 87
+            },
+            {
+              "label": "受众适配度",
+              "value": 94
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_014_01",
+              "title": "生成下一条内容方案",
+              "description": "围绕“早八快速出门”做教程或测评结构，明确适合人群和收藏理由。",
+              "expectedImpact": "提升热点承接效率",
+              "relatedPage": "opportunities.advice"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "opportunities.hot",
+            "opportunities.advice"
+          ]
+        },
+        {
+          "insightId": "insight_015",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "TOPIC",
+          "targetId": "topic_008",
+          "title": "618彩妆复盘适合作为下一条内容选题",
+          "summary": "话题热度 80，达人适配度 86，受众适配度 75。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "话题热度",
+              "value": 80
+            },
+            {
+              "label": "达人适配度",
+              "value": 86
+            },
+            {
+              "label": "受众适配度",
+              "value": 75
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_015_01",
+              "title": "生成下一条内容方案",
+              "description": "围绕“618彩妆复盘”做教程或测评结构，明确适合人群和收藏理由。",
+              "expectedImpact": "提升热点承接效率",
+              "relatedPage": "opportunities.advice"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "opportunities.hot",
+            "opportunities.advice"
+          ]
+        },
+        {
+          "insightId": "insight_016",
+          "creatorId": "creator_001",
+          "type": "OPPORTUNITY",
+          "scope": "TOPIC",
+          "targetId": "topic_010",
+          "title": "通勤包好物适合作为下一条内容选题",
+          "summary": "话题热度 87，达人适配度 86，受众适配度 82。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "话题热度",
+              "value": 87
+            },
+            {
+              "label": "达人适配度",
+              "value": 86
+            },
+            {
+              "label": "受众适配度",
+              "value": 82
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_016_01",
+              "title": "生成下一条内容方案",
+              "description": "围绕“通勤包好物”做教程或测评结构，明确适合人群和收藏理由。",
+              "expectedImpact": "提升热点承接效率",
+              "relatedPage": "opportunities.advice"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "opportunities.hot",
+            "opportunities.advice"
+          ]
+        }
+      ]
+    },
+    "profile": {
+      "platformAccounts": [
+        {
+          "accountId": "account_001",
+          "creatorId": "creator_001",
+          "platform": "DOUYIN",
+          "platformDisplayName": "通勤妆研究所",
+          "bindingStatus": "BOUND",
+          "syncLatencySeconds": 5,
+          "collectionIntervalSeconds": 30,
+          "dataScopes": [
+            "VIDEO",
+            "FOLLOWER",
+            "COMMENT",
+            "TOPIC"
+          ]
+        },
+        {
+          "accountId": "account_002",
+          "creatorId": "creator_001",
+          "platform": "BILIBILI",
+          "platformDisplayName": "通勤美妆研究所",
+          "bindingStatus": "BOUND",
+          "syncLatencySeconds": 5,
+          "collectionIntervalSeconds": 5,
+          "dataScopes": [
+            "VIDEO",
+            "FOLLOWER",
+            "COMMENT",
+            "TOPIC"
+          ]
+        },
+        {
+          "accountId": "account_003",
+          "creatorId": "creator_001",
+          "platform": "XIAOHONGSHU",
+          "platformDisplayName": "通勤妆实验室",
+          "bindingStatus": "BOUND",
+          "syncLatencySeconds": 10,
+          "collectionIntervalSeconds": 30,
+          "dataScopes": [
+            "VIDEO",
+            "FOLLOWER",
+            "COMMENT",
+            "TOPIC"
+          ]
+        }
+      ],
+      "insights": [
+        {
+          "insightId": "insight_020",
+          "creatorId": "creator_001",
+          "type": "DIAGNOSIS",
+          "scope": "ACCOUNT",
+          "targetId": "platform_health",
+          "title": "核心平台授权状态健康",
+          "summary": "抖音、B站和小红书均处于已绑定状态，同步延迟满足 MVP 实时分析需要。",
+          "priority": "MEDIUM",
+          "evidenceMetrics": [
+            {
+              "label": "已绑定平台",
+              "value": 3,
+              "unit": "个"
+            },
+            {
+              "label": "最大同步延迟",
+              "value": 10,
+              "unit": "秒"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_020_01",
+              "title": "保持每周授权检查",
+              "description": "每周检查一次平台授权和同步延迟，避免数据断点影响复盘。",
+              "expectedImpact": "提升数据稳定性",
+              "relatedPage": "profile.bindings"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "profile.bindings"
+          ]
+        },
+        {
+          "insightId": "insight_021",
+          "creatorId": "creator_001",
+          "type": "ACTION",
+          "scope": "ACCOUNT",
+          "targetId": "collection_strategy",
+          "title": "采集频率可以支撑当前 MVP",
+          "summary": "视频数据保持 5-30 秒采集，粉丝和评论数据足够支撑当前诊断页面。",
+          "priority": "LOW",
+          "evidenceMetrics": [
+            {
+              "label": "视频采集频率",
+              "value": "5-30秒"
+            },
+            {
+              "label": "覆盖平台",
+              "value": 3,
+              "unit": "个"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_021_01",
+              "title": "优先保持视频和粉丝高频采集",
+              "description": "暂不提高话题和报告类数据频率，先保证增长总览和视频分析稳定。",
+              "expectedImpact": "控制采集成本",
+              "relatedPage": "profile.settings"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "profile.settings"
+          ]
+        },
+        {
+          "insightId": "insight_022",
+          "creatorId": "creator_001",
+          "type": "ACTION",
+          "scope": "ACCOUNT",
+          "targetId": "notification_rules",
+          "title": "提醒规则应聚焦可执行事件",
+          "summary": "增长机会、异常流量、掉粉异常和授权状态是当前最值得保留的四类提醒。",
+          "priority": "LOW",
+          "evidenceMetrics": [
+            {
+              "label": "高价值提醒",
+              "value": 4,
+              "unit": "类"
+            },
+            {
+              "label": "低价值提醒",
+              "value": "暂不启用"
+            }
+          ],
+          "recommendedActions": [
+            {
+              "actionId": "action_022_01",
+              "title": "只开启可行动提醒",
+              "description": "通知偏好中先保留增长机会、异常风险、内容复盘和授权状态。",
+              "expectedImpact": "减少无效打扰",
+              "relatedPage": "profile.notify"
+            }
+          ],
+          "generatedBy": "RULE_ENGINE",
+          "generatedAt": "2026-06-14T20:00:00+08:00",
+          "pageTargets": [
+            "profile.notify"
+          ]
+        }
+      ]
+    }
+  }
+}
