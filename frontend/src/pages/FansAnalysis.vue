@@ -1,7 +1,8 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import { fetchFansAnalysis } from "../services/api";
-import { formatNumber, formatPercent, priorityClass } from "../utils/format";
+import { formatNumber, formatPercent } from "../utils/format";
+import { diagnosisItems } from "../utils/pageModels";
 
 defineProps({
   activePage: {
@@ -27,6 +28,12 @@ const tabs = [
 onMounted(async () => {
   window.addEventListener("hashchange", syncHash);
   syncHash();
+  await loadData();
+});
+
+async function loadData() {
+  loading.value = true;
+  error.value = "";
   try {
     payload.value = await fetchFansAnalysis();
   } catch (apiError) {
@@ -34,7 +41,7 @@ onMounted(async () => {
   } finally {
     loading.value = false;
   }
-});
+}
 
 function syncHash() {
   const next = window.location.hash.replace("#", "");
@@ -79,9 +86,31 @@ const growthInsights = computed(() => insightByTab.value.growth.slice(0, 3));
 const sourceInsights = computed(() => insightByTab.value.source.slice(0, 3));
 const stickinessInsights = computed(() => insightByTab.value.stickiness.slice(0, 3));
 const profileInsights = computed(() => insightByTab.value.profile.slice(0, 3));
+const sourceDiagnosis = computed(() =>
+  diagnosisItems(sourceInsights.value, [
+    { label: "主来源", title: "高转粉教程贡献今日最强新粉入口", className: "strong" },
+    { label: "浪费来源", title: "推荐流播放高，但转粉效率偏低", className: "warning" },
+    { label: "可复刻视频", title: "收藏后关注路径最清晰的视频值得继续延展", className: "" }
+  ])
+);
+const fanStickinessDiagnosis = computed(() =>
+  diagnosisItems(stickinessInsights.value, [
+    { label: "质量判断", title: "深度粉丝占比提升，教程系列正在形成复访", className: "strong" },
+    { label: "关键行为", title: "收藏回看和评论提问是当前最强留存信号", className: "" },
+    { label: "流失风险", title: "泛推荐新粉复访偏低，需要系列化承接", className: "warning" }
+  ])
+);
+const profileDiagnosis = computed(() =>
+  diagnosisItems(profileInsights.value, [
+    { label: "核心人群", title: "年轻女性更偏好可保存的教程内容", className: "strong" },
+    { label: "增长人群", title: "职场人群增长快，更关注测评和效率", className: "" },
+    { label: "沉默人群", title: "低互动人群需要更明确的场景内容", className: "warning" }
+  ])
+);
 
 const trendMax = computed(() => Math.max(...trend.value.map((item) => item.newFollowers), 1));
 const coreSegments = computed(() => profile.value?.highValueSegments || []);
+const totalTrendViews = computed(() => trend.value.reduce((value, item) => value + Number(item.totalViews || 0), 0));
 
 function firstAction(insight) {
   return insight?.recommendedActions?.[0]?.description || "";
@@ -97,10 +126,10 @@ function topRecord(record) {
   <nav class="left-dock" aria-label="主导航">
     <button class="dock-item" type="button" aria-label="增长总览" @click="emit('navigate', 'growth')"><i class="fa-solid fa-house"></i></button>
     <button class="dock-item active" type="button" aria-label="粉丝分析" @click="emit('navigate', 'fans')"><i class="fa-solid fa-users"></i></button>
-    <button class="dock-item" type="button" aria-label="视频分析"><i class="fa-solid fa-play"></i></button>
-    <button class="dock-item" type="button" aria-label="内容分布"><i class="fa-solid fa-chart-pie"></i></button>
-    <button class="dock-item" type="button" aria-label="机会建议"><i class="fa-solid fa-fire"></i></button>
-    <button class="dock-item" type="button" aria-label="个人中心"><i class="fa-solid fa-gear"></i></button>
+    <button class="dock-item" type="button" aria-label="视频分析" @click="emit('navigate', 'video')"><i class="fa-solid fa-play"></i></button>
+    <button class="dock-item" type="button" aria-label="内容分布" @click="emit('navigate', 'content')"><i class="fa-solid fa-chart-pie"></i></button>
+    <button class="dock-item" type="button" aria-label="机会建议" @click="emit('navigate', 'opportunities')"><i class="fa-solid fa-fire"></i></button>
+    <button class="dock-item" type="button" aria-label="个人中心" @click="emit('navigate', 'profile')"><i class="fa-solid fa-gear"></i></button>
   </nav>
 
   <main class="glass-board">
@@ -122,7 +151,7 @@ function topRecord(record) {
           </button>
         </div>
         <div class="user-profile">
-          <span class="sync-chip">API Sync</span>
+          <span class="sync-chip">10s Sync</span>
           <i class="fa-regular fa-bell" style="color:var(--text-dim)"></i>
           <div class="user-avatar"></div>
         </div>
@@ -142,39 +171,84 @@ function topRecord(record) {
       <template v-else>
         <section v-show="activeTab === 'growth'" class="tab-panel active">
           <section class="page-title">
-            <div><p class="eyebrow">Fan Growth Overview</p><h1>粉丝增长趋势</h1></div>
-            <p class="page-copy">{{ creator?.displayName }} 的粉丝趋势来自 7 天账号快照，用于判断增长是否加速、异常或放缓。</p>
+            <div><p class="eyebrow">Fan Growth System</p><h1>粉丝分析</h1></div>
+            <p class="page-copy">从增长、转化、粘性和画像四个角度判断你的粉丝是否稳定增长，以及你的下一批内容应该服务哪类粉丝。</p>
           </section>
 
           <section class="diagnosis-strip">
-            <article v-for="item in growthInsights" :key="item.insightId" class="diagnosis-card" :class="priorityClass(item.priority)">
-              <span>{{ item.scope }}</span>
-              <strong>{{ item.title }}</strong>
+            <article class="diagnosis-card strong">
+              <span>增长判断</span>
+              <strong>你的粉丝增长正在加速，主要由高转粉教程和收藏行为带动</strong>
+            </article>
+            <article class="diagnosis-card warning">
+              <span>异常信号</span>
+              <strong>今日掉粉 {{ formatNumber(latest?.lostFollowers) }}，需要关注低转粉泛流量内容</strong>
+            </article>
+            <article class="diagnosis-card">
+              <span>下一步重点</span>
+              <strong>把新粉承接到教程系列，减少一次性浏览用户流失</strong>
             </article>
           </section>
 
-          <section class="grid-4">
+          <section class="grid-6">
             <article class="metric-card"><p>总粉丝</p><strong>{{ formatNumber(latest?.totalFollowers) }}</strong></article>
             <article class="metric-card"><p>今日新增</p><strong>{{ formatNumber(latest?.newFollowers) }}</strong></article>
             <article class="metric-card"><p>今日掉粉</p><strong>{{ formatNumber(latest?.lostFollowers) }}</strong></article>
+            <article class="metric-card"><p>净增粉丝</p><strong>{{ formatNumber(latest?.netFollowers) }}</strong></article>
+            <article class="metric-card"><p>增长率</p><strong>{{ formatPercent(latest?.followerGrowthRate) }}</strong></article>
             <article class="metric-card"><p>播放转粉率</p><strong>{{ formatPercent(latest?.viewToFollowerRate) }}</strong></article>
           </section>
 
           <section class="grid-2">
             <article class="card">
               <p class="section-label">7 天新增粉丝</p>
-              <div class="bar-stack">
-                <div v-for="item in trend" :key="item.snapshotId" class="bar">
-                  <span :style="{ width: `${Math.max(12, item.newFollowers / trendMax * 100)}%` }">{{ item.date.slice(5) }} {{ formatNumber(item.newFollowers) }}</span>
-                </div>
+              <div class="mini-bars" style="height:180px">
+                <span
+                  v-for="item in trend"
+                  :key="item.snapshotId"
+                  :style="{ height: `${Math.max(24, item.newFollowers / trendMax * 174)}px` }"
+                  :title="`${item.date.slice(5)} ${formatNumber(item.newFollowers)}`"
+                ></span>
+              </div>
+              <div class="grid-3" style="margin-top:18px">
+                <span class="tag hot">新增 {{ formatNumber(latest?.newFollowers) }}</span>
+                <span class="tag purple">净增 {{ formatNumber(latest?.netFollowers) }}</span>
+                <span class="tag">播放 {{ formatNumber(totalTrendViews) }}</span>
               </div>
             </article>
+            <article class="card white">
+              <p class="label" style="color:#666">粉丝转化路径</p>
+              <strong class="value large">{{ formatPercent(latest?.viewToFollowerRate) }}</strong>
+              <span style="font-size:12px;color:#ff5e5e;font-weight:800">播放到关注</span>
+              <div class="bar-stack" style="margin-top:18px">
+                <div class="bar"><span style="width:100%">播放 {{ formatNumber(latest?.totalViews) }}</span></div>
+                <div class="bar purple"><span style="width:64%">新粉 {{ formatNumber(latest?.newFollowers) }}</span></div>
+                <div class="bar cyan"><span style="width:36%">净增 {{ formatNumber(latest?.netFollowers) }}</span></div>
+                <div class="bar"><span style="width:18%">掉粉 {{ formatNumber(latest?.lostFollowers) }}</span></div>
+              </div>
+            </article>
+          </section>
+
+          <section class="grid-3">
             <article class="card">
               <p class="section-label">增长判断</p>
               <div class="action-list">
                 <div v-for="item in growthInsights" :key="item.insightId">
                   <i class="fa-solid fa-chart-line"></i><span>{{ item.summary }}</span>
                 </div>
+              </div>
+            </article>
+            <article class="card">
+              <p class="section-label">粉丝画像</p>
+              <strong class="value">{{ topRecord(profile?.ageGroups)[0] }}</strong>
+              <p class="page-copy" style="margin-top:12px">核心人群占比 {{ formatPercent(topRecord(profile?.ageGroups)[1]) }}，内容应优先服务当前高价值受众。</p>
+              <div style="margin-top:14px"><span class="tag hot">{{ topRecord(profile?.regions)[0] }}</span> <span class="tag purple">{{ topRecord(profile?.gender)[0] }}</span></div>
+            </article>
+            <article class="card">
+              <p class="section-label">活跃时间段</p>
+              <strong class="value">{{ topRecord(profile?.activeHours)[0] }}:00</strong>
+              <div class="heat-grid" style="margin-top:16px">
+                <div class="heat-cell">8</div><div class="heat-cell">10</div><div class="heat-cell mid">12</div><div class="heat-cell">14</div><div class="heat-cell mid">18</div><div class="heat-cell hot">20</div><div class="heat-cell hot">21</div>
               </div>
             </article>
           </section>
@@ -187,8 +261,8 @@ function topRecord(record) {
           </section>
 
           <section class="diagnosis-strip">
-            <article v-for="item in sourceInsights" :key="item.insightId" class="diagnosis-card" :class="priorityClass(item.priority)">
-              <span>{{ item.scope }}</span>
+            <article v-for="item in sourceDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
+              <span>{{ item.label }}</span>
               <strong>{{ item.title }}</strong>
             </article>
           </section>
@@ -221,8 +295,8 @@ function topRecord(record) {
           </section>
 
           <section class="diagnosis-strip">
-            <article v-for="item in stickinessInsights" :key="item.insightId" class="diagnosis-card" :class="priorityClass(item.priority)">
-              <span>{{ item.scope }}</span>
+            <article v-for="item in fanStickinessDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
+              <span>{{ item.label }}</span>
               <strong>{{ item.title }}</strong>
             </article>
           </section>
@@ -255,8 +329,8 @@ function topRecord(record) {
           </section>
 
           <section class="diagnosis-strip">
-            <article v-for="item in profileInsights" :key="item.insightId" class="diagnosis-card" :class="priorityClass(item.priority)">
-              <span>{{ item.scope }}</span>
+            <article v-for="item in profileDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
+              <span>{{ item.label }}</span>
               <strong>{{ item.title }}</strong>
             </article>
           </section>

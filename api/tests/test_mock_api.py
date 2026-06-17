@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -11,6 +12,8 @@ if str(API_DIR) not in sys.path:
     sys.path.insert(0, str(API_DIR))
 
 from app import create_app  # noqa: E402
+from repository import clear_repository_cache  # noqa: E402
+from view_model_contract import validate_api_payload  # noqa: E402
 
 
 ENDPOINTS = {
@@ -29,6 +32,9 @@ def require(condition: bool, message: str) -> None:
 
 
 def main() -> None:
+    os.environ["CREATORPULSE_DATA_SOURCE"] = "mock"
+    clear_repository_cache()
+
     app = create_app()
     client = app.test_client()
 
@@ -37,7 +43,9 @@ def main() -> None:
     health_payload = health.get_json()
     require(health_payload["status"] == "ok", "health status should be ok")
     require(health_payload["counts"]["videos"] == 27, "health should report 27 videos")
-    require(20 <= health_payload["counts"]["insights"] <= 30, "health should report 20-30 insights")
+    require(20 <= health_payload["counts"]["insights"] <= 32, "health should report rule and runtime Spark insights")
+    require(health_payload["counts"]["sparkPlatformMetricSummaries"] == 3, "health should report 3 Spark platform rows")
+    require(health_payload["counts"]["sparkVideoFollowerContributions"] == 10, "health should report 10 Spark contribution rows")
 
     for endpoint, expected_name in ENDPOINTS.items():
         response = client.get(endpoint)
@@ -46,9 +54,25 @@ def main() -> None:
         require(payload["creator"]["creatorId"] == "creator_001", f"{endpoint} should include creator")
         require(payload["meta"]["schemaVersion"] == "mvp-1", f"{endpoint} should include schema version")
         require(isinstance(payload["data"], dict), f"{endpoint} data should be an object")
+        validate_api_payload(payload, expected_name)
 
         if expected_name != "profile":
             require("insights" in payload["data"], f"{endpoint} should include insights")
+        if expected_name == "videoAnalysis":
+            require(len(payload["data"]["sparkContributions"]) == 10, "video endpoint should expose Spark contributions")
+            require(
+                any(item["generatedBy"] == "SPARK_RULE_ENGINE" for item in payload["data"]["insights"]),
+                "video endpoint should include Spark-generated insight",
+            )
+        if expected_name == "contentDistribution":
+            require(
+                len(payload["data"]["sparkPlatformSummaries"]) == 3,
+                "distribution endpoint should expose Spark platform summaries",
+            )
+            require(
+                any(item["generatedBy"] == "SPARK_RULE_ENGINE" for item in payload["data"]["insights"]),
+                "distribution endpoint should include Spark-generated insight",
+            )
 
     missing = client.get("/api/creators/missing/fans")
     require(missing.status_code == 404, "missing creator should return 404")

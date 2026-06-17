@@ -182,6 +182,12 @@ interface GrowthDashboardViewModel {
 3. Insight 能按页面和 Tab 分发。
 4. 前端不需要自己计算复杂业务结论。
 
+当前已补充的接口合同：
+
+1. `api/openapi_contract.py` 生成 MVP OpenAPI 3.0.3 schema。
+2. Flask 暴露 `GET /api/openapi.json`，用于查看健康检查和 6 个页面 ViewModel 接口。
+3. `api/tests/test_openapi_contract.py` 校验 OpenAPI 路径和关键 schema。
+
 当前验证命令：
 
 ```powershell
@@ -198,7 +204,7 @@ python api\app.py
 
 ## 5. 阶段三：前端工程化迁移
 
-状态：已完成 Vue/Vite 前两条纵切面，代码位于 `frontend/`，当前已迁移增长总览和粉丝分析，并接入 Flask mock API。
+状态：已完成 Vue/Vite 第一版，代码位于 `frontend/`。当前 6 个一级页面均已迁移，并接入 Flask mock API。
 
 ### 目标
 
@@ -240,16 +246,14 @@ python api\app.py
 当前已验证：
 
 ```powershell
-cd frontend
-npm run build
-npm run test:smoke
+python scripts\verify_mvp.py
 ```
 
 当前剩余：
 
-1. 迁移视频分析、内容分布、机会建议、个人中心。
-2. 增加正式路由。
-3. 将公共 UI 抽成组件。
+1. 后续如需要真实多路由，可从当前 `?page=` 轻量路由迁移到 Vue Router。
+2. 公共 UI 组件仍可继续抽取，但当前第一版已通过烟测。
+3. 后续页面数据源切换到 MySQL 时，前端接口不需要改响应结构。
 
 ---
 
@@ -338,6 +342,12 @@ CREATORPULSE_DATA_SOURCE=mysql  -> 读取本机 MySQL
 3. Vue 页面不需要修改即可从 MySQL 数据源读取数据。
 4. 数据库连接失败时有清晰错误，不静默返回假数据。
 
+当前已补充的合同保护：
+
+1. `api/view_model_contract.py` 定义 6 个页面 ViewModel 必须包含的关键字段。
+2. `api/tests/test_view_model_contract.py` 同时校验 mock API 响应和 MySQL 映射后的 ViewModel。
+3. `api/tests/test_mock_api.py` 已复用合同校验，避免后续字段漂移导致前端运行时才报错。
+
 ---
 
 ## 8. 阶段六：Spark JDBC 写 MySQL 最小验证
@@ -379,6 +389,25 @@ SPARK_MYSQL_DRIVER=com.mysql.cj.jdbc.Driver
 3. MySQL 中能查询到 Spark 计算结果。
 4. Flask API 后续可以读取这些结果，但本阶段不强制打通页面。
 
+当前已完成的 dry-run 闭环：
+
+1. `spark_jobs/static_mock_to_mysql.py` 可以从静态 mock 数据计算平台播放汇总和视频涨粉贡献。
+2. `database/import_mock_to_mysql.py` dry-run 和真实导入都会包含两张 Spark 结果表：
+   - `spark_platform_metric_summaries`
+   - `spark_video_follower_contributions`
+3. Flask 的 mock / MySQL Repository 已统一暴露 Spark 输出字段：
+   - `videoAnalysis.sparkContributions`
+   - `contentDistribution.sparkPlatformSummaries`
+4. Vue 的视频分析、内容分布页面已优先消费这些 Spark 输出字段，字段为空时回退到前端聚合。
+
+`python spark_jobs\static_mock_to_mysql.py` 不带 `--execute` 时是 dry-run，会输出 `executionPlan`，展示两张 Spark 结果表、JDBC 写入模式和预计写入行数，不会触发 JDBC 写入。
+
+真实 JDBC 写入仍需要你在 `.env` 中填写 `SPARK_MYSQL_JDBC_URL`、`SPARK_MYSQL_USER`、`SPARK_MYSQL_PASSWORD`、`SPARK_MYSQL_DRIVER` 后执行：
+
+```powershell
+spark-submit spark_jobs\static_mock_to_mysql.py --execute
+```
+
 ---
 
 ## 9. 阶段七：Kafka 虚拟机连通性测试
@@ -418,6 +447,25 @@ topic_trend_topic
 2. Spark 运行环境可以消费 Kafka 消息。
 3. Kafka 消息字段能映射到 MVP 数据契约。
 4. Kafka 连接配置独立于 Flask / Vue，不阻塞页面开发。
+
+当前已完成的 dry-run / opt-in 能力：
+
+1. `kafka_tools/check_connectivity.py` 可以检查 VM Kafka host:port。
+2. `kafka_tools/mock_producer.py` 默认生成本地 NDJSON，`--execute-kafka` 才真实生产消息。
+3. `kafka_tools/mock_consumer.py` 默认校验本地 NDJSON，`--execute-kafka` 才真实消费 Kafka。
+4. `kafka_tools/run_closed_loop.py` 已提供一键闭环：
+
+```text
+mock data -> NDJSON producer -> NDJSON consumer validation -> offline Spark-style aggregation
+```
+
+`python kafka_tools\run_closed_loop.py` 不带 `--execute-kafka` 时会输出 `executionPlan`，展示本地闭环步骤、计划事件数、事件类型覆盖和离线 Spark 聚合行数，不会连接 Kafka。
+
+真实 Kafka 闭环仍需要你填写 `.env` 中的 `KAFKA_BOOTSTRAP_SERVERS` 并确认虚拟机网络后执行：
+
+```powershell
+python kafka_tools\run_closed_loop.py --execute-kafka
+```
 
 ---
 
@@ -470,6 +518,18 @@ topic_trend_topic
 3. Insight 可以从 SparkSQL 结果生成。
 4. 推荐建议必须包含证据指标，不能只输出结论。
 
+当前已完成的离线 dry-run 能力：
+
+1. `kafka_tools/mock_producer.py` 可以生成 Kafka 风格 NDJSON 事件。
+2. `spark_jobs/kafka_events_to_mysql.py` 可以离线聚合这些事件，产出与 Spark JDBC 表一致的结果行。
+3. `kafka_tools/run_closed_loop.py` 可以把事件生成、消费校验、离线 Spark 聚合串成一个本地闭环。
+4. `api/spark_insights.py` 已基于 Spark 聚合输出生成 `SPARK_RULE_ENGINE` Insight。
+5. 这些 Insight 带有证据指标和行动建议，并进入 `video.contribution`、`content.platform`、`growth.distribution`、`opportunities.reference` 等页面目标。
+
+`python spark_jobs\kafka_streaming_to_mysql.py` 不带 `--execute` 时会输出 `executionPlan`，展示源 topic、触发间隔、checkpoint、output mode、MySQL 写入模式、目标结果表，以及 `--execute` 和 `CREATORPULSE_RUN_FULL_PIPELINE_LIVE=1` 两层门禁，不会启动 Spark Streaming。
+
+真实 Kafka -> Spark -> MySQL 链路仍等待虚拟机 Kafka 连通性和本机 `.env` 配置确认后执行。
+
 ---
 
 ## 11. 不建议现在做的事情
@@ -491,94 +551,202 @@ topic_trend_topic
 
 ## 12. 推荐下一步任务
 
-下一步最应该开始的任务是：
+当前 MySQL 表结构、`.env.example`、mock 导入脚本、MySQL Repository、双数据源合同测试、Spark dry-run、Kafka 风格 dry-run 都已经完成。下一步不应该继续扩大功能面，而是进入“真实服务接入前的门禁验证”：
 
 ```text
-MySQL 表结构 + .env.example + mock 数据导入脚本
+数据契约与质量审计
+  -> 本机 MySQL 真实导入
+    -> Spark JDBC 真实写入 MySQL
+      -> Kafka 虚拟机真实连通
 ```
 
-建议拆成 5 个小任务：
+### Task 1：数据契约与质量审计
 
-### Task 1：整理 MySQL 建表 SQL
+产出：
+
+```text
+scripts/audit_data_contract.py
+scripts/tests/test_audit_data_contract.py
+scripts/audit_data_quality.py
+scripts/tests/test_audit_data_quality.py
+```
+
+作用：
+
+1. 比对 `database/schema.sql` 中的表字段和 `database/import_mock_to_mysql.py` 实际写入字段。
+2. 校验 mock 行能还原 MySQL Repository 数据契约。
+3. 校验 6 个页面 ViewModel 满足 `api/view_model_contract.py`。
+4. 校验 OpenAPI 页面路径和关键字段没有漂移。
+5. 在真实 MySQL / Spark / Kafka 接入前，先发现字段缺失和命名不一致。
+6. 输出对象覆盖报告，说明每个 MVP 数据对象是否已经入库、是否进入页面 ViewModel，或是否只是当前阶段的 stored-only 数据。
+7. 校验 mock 数据公式、流量来源汇总、账号趋势、Spark dry-run 聚合结果和 Insight 证据链是否自洽。
+
+当前已完成并纳入总验证：
+
+```powershell
+python scripts\audit_data_contract.py
+python scripts\tests\test_audit_data_contract.py
+python scripts\audit_object_coverage.py
+python scripts\tests\test_audit_data_quality.py
+python scripts\audit_data_quality.py
+python scripts\export_openapi.py --check
+python scripts\report_env_readiness.py
+python scripts\verify_mvp.py --skip-browser
+```
+
+### Task 2：本机 MySQL 真实导入
 
 产出：
 
 ```text
 database/schema.sql
-```
-
-验收：
-
-1. 表结构覆盖 MVP 数据对象。
-2. 主键、外键、时间字段、平台字段清晰。
-3. 不按 UI 卡片建表。
-
-### Task 2：增加本地配置模板
-
-产出：
-
-```text
-.env.example
-```
-
-验收：
-
-1. 包含 MySQL 连接配置。
-2. 包含数据源切换配置 `CREATORPULSE_DATA_SOURCE`。
-3. 不包含真实用户名和密码。
-
-### Task 3：编写 mock 数据导入脚本
-
-产出：
-
-```text
+database/apply_schema.py
 database/import_mock_to_mysql.py
+scripts/init_env.py
+scripts/setup_local_mysql.py
 ```
 
 验收：
 
-1. 能读取 `mvp_mock/data/creatorpulse_mvp_mock.json`。
-2. 能按正确顺序写入 MySQL。
-3. 重复执行时不会造成不可控重复数据。
+1. `python scripts\init_env.py` 能从 `.env.example` 安全初始化 `.env`，默认不覆盖已有本地配置。
+2. 由你在 `.env` 填写本机 MySQL 用户、密码、端口和库名。
+3. `python scripts\preflight.py --target local-mysql --strict` 通过；该检查会验证 TCP、占位值和 MySQL 登录，但不会建库或写入数据。
+4. `python scripts\setup_local_mysql.py` 不带 `--execute` 时会输出 `executionPlan`，展示 strict preflight、建表、导入、行数校验和 API 合同验证的计划步骤，以及预计写入的表和行数。
+5. `python scripts\setup_local_mysql.py --execute` 会自动启用 strict preflight，只有无 warning 时才建表、导入 mock 数据、逐表校验 MySQL 实际行数，并用 MySQL 模式验证 API 合同。
+6. `python api\tests\test_mysql_api_integration.py` 在真实数据库存在时通过；没有 `.env` 时跳过。
+7. 仓库不提交真实 `.env` 和密码。
 
-### Task 4：增加 MySQL Repository
+### Task 3：Spark JDBC 真实写入 MySQL
 
 产出：
 
 ```text
-api/mysql_repository.py
-api/config.py
+spark_jobs/static_mock_to_mysql.py
+spark_jobs/tests/test_static_mock_to_mysql.py
 ```
 
 验收：
 
-1. `mock` 模式继续读取 JSON。
-2. `mysql` 模式读取 MySQL。
-3. API 响应结构不变。
+1. 由你在 `.env` 填写 `SPARK_MYSQL_JDBC_URL`、`SPARK_MYSQL_USER`、`SPARK_MYSQL_PASSWORD`、`SPARK_MYSQL_DRIVER`。
+2. `python scripts\preflight.py --target spark-jdbc --strict` 通过；该检查会验证 `spark-submit`、MySQL TCP、JDBC URL 格式、MySQL Connector/J driver、`SPARK_MYSQL_WRITE_MODE=append` 和 MySQL 登录状态。
+3. 设置 `CREATORPULSE_RUN_SPARK_JDBC_LIVE=1` 后，`python spark_jobs\tests\test_static_mysql_jdbc_integration.py` 能通过。
+4. `python spark_jobs\static_mock_to_mysql.py` dry-run 会输出 `executionPlan`，说明目标表、写入模式和计划行数。
+5. `spark-submit spark_jobs\static_mock_to_mysql.py --execute` 自身会拒绝占位凭据、非 MySQL JDBC URL、非 MySQL driver 和非 `append` 写入模式；通过后能把平台汇总和视频涨粉贡献写入 MySQL。
+6. Flask API 读取 MySQL 后，`videoAnalysis.sparkContributions` 和 `contentDistribution.sparkPlatformSummaries` 仍然有数据。
 
-### Task 5：补充双数据源测试
+### Task 4：Kafka 虚拟机真实连通
 
 产出：
 
 ```text
-api/tests/test_mock_api.py
-api/tests/test_mysql_repository.py
+kafka_tools/check_connectivity.py
+kafka_tools/run_closed_loop.py
 ```
 
 验收：
 
-1. mock API 测试继续通过。
-2. MySQL 相关测试可以在有本地数据库时运行。
-3. 没有配置数据库时，测试能明确跳过或给出清晰提示。
+1. 由你确认虚拟机 IP、Kafka 端口、防火墙和 `advertised.listeners`。
+2. 由你在 `.env` 填写 `KAFKA_BOOTSTRAP_SERVERS`。
+3. `python scripts\preflight.py --target kafka --strict` 通过；该检查会验证 bootstrap server 格式，并拒绝 `.env.example` 中的模板值 `192.168.56.10:9092`。
+4. 设置 `CREATORPULSE_RUN_KAFKA_LIVE=1` 后，`python kafka_tools\tests\test_kafka_live_integration.py` 能通过。
+5. `python kafka_tools\run_closed_loop.py` dry-run 会输出 `executionPlan`，说明本地事件闭环、计划事件数和离线聚合行数。
+6. `python kafka_tools\run_closed_loop.py --execute-kafka` 会先拒绝占位或格式错误的 Kafka bootstrap 配置；通过后能真实生产和消费 MVP 事件。
+7. Kafka 测试继续与 Flask / Vue 解耦，不阻塞页面和 MySQL 主线。
+
+### Task 5：Kafka -> Spark -> MySQL 完整链路
+
+产出：
+
+```text
+spark_jobs/kafka_streaming_to_mysql.py
+spark_jobs/tests/test_kafka_streaming_to_mysql.py
+scripts/preflight.py --target full-pipeline
+scripts/tests/test_verify_mvp.py
+scripts/report_env_readiness.py
+scripts/tests/test_report_env_readiness.py
+scripts/run_real_service_sequence.py
+scripts/tests/test_run_real_service_sequence.py
+scripts/report_real_service_plans.py
+scripts/tests/test_report_real_service_plans.py
+scripts/report_execution_checklist.py
+scripts/tests/test_report_execution_checklist.py
+scripts/audit_real_service_readiness.py
+scripts/tests/test_audit_real_service_readiness.py
+scripts/export_real_service_report_bundle.py
+scripts/tests/test_export_real_service_report_bundle.py
+```
+
+验收：
+
+1. Kafka 真实连通已经验证。
+2. Spark JDBC 真实写 MySQL 已经验证。
+3. `python spark_jobs\kafka_streaming_to_mysql.py` dry-run 会输出 `executionPlan`，确认源 topic、checkpoint、输出模式、目标表和双重执行门禁。
+4. `spark_jobs/kafka_streaming_to_mysql.py --execute` 能把 Kafka 事件聚合后写入 MySQL 结果表。
+5. 结果表进入现有 Flask ViewModel，不要求前端改接口。
+6. 新增 Insight 必须继续包含证据指标和行动建议。
+
+当前已完成的本地 dry-run 验证入口：
+
+```powershell
+python scripts\status_mvp.py
+python scripts\report_env_readiness.py
+python scripts\run_real_service_sequence.py
+python scripts\report_real_service_plans.py
+python scripts\report_real_service_plans.py --stage mysql
+python scripts\report_real_service_plans.py --stage spark-jdbc
+python scripts\report_real_service_plans.py --stage kafka
+python scripts\report_real_service_plans.py --stage full-pipeline
+python scripts\report_execution_checklist.py
+python scripts\report_execution_checklist.py --stage mysql
+python scripts\report_execution_checklist.py --stage spark-jdbc
+python scripts\report_execution_checklist.py --stage kafka
+python scripts\report_execution_checklist.py --stage full-pipeline
+python scripts\audit_real_service_readiness.py
+python scripts\export_real_service_report_bundle.py
+python scripts\preflight.py --target full-pipeline
+python scripts\audit_data_contract.py
+python scripts\audit_data_quality.py
+python scripts\verify_mvp.py --skip-browser
+```
+
+`python scripts\status_mvp.py` 会输出 `nextRecommendedStep`。当前没有 `.env` 时，它会先推荐 `python scripts\init_env.py`；当 `.env` 已配置但某个真实服务还不可达时，它会推荐对应的 strict preflight；当 MySQL、Spark JDBC、Kafka 单项都通过后，会先推荐 `python scripts\preflight.py --target full-pipeline --strict`，只有全部 preflight 无 warning 时，才推荐进入真实 streaming 执行命令。状态报告也会输出 `nextRolloutStage` 和 `nextRolloutPlan`，直接给出下一阶段的 dry-run 前置条件与命令列表。
+
+`python scripts\status_mvp.py` 现在也内嵌 `envReadiness`，因此主状态报告会同时显示下一阶段、`.env` 阻塞字段、preflight 结果和 rollout plan。它还会输出 `realServiceReadinessSummary`，用于快速查看哪些 rollout 阶段仍被阻塞、哪些阶段已经可以进入 strict preflight、哪些阶段已经满足 guarded execute 前置条件，以及下一批最应该补齐的 `.env` key。这个摘要仍然只是只读状态报告，不会写 MySQL、不会连接 Kafka、不会启动 Spark Streaming。你可以继续单独运行 `python scripts\report_env_readiness.py`，只查看脱敏后的 `.env` 字段状态。
+
+`python scripts\report_env_readiness.py` 会按 `localMysql`、`sparkJdbc`、`kafka`、`fullPipeline` 四个阶段列出 `.env` 字段状态，明确哪些字段仍是 missing / placeholder。密码、token、secret、key 类字段只输出 `***`，不会做网络检查，也不会写任何外部服务。
+
+`python scripts\run_real_service_sequence.py` 会以 JSON 输出真实服务接入顺序：本机 MySQL 预检、MySQL 导入、Spark JDBC 预检、Spark JDBC live test、Kafka 预检、Kafka live test、full-pipeline 预检、最后才是 streaming 执行。也可以用 `--stage mysql`、`--stage spark-jdbc`、`--stage kafka`、`--stage full-pipeline` 只查看单个阶段的前置条件和命令。当前 MVP 中它只做 dry-run 展示，所有步骤的 `willExecute` 都是 `false`，不会建表、不会连 Kafka、不会启动 Spark Streaming。
+
+`python scripts\report_real_service_plans.py` 会把本机 MySQL、Spark JDBC 静态写入、Kafka 本地闭环、Kafka -> Spark -> MySQL Streaming 四个阶段的 `executionPlan` 汇总到一份 JSON 中，便于在填真实 `.env` 前一次性检查计划写入表、预计行数、事件数、topic、checkpoint 和执行门禁。它支持 `--stage mysql|spark-jdbc|kafka|full-pipeline` 聚焦单个阶段。它也是只读 dry-run：不会写 MySQL、不会连接 Kafka、不会启动 Spark Streaming。
+
+`python scripts\report_execution_checklist.py` 会把脱敏 `.env` 状态、preflight summary、人工门禁和 rollout steps 合并成真实执行前清单，明确每个阶段是否 `readyForStrictPreflight` / `readyForExecute`，以及被哪些字段或 warning 阻塞。它支持 `--stage mysql|spark-jdbc|kafka|full-pipeline` 聚焦单个阶段。它同样只读，不会执行任何 `--execute` 命令。
+
+`python scripts\audit_real_service_readiness.py` 会交叉检查真实服务顺序、执行计划报告和执行前清单，确保三者使用同一套 rollout 阶段名、`--stage` 过滤结果一致，并且 dry-run 安全门禁保持关闭。它用于防止后续修改某一个脚本时，另一个脚本还停留在旧阶段名或错误的执行标志上。
+
+`python scripts\export_real_service_report_bundle.py` 会把当前状态、`.env` readiness、真实服务顺序、执行计划、执行前清单和 readiness 审计一次性导出到本地目录，并生成 `manifest.json`。它同样只读，不会写 MySQL、不会连接 Kafka、不会启动 Spark Streaming，适合在你填 `.env` 前后各导出一份报告做对比。
+
+这些只读报告命令也支持可选 `--output` 导出 JSON 文件，例如：
+
+```powershell
+python scripts\report_execution_checklist.py --stage mysql --output reports\mysql-checklist.json
+python scripts\audit_real_service_readiness.py --output reports\real-service-readiness-audit.json
+python scripts\export_real_service_report_bundle.py --stage mysql --output-dir reports\mysql-readiness-bundle
+```
+
+单个报告命令默认不写文件，只有显式传入 `--output` 才会落盘；报告包导出命令会写入 `--output-dir`，默认位于 `reports/` 下。`reports/` 作为本地执行留档目录，已加入 `.gitignore`，避免把本地报告和潜在环境路径信息提交进仓库。
+
+`full-pipeline` 预检会额外校验 `MYSQL_DATABASE` 和 `SPARK_MYSQL_JDBC_URL` 中的数据库名一致，避免 Spark 写入一个库、Flask API 读取另一个库。它不会强制 MySQL host 和 JDBC host 一致，因为 Spark 在虚拟机运行时可能需要通过不同主机地址访问同一个本机 MySQL。
+
+`python scripts\verify_mvp.py --skip-browser` 已经纳入 `full-pipeline` dry-run 预检、真实服务顺序 dry-run 和真实服务 readiness 审计，确保后续修改不会绕过完整链路执行前的组合门禁。真实 `spark-submit spark_jobs\kafka_streaming_to_mysql.py --execute` 仍然等待 `.env`、本机 MySQL、Spark JDBC 和虚拟机 Kafka 都通过 strict preflight 后执行，并且还需要显式设置 `CREATORPULSE_RUN_FULL_PIPELINE_LIVE=1`，避免误启动长时间 streaming 写入任务。
 
 ---
 
 ## 13. 阶段性结论
 
-CreatorPulse 现在已经过了“UI 是否成立”和“mock API 是否能驱动页面”的阶段，下一阶段的核心问题是：
+CreatorPulse 现在已经过了“UI 是否成立”“mock API 是否能驱动页面”“MVP 数据能否落到 MySQL 结构”“Spark/Kafka dry-run 是否能闭环”的阶段。下一阶段的核心问题是：
 
 ```text
-这套 MVP 数据能不能稳定落到 MySQL，并且让 API 在 mock / MySQL 之间平滑切换？
+在不破坏现有 API/ViewModel 合同的前提下，真实 MySQL、真实 Spark JDBC、虚拟机 Kafka 能不能逐层接入？
 ```
 
 近期主线应该是：
@@ -588,6 +756,7 @@ Vue 只调用 Flask API
 Flask API 只读 mock JSON 或 MySQL
 Spark 通过 JDBC 写 MySQL
 Kafka 只作为后续数据流输入，不阻塞 MySQL / Flask / Vue 主线
+每完成一个阶段都跑对应测试，再跑 scripts\verify_mvp.py --skip-browser
 ```
 
 这样做的好处是：页面、API、数据库、Spark、Kafka 每一层都能独立验收。后面某一层出问题时，可以快速判断是数据模型、数据库连接、虚拟机网络，还是流式计算本身的问题。

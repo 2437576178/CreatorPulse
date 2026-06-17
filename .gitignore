@@ -3,3 +3,7 @@ __pycache__/
 node_modules/
 dist/
 test-results/
+.env
+kafka_tools/out/
+spark_jobs/checkpoints/
+reports/

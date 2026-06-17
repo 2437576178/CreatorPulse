@@ -1,7 +1,8 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import { fetchGrowthDashboard } from "../services/api";
-import { contentLabel, formatNumber, formatPercent, priorityClass, sum } from "../utils/format";
+import { contentLabel, formatNumber, formatPercent, sum } from "../utils/format";
+import { diagnosisItems } from "../utils/pageModels";
 
 defineProps({
   activePage: {
@@ -27,6 +28,12 @@ const tabs = [
 onMounted(async () => {
   window.addEventListener("hashchange", syncHash);
   syncHash();
+  await loadData();
+});
+
+async function loadData() {
+  loading.value = true;
+  error.value = "";
   try {
     payload.value = await fetchGrowthDashboard();
   } catch (apiError) {
@@ -34,7 +41,7 @@ onMounted(async () => {
   } finally {
     loading.value = false;
   }
-});
+}
 
 function syncHash() {
   const next = window.location.hash.replace("#", "");
@@ -78,6 +85,27 @@ const overviewInsights = computed(() => takeInsights("overview"));
 const conversionInsights = computed(() => takeInsights("conversion"));
 const stickinessInsights = computed(() => takeInsights("stickiness"));
 const distributionInsights = computed(() => takeInsights("distribution"));
+const conversionDiagnosis = computed(() =>
+  diagnosisItems(conversionInsights.value, [
+    { label: "今日结论", title: "教程内容正在把高质量互动转成关注", className: "strong" },
+    { label: "最大瓶颈", title: "主页访问承接效率关键，首屏 CTA 还需要更明确", className: "warning" },
+    { label: "最佳来源", title: "高转粉视频结构值得继续复刻", className: "" }
+  ])
+);
+const stickinessDiagnosis = computed(() =>
+  diagnosisItems(stickinessInsights.value, [
+    { label: "今日结论", title: "教程内容带来的收藏和复访最稳定", className: "strong" },
+    { label: "高价值互动", title: "提问评论说明粉丝愿意继续交流", className: "" },
+    { label: "低粘性风险", title: "泛流量点赞多，但复访偏低", className: "warning" }
+  ])
+);
+const distributionDiagnosis = computed(() =>
+  diagnosisItems(distributionInsights.value, [
+    { label: "结构判断", title: "高转粉内容占比不高，但涨粉贡献最高", className: "strong" },
+    { label: "内容倾向", title: "教程类贡献新粉，值得继续加码", className: "" },
+    { label: "投入偏差", title: "低转粉泛流量内容需要减少", className: "warning" }
+  ])
+);
 
 const totalViews = computed(() => sum(topVideos.value, "views"));
 const totalFollowers = computed(() => sum(topVideos.value, "newFollowers"));
@@ -85,6 +113,10 @@ const totalProfiles = computed(() => sum(topVideos.value, "profileVisits"));
 const totalInteractions = computed(() =>
   topVideos.value.reduce((value, video) => value + video.likes + video.comments + video.shares + video.saves, 0)
 );
+const totalSaves = computed(() => sum(topVideos.value, "saves"));
+const totalComments = computed(() => sum(topVideos.value, "comments"));
+const totalShares = computed(() => sum(topVideos.value, "shares"));
+const platformCount = computed(() => new Set(topVideos.value.map((video) => video.platform)).size);
 
 const contentTypeRows = computed(() => {
   const rows = {};
@@ -96,6 +128,7 @@ const contentTypeRows = computed(() => {
   }
   return Object.values(rows).sort((a, b) => b.newFollowers - a.newFollowers);
 });
+const leadingContentType = computed(() => contentTypeRows.value[0]);
 
 function takeInsights(tab) {
   const items = insightByTab.value[tab] || [];
@@ -108,10 +141,10 @@ function takeInsights(tab) {
   <nav class="left-dock" aria-label="主导航">
     <button class="dock-item active" type="button" aria-label="增长总览" @click="emit('navigate', 'growth')"><i class="fa-solid fa-house"></i></button>
     <button class="dock-item" type="button" aria-label="粉丝分析" @click="emit('navigate', 'fans')"><i class="fa-solid fa-users"></i></button>
-    <button class="dock-item" type="button" aria-label="视频分析"><i class="fa-solid fa-play"></i></button>
-    <button class="dock-item" type="button" aria-label="内容分布"><i class="fa-solid fa-chart-pie"></i></button>
-    <button class="dock-item" type="button" aria-label="机会建议"><i class="fa-solid fa-fire"></i></button>
-    <button class="dock-item" type="button" aria-label="个人中心"><i class="fa-solid fa-gear"></i></button>
+    <button class="dock-item" type="button" aria-label="视频分析" @click="emit('navigate', 'video')"><i class="fa-solid fa-play"></i></button>
+    <button class="dock-item" type="button" aria-label="内容分布" @click="emit('navigate', 'content')"><i class="fa-solid fa-chart-pie"></i></button>
+    <button class="dock-item" type="button" aria-label="机会建议" @click="emit('navigate', 'opportunities')"><i class="fa-solid fa-fire"></i></button>
+    <button class="dock-item" type="button" aria-label="个人中心" @click="emit('navigate', 'profile')"><i class="fa-solid fa-gear"></i></button>
   </nav>
 
   <main class="glass-board">
@@ -133,7 +166,7 @@ function takeInsights(tab) {
           </button>
         </div>
         <div class="user-profile">
-          <span class="sync-chip">API Sync</span>
+          <span class="sync-chip">5s Sync</span>
           <i class="fa-regular fa-bell" style="color:var(--text-dim)"></i>
           <div class="user-avatar"></div>
         </div>
@@ -157,7 +190,7 @@ function takeInsights(tab) {
               <p class="eyebrow">Growth Health</p>
               <h1>你的账号<br>增长健康度</h1>
               <p class="page-copy">
-                {{ creator?.displayName }} 当前由统一 mock API 驱动，健康度、转粉和粘性都来自同一批数据。
+                综合粉丝增长趋势、播放转粉率、粉丝粘性和内容效率，判断你的账号今天是否处在健康增长状态。
               </p>
 
               <div class="huge-circle" aria-label="账号增长健康度">
@@ -175,18 +208,20 @@ function takeInsights(tab) {
 
               <div class="grid-3">
                 <div class="metric-card"><p>今日新粉</p><strong>{{ formatNumber(snapshot?.newFollowers) }}</strong><span class="delta">净增 {{ formatNumber(snapshot?.netFollowers) }}</span></div>
-                <div class="metric-card"><p>播放转粉率</p><strong>{{ formatPercent(snapshot?.viewToFollowerRate) }}</strong><span class="delta">API 计算</span></div>
+                <div class="metric-card"><p>播放转粉率</p><strong>{{ formatPercent(snapshot?.viewToFollowerRate) }}</strong><span class="delta">高于均值</span></div>
                 <div class="metric-card"><p>粘性指数</p><strong>{{ snapshot?.stickinessScore }}</strong><span class="delta">高价值互动</span></div>
               </div>
             </div>
 
             <div style="display:flex;flex-direction:column;gap:22px">
-              <section class="diagnosis-strip">
-                <article v-for="item in overviewInsights" :key="item.insightId" class="diagnosis-card" :class="priorityClass(item.priority)">
-                  <span>{{ item.type }}</span>
-                  <strong>{{ item.title }}</strong>
-                </article>
-              </section>
+              <div class="grid-6">
+                <div class="metric-card"><p>平台</p><strong>{{ platformCount }}</strong></div>
+                <div class="metric-card"><p>内容</p><strong>{{ topVideos.length }}</strong></div>
+                <div class="metric-card"><p>总播放</p><strong>{{ formatNumber(totalViews) }}</strong></div>
+                <div class="metric-card"><p>新粉</p><strong>{{ formatNumber(totalFollowers) }}</strong></div>
+                <div class="metric-card"><p>转粉率</p><strong>{{ formatPercent(totalFollowers / totalViews) }}</strong></div>
+                <div class="metric-card"><p>同步延迟</p><strong>5s</strong></div>
+              </div>
 
               <div class="grid-2">
                 <article class="card white">
@@ -204,6 +239,35 @@ function takeInsights(tab) {
                   <p class="label" style="color:#111">最新视频涨粉表现</p>
                   <strong class="value large">+{{ formatNumber(topVideos[0]?.newFollowers) }}</strong>
                   <span style="font-size:12px;color:#fff;font-weight:800">{{ topVideos[0]?.title }}</span>
+                  <div class="mini-bars" style="margin-top:20px">
+                    <span style="height:38px"></span><span style="height:54px"></span><span style="height:78px"></span><span style="height:92px"></span><span style="height:68px"></span>
+                  </div>
+                </article>
+              </div>
+
+              <div class="grid-3">
+                <article class="card">
+                  <p class="section-label">视频分布情况</p>
+                  <strong class="value">{{ contentLabel(leadingContentType?.contentType) }}</strong>
+                  <span class="delta">涨粉 {{ formatNumber(leadingContentType?.newFollowers) }}</span>
+                  <div class="mini-bars" style="margin-top:16px">
+                    <span style="height:80px"></span><span style="height:62px"></span><span style="height:46px"></span><span style="height:36px"></span><span style="height:28px"></span>
+                  </div>
+                </article>
+                <article class="card">
+                  <p class="section-label">粉丝粘性信号</p>
+                  <strong class="value">{{ snapshot?.stickinessScore }}</strong>
+                  <span class="delta">收藏 {{ formatNumber(totalSaves) }}</span>
+                  <div class="bar-stack" style="margin-top:18px">
+                    <div class="bar"><span style="width:68%">评论 {{ formatNumber(totalComments) }}</span></div>
+                    <div class="bar purple"><span style="width:82%">收藏 {{ formatNumber(totalSaves) }}</span></div>
+                  </div>
+                </article>
+                <article class="card">
+                  <p class="section-label">下一步创作建议</p>
+                  <strong class="value">{{ contentLabel(leadingContentType?.contentType) }}</strong>
+                  <span class="delta">分享 {{ formatNumber(totalShares) }}</span>
+                  <p class="page-copy" style="margin-top:12px">优先延展当前高转粉内容结构，把播放入口承接到主页关注和系列内容。</p>
                 </article>
               </div>
             </div>
@@ -213,11 +277,11 @@ function takeInsights(tab) {
         <section v-show="activeTab === 'conversion'" class="tab-panel active">
           <section class="page-title">
             <div><p class="eyebrow">Conversion Diagnosis</p><h1>转化诊断台</h1></div>
-            <p class="page-copy">从 API 返回的 Insight 和视频快照里追踪播放、主页访问和新增关注。</p>
+            <p class="page-copy">追踪你的内容从曝光到关注的每一步，找到今天最该修正的转化瓶颈和最值得复刻的涨粉路径。</p>
           </section>
           <section class="diagnosis-strip">
-            <article v-for="item in conversionInsights" :key="item.insightId" class="diagnosis-card" :class="priorityClass(item.priority)">
-              <span>{{ item.scope }}</span>
+            <article v-for="item in conversionDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
+              <span>{{ item.label }}</span>
               <strong>{{ item.title }}</strong>
             </article>
           </section>
@@ -248,8 +312,8 @@ function takeInsights(tab) {
             <p class="page-copy">根据收藏、评论、分享和 Insight 判断你的粉丝是否正在形成高价值互动。</p>
           </section>
           <section class="diagnosis-strip">
-            <article v-for="item in stickinessInsights" :key="item.insightId" class="diagnosis-card" :class="priorityClass(item.priority)">
-              <span>{{ item.scope }}</span>
+            <article v-for="item in stickinessDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
+              <span>{{ item.label }}</span>
               <strong>{{ item.title }}</strong>
             </article>
           </section>
@@ -277,11 +341,11 @@ function takeInsights(tab) {
         <section v-show="activeTab === 'distribution'" class="tab-panel active">
           <section class="page-title">
             <div><p class="eyebrow">Content Mix Calibration</p><h1>内容结构校准</h1></div>
-            <p class="page-copy">用 API 聚合出的 Top 视频，快速判断哪些内容类型最值得继续投入。</p>
+            <p class="page-copy">比较你的发布投入、播放贡献和涨粉贡献，判断下周内容应该多发什么、在哪发、什么时候发。</p>
           </section>
           <section class="diagnosis-strip">
-            <article v-for="item in distributionInsights" :key="item.insightId" class="diagnosis-card" :class="priorityClass(item.priority)">
-              <span>{{ item.scope }}</span>
+            <article v-for="item in distributionDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
+              <span>{{ item.label }}</span>
               <strong>{{ item.title }}</strong>
             </article>
           </section>

@@ -19,6 +19,26 @@ export function contentLabel(type) {
   }[type] || type;
 }
 
+export function platformLabel(platform) {
+  return {
+    DOUYIN: "抖音",
+    BILIBILI: "B站",
+    XIAOHONGSHU: "小红书",
+    ALL: "全平台",
+    MULTI: "多平台"
+  }[platform] || platform;
+}
+
+export function lifecycleLabel(stage) {
+  return {
+    BURST: "爆发期",
+    STABLE: "稳定期",
+    LONG_TAIL: "长尾期",
+    SECONDARY_BOOST: "二次推荐",
+    DECLINING: "衰退期"
+  }[stage] || stage;
+}
+
 export function priorityClass(priority) {
   if (priority === "HIGH") return "strong";
   if (priority === "LOW") return "";
@@ -27,4 +47,9 @@ export function priorityClass(priority) {
 
 export function sum(rows, key) {
   return rows.reduce((value, row) => value + Number(row[key] || 0), 0);
+}
+
+export function average(rows, key) {
+  if (!rows.length) return 0;
+  return sum(rows, key) / rows.length;
 }

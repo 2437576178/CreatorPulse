@@ -1,0 +1,1242 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "CreatorPulse MVP API",
+    "version": "mvp-1",
+    "description": "Stable Flask API contract for CreatorPulse login and session-scoped ViewModels."
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "MVP API health and data counts",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "Health summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Log in with an account bound to one creator",
+        "operationId": "login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authenticated user and creator mapping",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing email or password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid email or password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "summary": "Clear the current session",
+        "operationId": "logout",
+        "responses": {
+          "200": {
+            "description": "Session cleared",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me": {
+      "get": {
+        "summary": "Get the current logged-in user and bound creator id",
+        "operationId": "getMe",
+        "responses": {
+          "200": {
+            "description": "Current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/dashboard/growth": {
+      "get": {
+        "summary": "Get current creator growthDashboard page ViewModel",
+        "operationId": "getMyGrowthDashboard",
+        "parameters": [],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/growthDashboard"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/fans": {
+      "get": {
+        "summary": "Get current creator fansAnalysis page ViewModel",
+        "operationId": "getMyFansAnalysis",
+        "parameters": [],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/fansAnalysis"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/videos": {
+      "get": {
+        "summary": "Get current creator videoAnalysis page ViewModel",
+        "operationId": "getMyVideoAnalysis",
+        "parameters": [],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/videoAnalysis"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/distribution": {
+      "get": {
+        "summary": "Get current creator contentDistribution page ViewModel",
+        "operationId": "getMyContentDistribution",
+        "parameters": [],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/contentDistribution"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/opportunities": {
+      "get": {
+        "summary": "Get current creator opportunities page ViewModel",
+        "operationId": "getMyOpportunities",
+        "parameters": [],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/opportunities"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/profile": {
+      "get": {
+        "summary": "Get current creator profile page ViewModel",
+        "operationId": "getMyProfile",
+        "parameters": [],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/profile"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/creators/{creatorId}/dashboard/growth": {
+      "get": {
+        "summary": "Get growthDashboard page ViewModel by creator id",
+        "operationId": "getGrowthDashboardByCreatorId",
+        "parameters": [
+          {
+            "name": "creatorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Internal/dev compatibility route. Frontend should use /api/me endpoints."
+          }
+        ],
+        "deprecated": true,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/growthDashboard"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/creators/{creatorId}/fans": {
+      "get": {
+        "summary": "Get fansAnalysis page ViewModel by creator id",
+        "operationId": "getFansAnalysisByCreatorId",
+        "parameters": [
+          {
+            "name": "creatorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Internal/dev compatibility route. Frontend should use /api/me endpoints."
+          }
+        ],
+        "deprecated": true,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/fansAnalysis"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/creators/{creatorId}/videos": {
+      "get": {
+        "summary": "Get videoAnalysis page ViewModel by creator id",
+        "operationId": "getVideoAnalysisByCreatorId",
+        "parameters": [
+          {
+            "name": "creatorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Internal/dev compatibility route. Frontend should use /api/me endpoints."
+          }
+        ],
+        "deprecated": true,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/videoAnalysis"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/creators/{creatorId}/distribution": {
+      "get": {
+        "summary": "Get contentDistribution page ViewModel by creator id",
+        "operationId": "getContentDistributionByCreatorId",
+        "parameters": [
+          {
+            "name": "creatorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Internal/dev compatibility route. Frontend should use /api/me endpoints."
+          }
+        ],
+        "deprecated": true,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/contentDistribution"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/creators/{creatorId}/opportunities": {
+      "get": {
+        "summary": "Get opportunities page ViewModel by creator id",
+        "operationId": "getOpportunitiesByCreatorId",
+        "parameters": [
+          {
+            "name": "creatorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Internal/dev compatibility route. Frontend should use /api/me endpoints."
+          }
+        ],
+        "deprecated": true,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/opportunities"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/creators/{creatorId}/profile": {
+      "get": {
+        "summary": "Get profile page ViewModel by creator id",
+        "operationId": "getProfileByCreatorId",
+        "parameters": [
+          {
+            "name": "creatorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Internal/dev compatibility route. Frontend should use /api/me endpoints."
+          }
+        ],
+        "deprecated": true,
+        "responses": {
+          "200": {
+            "description": "Page ViewModel payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageResponseBase"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/profile"
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Creator or ViewModel not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Configured data source cannot satisfy the API contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HealthResponse": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "status",
+          "schemaVersion",
+          "generatedAt",
+          "counts"
+        ],
+        "properties": {}
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "error"
+        ],
+        "properties": {}
+      },
+      "StatusResponse": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        }
+      },
+      "AuthUser": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "userId",
+          "creatorId",
+          "email",
+          "displayName",
+          "role"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "creatorId": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthUserResponse": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "user"
+        ],
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/AuthUser"
+          }
+        }
+      },
+      "Meta": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "schemaVersion",
+          "generatedAt"
+        ],
+        "properties": {}
+      },
+      "Creator": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "creatorId",
+          "displayName",
+          "nicheTags",
+          "timezone"
+        ],
+        "properties": {}
+      },
+      "Insight": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "insightId",
+          "creatorId",
+          "type",
+          "scope",
+          "targetId",
+          "title",
+          "summary",
+          "priority",
+          "evidenceMetrics",
+          "recommendedActions",
+          "generatedBy",
+          "pageTargets"
+        ],
+        "properties": {
+          "insightId": {
+            "type": "string"
+          },
+          "generatedBy": {
+            "type": "string",
+            "enum": [
+              "RULE_ENGINE",
+              "SPARK_RULE_ENGINE"
+            ]
+          },
+          "pageTargets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidenceMetrics": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendedActions": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "PageResponseBase": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "meta",
+          "creator",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "creator": {
+            "$ref": "#/components/schemas/Creator"
+          }
+        }
+      },
+      "growthDashboard": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "currentSnapshot",
+          "topVideos",
+          "insights"
+        ],
+        "properties": {
+          "currentSnapshot": {
+            "type": "object"
+          },
+          "topVideos": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "insights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Insight"
+            }
+          }
+        }
+      },
+      "fansAnalysis": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "trend",
+          "audienceProfile",
+          "insights"
+        ],
+        "properties": {
+          "trend": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "audienceProfile": {
+            "type": "object"
+          },
+          "insights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Insight"
+            }
+          }
+        }
+      },
+      "videoAnalysis": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "videos",
+          "snapshots",
+          "topVideos",
+          "sparkContributions",
+          "insights"
+        ],
+        "properties": {
+          "videos": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "snapshots": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "topVideos": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "sparkContributions": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "insights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Insight"
+            }
+          }
+        }
+      },
+      "contentDistribution": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "sparkPlatformSummaries",
+          "insights"
+        ],
+        "properties": {
+          "sparkPlatformSummaries": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "insights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Insight"
+            }
+          }
+        }
+      },
+      "opportunities": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "topics",
+          "insights"
+        ],
+        "properties": {
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "insights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Insight"
+            }
+          }
+        }
+      },
+      "profile": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "platformAccounts",
+          "insights"
+        ],
+        "properties": {
+          "platformAccounts": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "insights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Insight"
+            }
+          }
+        }
+      }
+    }
+  }
+}
