@@ -522,3 +522,83 @@
 358|                    <td>{{ contentLabel(row.contentType) }}</td>[39m
   Plugin: [35mvite:vue[39m
   File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/GrowthDashboard.vue[39m
+[2m16:49:14[22m [31m[1m[vite][22m[39m Pre-transform error: Element is missing end tag.
+[2m16:49:14[22m [31m[1m[vite][22m[39m [31mInternal server error: Element is missing end tag.[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/App.vue[39m:205:99
+[33m  203|  
+  204|  <template>
+  205|    <section v-if="checkingSession" class="card app-state-card"><p class="section-label">Loading</p><strong class="value">姝ｅ湪纭鐧诲綍鐘舵€?/strong></section>
+     |                                                                                                     ^
+  206|    <LoginPage v-else-if="!currentUser" @authenticated="setAuthenticatedUser" />
+  207|    <template v-else>[39m
+      at createCompilerError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1378:17)
+      at emitError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3014:5)
+      at Object.onclosetag (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:2381:13)
+      at Tokenizer.stateInClosingTagName (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:799:16)
+      at Tokenizer.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1157:16)
+      at Object.baseParse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3053:13)
+      at Object.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-dom\dist\compiler-dom.cjs.js:910:23)
+      at Object.parse$1 [as parse] (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:1824:24)
+      at createDescriptor (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+      at handleHotUpdate (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:2198:26)
+[2m16:49:37[22m [31m[1m[vite][22m[39m Pre-transform error: Element is missing end tag.
+[2m16:49:37[22m [31m[1m[vite][22m[39m [31mInternal server error: Element is missing end tag.[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/App.vue[39m:205:99
+[33m  203|  
+  204|  <template>
+  205|    <section v-if="checkingSession" class="card app-state-card"><p class="section-label">Loading</p><strong class="value">姝ｅ湪纭鐧诲綍鐘舵€?/strong></section>
+     |                                                                                                     ^
+  206|    <LoginPage v-else-if="!currentUser" @authenticated="setAuthenticatedUser" />
+  207|    <template v-else>[39m
+      at createCompilerError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1378:17)
+      at emitError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3014:5)
+      at Object.onclosetag (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:2381:13)
+      at Tokenizer.stateInClosingTagName (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:799:16)
+      at Tokenizer.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1157:16)
+      at Object.baseParse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3053:13)
+      at Object.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-dom\dist\compiler-dom.cjs.js:910:23)
+      at Object.parse$1 [as parse] (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:1824:24)
+      at createDescriptor (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+      at handleHotUpdate (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:2198:26)
+[2m16:50:38[22m [31m[1m[vite][22m[39m Pre-transform error: Element is missing end tag.
+[2m16:50:38[22m [31m[1m[vite][22m[39m [31mInternal server error: Element is missing end tag.[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/App.vue[39m:205:99
+[33m  203|  
+  204|  <template>
+  205|    <section v-if="checkingSession" class="card app-state-card"><p class="section-label">Loading</p><strong class="value">姝ｅ湪纭鐧诲綍鐘舵€?/strong></section>
+     |                                                                                                     ^
+  206|    <LoginPage v-else-if="!currentUser" @authenticated="setAuthenticatedUser" />
+  207|    <template v-else>[39m
+      at createCompilerError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1378:17)
+      at emitError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3014:5)
+      at Object.onclosetag (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:2381:13)
+      at Tokenizer.stateInClosingTagName (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:799:16)
+      at Tokenizer.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1157:16)
+      at Object.baseParse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3053:13)
+      at Object.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-dom\dist\compiler-dom.cjs.js:910:23)
+      at Object.parse$1 [as parse] (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:1824:24)
+      at createDescriptor (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+      at handleHotUpdate (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:2198:26)
+[2m16:50:55[22m [31m[1m[vite][22m[39m Pre-transform error: Element is missing end tag.
+[2m16:50:55[22m [31m[1m[vite][22m[39m [31mInternal server error: Element is missing end tag.[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/App.vue[39m:205:99
+[33m  203|  
+  204|  <template>
+  205|    <section v-if="checkingSession" class="card app-state-card"><p class="section-label">Loading</p><strong class="value">姝ｅ湪纭鐧诲綍鐘舵€?/strong></section>
+     |                                                                                                     ^
+  206|    <LoginPage v-else-if="!currentUser" @authenticated="setAuthenticatedUser" />
+  207|    <template v-else>[39m
+      at createCompilerError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1378:17)
+      at emitError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3014:5)
+      at Object.onclosetag (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:2381:13)
+      at Tokenizer.stateInClosingTagName (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:799:16)
+      at Tokenizer.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1157:16)
+      at Object.baseParse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3053:13)
+      at Object.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-dom\dist\compiler-dom.cjs.js:910:23)
+      at Object.parse$1 [as parse] (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:1824:24)
+      at createDescriptor (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+      at handleHotUpdate (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:2198:26)

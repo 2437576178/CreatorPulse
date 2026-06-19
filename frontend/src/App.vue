@@ -62,31 +62,34 @@ const currentPage = computed(() => {
 
 const avatarStyle = computed(() => {
   const avatarUrl = currentUser.value?.avatarUrl || "";
-  return avatarUrl ? { backgroundImage: `url("${avatarUrl}")` } : {};
+  return avatarUrl ? { "--current-avatar-url": `url("${avatarUrl}")` } : {};
 });
 
 function decoratePageAvatar() {
   nextTick(() => {
-    const avatar = document.querySelector(".board-header .user-avatar");
-    if (!avatar) return;
-    avatar.classList.add("avatar-upload-trigger");
-    avatar.setAttribute("role", "button");
-    avatar.setAttribute("tabindex", "0");
-    avatar.setAttribute("title", "上传头像");
-    avatar.setAttribute("aria-label", "上传头像");
-    Object.assign(avatar.style, avatarStyle.value);
-    avatar.onclick = openAvatarPicker;
-    avatar.onkeydown = (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        openAvatarPicker();
-      }
-    };
+    const shells = document.querySelectorAll(".page-transition-shell");
+    const activeShell = shells[shells.length - 1];
+    activeShell?.querySelectorAll(".board-header .user-avatar").forEach((avatar) => {
+      avatar.classList.add("avatar-upload-trigger");
+      avatar.setAttribute("role", "button");
+      avatar.setAttribute("tabindex", "0");
+      avatar.setAttribute("title", "Upload avatar");
+      avatar.setAttribute("aria-label", "Upload avatar");
+      avatar.onclick = openAvatarPicker;
+      avatar.onkeydown = (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openAvatarPicker();
+        }
+      };
+    });
   });
 }
 
 function updateActiveTabSlider() {
-  const tabs = document.querySelector(".top-pills-tabs");
+  const shells = document.querySelectorAll(".page-transition-shell");
+  const activeShell = shells[shells.length - 1];
+  const tabs = activeShell?.querySelector(".top-pills-tabs");
   if (!tabs) return;
 
   let slider = tabs.querySelector(".tab-slider");
@@ -157,11 +160,11 @@ async function handleAvatarFileChange(event) {
   event.target.value = "";
   if (!file) return;
   if (!file.type.startsWith("image/")) {
-    window.alert("请选择图片文件");
+    window.alert("Please choose an image file.");
     return;
   }
   if (file.size > 2 * 1024 * 1024) {
-    window.alert("头像图片不能超过 2MB");
+    window.alert("Avatar image must be 2MB or smaller.");
     return;
   }
 
@@ -176,7 +179,7 @@ async function handleAvatarFileChange(event) {
     const payload = await uploadAvatar(file);
     currentUser.value = payload.user;
   } catch (error) {
-    window.alert(error.message || "头像上传失败");
+    window.alert(error.message || "Avatar upload failed.");
     const payload = await fetchMe();
     currentUser.value = payload.user;
   } finally {
@@ -202,20 +205,24 @@ async function handleLogout() {
   <template v-else>
     <input ref="avatarInput" class="avatar-upload-input" type="file" accept="image/png,image/jpeg,image/webp" @change="handleAvatarFileChange" />
     <AdminSimulation v-if="currentPage === 'adminSimulation'" @navigate="setPage" />
-    <GrowthDashboard v-else-if="currentPage === 'growth'" :active-page="currentPage" @navigate="setPage" />
-    <FansAnalysis v-else-if="currentPage === 'fans'" :active-page="currentPage" @navigate="setPage" />
-    <VideoAnalysis v-else-if="currentPage === 'video'" :active-page="currentPage" @navigate="setPage" />
-    <ContentDistribution v-else-if="currentPage === 'content'" :active-page="currentPage" @navigate="setPage" />
-    <CreatorOpportunities v-else-if="currentPage === 'opportunities'" :active-page="currentPage" @navigate="setPage" />
-    <CreatorProfile v-else :active-page="currentPage" @navigate="setPage" />
-    <Teleport v-if="currentPage !== 'adminSimulation'" :key="currentPage" defer to=".glass-board">
-      <div class="session-bar" aria-label="当前登录账号">
-        <span>{{ currentUser.displayName }}</span>
-        <button type="button" :disabled="loggingOut" @click="handleLogout">
-          <i class="fa-solid fa-arrow-right-from-bracket"></i>
-          <span>{{ loggingOut ? "退出中" : "退出" }}</span>
-        </button>
-      </div>
-    </Teleport>
+    <div v-else class="page-transition-stage" :style="avatarStyle">
+      <Transition name="page-fade-slide">
+        <div :key="currentPage" class="page-transition-shell">
+          <GrowthDashboard v-if="currentPage === 'growth'" :active-page="currentPage" @navigate="setPage" />
+          <FansAnalysis v-else-if="currentPage === 'fans'" :active-page="currentPage" @navigate="setPage" />
+          <VideoAnalysis v-else-if="currentPage === 'video'" :active-page="currentPage" @navigate="setPage" />
+          <ContentDistribution v-else-if="currentPage === 'content'" :active-page="currentPage" @navigate="setPage" />
+          <CreatorOpportunities v-else-if="currentPage === 'opportunities'" :active-page="currentPage" @navigate="setPage" />
+          <CreatorProfile v-else :active-page="currentPage" @navigate="setPage" />
+          <div class="session-bar" aria-label="当前登录账号">
+            <span>{{ currentUser.displayName }}</span>
+            <button type="button" :disabled="loggingOut" @click="handleLogout">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              <span>{{ loggingOut ? "退出中" : "退出" }}</span>
+            </button>
+          </div>
+        </div>
+      </Transition>
+    </div>
   </template>
 </template>
