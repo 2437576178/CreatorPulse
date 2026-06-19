@@ -20,6 +20,7 @@ from config import ConfigError, get_secret_key
 from mock_repository import MockDataError
 from mysql_repository import MySQLRepositoryError
 from openapi_contract import openapi_schema
+from platform_catalog import list_platforms
 from repository import RepositoryError, get_repository
 
 
@@ -44,6 +45,11 @@ def create_app() -> Flask:
     @app.get("/api/health")
     def health() -> Any:
         return jsonify(get_repository().get_health())
+
+    @app.get("/api/platforms")
+    def platforms() -> Any:
+        include_disabled = request.args.get("includeDisabled") in {"1", "true", "True"}
+        return jsonify({"platforms": list_platforms(include_disabled=include_disabled)})
 
     @app.get("/api/openapi.json")
     def openapi() -> Any:

@@ -42,6 +42,10 @@ export function registerAccount({ email, password, displayName, platforms }) {
   });
 }
 
+export function fetchPlatforms() {
+  return request("/api/platforms");
+}
+
 export function logout() {
   return fetch("/api/auth/logout", { method: "POST", credentials: "include" }).then(async (response) => {
     const payload = await response.json();

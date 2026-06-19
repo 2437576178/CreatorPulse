@@ -1,0 +1,362 @@
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+165|                <p class="section-label">平台效率矩阵</p>
+166|                <table class="table">
+167|                  <tr><th>平台</th><th>发布投入</th><th>播放贡献</th><th>涨粉贡献</th><th>转粉率</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+168|                  <tr v-for="row in platformRows" :key="row.key">
+169|                    <td>{{ platformLabel(row.key) }}</td><td>{{ formatPercent((row.videoCount || 0) / totalVideos) }}</td><td>{{ formatPercent(row.views / totalViews) }}</td><td>{{ formatPercent(row.newFollowers / totalFollowers) }}</td><td>{{ formatPercent(row.newFollowers / row.views) }}</td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+213|                <p class="section-label">类型投入产出</p>
+214|                <table class="table">
+215|                  <tr><th>类型</th><th>播放贡献</th><th>互动贡献</th><th>涨粉贡献</th><th>动作</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+216|                  <tr v-for="row in typeRows" :key="row.key">
+217|                    <td>{{ contentLabel(row.key) }}</td><td>{{ formatPercent(row.views / totalViews) }}</td><td>{{ formatPercent((row.likes + row.comments + row.shares + row.saves) / Math.max(1, typeRows.reduce((value, item) => value + item.likes + item.comments + item.shares + item.saves, 0))) }}</td><td>{{ formatPercent(row.newFollowers / totalFollowers) }}</td><td><span class="tag hot">{{ row.newFollowers / row.views > 0.006 ? "加码" : "收缩" }}</span></td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+283|                <p class="section-label">流量质量矩阵</p>
+284|                <table class="table">
+285|                  <tr><th>来源</th><th>播放占比</th><th>转粉率</th><th>粘性</th><th>动作</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+286|                  <tr><td>搜索</td><td>18%</td><td>1.26%</td><td>高</td><td><span class="tag hot">加关键词</span></td></tr>
+287|                  <tr><td>关注</td><td>15%</td><td>0.68%</td><td>高</td><td><span class="tag purple">做系列</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+284|                <table class="table">
+285|                  <tr><th>来源</th><th>播放占比</th><th>转粉率</th><th>粘性</th><th>动作</th></tr>
+286|                  <tr><td>搜索</td><td>18%</td><td>1.26%</td><td>高</td><td><span class="tag hot">加关键词</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+287|                  <tr><td>关注</td><td>15%</td><td>0.68%</td><td>高</td><td><span class="tag purple">做系列</span></td></tr>
+288|                  <tr><td>分享</td><td>8%</td><td>0.74%</td><td>中</td><td><span class="tag">结论图</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+285|                  <tr><th>来源</th><th>播放占比</th><th>转粉率</th><th>粘性</th><th>动作</th></tr>
+286|                  <tr><td>搜索</td><td>18%</td><td>1.26%</td><td>高</td><td><span class="tag hot">加关键词</span></td></tr>
+287|                  <tr><td>关注</td><td>15%</td><td>0.68%</td><td>高</td><td><span class="tag purple">做系列</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+288|                  <tr><td>分享</td><td>8%</td><td>0.74%</td><td>中</td><td><span class="tag">结论图</span></td></tr>
+289|                  <tr><td>推荐</td><td>55%</td><td>0.16%</td><td>低</td><td><span class="tag">控泛流量</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+286|                  <tr><td>搜索</td><td>18%</td><td>1.26%</td><td>高</td><td><span class="tag hot">加关键词</span></td></tr>
+287|                  <tr><td>关注</td><td>15%</td><td>0.68%</td><td>高</td><td><span class="tag purple">做系列</span></td></tr>
+288|                  <tr><td>分享</td><td>8%</td><td>0.74%</td><td>中</td><td><span class="tag">结论图</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+289|                  <tr><td>推荐</td><td>55%</td><td>0.16%</td><td>低</td><td><span class="tag">控泛流量</span></td></tr>
+290|                </table>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+287|                  <tr><td>关注</td><td>15%</td><td>0.68%</td><td>高</td><td><span class="tag purple">做系列</span></td></tr>
+288|                  <tr><td>分享</td><td>8%</td><td>0.74%</td><td>中</td><td><span class="tag">结论图</span></td></tr>
+289|                  <tr><td>推荐</td><td>55%</td><td>0.16%</td><td>低</td><td><span class="tag">控泛流量</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+290|                </table>
+291|              </article>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+144|                <p class="section-label">热点话题</p>
+145|                <table class="table">
+146|                  <tr><th>话题</th><th>热度</th><th>适配</th><th>增长</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+147|                  <tr v-for="topic in hotTopics" :key="topic.topicId">
+148|                    <td>{{ topic.topicName }}</td><td>{{ topic.heatScore }}</td><td>{{ topic.creatorFitScore }}</td><td>{{ formatPercent(topic.growthRate) }}</td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+197|                <p class="section-label">结构拆解</p>
+198|                <table class="table">
+199|                  <tr><th>参考内容特征</th><th>表现</th><th>可借鉴动作</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+200|                  <tr><td>前 8 秒结果预览</td><td>完播率 +18%</td><td><span class="tag hot">加入开场</span></td></tr>
+201|                  <tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+198|                <table class="table">
+199|                  <tr><th>参考内容特征</th><th>表现</th><th>可借鉴动作</th></tr>
+200|                  <tr><td>前 8 秒结果预览</td><td>完播率 +18%</td><td><span class="tag hot">加入开场</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+201|                  <tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr>
+202|                  <tr><td>结尾收藏引导</td><td>收藏率 +31%</td><td><span class="tag">脚本加入</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+199|                  <tr><th>参考内容特征</th><th>表现</th><th>可借鉴动作</th></tr>
+200|                  <tr><td>前 8 秒结果预览</td><td>完播率 +18%</td><td><span class="tag hot">加入开场</span></td></tr>
+201|                  <tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+202|                  <tr><td>结尾收藏引导</td><td>收藏率 +31%</td><td><span class="tag">脚本加入</span></td></tr>
+203|                  <tr><td>步骤编号清晰</td><td>评论提问 +24%</td><td><span class="tag">保留章节</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+200|                  <tr><td>前 8 秒结果预览</td><td>完播率 +18%</td><td><span class="tag hot">加入开场</span></td></tr>
+201|                  <tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr>
+202|                  <tr><td>结尾收藏引导</td><td>收藏率 +31%</td><td><span class="tag">脚本加入</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+203|                  <tr><td>步骤编号清晰</td><td>评论提问 +24%</td><td><span class="tag">保留章节</span></td></tr>
+204|                </table>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+201|                  <tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr>
+202|                  <tr><td>结尾收藏引导</td><td>收藏率 +31%</td><td><span class="tag">脚本加入</span></td></tr>
+203|                  <tr><td>步骤编号清晰</td><td>评论提问 +24%</td><td><span class="tag">保留章节</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+204|                </table>
+205|              </article>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+162|                <p class="section-label">平台绑定</p>
+163|                <table class="table">
+164|                  <tr><th>平台</th><th>账号</th><th>授权</th><th>采集频率</th><th>延迟</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+165|                  <tr v-for="account in accounts" :key="account.accountId">
+166|                    <td>{{ platformLabel(account.platform) }}</td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorProfile.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+354|                <p class="section-label">内容类型贡献</p>
+355|                <table class="table">
+356|                  <tr><th>类型</th><th>播放</th><th>新粉</th><th>收藏</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+357|                  <tr v-for="row in contentTypeRows" :key="row.contentType">
+358|                    <td>{{ contentLabel(row.contentType) }}</td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/GrowthDashboard.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+195|              <p class="section-label">视频列表</p>
+196|              <table class="table">
+197|                <tr><th>视频</th><th>平台</th><th>播放</th><th>涨粉</th><th>转粉率</th><th>状态</th></tr>
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+198|                <tr v-for="video in latestVideos" :key="video.videoId">
+199|                  <td><div class="media-row"><div class="thumb"></div><span>{{ video.title }}</span></div></td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/VideoAnalysis.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+222|                <p class="section-label">涨粉贡献排行</p>
+223|                <table class="table">
+224|                  <tr><th>视频</th><th>平台</th><th>播放</th><th>涨粉</th><th>转粉率</th><th>动作</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+225|                  <tr v-for="video in contributionVideos" :key="video.videoId">
+226|                    <td>{{ video.title }}</td><td>{{ platformLabel(video.platform) }}</td><td>{{ formatNumber(video.views) }}</td><td>+{{ formatNumber(video.newFollowers) }}</td><td>{{ formatPercent(video.conversionRate) }}</td><td><span class="tag hot">{{ video.conversionRate > 0.008 ? "复刻系列" : "改 CTA" }}</span></td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/VideoAnalysis.vue[39m
+[2m12:14:47[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+296|                <p class="section-label">阶段动作矩阵</p>
+297|                <table class="table">
+298|                  <tr><th>阶段</th><th>代表视频</th><th>信号</th><th>动作</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+299|                  <tr v-for="row in lifecycleStageRows" :key="row.key">
+300|                    <td>{{ lifecycleLabel(row.key) }}</td><td>{{ row.representative?.title || "待观察视频" }}</td><td>{{ formatNumber(row.newFollowers) }} 新粉</td><td><span class="tag hot">{{ row.newFollowers > 8000 ? "置顶 CTA" : "合集入口" }}</span></td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/VideoAnalysis.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+354|                <p class="section-label">内容类型贡献</p>
+355|                <table class="table">
+356|                  <tr><th>类型</th><th>播放</th><th>新粉</th><th>收藏</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+357|                  <tr v-for="row in contentTypeRows" :key="row.contentType">
+358|                    <td>{{ contentLabel(row.contentType) }}</td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/GrowthDashboard.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+144|                <p class="section-label">热点话题</p>
+145|                <table class="table">
+146|                  <tr><th>话题</th><th>热度</th><th>适配</th><th>增长</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+147|                  <tr v-for="topic in hotTopics" :key="topic.topicId">
+148|                    <td>{{ topic.topicName }}</td><td>{{ topic.heatScore }}</td><td>{{ topic.creatorFitScore }}</td><td>{{ formatPercent(topic.growthRate) }}</td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+197|                <p class="section-label">结构拆解</p>
+198|                <table class="table">
+199|                  <tr><th>参考内容特征</th><th>表现</th><th>可借鉴动作</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+200|                  <tr><td>前 8 秒结果预览</td><td>完播率 +18%</td><td><span class="tag hot">加入开场</span></td></tr>
+201|                  <tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+198|                <table class="table">
+199|                  <tr><th>参考内容特征</th><th>表现</th><th>可借鉴动作</th></tr>
+200|                  <tr><td>前 8 秒结果预览</td><td>完播率 +18%</td><td><span class="tag hot">加入开场</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+201|                  <tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr>
+202|                  <tr><td>结尾收藏引导</td><td>收藏率 +31%</td><td><span class="tag">脚本加入</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+199|                  <tr><th>参考内容特征</th><th>表现</th><th>可借鉴动作</th></tr>
+200|                  <tr><td>前 8 秒结果预览</td><td>完播率 +18%</td><td><span class="tag hot">加入开场</span></td></tr>
+201|                  <tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+202|                  <tr><td>结尾收藏引导</td><td>收藏率 +31%</td><td><span class="tag">脚本加入</span></td></tr>
+203|                  <tr><td>步骤编号清晰</td><td>评论提问 +24%</td><td><span class="tag">保留章节</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+200|                  <tr><td>前 8 秒结果预览</td><td>完播率 +18%</td><td><span class="tag hot">加入开场</span></td></tr>
+201|                  <tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr>
+202|                  <tr><td>结尾收藏引导</td><td>收藏率 +31%</td><td><span class="tag">脚本加入</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+203|                  <tr><td>步骤编号清晰</td><td>评论提问 +24%</td><td><span class="tag">保留章节</span></td></tr>
+204|                </table>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+201|                  <tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr>
+202|                  <tr><td>结尾收藏引导</td><td>收藏率 +31%</td><td><span class="tag">脚本加入</span></td></tr>
+203|                  <tr><td>步骤编号清晰</td><td>评论提问 +24%</td><td><span class="tag">保留章节</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+204|                </table>
+205|              </article>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorOpportunities.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+165|                <p class="section-label">平台效率矩阵</p>
+166|                <table class="table">
+167|                  <tr><th>平台</th><th>发布投入</th><th>播放贡献</th><th>涨粉贡献</th><th>转粉率</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+168|                  <tr v-for="row in platformRows" :key="row.key">
+169|                    <td>{{ platformLabel(row.key) }}</td><td>{{ formatPercent((row.videoCount || 0) / totalVideos) }}</td><td>{{ formatPercent(row.views / totalViews) }}</td><td>{{ formatPercent(row.newFollowers / totalFollowers) }}</td><td>{{ formatPercent(row.newFollowers / row.views) }}</td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+213|                <p class="section-label">类型投入产出</p>
+214|                <table class="table">
+215|                  <tr><th>类型</th><th>播放贡献</th><th>互动贡献</th><th>涨粉贡献</th><th>动作</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+216|                  <tr v-for="row in typeRows" :key="row.key">
+217|                    <td>{{ contentLabel(row.key) }}</td><td>{{ formatPercent(row.views / totalViews) }}</td><td>{{ formatPercent((row.likes + row.comments + row.shares + row.saves) / Math.max(1, typeRows.reduce((value, item) => value + item.likes + item.comments + item.shares + item.saves, 0))) }}</td><td>{{ formatPercent(row.newFollowers / totalFollowers) }}</td><td><span class="tag hot">{{ row.newFollowers / row.views > 0.006 ? "加码" : "收缩" }}</span></td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+283|                <p class="section-label">流量质量矩阵</p>
+284|                <table class="table">
+285|                  <tr><th>来源</th><th>播放占比</th><th>转粉率</th><th>粘性</th><th>动作</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+286|                  <tr><td>搜索</td><td>18%</td><td>1.26%</td><td>高</td><td><span class="tag hot">加关键词</span></td></tr>
+287|                  <tr><td>关注</td><td>15%</td><td>0.68%</td><td>高</td><td><span class="tag purple">做系列</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+284|                <table class="table">
+285|                  <tr><th>来源</th><th>播放占比</th><th>转粉率</th><th>粘性</th><th>动作</th></tr>
+286|                  <tr><td>搜索</td><td>18%</td><td>1.26%</td><td>高</td><td><span class="tag hot">加关键词</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+287|                  <tr><td>关注</td><td>15%</td><td>0.68%</td><td>高</td><td><span class="tag purple">做系列</span></td></tr>
+288|                  <tr><td>分享</td><td>8%</td><td>0.74%</td><td>中</td><td><span class="tag">结论图</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+285|                  <tr><th>来源</th><th>播放占比</th><th>转粉率</th><th>粘性</th><th>动作</th></tr>
+286|                  <tr><td>搜索</td><td>18%</td><td>1.26%</td><td>高</td><td><span class="tag hot">加关键词</span></td></tr>
+287|                  <tr><td>关注</td><td>15%</td><td>0.68%</td><td>高</td><td><span class="tag purple">做系列</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+288|                  <tr><td>分享</td><td>8%</td><td>0.74%</td><td>中</td><td><span class="tag">结论图</span></td></tr>
+289|                  <tr><td>推荐</td><td>55%</td><td>0.16%</td><td>低</td><td><span class="tag">控泛流量</span></td></tr>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+286|                  <tr><td>搜索</td><td>18%</td><td>1.26%</td><td>高</td><td><span class="tag hot">加关键词</span></td></tr>
+287|                  <tr><td>关注</td><td>15%</td><td>0.68%</td><td>高</td><td><span class="tag purple">做系列</span></td></tr>
+288|                  <tr><td>分享</td><td>8%</td><td>0.74%</td><td>中</td><td><span class="tag">结论图</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+289|                  <tr><td>推荐</td><td>55%</td><td>0.16%</td><td>低</td><td><span class="tag">控泛流量</span></td></tr>
+290|                </table>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+287|                  <tr><td>关注</td><td>15%</td><td>0.68%</td><td>高</td><td><span class="tag purple">做系列</span></td></tr>
+288|                  <tr><td>分享</td><td>8%</td><td>0.74%</td><td>中</td><td><span class="tag">结论图</span></td></tr>
+289|                  <tr><td>推荐</td><td>55%</td><td>0.16%</td><td>低</td><td><span class="tag">控泛流量</span></td></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+290|                </table>
+291|              </article>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/ContentDistribution.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+162|                <p class="section-label">平台绑定</p>
+163|                <table class="table">
+164|                  <tr><th>平台</th><th>账号</th><th>授权</th><th>采集频率</th><th>延迟</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+165|                  <tr v-for="account in accounts" :key="account.accountId">
+166|                    <td>{{ platformLabel(account.platform) }}</td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/CreatorProfile.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+195|              <p class="section-label">视频列表</p>
+196|              <table class="table">
+197|                <tr><th>视频</th><th>平台</th><th>播放</th><th>涨粉</th><th>转粉率</th><th>状态</th></tr>
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+198|                <tr v-for="video in latestVideos" :key="video.videoId">
+199|                  <td><div class="media-row"><div class="thumb"></div><span>{{ video.title }}</span></div></td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/VideoAnalysis.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+222|                <p class="section-label">涨粉贡献排行</p>
+223|                <table class="table">
+224|                  <tr><th>视频</th><th>平台</th><th>播放</th><th>涨粉</th><th>转粉率</th><th>动作</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+225|                  <tr v-for="video in contributionVideos" :key="video.videoId">
+226|                    <td>{{ video.title }}</td><td>{{ platformLabel(video.platform) }}</td><td>{{ formatNumber(video.views) }}</td><td>+{{ formatNumber(video.newFollowers) }}</td><td>{{ formatPercent(video.conversionRate) }}</td><td><span class="tag hot">{{ video.conversionRate > 0.008 ? "复刻系列" : "改 CTA" }}</span></td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/VideoAnalysis.vue[39m
+[2m12:53:56[22m [33m[1m[vite][22m[39m [33mwarning: <tr> cannot be child of <table>, according to HTML specifications. This can cause hydration errors or potentially disrupt future functionality.
+296|                <p class="section-label">阶段动作矩阵</p>
+297|                <table class="table">
+298|                  <tr><th>阶段</th><th>代表视频</th><th>信号</th><th>动作</th></tr>
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+299|                  <tr v-for="row in lifecycleStageRows" :key="row.key">
+300|                    <td>{{ lifecycleLabel(row.key) }}</td><td>{{ row.representative?.title || "待观察视频" }}</td><td>{{ formatNumber(row.newFollowers) }} 新粉</td><td><span class="tag hot">{{ row.newFollowers > 8000 ? "置顶 CTA" : "合集入口" }}</span></td>[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/VideoAnalysis.vue[39m
+[2m22:34:44[22m [31m[1m[vite][22m[39m [31mInternal server error: Element is missing end tag.[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/LoginPage.vue[39m:185:11
+[33m  183|  
+  184|          <Transition name="form-fade">
+  185|            <div v-if="isRegister" class="mode-only">
+     |             ^
+  186|              <div class="platform-picker" aria-label="选择模拟绑定平台">
+  187|              <div class="platform-picker-head">[39m
+      at createCompilerError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1378:17)
+      at emitError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3014:5)
+      at Object.onclosetag (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:2381:13)
+      at Tokenizer.stateInClosingTagName (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:799:16)
+      at Tokenizer.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1157:16)
+      at Object.baseParse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3053:13)
+      at Object.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-dom\dist\compiler-dom.cjs.js:910:23)
+      at Object.parse$1 [as parse] (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:1824:24)
+      at createDescriptor (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+      at handleHotUpdate (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:2198:26)
+[2m23:09:01[22m [31m[1m[vite][22m[39m [31mInternal server error: Invalid end tag.[39m
+  Plugin: [35mvite:vue[39m
+  File: [36mE:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/src/pages/LoginPage.vue[39m:174:9
+[33m  172|              </label>
+  173|            </div>
+  174|          </Transition>
+     |           ^
+  175|          <label>
+  176|            <span>邮箱</span>[39m
+      at createCompilerError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1378:17)
+      at emitError (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3014:5)
+      at Object.onclosetag (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:2391:9)
+      at Tokenizer.stateInClosingTagName (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:799:16)
+      at Tokenizer.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:1157:16)
+      at Object.baseParse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-core\dist\compiler-core.cjs.js:3053:13)
+      at Object.parse (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-dom\dist\compiler-dom.cjs.js:910:23)
+      at Object.parse$1 [as parse] (E:\desktop\Vibecoding\bigdata_work\CreatorPulse\frontend\node_modules\@vue\compiler-sfc\dist\compiler-sfc.cjs.js:1824:24)
+      at createDescriptor (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+      at handleHotUpdate (file:///E:/desktop/Vibecoding/bigdata_work/CreatorPulse/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:2198:26)
