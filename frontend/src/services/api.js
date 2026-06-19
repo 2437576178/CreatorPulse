@@ -61,6 +61,23 @@ export function fetchMe() {
   return request("/api/me");
 }
 
+export function uploadAvatar(file) {
+  const formData = new FormData();
+  formData.append("avatar", file);
+  return fetch("/api/me/avatar", {
+    method: "POST",
+    credentials: "include",
+    body: formData
+  }).then(async (response) => {
+    const payload = await response.json();
+    if (!response.ok) {
+      const message = payload?.error?.message || "Avatar upload failed";
+      throw new Error(message);
+    }
+    return payload;
+  });
+}
+
 export function fetchGrowthDashboard() {
   return request("/api/me/dashboard/growth");
 }

@@ -34,6 +34,7 @@ class AuthUser:
     email: str
     display_name: str
     role: str
+    avatar_url: str = ""
 
     def to_payload(self) -> dict[str, str]:
         return {
@@ -42,6 +43,7 @@ class AuthUser:
             "email": self.email,
             "displayName": self.display_name,
             "role": self.role,
+            "avatarUrl": self.avatar_url,
         }
 
 
@@ -52,6 +54,7 @@ def row_to_user(row: dict[str, Any]) -> AuthUser:
         email=row["email"],
         display_name=row["display_name"],
         role=row["role"],
+        avatar_url=row.get("avatar_url") or "",
     )
 
 
@@ -65,9 +68,17 @@ class AuthRepository:
             result = connection.execute(
                 text(
                     """
-                    SELECT user_id, creator_id, email, password_hash, display_name, role
+                    SELECT
+                      users.user_id,
+                      users.creator_id,
+                      users.email,
+                      users.password_hash,
+                      users.display_name,
+                      users.role,
+                      creators.avatar_url
                     FROM users
-                    WHERE email = :email AND is_active = 1
+                    INNER JOIN creators ON creators.creator_id = users.creator_id
+                    WHERE users.email = :email AND users.is_active = 1
                     """
                 ),
                 {"email": normalized_email},
@@ -83,9 +94,16 @@ class AuthRepository:
             result = connection.execute(
                 text(
                     """
-                    SELECT user_id, creator_id, email, display_name, role
+                    SELECT
+                      users.user_id,
+                      users.creator_id,
+                      users.email,
+                      users.display_name,
+                      users.role,
+                      creators.avatar_url
                     FROM users
-                    WHERE user_id = :user_id AND is_active = 1
+                    INNER JOIN creators ON creators.creator_id = users.creator_id
+                    WHERE users.user_id = :user_id AND users.is_active = 1
                     """
                 ),
                 {"user_id": user_id},
@@ -140,6 +158,19 @@ class AuthRepository:
             )
 
         return AuthUser(user_id=user_id, creator_id=creator_id, email=normalized_email, display_name=normalized_name, role="CREATOR")
+
+    def update_avatar_url(self, creator_id: str, avatar_url: str) -> None:
+        with self.repository.engine.begin() as connection:
+            connection.execute(
+                text(
+                    """
+                    UPDATE creators
+                    SET avatar_url = :avatar_url
+                    WHERE creator_id = :creator_id
+                    """
+                ),
+                {"creator_id": creator_id, "avatar_url": avatar_url},
+            )
 
 
 def set_session_user(user: AuthUser) -> None:

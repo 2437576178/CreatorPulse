@@ -7,3 +7,4 @@ test-results/
 kafka_tools/out/
 spark_jobs/checkpoints/
 reports/
+api/uploads/

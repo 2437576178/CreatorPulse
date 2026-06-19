@@ -118,6 +118,63 @@
         }
       }
     },
+    "/api/me/avatar": {
+      "post": {
+        "summary": "Upload avatar image for the current creator",
+        "operationId": "uploadMyAvatar",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "avatar"
+                ],
+                "properties": {
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated authenticated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid avatar file",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/me/dashboard/growth": {
       "get": {
         "summary": "Get current creator growthDashboard page ViewModel",
@@ -958,7 +1015,8 @@
           "creatorId",
           "email",
           "displayName",
-          "role"
+          "role",
+          "avatarUrl"
         ],
         "properties": {
           "userId": {
@@ -975,6 +1033,9 @@
             "type": "string"
           },
           "role": {
+            "type": "string"
+          },
+          "avatarUrl": {
             "type": "string"
           }
         }

@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import sys
 import unittest
+from io import BytesIO
 from pathlib import Path
 from uuid import uuid4
 
@@ -48,6 +49,7 @@ class AuthAPITest(unittest.TestCase):
         me = self.client.get("/api/me")
         self.assertEqual(me.status_code, 200)
         self.assertEqual(me.get_json()["user"]["creatorId"], "creator_001")
+        self.assertIn("avatarUrl", me.get_json()["user"])
 
         growth = self.client.get("/api/me/dashboard/growth")
         self.assertEqual(growth.status_code, 200, growth.get_data(as_text=True))
@@ -87,6 +89,34 @@ class AuthAPITest(unittest.TestCase):
         logout = self.client.post("/api/auth/logout")
         self.assertEqual(logout.status_code, 200)
         self.assertEqual(self.client.get("/api/me").status_code, 401)
+
+    def test_upload_avatar_updates_current_creator(self) -> None:
+        self.client.post("/api/auth/login", json={"email": "demo@creatorpulse.local", "password": "demo123456"})
+
+        response = self.client.post(
+            "/api/me/avatar",
+            data={"avatar": (BytesIO(b"\x89PNG\r\n\x1a\navatar"), "avatar.png")},
+            content_type="multipart/form-data",
+        )
+
+        self.assertEqual(response.status_code, 200, response.get_data(as_text=True))
+        avatar_url = response.get_json()["user"]["avatarUrl"]
+        self.assertTrue(avatar_url.startswith("/uploads/avatars/creator_001_avatar_"))
+
+        me = self.client.get("/api/me")
+        self.assertEqual(me.get_json()["user"]["avatarUrl"], avatar_url)
+
+    def test_upload_avatar_rejects_non_image(self) -> None:
+        self.client.post("/api/auth/login", json={"email": "demo@creatorpulse.local", "password": "demo123456"})
+
+        response = self.client.post(
+            "/api/me/avatar",
+            data={"avatar": (BytesIO(b"not an image"), "avatar.txt")},
+            content_type="multipart/form-data",
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.get_json()["error"]["code"], "VALIDATION_ERROR")
 
     def test_register_creates_creator_with_selected_platforms_and_logs_in(self) -> None:
         email = f"signup-{uuid4().hex[:8]}@creatorpulse.local"

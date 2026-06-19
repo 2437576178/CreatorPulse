@@ -102,6 +102,14 @@
   opacity: 0.72;
 }
 
+.avatar-upload-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .login-shell {
   width: min(1120px, calc(100vw - 48px));
   min-height: calc(100vh - 80px);

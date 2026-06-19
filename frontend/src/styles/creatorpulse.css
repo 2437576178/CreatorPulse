@@ -137,15 +137,31 @@ a {
 }
 
 .top-pills-tabs {
+  position: relative;
   display: flex;
   gap: 8px;
   background: rgba(0, 0, 0, 0.22);
   padding: 4px;
   border-radius: 30px;
-  overflow-x: auto;
+  overflow: hidden;
+}
+
+.tab-slider {
+  position: absolute;
+  top: 4px;
+  z-index: 0;
+  height: calc(100% - 8px);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+  transition: all 0.2s ease-out;
 }
 
 .top-pill {
+  position: relative;
+  z-index: 1;
+  background: transparent;
   padding: 8px 18px;
   border-radius: 30px;
   font-size: 12px;
@@ -155,7 +171,6 @@ a {
 }
 
 .top-pill.active {
-  background: #fff;
   color: #111;
 }
 
@@ -233,6 +248,23 @@ a {
   border-radius: 50%;
   background: #fff url("https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop") center/cover;
   border: 2px solid rgba(255, 255, 255, 0.45);
+}
+
+.avatar-upload-trigger {
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    filter 0.18s ease,
+    transform 0.18s ease;
+}
+
+.avatar-upload-trigger:hover {
+  border-color: rgba(255, 255, 255, 0.9);
+  filter: brightness(1.08);
+}
+
+.avatar-upload-trigger:active {
+  transform: scale(0.96);
 }
 
 .page-title {

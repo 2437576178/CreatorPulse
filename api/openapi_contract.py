@@ -90,6 +90,43 @@ def openapi_schema() -> dict[str, Any]:
                 },
             }
         },
+        "/api/me/avatar": {
+            "post": {
+                "summary": "Upload avatar image for the current creator",
+                "operationId": "uploadMyAvatar",
+                "requestBody": {
+                    "required": True,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["avatar"],
+                                "properties": {
+                                    "avatar": {
+                                        "type": "string",
+                                        "format": "binary",
+                                    }
+                                },
+                            }
+                        }
+                    },
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated authenticated user",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AuthUserResponse"}}},
+                    },
+                    "400": {
+                        "description": "Invalid avatar file",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}},
+                    },
+                    "401": {
+                        "description": "Login required",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}},
+                    },
+                },
+            }
+        },
     }
 
     for path, view_model in PAGE_ENDPOINTS.items():
@@ -227,13 +264,14 @@ def component_schemas() -> dict[str, Any]:
             },
         ),
         "AuthUser": object_schema(
-            ["userId", "creatorId", "email", "displayName", "role"],
+            ["userId", "creatorId", "email", "displayName", "role", "avatarUrl"],
             {
                 "userId": {"type": "string"},
                 "creatorId": {"type": "string"},
                 "email": {"type": "string", "format": "email"},
                 "displayName": {"type": "string"},
                 "role": {"type": "string"},
+                "avatarUrl": {"type": "string"},
             },
         ),
         "AuthUserResponse": object_schema(["user"], {"user": {"$ref": "#/components/schemas/AuthUser"}}),

@@ -4,8 +4,10 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
 
 from flask import Flask, jsonify, request, send_from_directory
+from werkzeug.utils import secure_filename
 
 from admin_simulation import AdminSimulationRepository
 from auth import (
@@ -35,6 +37,13 @@ PAGE_VIEW_MODELS = {
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 FRONTEND_DIST = ROOT_DIR / "frontend" / "dist"
+UPLOAD_DIR = ROOT_DIR / "api" / "uploads" / "avatars"
+ALLOWED_AVATAR_MIME_TYPES = {
+    "image/jpeg": ".jpg",
+    "image/png": ".png",
+    "image/webp": ".webp",
+}
+MAX_AVATAR_BYTES = 2 * 1024 * 1024
 
 
 def create_app() -> Flask:
@@ -99,6 +108,34 @@ def create_app() -> Flask:
     @app.get("/api/me")
     def me() -> Any:
         return jsonify({"user": current_user().to_payload()})
+
+    @app.post("/api/me/avatar")
+    def update_my_avatar() -> Any:
+        user = current_user()
+        uploaded = request.files.get("avatar")
+        if uploaded is None or not uploaded.filename:
+            return jsonify({"error": {"code": "VALIDATION_ERROR", "message": "Avatar image is required"}}), 400
+
+        mime_type = uploaded.mimetype
+        if mime_type not in ALLOWED_AVATAR_MIME_TYPES:
+            return jsonify({"error": {"code": "VALIDATION_ERROR", "message": "Only JPG, PNG, or WebP images are supported"}}), 400
+
+        uploaded.seek(0, 2)
+        size = uploaded.tell()
+        uploaded.seek(0)
+        if size > MAX_AVATAR_BYTES:
+            return jsonify({"error": {"code": "VALIDATION_ERROR", "message": "Avatar image must be 2MB or smaller"}}), 400
+
+        UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+        extension = ALLOWED_AVATAR_MIME_TYPES[mime_type]
+        safe_stem = secure_filename(Path(uploaded.filename).stem) or "avatar"
+        filename = f"{user.creator_id}_{safe_stem}_{uuid4().hex[:10]}{extension}"
+        uploaded.save(UPLOAD_DIR / filename)
+
+        avatar_url = f"/uploads/avatars/{filename}"
+        AuthRepository().update_avatar_url(user.creator_id, avatar_url)
+        refreshed_user = AuthRepository().get_user(user.user_id)
+        return jsonify({"user": refreshed_user.to_payload()})
 
     @app.get("/api/me/dashboard/growth")
     def my_growth_dashboard() -> Any:
@@ -186,6 +223,10 @@ def create_app() -> Flask:
     @app.get("/assets/<path:filename>")
     def serve_frontend_asset(filename: str) -> Any:
         return send_from_directory(FRONTEND_DIST / "assets", filename)
+
+    @app.get("/uploads/avatars/<path:filename>")
+    def serve_avatar_upload(filename: str) -> Any:
+        return send_from_directory(UPLOAD_DIR, filename)
 
     @app.get("/<path:path>")
     def serve_frontend_spa(path: str) -> Any:
