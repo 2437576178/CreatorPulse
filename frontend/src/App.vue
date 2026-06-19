@@ -96,13 +96,6 @@ async function handleLogout() {
   <section v-if="checkingSession" class="card app-state-card"><p class="section-label">Loading</p><strong class="value">正在确认登录状态</strong></section>
   <LoginPage v-else-if="!currentUser" @authenticated="setAuthenticatedUser" />
   <template v-else>
-    <div class="session-bar" aria-label="当前登录账号">
-      <span>{{ currentUser.displayName }}</span>
-      <button type="button" :disabled="loggingOut" @click="handleLogout">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        <span>{{ loggingOut ? "退出中" : "退出" }}</span>
-      </button>
-    </div>
     <AdminSimulation v-if="currentPage === 'adminSimulation'" @navigate="setPage" />
     <GrowthDashboard v-else-if="currentPage === 'growth'" :active-page="currentPage" @navigate="setPage" />
     <FansAnalysis v-else-if="currentPage === 'fans'" :active-page="currentPage" @navigate="setPage" />
@@ -110,5 +103,14 @@ async function handleLogout() {
     <ContentDistribution v-else-if="currentPage === 'content'" :active-page="currentPage" @navigate="setPage" />
     <CreatorOpportunities v-else-if="currentPage === 'opportunities'" :active-page="currentPage" @navigate="setPage" />
     <CreatorProfile v-else :active-page="currentPage" @navigate="setPage" />
+    <Teleport v-if="currentPage !== 'adminSimulation'" :key="currentPage" defer to=".glass-board">
+      <div class="session-bar" aria-label="当前登录账号">
+        <span>{{ currentUser.displayName }}</span>
+        <button type="button" :disabled="loggingOut" @click="handleLogout">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>{{ loggingOut ? "退出中" : "退出" }}</span>
+        </button>
+      </div>
+    </Teleport>
   </template>
 </template>

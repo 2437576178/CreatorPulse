@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import bilibiliIcon from "../assets/app-icons/bilibili.png";
 import douyinIcon from "../assets/app-icons/douyin.png";
 import kuaishouIcon from "../assets/app-icons/kuaishou.png";
@@ -22,6 +22,11 @@ const displayName = ref("");
 const selectedPlatforms = ref(["DOUYIN", "BILIBILI", "XIAOHONGSHU"]);
 const loading = ref(false);
 const error = ref("");
+const successMessage = ref("");
+let toastTimer = null;
+
+const toastMessage = computed(() => successMessage.value || error.value);
+const toastType = computed(() => (successMessage.value ? "success" : "error"));
 
 const fallbackPlatformOptions = [
   { value: "DOUYIN", label: "抖音", iconSrc: douyinIcon },
@@ -64,11 +69,29 @@ function clearAccountFields() {
   password.value = "";
 }
 
+function clearToastTimer() {
+  window.clearTimeout(toastTimer);
+  toastTimer = null;
+}
+
+function hideToast() {
+  clearToastTimer();
+  error.value = "";
+  successMessage.value = "";
+}
+
+function scheduleToastDismiss() {
+  clearToastTimer();
+  toastTimer = window.setTimeout(hideToast, 15000);
+}
+
 onMounted(() => {
   clearAccountFields();
   window.setTimeout(clearAccountFields, 150);
   loadPlatforms();
 });
+
+onBeforeUnmount(clearToastTimer);
 
 async function loadPlatforms() {
   try {
@@ -89,7 +112,7 @@ async function loadPlatforms() {
 
 function switchMode(nextMode) {
   mode.value = nextMode;
-  error.value = "";
+  hideToast();
   if (nextMode === "login") {
     clearAccountFields();
   } else {
@@ -111,21 +134,56 @@ function toggleAllPlatforms() {
   selectedPlatforms.value = allPlatformsSelected.value ? [] : platformOptions.value.map((platform) => platform.value);
 }
 
+function toChineseAuthMessage(message) {
+  const normalizedMessage = String(message || "").toLowerCase();
+  if (normalizedMessage.includes("already registered")) {
+    return "该邮箱已注册，请直接登录或更换邮箱。";
+  }
+  if (normalizedMessage.includes("invalid email or password")) {
+    return "邮箱或密码错误，请重新输入。";
+  }
+  if (normalizedMessage.includes("email and password are required")) {
+    return "请输入邮箱和密码。";
+  }
+  if (normalizedMessage.includes("platforms must be a list")) {
+    return "平台选择异常，请重新选择绑定平台。";
+  }
+  if (normalizedMessage.includes("register failed")) {
+    return "注册失败，请稍后重试。";
+  }
+  if (normalizedMessage.includes("login failed")) {
+    return "登录失败，请稍后重试。";
+  }
+  if (normalizedMessage.includes("failed to fetch") || normalizedMessage.includes("network")) {
+    return "网络连接失败，请确认后端服务已启动。";
+  }
+  return message || "操作失败，请稍后重试。";
+}
+
 async function submitAccount() {
   loading.value = true;
-  error.value = "";
+  hideToast();
   try {
-    const payload = isRegister.value
-      ? await registerAccount({
-          email: email.value,
-          password: password.value,
-          displayName: displayName.value,
-          platforms: selectedPlatforms.value
-        })
-      : await login(email.value, password.value);
+    if (isRegister.value) {
+      await registerAccount({
+        email: email.value,
+        password: password.value,
+        displayName: displayName.value,
+        platforms: selectedPlatforms.value
+      });
+      mode.value = "login";
+      displayName.value = "";
+      password.value = "";
+      successMessage.value = "注册成功，请使用刚创建的账号登录。";
+      scheduleToastDismiss();
+      return;
+    }
+
+    const payload = await login(email.value, password.value);
     emit("authenticated", payload.user);
   } catch (accountError) {
-    error.value = accountError.message;
+    error.value = toChineseAuthMessage(accountError.message);
+    scheduleToastDismiss();
   } finally {
     loading.value = false;
   }
@@ -216,8 +274,19 @@ async function submitAccount() {
           <i class="fa-solid" :class="isRegister ? 'fa-user-plus' : 'fa-arrow-right-to-bracket'"></i>
           <span>{{ loading ? "处理中" : isRegister ? "创建账号" : "登录" }}</span>
         </button>
-        <p v-if="error" class="login-error">{{ error }}</p>
       </form>
     </section>
+    <Teleport to="body">
+      <Transition name="login-toast">
+        <div v-if="toastMessage" class="login-toast" :class="toastType" role="status">
+          <span class="login-toast-glow" aria-hidden="true"></span>
+          <i class="fa-solid" :class="toastType === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'"></i>
+          <span class="login-toast-text">{{ toastMessage }}</span>
+          <button type="button" class="login-toast-close" aria-label="关闭提示" @click="hideToast">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </Transition>
+    </Teleport>
   </main>
 </template>

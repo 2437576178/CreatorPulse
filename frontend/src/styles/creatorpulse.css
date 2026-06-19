@@ -119,6 +119,7 @@ a {
   justify-content: space-between;
   align-items: center;
   gap: 18px;
+  padding-right: 125px;
 }
 
 .brand-logo {
@@ -204,12 +205,13 @@ a {
   font-size: 12px;
 }
 
-.user-profile {
+.board-header .user-profile {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 12px;
-  min-width: 150px;
+  min-width: 0;
+  transform: translateY(-24px);
 }
 
 .sync-chip {
@@ -219,6 +221,10 @@ a {
   background: var(--neon-green);
   border-radius: 999px;
   padding: 6px 10px;
+}
+
+.board-header .sync-chip {
+  display: none;
 }
 
 .user-avatar {
