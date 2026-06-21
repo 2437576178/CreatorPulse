@@ -26,7 +26,19 @@ class ReportExecutionChecklistTest(unittest.TestCase):
         return path
 
     def test_current_placeholder_env_blocks_execution_without_side_effects(self) -> None:
-        checklist = build_checklist(ROOT_DIR / ".env")
+        env_file = self.make_env_file(
+            "\n".join(
+                [
+                    "MYSQL_HOST=127.0.0.1",
+                    "MYSQL_PORT=3306",
+                    "MYSQL_DATABASE=creatorpulse",
+                    "MYSQL_USER=your_user",
+                    "MYSQL_PASSWORD=your_password",
+                ]
+            )
+        )
+
+        checklist = build_checklist(env_file)
 
         self.assertEqual(checklist["mode"], "dry-run")
         self.assertEqual(checklist["stage"], "all")

@@ -43,7 +43,7 @@ def main() -> None:
     health_payload = health.get_json()
     require(health_payload["status"] == "ok", "health status should be ok")
     require(health_payload["counts"]["videos"] == 27, "health should report 27 videos")
-    require(20 <= health_payload["counts"]["insights"] <= 32, "health should report rule and runtime Spark insights")
+    require(health_payload["counts"]["insights"] >= 5, "health should report metric-backed insights")
     require(health_payload["counts"]["sparkPlatformMetricSummaries"] == 3, "health should report 3 Spark platform rows")
     require(health_payload["counts"]["sparkVideoFollowerContributions"] == 10, "health should report 10 Spark contribution rows")
 

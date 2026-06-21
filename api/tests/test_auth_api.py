@@ -140,6 +140,19 @@ class AuthAPITest(unittest.TestCase):
         accounts = profile.get_json()["data"]["platformAccounts"]
         self.assertEqual({item["platform"] for item in accounts}, {"DOUYIN", "XIAOHONGSHU"})
 
+        growth = self.client.get("/api/me/dashboard/growth")
+        self.assertEqual(growth.status_code, 200, growth.get_data(as_text=True))
+        growth_payload = growth.get_json()
+        self.assertEqual(growth_payload["data"]["currentSnapshot"]["dataStatus"], "WAITING_FOR_EVENTS")
+        self.assertEqual(growth_payload["data"]["topVideos"], [])
+
+        videos = self.client.get("/api/me/videos")
+        self.assertEqual(videos.status_code, 200, videos.get_data(as_text=True))
+        videos_payload = videos.get_json()
+        self.assertTrue(videos_payload["data"]["videos"])
+        self.assertEqual(videos_payload["data"]["snapshots"], [])
+        self.assertEqual(videos_payload["data"]["sparkContributions"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

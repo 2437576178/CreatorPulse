@@ -6,6 +6,7 @@ import os
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 API_DIR = Path(__file__).resolve().parents[1]
@@ -27,10 +28,12 @@ class RepositoryFactoryTest(unittest.TestCase):
         os.environ.pop("CREATORPULSE_DATA_SOURCE", None)
         clear_repository_cache()
 
-        repository = get_repository()
+        with patch("config.load_env_file"):
+            repository = get_repository()
+            data_source = get_data_source()
 
         self.assertIsInstance(repository, MockRepository)
-        self.assertEqual(get_data_source(), "mock")
+        self.assertEqual(data_source, "mock")
 
     def test_can_select_mysql_repository_without_connecting(self) -> None:
         os.environ["CREATORPULSE_DATA_SOURCE"] = "mysql"

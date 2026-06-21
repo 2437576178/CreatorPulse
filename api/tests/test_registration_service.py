@@ -39,9 +39,16 @@ class RegistrationServiceTest(unittest.TestCase):
         self.assertEqual(rows["creators"][0]["creator_id"], "creator_signup_001")
         self.assertEqual({row["platform"] for row in rows["platform_accounts"]}, {"DOUYIN", "XIAOHONGSHU"})
         self.assertEqual({row["platform"] for row in rows["videos"]}, {"DOUYIN", "XIAOHONGSHU"})
-        self.assertEqual({row["platform"] for row in rows["video_metric_snapshots"]}, {"DOUYIN", "XIAOHONGSHU"})
         self.assertEqual({row["creator_id"] for row in rows["videos"]}, {"creator_signup_001"})
         self.assertTrue(all(row["video_id"].endswith("_creator_signup_001") for row in rows["videos"]))
+        self.assertEqual(rows["video_metric_snapshots"], [])
+        self.assertEqual(rows["video_traffic_source_metrics"], [])
+        self.assertEqual(rows["creator_metric_snapshots"], [])
+        self.assertEqual(rows["insights"], [])
+        self.assertEqual(rows["insight_evidence_metrics"], [])
+        self.assertEqual(rows["recommended_actions"], [])
+        self.assertEqual(rows["spark_platform_metric_summaries"], [])
+        self.assertEqual(rows["spark_video_follower_contributions"], [])
 
     def test_seed_registered_creator_rows_supports_kuaishou_and_weibo(self) -> None:
         rows = seed_registered_creator_rows(
@@ -52,9 +59,9 @@ class RegistrationServiceTest(unittest.TestCase):
 
         self.assertEqual({row["platform"] for row in rows["platform_accounts"]}, {"KUAISHOU", "WEIBO"})
         self.assertEqual({row["platform"] for row in rows["videos"]}, {"KUAISHOU", "WEIBO"})
-        self.assertEqual({row["platform"] for row in rows["video_metric_snapshots"]}, {"KUAISHOU", "WEIBO"})
-        self.assertTrue(rows["video_traffic_source_metrics"])
-        self.assertTrue(rows["spark_platform_metric_summaries"])
+        self.assertEqual(rows["video_metric_snapshots"], [])
+        self.assertEqual(rows["video_traffic_source_metrics"], [])
+        self.assertEqual(rows["spark_platform_metric_summaries"], [])
 
 
 if __name__ == "__main__":

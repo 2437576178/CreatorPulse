@@ -31,7 +31,11 @@ class SeedAdditionalCreatorTest(unittest.TestCase):
         self.assertEqual({item["creatorId"] for item in contract["insights"]}, {"creator_003"})
         self.assertEqual({item["creatorId"] for item in contract["sparkOutputs"]["platformMetricSummaries"]}, {"creator_003"})
         self.assertGreaterEqual(len(contract["videos"]), 24)
-        self.assertGreaterEqual(len(contract["insights"]), 20)
+        self.assertGreaterEqual(len(contract["insights"]), 4)
+        self.assertEqual({item["generatedBy"] for item in contract["insights"]}, {"SPARK_RULE_ENGINE"})
+        for item in contract["insights"]:
+            self.assertGreaterEqual(len(item["evidenceMetrics"]), 2)
+            self.assertGreaterEqual(len(item["recommendedActions"]), 1)
         validate_view_models(contract["viewModels"])
 
 

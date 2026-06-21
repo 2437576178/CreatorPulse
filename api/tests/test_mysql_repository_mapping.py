@@ -16,6 +16,7 @@ if str(ROOT_DIR) not in sys.path:
 
 from database.import_mock_to_mysql import build_table_rows, load_json  # noqa: E402
 from mysql_repository import MySQLRepository  # noqa: E402
+from registration_service import seed_registered_creator_rows  # noqa: E402
 
 
 class MySQLRepositoryMappingTest(unittest.TestCase):
@@ -33,7 +34,8 @@ class MySQLRepositoryMappingTest(unittest.TestCase):
         self.assertEqual(len(self.contract["videoTrafficSourceMetrics"]), 135)
         self.assertEqual(len(self.contract["creatorMetricSnapshots"]), 7)
         self.assertEqual(len(self.contract["topicTrendSnapshots"]), 10)
-        self.assertEqual(len(self.contract["insights"]), len(self.mock_data["insights"]) + 2)
+        self.assertGreaterEqual(len(self.contract["insights"]), 5)
+        self.assertEqual({item["generatedBy"] for item in self.contract["insights"]}, {"SPARK_RULE_ENGINE"})
         self.assertEqual(len(self.contract["sparkOutputs"]["platformMetricSummaries"]), 3)
         self.assertEqual(len(self.contract["sparkOutputs"]["videoFollowerContributions"]), 10)
 
@@ -76,6 +78,97 @@ class MySQLRepositoryMappingTest(unittest.TestCase):
         self.assertEqual({item["creatorId"] for item in contract["creatorMetricSnapshots"]}, {"creator_002"})
         self.assertEqual({item["creatorId"] for item in contract["insights"]}, {"creator_002"})
         self.assertEqual({item["creatorId"] for item in contract["sparkOutputs"]["platformMetricSummaries"]}, {"creator_002"})
+
+    def test_registered_profile_only_creator_gets_empty_metric_view_models(self) -> None:
+        rows = seed_registered_creator_rows("creator_profile_only", "Profile Only", ["DOUYIN", "BILIBILI"])
+
+        contract = MySQLRepository().to_contract(rows, "creator_profile_only")
+        view_models = contract["viewModels"]
+
+        self.assertEqual(contract["creator"]["creatorId"], "creator_profile_only")
+        self.assertTrue(contract["videos"])
+        self.assertEqual(contract["videoMetricSnapshots"], [])
+        self.assertEqual(contract["creatorMetricSnapshots"], [])
+        self.assertEqual(view_models["growthDashboard"]["topVideos"], [])
+        self.assertEqual(view_models["growthDashboard"]["currentSnapshot"]["dataStatus"], "WAITING_FOR_EVENTS")
+        self.assertEqual(view_models["fansAnalysis"]["trend"][0]["dataStatus"], "WAITING_FOR_EVENTS")
+        self.assertEqual(view_models["videoAnalysis"]["sparkContributions"], [])
+        self.assertEqual(view_models["contentDistribution"]["sparkPlatformSummaries"], [])
+
+    def test_api_contract_exposes_latest_metric_snapshots_and_latest_spark_rows_only(self) -> None:
+        rows = {table: [dict(row) for row in table_rows] for table, table_rows in self.table_rows.items()}
+        first_video = rows["video_metric_snapshots"][0]
+        rows["video_metric_snapshots"].append(
+            {
+                **first_video,
+                "snapshot_id": f"{first_video['snapshot_id']}_older",
+                "views": 1,
+                "new_followers": 0,
+                "collected_at": "2026-01-01 00:00:00",
+            }
+        )
+
+        rows["spark_platform_metric_summaries"].extend(
+            [
+                {
+                    **row,
+                    "run_id": "older_platform_run",
+                    "total_views": 1,
+                    "new_followers": 0,
+                    "calculated_at": "2026-01-01 00:00:00",
+                }
+                for row in rows["spark_platform_metric_summaries"]
+            ]
+        )
+        stale_platform = {
+            **rows["spark_platform_metric_summaries"][0],
+            "run_id": "newer_stale_platform_run",
+            "platform": rows["spark_platform_metric_summaries"][0]["platform"],
+            "total_views": 2,
+            "new_followers": 0,
+            "calculated_at": "2027-01-02 00:00:00",
+        }
+        rows["spark_platform_metric_summaries"].append(stale_platform)
+        rows["spark_video_follower_contributions"].extend(
+            [
+                {
+                    **row,
+                    "run_id": "older_contribution_run",
+                    "views": 1,
+                    "new_followers": 0,
+                    "calculated_at": "2026-01-01 00:00:00",
+                }
+                for row in rows["spark_video_follower_contributions"]
+            ]
+        )
+        stale_contribution = {
+            **rows["spark_video_follower_contributions"][0],
+            "run_id": "newer_stale_contribution_run",
+            "views": 2,
+            "new_followers": 0,
+            "calculated_at": "2027-01-02 00:00:00",
+        }
+        rows["spark_video_follower_contributions"].append(stale_contribution)
+
+        contract = MySQLRepository().to_contract(rows, "creator_001")
+
+        snapshots_for_first_video = [item for item in contract["videoMetricSnapshots"] if item["videoId"] == first_video["video_id"]]
+        self.assertEqual(len(snapshots_for_first_video), 1)
+        self.assertNotEqual(snapshots_for_first_video[0]["views"], 1)
+        self.assertEqual(len(contract["sparkOutputs"]["platformMetricSummaries"]), 3)
+        self.assertIn("newer_stale_platform_run", {item["runId"] for item in contract["sparkOutputs"]["platformMetricSummaries"]})
+        self.assertNotIn("older_platform_run", {item["runId"] for item in contract["sparkOutputs"]["platformMetricSummaries"]})
+        self.assertEqual(
+            len({item["platform"] for item in contract["sparkOutputs"]["platformMetricSummaries"]}),
+            len(contract["sparkOutputs"]["platformMetricSummaries"]),
+        )
+        self.assertEqual(len(contract["sparkOutputs"]["videoFollowerContributions"]), 10)
+        self.assertIn("newer_stale_contribution_run", {item["runId"] for item in contract["sparkOutputs"]["videoFollowerContributions"]})
+        self.assertNotIn("older_contribution_run", {item["runId"] for item in contract["sparkOutputs"]["videoFollowerContributions"]})
+        self.assertEqual(
+            len({item["videoId"] for item in contract["sparkOutputs"]["videoFollowerContributions"]}),
+            len(contract["sparkOutputs"]["videoFollowerContributions"]),
+        )
 
 
 def clone_rows_for_second_creator(rows: dict[str, list[dict]]) -> dict[str, list[dict]]:

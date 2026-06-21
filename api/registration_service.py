@@ -198,6 +198,11 @@ def seed_registered_creator_rows(creator_id: str, display_name: str, platforms: 
     data["videoMetricSnapshots"] = [item for item in data["videoMetricSnapshots"] if item["videoId"] in allowed_video_ids]
     data["videoTrafficSourceMetrics"] = [item for item in data["videoTrafficSourceMetrics"] if item["videoId"] in allowed_video_ids]
 
+    data["videoMetricSnapshots"] = []
+    data["videoTrafficSourceMetrics"] = []
+    data["creatorMetricSnapshots"] = []
+    data["insights"] = []
+
     rows = build_table_rows(data)
     validate_rows(rows)
     return rows

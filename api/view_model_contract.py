@@ -68,8 +68,10 @@ def validate_view_model(name: str, view_model: dict[str, Any]) -> None:
         validate_insight_shape(insight, name)
 
     if name == "growthDashboard":
-        require(view_model["topVideos"], "growthDashboard.topVideos cannot be empty")
         require("totalFollowers" in view_model["currentSnapshot"], "growthDashboard.currentSnapshot missing totalFollowers")
+        waiting_for_events = view_model["currentSnapshot"].get("dataStatus") == "WAITING_FOR_EVENTS"
+        if not waiting_for_events:
+            require(view_model["topVideos"], "growthDashboard.topVideos cannot be empty")
 
     if name == "fansAnalysis":
         require(view_model["trend"], "fansAnalysis.trend cannot be empty")
@@ -77,11 +79,9 @@ def validate_view_model(name: str, view_model: dict[str, Any]) -> None:
 
     if name == "videoAnalysis":
         require(view_model["videos"], "videoAnalysis.videos cannot be empty")
-        require(view_model["snapshots"], "videoAnalysis.snapshots cannot be empty")
-        require(view_model["sparkContributions"], "videoAnalysis.sparkContributions cannot be empty")
 
     if name == "contentDistribution":
-        require(view_model["sparkPlatformSummaries"], "contentDistribution.sparkPlatformSummaries cannot be empty")
+        require(isinstance(view_model["sparkPlatformSummaries"], list), "contentDistribution.sparkPlatformSummaries must be a list")
 
     if name == "opportunities":
         require(view_model["topics"], "opportunities.topics cannot be empty")

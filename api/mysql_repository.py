@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from functools import cached_property
 from typing import Any
 
@@ -30,6 +30,31 @@ def iso_datetime(value: Any) -> str:
     if isinstance(value, date):
         return value.isoformat()
     return str(value)
+
+
+def comparable_value(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, datetime):
+        return value.isoformat()
+    if isinstance(value, date):
+        return value.isoformat()
+    return str(value)
+
+
+def latest_rows_by_key(rows: list[dict[str, Any]], key: str, order_columns: tuple[str, ...]) -> list[dict[str, Any]]:
+    latest: dict[Any, dict[str, Any]] = {}
+    for row in rows:
+        row_key = row[key]
+        current = latest.get(row_key)
+        if current is None:
+            latest[row_key] = row
+            continue
+        row_order = tuple(comparable_value(row.get(column)) for column in order_columns)
+        current_order = tuple(comparable_value(current.get(column)) for column in order_columns)
+        if row_order > current_order:
+            latest[row_key] = row
+    return list(latest.values())
 
 
 class MySQLRepository:
@@ -108,7 +133,20 @@ class MySQLRepository:
                 ),
                 "video_metric_snapshots": self.fetch_all(
                     connection,
-                    "SELECT * FROM video_metric_snapshots WHERE creator_id = :creator_id ORDER BY collected_at DESC, snapshot_id",
+                    """
+                    SELECT snapshot.*
+                    FROM video_metric_snapshots snapshot
+                    INNER JOIN (
+                        SELECT video_id, MAX(collected_at) AS collected_at
+                        FROM video_metric_snapshots
+                        WHERE creator_id = :creator_id
+                        GROUP BY video_id
+                    ) latest
+                        ON latest.video_id = snapshot.video_id
+                       AND latest.collected_at = snapshot.collected_at
+                    WHERE snapshot.creator_id = :creator_id
+                    ORDER BY snapshot.collected_at DESC, snapshot.snapshot_id
+                    """,
                     {"creator_id": resolved_creator_id},
                 ),
                 "video_traffic_source_metrics": self.fetch_all(
@@ -163,18 +201,37 @@ class MySQLRepository:
                 "spark_platform_metric_summaries": self.fetch_all(
                     connection,
                     """
-                    SELECT * FROM spark_platform_metric_summaries
-                    WHERE creator_id = :creator_id
-                    ORDER BY calculated_at DESC, platform
+                    SELECT summary.*
+                    FROM spark_platform_metric_summaries summary
+                    INNER JOIN (
+                        SELECT platform, MAX(calculated_at) AS calculated_at
+                        FROM spark_platform_metric_summaries
+                        WHERE creator_id = :creator_id
+                        GROUP BY platform
+                    ) latest
+                        ON latest.platform = summary.platform
+                       AND latest.calculated_at = summary.calculated_at
+                    WHERE summary.creator_id = :creator_id
+                    ORDER BY summary.calculated_at DESC, summary.platform
                     """,
                     {"creator_id": resolved_creator_id},
                 ),
                 "spark_video_follower_contributions": self.fetch_all(
                     connection,
                     """
-                    SELECT * FROM spark_video_follower_contributions
-                    WHERE creator_id = :creator_id
-                    ORDER BY calculated_at DESC, rank_position
+                    SELECT contribution.*
+                    FROM spark_video_follower_contributions contribution
+                    INNER JOIN (
+                        SELECT video_id, MAX(calculated_at) AS calculated_at
+                        FROM spark_video_follower_contributions
+                        WHERE creator_id = :creator_id
+                        GROUP BY video_id
+                    ) latest
+                        ON latest.video_id = contribution.video_id
+                       AND latest.calculated_at = contribution.calculated_at
+                    WHERE contribution.creator_id = :creator_id
+                    ORDER BY contribution.new_followers DESC, contribution.conversion_rate DESC, contribution.calculated_at DESC
+                    LIMIT 10
                     """,
                     {"creator_id": resolved_creator_id},
                 ),
@@ -205,6 +262,7 @@ class MySQLRepository:
 
     def to_contract(self, rows: dict[str, list[dict[str, Any]]], creator_id: str | None = None) -> dict[str, Any]:
         rows = self.filter_rows_by_creator(rows, creator_id)
+        rows = self.latest_metric_rows(rows)
         creator = rows["creators"][0]
         generated_at = self.latest_generated_at(rows["insights"], rows["video_metric_snapshots"])
 
@@ -327,6 +385,30 @@ class MySQLRepository:
         return data
 
     @staticmethod
+    def latest_metric_rows(rows: dict[str, list[dict[str, Any]]]) -> dict[str, list[dict[str, Any]]]:
+        next_rows = {table: list(table_rows) for table, table_rows in rows.items()}
+        next_rows["video_metric_snapshots"] = latest_rows_by_key(
+            rows.get("video_metric_snapshots", []),
+            "video_id",
+            ("collected_at", "updated_at", "created_at", "snapshot_id"),
+        )
+        next_rows["spark_platform_metric_summaries"] = latest_rows_by_key(
+            rows.get("spark_platform_metric_summaries", []),
+            "platform",
+            ("calculated_at", "run_id"),
+        )
+        next_rows["spark_video_follower_contributions"] = sorted(
+            latest_rows_by_key(
+                rows.get("spark_video_follower_contributions", []),
+                "video_id",
+                ("calculated_at", "run_id"),
+            ),
+            key=lambda item: (item.get("new_followers") or 0, item.get("conversion_rate") or 0, comparable_value(item.get("calculated_at"))),
+            reverse=True,
+        )[:10]
+        return next_rows
+
+    @staticmethod
     def filter_rows_by_creator(rows: dict[str, list[dict[str, Any]]], creator_id: str | None) -> dict[str, list[dict[str, Any]]]:
         if creator_id is None:
             return rows
@@ -362,7 +444,7 @@ class MySQLRepository:
             return iso_datetime(max(item["generated_at"] for item in insights))
         if snapshots:
             return iso_datetime(max(item["collected_at"] for item in snapshots))
-        return datetime.utcnow().isoformat()
+        return datetime.now(timezone.utc).replace(tzinfo=None).isoformat()
 
     @staticmethod
     def map_audience(rows: list[dict[str, Any]]) -> dict[str, Any]:
