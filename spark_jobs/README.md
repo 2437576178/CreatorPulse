@@ -77,3 +77,10 @@ and writes to:
 
 - `spark_platform_metric_summaries`
 - `spark_video_follower_contributions`
+- `video_metric_snapshots`
+- `video_traffic_source_metrics`
+- `creator_metric_snapshots`
+
+The first two tables are Spark diagnostic/result tables. The last three are
+the page-facing metric tables used by the Flask API, so a newly registered
+creator can leave the "waiting for events" state after the first event batch.

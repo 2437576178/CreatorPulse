@@ -17,9 +17,11 @@ if str(ROOT_DIR) not in sys.path:
 
 from spark_jobs.kafka_streaming_to_mysql import (  # noqa: E402
     VIDEO_STATS_SCHEMA_JSON,
+    build_upsert_sql,
     build_execution_plan,
     dry_run_summary,
     load_streaming_config,
+    parse_mysql_jdbc_url,
     require_streaming_config,
 )
 
@@ -47,13 +49,22 @@ class KafkaStreamingToMySQLTest(unittest.TestCase):
         self.assertEqual(summary["status"], "ok")
         self.assertEqual(summary["kafka"]["topic"], "video_stats_topic")
         self.assertEqual(summary["mysql"]["platformTable"], "spark_platform_metric_summaries")
+        self.assertEqual(summary["mysql"]["videoMetricTable"], "video_metric_snapshots")
+        self.assertEqual(summary["mysql"]["trafficSourceTable"], "video_traffic_source_metrics")
+        self.assertEqual(summary["mysql"]["creatorMetricTable"], "creator_metric_snapshots")
         self.assertEqual(summary["executionPlan"]["willStartStreaming"], False)
         self.assertEqual(summary["executionPlan"]["requiresExecuteFlag"], True)
         self.assertEqual(summary["executionPlan"]["requiresFullPipelineLiveFlag"], True)
         self.assertEqual(summary["executionPlan"]["sourceTopic"], "video_stats_topic")
         self.assertEqual(
             summary["executionPlan"]["targetTables"],
-            ["spark_platform_metric_summaries", "spark_video_follower_contributions"],
+            [
+                "spark_platform_metric_summaries",
+                "spark_video_follower_contributions",
+                "video_metric_snapshots",
+                "video_traffic_source_metrics",
+                "creator_metric_snapshots",
+            ],
         )
         self.assertIn("stats", summary["schemaFields"])
         self.assertIn("growth", summary["schemaFields"])
@@ -74,6 +85,31 @@ class KafkaStreamingToMySQLTest(unittest.TestCase):
         self.assertIn("content_id", field_names)
         self.assertIn("stats", field_names)
         self.assertIn("growth", field_names)
+        self.assertIn("traffic_source", field_names)
+
+        stats_schema = next(field["type"] for field in VIDEO_STATS_SCHEMA_JSON["fields"] if field["name"] == "stats")
+        stats_fields = [field["name"] for field in stats_schema["fields"]]
+        self.assertIn("completion_rate", stats_fields)
+        self.assertIn("average_watch_seconds", stats_fields)
+
+    def test_parses_mysql_jdbc_url_for_upsert_writer(self) -> None:
+        parsed = parse_mysql_jdbc_url("jdbc:mysql://127.0.0.1:3306/creatorpulse?charset=utf8mb4")
+
+        self.assertEqual(parsed["host"], "127.0.0.1")
+        self.assertEqual(parsed["port"], 3306)
+        self.assertEqual(parsed["database"], "creatorpulse")
+
+    def test_builds_mysql_upsert_sql(self) -> None:
+        sql = build_upsert_sql(
+            "creator_metric_snapshots",
+            ["snapshot_id", "creator_id", "metric_date", "new_followers"],
+            ["snapshot_id", "creator_id", "metric_date"],
+        )
+
+        self.assertIn("INSERT INTO `creator_metric_snapshots`", sql)
+        self.assertIn("ON DUPLICATE KEY UPDATE", sql)
+        self.assertIn("`new_followers` = VALUES(`new_followers`)", sql)
+        self.assertNotIn("`creator_id` = VALUES(`creator_id`)", sql)
 
     def test_require_streaming_config_rejects_placeholder_bootstrap(self) -> None:
         os.environ["KAFKA_BOOTSTRAP_SERVERS"] = "192.168.56.10:9092"

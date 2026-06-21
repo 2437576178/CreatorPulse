@@ -38,6 +38,9 @@ class KafkaClosedLoopTest(unittest.TestCase):
         self.assertEqual(result["eventCounts"]["topic_trend"], 10)
         self.assertEqual(result["sparkRows"]["spark_platform_metric_summaries"], 3)
         self.assertEqual(result["sparkRows"]["spark_video_follower_contributions"], 10)
+        self.assertEqual(result["sparkRows"]["video_metric_snapshots"], 27)
+        self.assertEqual(result["sparkRows"]["video_traffic_source_metrics"], 135)
+        self.assertEqual(result["sparkRows"]["creator_metric_snapshots"], 1)
 
     def test_build_execution_plan_describes_real_kafka_mode(self) -> None:
         plan = build_execution_plan(

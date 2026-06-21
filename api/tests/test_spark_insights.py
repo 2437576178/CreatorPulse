@@ -25,19 +25,31 @@ class SparkInsightsTest(unittest.TestCase):
         rows = build_table_rows(load_json())
         cls.contract = MySQLRepository().to_contract(rows)
 
-    def test_builds_platform_and_video_insights(self) -> None:
+    def test_builds_metric_backed_insights_for_core_pages(self) -> None:
         insights = build_spark_insights(self.contract)
 
-        self.assertEqual(len(insights), 2)
+        self.assertGreaterEqual(len(insights), 5)
         self.assertEqual({item["generatedBy"] for item in insights}, {"SPARK_RULE_ENGINE"})
-        self.assertIn("content.platform", insights[0]["pageTargets"])
-        self.assertIn("video.contribution", insights[1]["pageTargets"])
+        targets = {target for insight in insights for target in insight["pageTargets"]}
+        self.assertIn("growth.overview", targets)
+        self.assertIn("growth.conversion", targets)
+        self.assertIn("fans.stickiness", targets)
+        self.assertIn("video.contribution", targets)
+        self.assertIn("content.platform", targets)
+        for insight in insights:
+            self.assertGreaterEqual(len(insight["evidenceMetrics"]), 2, insight["insightId"])
+            self.assertGreaterEqual(len(insight["recommendedActions"]), 1, insight["insightId"])
+            self.assertNotIn("Spark 聚合", insight["title"])
+            self.assertNotIn("Spark 排名", insight["title"])
 
     def test_merged_contract_exposes_spark_insights_in_view_models(self) -> None:
         insight_ids = {item["insightId"] for item in self.contract["insights"]}
 
         self.assertIn("insight_spark_platform_efficiency", insight_ids)
         self.assertIn("insight_spark_video_contribution", insight_ids)
+        self.assertIn("insight_spark_growth_health", insight_ids)
+        self.assertIn("insight_spark_fan_stickiness", insight_ids)
+        self.assertEqual({item["generatedBy"] for item in self.contract["insights"]}, {"SPARK_RULE_ENGINE"})
         self.assertTrue(
             any(item["generatedBy"] == "SPARK_RULE_ENGINE" for item in self.contract["viewModels"]["videoAnalysis"]["insights"])
         )

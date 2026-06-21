@@ -24,6 +24,31 @@ def pct(numerator: float, denominator: float) -> float:
     return round(numerator / denominator, 6)
 
 
+def bounded_score(value: float) -> float:
+    return round(max(0.0, min(100.0, value)), 2)
+
+
+def event_timestamp(event: dict[str, Any]) -> str:
+    return str(event.get("fetch_time") or "")
+
+
+def snapshot_id(*parts: Any) -> str:
+    raw = "_".join(str(part) for part in parts if part is not None)
+    safe = "".join(char if char.isalnum() else "_" for char in raw)
+    return safe[:96]
+
+
+def normalize_source(source: str) -> str:
+    mapping = {
+        "recommendation": "recommend",
+        "recommend": "recommend",
+        "following": "follow",
+        "follow": "follow",
+    }
+    normalized = source.strip().lower()
+    return mapping.get(normalized, normalized)
+
+
 def load_events(path: Path = DEFAULT_EVENTS_PATH) -> list[dict[str, Any]]:
     events = []
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -34,6 +59,16 @@ def load_events(path: Path = DEFAULT_EVENTS_PATH) -> list[dict[str, Any]]:
 
 def video_stats_events(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [event for event in events if event.get("event_type") == "video_stats"]
+
+
+def latest_video_stats_events(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    latest: dict[tuple[str, str], dict[str, Any]] = {}
+    for event in video_stats_events(events):
+        key = (event["creator_id"], event["content_id"])
+        current = latest.get(key)
+        if current is None or event_timestamp(event) >= event_timestamp(current):
+            latest[key] = event
+    return list(latest.values())
 
 
 def aggregate_platform_metrics(
@@ -59,6 +94,108 @@ def aggregate_platform_metrics(
                 "video_count": len(platform_events),
                 "conversion_rate": pct(new_followers, total_views),
                 "calculated_at": calculated_at,
+            }
+        )
+    return rows
+
+
+def aggregate_video_metric_snapshots(events: list[dict[str, Any]], collected_at: str) -> list[dict[str, Any]]:
+    rows = []
+    for event in sorted(latest_video_stats_events(events), key=lambda item: (item["creator_id"], item["content_id"])):
+        stats = event["stats"]
+        growth = event["growth"]
+        views = stats["play_count"]
+        likes = stats["like_count"]
+        comments = stats["comment_count"]
+        shares = stats["share_count"]
+        saves = stats["save_count"]
+        profile_visits = growth["profile_visits"]
+        new_followers = growth["new_followers"]
+        rows.append(
+            {
+                "snapshot_id": snapshot_id("vms", event["creator_id"], event["content_id"], collected_at),
+                "video_id": event["content_id"],
+                "creator_id": event["creator_id"],
+                "platform": event["platform"],
+                "views": views,
+                "likes": likes,
+                "comments": comments,
+                "shares": shares,
+                "saves": saves,
+                "profile_visits": profile_visits,
+                "new_followers": new_followers,
+                "completion_rate": stats.get("completion_rate", 0.0),
+                "average_watch_seconds": stats.get("average_watch_seconds", 0),
+                "engagement_rate": pct(likes + comments + shares + saves, views),
+                "conversion_rate": pct(new_followers, views),
+                "comment_rate": pct(comments, views),
+                "save_rate": pct(saves, views),
+                "share_rate": pct(shares, views),
+                "collected_at": collected_at,
+            }
+        )
+    return rows
+
+
+def aggregate_video_traffic_source_metrics(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = []
+    for event in sorted(latest_video_stats_events(events), key=lambda item: (item["creator_id"], item["content_id"])):
+        for source, source_metrics in sorted((event.get("traffic_source") or {}).items()):
+            normalized_source = normalize_source(source)
+            views = source_metrics.get("views", 0)
+            new_followers = source_metrics.get("new_followers", 0)
+            rows.append(
+                {
+                    "video_id": event["content_id"],
+                    "source": normalized_source,
+                    "views": views,
+                    "new_followers": new_followers,
+                    "conversion_rate": source_metrics.get("conversion_rate", pct(new_followers, views)),
+                    "save_rate": source_metrics.get("save_rate", pct(event["stats"].get("save_count", 0), event["stats"].get("play_count", 0))),
+                    "comment_rate": source_metrics.get("comment_rate", pct(event["stats"].get("comment_count", 0), event["stats"].get("play_count", 0))),
+                }
+            )
+    return rows
+
+
+def aggregate_creator_metric_snapshots(events: list[dict[str, Any]], metric_date: str) -> list[dict[str, Any]]:
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for event in latest_video_stats_events(events):
+        grouped.setdefault(event["creator_id"], []).append(event)
+
+    rows = []
+    for creator_id, creator_events in sorted(grouped.items()):
+        total_views = sum(event["stats"]["play_count"] for event in creator_events)
+        total_interactions = sum(
+            event["stats"]["like_count"] + event["stats"]["comment_count"] + event["stats"]["share_count"] + event["stats"]["save_count"]
+            for event in creator_events
+        )
+        profile_visits = sum(event["growth"]["profile_visits"] for event in creator_events)
+        new_followers = sum(event["growth"]["new_followers"] for event in creator_events)
+        play_delta = sum(event["growth"].get("play_growth_5s") or event["stats"]["play_count"] for event in creator_events)
+        lost_followers = 0
+        net_followers = new_followers - lost_followers
+        view_to_follower_rate = pct(new_followers, play_delta)
+        engagement_rate = pct(total_interactions, total_views)
+        profile_conversion_rate = pct(new_followers, profile_visits)
+        stickiness_score = bounded_score(engagement_rate * 420)
+        growth_health_score = bounded_score(view_to_follower_rate * 7200 + profile_conversion_rate * 120 + stickiness_score * 0.35)
+        rows.append(
+            {
+                "snapshot_id": snapshot_id("cms", creator_id, metric_date),
+                "creator_id": creator_id,
+                "metric_date": metric_date,
+                "total_followers": new_followers,
+                "new_followers": new_followers,
+                "lost_followers": lost_followers,
+                "net_followers": net_followers,
+                "total_views": total_views,
+                "total_interactions": total_interactions,
+                "profile_visits": profile_visits,
+                "follower_growth_rate": 0.0,
+                "view_to_follower_rate": view_to_follower_rate,
+                "stickiness_score": stickiness_score,
+                "growth_health_score": growth_health_score,
             }
         )
     return rows
@@ -100,8 +237,12 @@ def main() -> None:
 
     events = load_events(args.events)
     calculated_at = datetime.now(UTC).replace(microsecond=0, tzinfo=None).isoformat()
+    metric_date = calculated_at[:10]
     platform_rows = aggregate_platform_metrics(events, args.run_id, calculated_at)
     contribution_rows = aggregate_video_contributions(events, args.run_id, calculated_at)
+    video_snapshot_rows = aggregate_video_metric_snapshots(events, calculated_at)
+    traffic_rows = aggregate_video_traffic_source_metrics(events)
+    creator_snapshot_rows = aggregate_creator_metric_snapshots(events, metric_date)
     print(
         json.dumps(
             {
@@ -112,10 +253,15 @@ def main() -> None:
                     "video_stats_events": len(video_stats_events(events)),
                     "spark_platform_metric_summaries": len(platform_rows),
                     "spark_video_follower_contributions": len(contribution_rows),
+                    "video_metric_snapshots": len(video_snapshot_rows),
+                    "video_traffic_source_metrics": len(traffic_rows),
+                    "creator_metric_snapshots": len(creator_snapshot_rows),
                 },
                 "sample": {
                     "platform": platform_rows[0] if platform_rows else None,
                     "videoContribution": contribution_rows[0] if contribution_rows else None,
+                    "videoMetricSnapshot": video_snapshot_rows[0] if video_snapshot_rows else None,
+                    "creatorMetricSnapshot": creator_snapshot_rows[0] if creator_snapshot_rows else None,
                 },
             },
             ensure_ascii=False,

@@ -27,7 +27,13 @@ from kafka_tools.check_connectivity import check_tcp, load_env_file, parse_boots
 from kafka_tools.mock_consumer import consume_from_kafka, read_ndjson, validate_topic_coverage  # noqa: E402
 from kafka_tools.mock_event_builder import build_events  # noqa: E402
 from kafka_tools.mock_producer import DEFAULT_DATA_PATH, DEFAULT_OUTPUT_PATH, event_counts, load_mock, produce_to_kafka, write_ndjson  # noqa: E402
-from spark_jobs.kafka_events_to_mysql import aggregate_platform_metrics, aggregate_video_contributions  # noqa: E402
+from spark_jobs.kafka_events_to_mysql import (  # noqa: E402
+    aggregate_creator_metric_snapshots,
+    aggregate_platform_metrics,
+    aggregate_video_contributions,
+    aggregate_video_metric_snapshots,
+    aggregate_video_traffic_source_metrics,
+)
 
 
 DEFAULT_ENV_PATH = ROOT_DIR / ".env"
@@ -72,10 +78,16 @@ def build_local_loop(data_path: Path, output_path: Path, run_id: str) -> dict[st
     calculated_at = datetime.now(UTC).replace(microsecond=0, tzinfo=None).isoformat()
     platform_rows = aggregate_platform_metrics(consumed_events, run_id, calculated_at)
     contribution_rows = aggregate_video_contributions(consumed_events, run_id, calculated_at)
+    video_snapshot_rows = aggregate_video_metric_snapshots(consumed_events, calculated_at)
+    traffic_rows = aggregate_video_traffic_source_metrics(consumed_events)
+    creator_snapshot_rows = aggregate_creator_metric_snapshots(consumed_events, calculated_at[:10])
     counts = event_counts(consumed_events)
     spark_rows = {
         "spark_platform_metric_summaries": len(platform_rows),
         "spark_video_follower_contributions": len(contribution_rows),
+        "video_metric_snapshots": len(video_snapshot_rows),
+        "video_traffic_source_metrics": len(traffic_rows),
+        "creator_metric_snapshots": len(creator_snapshot_rows),
     }
 
     return {
