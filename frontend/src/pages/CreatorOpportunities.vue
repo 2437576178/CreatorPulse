@@ -1,6 +1,8 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
+import ChartPanel from "../components/ChartPanel.vue";
 import { fetchOpportunities } from "../services/api";
+import { bubbleOption, horizontalBarOption } from "../utils/chartOptions";
 import { formatPercent } from "../utils/format";
 import { actionsFrom, diagnosisItems, groupInsights, topRows } from "../utils/pageModels";
 
@@ -45,28 +47,84 @@ async function loadData() {
 function syncHash() {
   const next = window.location.hash.replace("#", "");
   activeTab.value = tabs.some((tab) => tab.id === next) ? next : "hot";
+  nextTick(() => {
+    window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+  });
 }
 
 function setTab(tabId) {
+  const shouldReplay = activeTab.value === tabId;
   activeTab.value = tabId;
   window.location.hash = tabId;
+  if (shouldReplay) {
+    nextTick(() => {
+      window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+    });
+  }
 }
 
 const model = computed(() => payload.value?.data);
 const topics = computed(() => model.value?.topics || []);
 const insights = computed(() => model.value?.insights || []);
+const isInitialReferenceOnly = computed(() => insights.value.length === 0);
 const insightByTab = computed(() => groupInsights(insights.value, tabs, "opportunities"));
 const hotTopics = computed(() => topRows(topics.value, "creatorFitScore", 6));
 const bestTopic = computed(() => hotTopics.value[0]);
+const opportunityIntroText = computed(() =>
+  isInitialReferenceOnly.value
+    ? "这里先展示初始热点样本。模拟事件接入后，系统会结合你的播放、互动和涨粉表现生成专属机会建议。"
+    : "从热点、粉丝偏好和历史高转粉结构里找到你的下一条内容机会，避免只追热度不转粉。"
+);
+const bestTopicTitle = computed(() =>
+  isInitialReferenceOnly.value
+    ? `${bestTopic.value?.topicName || "热点样本"}仅作为初始参考，等待账号事件后校准`
+    : `${bestTopic.value?.topicName || "下一条内容"}适合作为下一条内容选题`
+);
+const bestTopicLabel = computed(() => (isInitialReferenceOnly.value ? "初始参考" : "最佳机会"));
+const bestTopicScoreText = computed(() =>
+  isInitialReferenceOnly.value ? `样本适配度 ${bestTopic.value?.creatorFitScore || 0}` : `适配度 ${bestTopic.value?.creatorFitScore || 0}`
+);
+const opportunityRadarChartOption = computed(() =>
+  bubbleOption(
+    hotTopics.value.map((topic, index) => ({
+      label: topic.topicName,
+      value: topic.creatorFitScore,
+      heat: topic.heatScore,
+      color: topic.topicId === bestTopic.value?.topicId ? "#bcff00" : topic.creatorFitScore >= 85 ? "#9a8eff" : "rgba(255,255,255,0.28)",
+      x: [18, 50, 78, 28, 62, 86][index] || 50,
+      y: [70, 82, 62, 34, 42, 22][index] || 50
+    }))
+  )
+);
+const scriptStructureChartOption = computed(() =>
+  horizontalBarOption([
+    { label: "0-8s", value: 100, text: "结果预览 + 痛点开场" },
+    { label: "8-90s", value: 100, text: "三步完成底妆和眼妆", color: "#9a8eff" },
+    { label: "90-160s", value: 100, text: "常见错误和修正", color: "#61f4ff" },
+    { label: "结尾", value: 100, text: "收藏引导 + 下一集预告" }
+  ])
+);
 const adviceDiagnosis = computed(() =>
-  diagnosisItems(tabInsights("advice"), [
+  isInitialReferenceOnly.value
+    ? [
+        { key: "initial-topic", label: "等待校准", title: "下一条内容建议需要先接入播放、互动和涨粉事件。", className: "strong" },
+        { key: "initial-risk", label: "当前限制", title: "热点样本只能做参考，不能直接判断你的账号一定适合。", className: "warning" },
+        { key: "initial-next", label: "下一步", title: "启动模拟链路后，会按你的真实事件表现生成选题和发布时间建议。", className: "" }
+      ]
+    : diagnosisItems(tabInsights("advice"), [
     { label: "推荐选题", title: `${bestTopic.value?.topicName || "下一条教程内容"}适合作为下一条内容，适配度 ${bestTopic.value?.creatorFitScore || 91}`, className: "strong" },
     { label: "注意事项", title: "不要做泛种草标题，必须明确新手和通勤场景", className: "warning" },
     { label: "预期收益", title: "预计播放转粉率和收藏率会高于泛流量内容" }
   ])
 );
 const referenceDiagnosis = computed(() =>
-  diagnosisItems(tabInsights("reference"), [
+  isInitialReferenceOnly.value
+    ? [
+        { key: "initial-structure", label: "初始结构", title: "这里先保留通用高转粉结构，等待你的账号事件后再筛选。", className: "strong" },
+        { key: "initial-warning", label: "避免误用", title: "没有账号事件前，不应该把样本热点当成你的专属结论。", className: "warning" },
+        { key: "initial-action", label: "可先准备", title: "可以先准备标题、封面和脚本模板，等事件数据接入后再发布。", className: "" }
+      ]
+    : diagnosisItems(tabInsights("reference"), [
     { label: "最强结构", title: "前 8 秒结果预览能显著提高完播和关注", className: "strong" },
     { label: "避免误用", title: "不要照搬人设，只借鉴转粉结构和节奏", className: "warning" },
     { label: "可迁移动作", title: "标题、封面、结尾 CTA 都可复用到下一条内容" }
@@ -107,38 +165,28 @@ function tabInsights(tabId) {
         <section v-show="activeTab === 'hot'" class="tab-panel active">
           <section class="page-title">
             <div><p class="eyebrow">Opportunity Radar</p><h1>机会建议</h1></div>
-            <p class="page-copy">从热点、粉丝偏好和历史高转粉结构里找到你的下一条内容机会，避免只追热度不转粉。</p>
+            <p class="page-copy">{{ opportunityIntroText }}</p>
           </section>
           <section class="diagnosis-strip">
             <article class="diagnosis-card strong">
-              <span>最佳机会</span><strong>{{ bestTopic?.topicName }}适合作为下一条内容选题</strong>
+              <span>{{ bestTopicLabel }}</span><strong>{{ bestTopicTitle }}</strong>
             </article>
             <article class="diagnosis-card warning">
-              <span>注意风险</span><strong>热点只做流量入口，标题必须明确人群和关注理由</strong>
+              <span>{{ isInitialReferenceOnly ? "等待事件" : "注意风险" }}</span><strong>{{ isInitialReferenceOnly ? "模拟事件接入前，热点只代表外部样本，不代表你的账号已经验证过。" : "热点只做流量入口，标题必须明确人群和关注理由" }}</strong>
             </article>
             <article class="diagnosis-card">
-              <span>复刻结构</span><strong>结果预览 + 步骤拆解 + 收藏引导仍是最稳结构</strong>
+              <span>{{ isInitialReferenceOnly ? "后续生成" : "复刻结构" }}</span><strong>{{ isInitialReferenceOnly ? "播放、互动、涨粉事件写入后，会生成你的专属内容结构建议。" : "结果预览 + 步骤拆解 + 收藏引导仍是最稳结构" }}</strong>
             </article>
           </section>
           <section class="grid-3">
-            <article class="card green"><p class="label" style="color:#111">最佳机会</p><strong class="value large">{{ bestTopic?.topicName }}</strong><span style="font-size:12px;font-weight:800">适配度 {{ bestTopic?.creatorFitScore }}</span></article>
+            <article class="card green"><p class="label" style="color:#111">{{ bestTopicLabel }}</p><strong class="value large">{{ bestTopic?.topicName }}</strong><span style="font-size:12px;font-weight:800">{{ bestTopicScoreText }}</span></article>
             <article class="card"><p class="section-label">最高热度</p><strong class="value">{{ hotTopics[0]?.heatScore }}</strong><span class="delta">话题雷达</span></article>
-            <article class="card"><p class="section-label">风险等级</p><strong class="value">{{ bestTopic?.riskLevel }}</strong><span class="delta">MVP 规则</span></article>
+            <article class="card"><p class="section-label">风险等级</p><strong class="value">{{ bestTopic?.riskLevel }}</strong><span class="delta">{{ isInitialReferenceOnly ? "初始样本" : "MVP 规则" }}</span></article>
           </section>
           <section class="grid-2">
             <article class="card">
               <p class="section-label">机会雷达</p>
-              <div class="radar-cloud">
-                <div
-                  v-for="topic in hotTopics"
-                  :key="topic.topicId"
-                  class="bubble"
-                  :class="{ hot: topic.topicId === bestTopic?.topicId, purple: topic.creatorFitScore >= 85 && topic.topicId !== bestTopic?.topicId }"
-                  :style="{ '--s': `${Math.max(72, Math.min(132, topic.creatorFitScore + 28))}px` }"
-                >
-                  {{ topic.topicName }}
-                </div>
-              </div>
+              <ChartPanel class="chart-panel-radar" :option="opportunityRadarChartOption" />
             </article>
             <article class="card">
               <p class="section-label">热点话题</p>
@@ -165,12 +213,7 @@ function tabInsights(tabId) {
           <section class="grid-2">
             <article class="card">
               <p class="section-label">脚本结构</p>
-              <div class="bar-stack">
-                <div class="bar"><span style="width:100%">0-8s：结果预览 + 痛点开场</span></div>
-                <div class="bar purple"><span style="width:100%">8-90s：三步完成底妆和眼妆</span></div>
-                <div class="bar cyan"><span style="width:100%">90-160s：常见错误和修正</span></div>
-                <div class="bar"><span style="width:100%">结尾：收藏引导 + 下一集预告</span></div>
-              </div>
+              <ChartPanel class="chart-panel-funnel" :option="scriptStructureChartOption" />
             </article>
             <article class="card">
               <p class="section-label">执行清单</p>

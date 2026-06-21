@@ -1,6 +1,8 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
+import ChartPanel from "../components/ChartPanel.vue";
 import { fetchFansAnalysis } from "../services/api";
+import { heatmapOption, horizontalBarOption, verticalBarOption } from "../utils/chartOptions";
 import { formatNumber, formatPercent } from "../utils/format";
 import { diagnosisItems } from "../utils/pageModels";
 
@@ -50,11 +52,20 @@ function syncHash() {
   } else {
     activeTab.value = "growth";
   }
+  nextTick(() => {
+    window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+  });
 }
 
 function setTab(tabId) {
+  const shouldReplay = activeTab.value === tabId;
   activeTab.value = tabId;
   window.location.hash = tabId;
+  if (shouldReplay) {
+    nextTick(() => {
+      window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+    });
+  }
 }
 
 const creator = computed(() => payload.value?.creator);
@@ -111,6 +122,31 @@ const profileDiagnosis = computed(() =>
 const trendMax = computed(() => Math.max(...trend.value.map((item) => item.newFollowers), 1));
 const coreSegments = computed(() => profile.value?.highValueSegments || []);
 const totalTrendViews = computed(() => trend.value.reduce((value, item) => value + Number(item.totalViews || 0), 0));
+const trendChartOption = computed(() =>
+  verticalBarOption(
+    trend.value.map((item) => ({
+      label: item.date?.slice(5) || "",
+      value: item.newFollowers,
+      detail: `新增 ${formatNumber(item.newFollowers)}`
+    })),
+    { barWidth: 38 }
+  )
+);
+const fanConversionPathOption = computed(() =>
+  horizontalBarOption([
+    { label: "播放", value: latest.value?.totalViews || 0, text: formatNumber(latest.value?.totalViews) },
+    { label: "新粉", value: latest.value?.newFollowers || 0, text: formatNumber(latest.value?.newFollowers), color: "#9a8eff" },
+    { label: "净增", value: latest.value?.netFollowers || 0, text: formatNumber(latest.value?.netFollowers), color: "#61f4ff" },
+    { label: "掉粉", value: latest.value?.lostFollowers || 0, text: formatNumber(latest.value?.lostFollowers) }
+  ])
+);
+const activeHoursHeatmapOption = computed(() =>
+  heatmapOption(
+    ["8", "10", "12", "14", "18", "20", "21"],
+    ["活跃"],
+    [[0, 0, 22], [1, 0, 32], [2, 0, 58], [3, 0, 36], [4, 0, 62], [5, 0, 94], [6, 0, 88]]
+  )
+);
 
 function firstAction(insight) {
   return insight?.recommendedActions?.[0]?.description || "";
@@ -202,14 +238,7 @@ function topRecord(record) {
           <section class="grid-2">
             <article class="card">
               <p class="section-label">7 天新增粉丝</p>
-              <div class="mini-bars" style="height:180px">
-                <span
-                  v-for="item in trend"
-                  :key="item.snapshotId"
-                  :style="{ height: `${Math.max(24, item.newFollowers / trendMax * 174)}px` }"
-                  :title="`${item.date.slice(5)} ${formatNumber(item.newFollowers)}`"
-                ></span>
-              </div>
+              <ChartPanel class="chart-panel-tall" :option="trendChartOption" />
               <div class="grid-3" style="margin-top:18px">
                 <span class="tag hot">新增 {{ formatNumber(latest?.newFollowers) }}</span>
                 <span class="tag purple">净增 {{ formatNumber(latest?.netFollowers) }}</span>
@@ -220,12 +249,7 @@ function topRecord(record) {
               <p class="label" style="color:#666">粉丝转化路径</p>
               <strong class="value large">{{ formatPercent(latest?.viewToFollowerRate) }}</strong>
               <span style="font-size:12px;color:#ff5e5e;font-weight:800">播放到关注</span>
-              <div class="bar-stack" style="margin-top:18px">
-                <div class="bar"><span style="width:100%">播放 {{ formatNumber(latest?.totalViews) }}</span></div>
-                <div class="bar purple"><span style="width:64%">新粉 {{ formatNumber(latest?.newFollowers) }}</span></div>
-                <div class="bar cyan"><span style="width:36%">净增 {{ formatNumber(latest?.netFollowers) }}</span></div>
-                <div class="bar"><span style="width:18%">掉粉 {{ formatNumber(latest?.lostFollowers) }}</span></div>
-              </div>
+              <ChartPanel class="chart-panel-funnel" :option="fanConversionPathOption" />
             </article>
           </section>
 
@@ -247,9 +271,7 @@ function topRecord(record) {
             <article class="card">
               <p class="section-label">活跃时间段</p>
               <strong class="value">{{ topRecord(profile?.activeHours)[0] }}:00</strong>
-              <div class="heat-grid" style="margin-top:16px">
-                <div class="heat-cell">8</div><div class="heat-cell">10</div><div class="heat-cell mid">12</div><div class="heat-cell">14</div><div class="heat-cell mid">18</div><div class="heat-cell hot">20</div><div class="heat-cell hot">21</div>
-              </div>
+              <ChartPanel class="chart-panel-heat compact" :option="activeHoursHeatmapOption" />
             </article>
           </section>
         </section>

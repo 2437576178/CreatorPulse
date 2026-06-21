@@ -1,6 +1,8 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
+import ChartPanel from "../components/ChartPanel.vue";
 import { fetchContentDistribution, fetchVideoAnalysis } from "../services/api";
+import { heatmapOption, horizontalBarOption } from "../utils/chartOptions";
 import { contentLabel, formatNumber, formatPercent, platformLabel, sum } from "../utils/format";
 import { actionsFrom, aggregateBy, diagnosisItems, groupInsights, pairVideosWithSnapshots } from "../utils/pageModels";
 
@@ -49,11 +51,20 @@ async function loadData() {
 function syncHash() {
   const next = window.location.hash.replace("#", "");
   activeTab.value = tabs.some((tab) => tab.id === next) ? next : "platform";
+  nextTick(() => {
+    window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+  });
 }
 
 function setTab(tabId) {
+  const shouldReplay = activeTab.value === tabId;
   activeTab.value = tabId;
   window.location.hash = tabId;
+  if (shouldReplay) {
+    nextTick(() => {
+      window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+    });
+  }
 }
 
 const insights = computed(() => payload.value?.data?.insights || []);
@@ -85,6 +96,38 @@ const timeRows = computed(() => {
   const rows = videoRows.value.map((video) => ({ ...video, hour: String(video.publishTime).slice(11, 13) }));
   return aggregateBy(rows, "hour", ["views", "newFollowers", "likes", "comments", "shares", "saves"]).sort((a, b) => b.newFollowers - a.newFollowers);
 });
+const bestPlatformChartOption = computed(() =>
+  horizontalBarOption([
+    { label: "播放贡献", value: platformRows.value[0]?.views || 0, text: formatPercent(platformRows.value[0]?.views / totalViews.value), color: "#b9a7ff" },
+    { label: "涨粉贡献", value: platformRows.value[0]?.newFollowers || 0, text: formatPercent(platformRows.value[0]?.newFollowers / totalFollowers.value), color: "#008ea3" }
+  ], { labelColor: "#111111", barWidth: 28 })
+);
+const weeklyTypeMixChartOption = computed(() =>
+  horizontalBarOption([
+    { label: "教程", value: 40, text: "40%" },
+    { label: "测评", value: 30, text: "30%", color: "#9a8eff" },
+    { label: "种草", value: 20, text: "20%", color: "#61f4ff" },
+    { label: "Vlog", value: 10, text: "10%" }
+  ])
+);
+const publishWindowHeatmapOption = computed(() =>
+  heatmapOption(
+    ["一", "二", "三", "四", "五", "六", "日"],
+    ["10", "12", "18", "20", "21", "22", "23"],
+    [
+      [0, 0, 22], [1, 1, 28], [2, 2, 58], [3, 3, 44], [4, 3, 92], [5, 4, 96], [6, 4, 72],
+      [0, 1, 31], [2, 3, 66], [4, 4, 88], [5, 5, 54], [6, 6, 36]
+    ]
+  )
+);
+const trafficSourceShareChartOption = computed(() =>
+  horizontalBarOption([
+    { label: "推荐流", value: 55, text: "55%" },
+    { label: "搜索", value: 18, text: "18%", color: "#9a8eff" },
+    { label: "关注", value: 15, text: "15%", color: "#61f4ff" },
+    { label: "分享", value: 8, text: "8%" }
+  ])
+);
 const typeDiagnosis = computed(() =>
   diagnosisItems(tabInsights("type"), [
     { label: "优先加码", title: `${contentLabel(typeRows.value[0]?.key) || "教程类"}是当前最高转粉类型，值得提高发布占比`, className: "strong" },
@@ -163,21 +206,20 @@ function tabInsights(tabId) {
           <section class="grid-2">
             <article class="card">
               <p class="section-label">平台效率矩阵</p>
-              <table class="table">
-                <tr><th>平台</th><th>发布投入</th><th>播放贡献</th><th>涨粉贡献</th><th>转粉率</th></tr>
-                <tr v-for="row in platformRows" :key="row.key">
-                  <td>{{ platformLabel(row.key) }}</td><td>{{ formatPercent((row.videoCount || 0) / totalVideos) }}</td><td>{{ formatPercent(row.views / totalViews) }}</td><td>{{ formatPercent(row.newFollowers / totalFollowers) }}</td><td>{{ formatPercent(row.newFollowers / row.views) }}</td>
-                </tr>
-              </table>
+              <div class="table-scroll">
+                <table class="table">
+                  <tr><th>平台</th><th>发布投入</th><th>播放贡献</th><th>涨粉贡献</th><th>转粉率</th></tr>
+                  <tr v-for="row in platformRows" :key="row.key">
+                    <td>{{ platformLabel(row.key) }}</td><td>{{ formatPercent((row.videoCount || 0) / totalVideos) }}</td><td>{{ formatPercent(row.views / totalViews) }}</td><td>{{ formatPercent(row.newFollowers / totalFollowers) }}</td><td>{{ formatPercent(row.newFollowers / row.views) }}</td>
+                  </tr>
+                </table>
+              </div>
             </article>
-            <article class="card green">
+            <article class="card green platform-best-card">
               <p class="label" style="color:#111">最佳平台</p>
               <strong class="value large">{{ platformLabel(platformRows[0]?.key) }}</strong>
               <span style="font-size:12px;font-weight:800">涨粉 {{ formatNumber(platformRows[0]?.newFollowers) }}</span>
-              <div class="bar-stack" style="margin-top:18px">
-                <div class="bar"><span :style="{ width: `${Math.max(12, platformRows[0]?.views / totalViews * 100 || 0)}%` }">播放贡献 {{ formatPercent(platformRows[0]?.views / totalViews) }}</span></div>
-                <div class="bar purple"><span :style="{ width: `${Math.max(12, platformRows[0]?.newFollowers / totalFollowers * 100 || 0)}%` }">涨粉贡献 {{ formatPercent(platformRows[0]?.newFollowers / totalFollowers) }}</span></div>
-              </div>
+              <ChartPanel class="chart-panel-mini" :option="bestPlatformChartOption" />
             </article>
           </section>
           <section class="grid-3">
@@ -222,12 +264,7 @@ function tabInsights(tabId) {
               <p class="label" style="color:#666">下周类型配比</p>
               <strong class="value large">{{ contentLabel(typeRows[0]?.key) }} 40%</strong>
               <p style="margin-top:10px;font-size:13px;color:#555">把高转粉类型作为主线，测评作为评论和选题来源，减少低转粉泛内容。</p>
-              <div class="bar-stack" style="margin-top:18px">
-                <div class="bar"><span style="width:86%">教程 40%</span></div>
-                <div class="bar purple"><span style="width:62%">测评 30%</span></div>
-                <div class="bar cyan"><span style="width:35%">种草 20%</span></div>
-                <div class="bar"><span style="width:18%">Vlog 10%</span></div>
-              </div>
+              <ChartPanel class="chart-panel-funnel" :option="weeklyTypeMixChartOption" />
             </article>
           </section>
           <section class="card">
@@ -252,10 +289,7 @@ function tabInsights(tabId) {
           <section class="grid-2">
             <article class="card">
               <p class="section-label">星期 x 小时转粉率热力图</p>
-              <div class="heat-grid">
-                <div class="heat-cell">一</div><div class="heat-cell">二</div><div class="heat-cell mid">三</div><div class="heat-cell">四</div><div class="heat-cell hot">五</div><div class="heat-cell hot">六</div><div class="heat-cell mid">日</div>
-                <div class="heat-cell">10</div><div class="heat-cell">12</div><div class="heat-cell mid">18</div><div class="heat-cell hot">20</div><div class="heat-cell hot">21</div><div class="heat-cell">22</div><div class="heat-cell">23</div>
-              </div>
+              <ChartPanel class="chart-panel-heat" :option="publishWindowHeatmapOption" />
             </article>
             <article class="card">
               <p class="section-label">下周排期建议</p>
@@ -291,12 +325,7 @@ function tabInsights(tabId) {
             </article>
             <article class="card">
               <p class="section-label">来源占比</p>
-              <div class="bar-stack">
-                <div class="bar"><span style="width:55%">推荐流 55%</span></div>
-                <div class="bar purple"><span style="width:18%">搜索 18%</span></div>
-                <div class="bar cyan"><span style="width:15%">关注 15%</span></div>
-                <div class="bar"><span style="width:8%">分享 8%</span></div>
-              </div>
+              <ChartPanel class="chart-panel-funnel" :option="trafficSourceShareChartOption" />
             </article>
           </section>
           <section class="card">

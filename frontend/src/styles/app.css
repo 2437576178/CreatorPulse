@@ -50,6 +50,26 @@
   margin-top: 8px;
 }
 
+.count-up-number {
+  font-variant-numeric: tabular-nums;
+}
+
+.visual-load-number {
+  transition:
+    width 980ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 980ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.visual-load-stroke {
+  transition: stroke-dasharray 980ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.visual-load-pop {
+  transition:
+    opacity 520ms ease,
+    transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .session-bar {
   position: absolute;
   top: 14px;
@@ -100,6 +120,11 @@
 .session-bar button:disabled {
   cursor: wait;
   opacity: 0.72;
+}
+
+.session-bar button i,
+.session-bar button span {
+  color: #111;
 }
 
 .avatar-upload-input {

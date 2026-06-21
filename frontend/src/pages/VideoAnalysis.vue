@@ -1,6 +1,8 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
+import ChartPanel from "../components/ChartPanel.vue";
 import { fetchVideoAnalysis } from "../services/api";
+import { horizontalBarOption, verticalBarOption } from "../utils/chartOptions";
 import { contentLabel, formatNumber, formatPercent, lifecycleLabel, platformLabel, sum } from "../utils/format";
 import { actionsFrom, aggregateBy, diagnosisItems, groupInsights, pairVideosWithSnapshots, topRows } from "../utils/pageModels";
 
@@ -46,11 +48,20 @@ async function loadData() {
 function syncHash() {
   const next = window.location.hash.replace("#", "");
   activeTab.value = tabs.some((tab) => tab.id === next) ? next : "latest";
+  nextTick(() => {
+    window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+  });
 }
 
 function setTab(tabId) {
+  const shouldReplay = activeTab.value === tabId;
   activeTab.value = tabId;
   window.location.hash = tabId;
+  if (shouldReplay) {
+    nextTick(() => {
+      window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+    });
+  }
 }
 
 const model = computed(() => payload.value?.data);
@@ -89,6 +100,51 @@ const totalLikes = computed(() => sum(videoRows.value, "likes"));
 const bestConversionVideo = computed(() => [...videoRows.value].sort((a, b) => Number(b.conversionRate || 0) - Number(a.conversionRate || 0))[0]);
 const lowConversionCount = computed(() => videoRows.value.filter((video) => Number(video.views || 0) > totalViews.value / Math.max(videoRows.value.length, 1) && Number(video.conversionRate || 0) < 0.003).length);
 const highStickinessCount = computed(() => videoRows.value.filter((video) => Number(video.saveRate || 0) > 0.08 || Number(video.engagementRate || 0) > 0.12).length);
+const singleVideoGrowthChartOption = computed(() =>
+  verticalBarOption(
+    [
+      { label: "曝光", value: 36, detail: "曝光启动" },
+      { label: "点击", value: 52, detail: "点击提升" },
+      { label: "互动", value: 90, detail: "互动放大" },
+      { label: "关注", value: 136, detail: "关注转化" },
+      { label: "回看", value: 172, detail: "收藏回看" },
+      { label: "长尾", value: 150, detail: "长尾稳定" }
+    ],
+    { barWidth: 40 }
+  )
+);
+const replayScoreChartOption = computed(() =>
+  horizontalBarOption([
+    { label: "标题关键词匹配", value: 82, text: "82" },
+    { label: "发布时间有效", value: 76, text: "76", color: "#9a8eff" },
+    { label: "封面收藏倾向", value: 69, text: "69", color: "#61f4ff" }
+  ])
+);
+const replicationScoreChartOption = computed(() =>
+  horizontalBarOption([
+    { label: "内容结构", value: 91, text: "91" },
+    { label: "转粉效率", value: 82, text: "82", color: "#9a8eff" },
+    { label: "评论质量", value: 76, text: "76", color: "#61f4ff" }
+  ])
+);
+const interactionValueChartOption = computed(() =>
+  horizontalBarOption([
+    { label: "收藏回看", value: totalSaves.value, text: formatNumber(totalSaves.value) },
+    { label: "评论提问", value: totalComments.value, text: formatNumber(totalComments.value), color: "#9a8eff" },
+    { label: "分享推荐", value: totalShares.value, text: formatNumber(totalShares.value), color: "#61f4ff" },
+    { label: "普通点赞", value: totalLikes.value, text: formatNumber(totalLikes.value) }
+  ])
+);
+const lifecycleChartOption = computed(() =>
+  horizontalBarOption(
+    lifecycleRows.value.map((row, index) => ({
+      label: lifecycleLabel(row.key),
+      value: row.views,
+      text: formatNumber(row.views),
+      color: ["#bcff00", "#9a8eff", "#61f4ff", "#bcff00"][index % 4]
+    }))
+  )
+);
 const contributionDiagnosis = computed(() =>
   diagnosisItems(tabInsights("contribution"), [
     { label: "最值得复刻", title: `${bestConversionVideo.value?.title || "教程视频"}带来最高转粉效率`, className: "strong" },
@@ -176,19 +232,13 @@ function tabInsights(tabId) {
                   <p class="page-copy">{{ platformLabel(bestConversionVideo?.platform) }} / {{ contentLabel(bestConversionVideo?.contentType) }}，适合继续放大。</p>
                 </div>
               </div>
-              <div class="mini-bars" style="height:190px;margin-top:20px">
-                <span style="height:36px"></span><span style="height:52px"></span><span style="height:90px"></span><span style="height:136px"></span><span style="height:172px"></span><span style="height:150px"></span>
-              </div>
+              <ChartPanel class="chart-panel-tall" :option="singleVideoGrowthChartOption" />
             </article>
             <article class="card white">
               <p class="label" style="color:#666">推荐复盘</p>
               <strong class="value large">{{ formatPercent(bestConversionVideo?.conversionRate) }}</strong>
               <span style="font-size:12px;color:#ff5e5e;font-weight:800">播放转粉率高于均值</span>
-              <div class="bar-stack" style="margin-top:20px">
-                <div class="bar"><span style="width:82%">标题关键词匹配</span></div>
-                <div class="bar purple"><span style="width:76%">发布时间有效</span></div>
-                <div class="bar cyan"><span style="width:69%">封面收藏倾向</span></div>
-              </div>
+              <ChartPanel class="chart-panel-mini" :option="replayScoreChartOption" />
             </article>
           </section>
           <section class="card">
@@ -231,11 +281,7 @@ function tabInsights(tabId) {
               <p class="label" style="color:#666">复刻价值评分</p>
               <strong class="value large">91</strong>
               <p style="margin-top:10px;font-size:13px;color:#555">高复刻价值来自明确人群、可收藏步骤和结尾系列预告。</p>
-              <div class="bar-stack" style="margin-top:18px">
-                <div class="bar"><span style="width:91%">内容结构 91</span></div>
-                <div class="bar purple"><span style="width:82%">转粉效率 82</span></div>
-                <div class="bar cyan"><span style="width:76%">评论质量 76</span></div>
-              </div>
+              <ChartPanel class="chart-panel-mini" :option="replicationScoreChartOption" />
             </article>
           </section>
           <section class="card">
@@ -262,12 +308,7 @@ function tabInsights(tabId) {
           <section class="grid-2">
             <article class="card">
               <p class="section-label">互动价值分布</p>
-              <div class="bar-stack">
-                <div class="bar"><span :style="{ width: `${Math.max(18, totalSaves / totalInteractions * 100 || 0)}%` }">收藏回看 {{ formatNumber(totalSaves) }}</span></div>
-                <div class="bar purple"><span :style="{ width: `${Math.max(18, totalComments / totalInteractions * 100 || 0)}%` }">评论提问 {{ formatNumber(totalComments) }}</span></div>
-                <div class="bar cyan"><span :style="{ width: `${Math.max(18, totalShares / totalInteractions * 100 || 0)}%` }">分享推荐 {{ formatNumber(totalShares) }}</span></div>
-                <div class="bar"><span :style="{ width: `${Math.max(18, totalLikes / totalInteractions * 100 || 0)}%` }">普通点赞 {{ formatNumber(totalLikes) }}</span></div>
-              </div>
+              <ChartPanel class="chart-panel-funnel" :option="interactionValueChartOption" />
             </article>
             <article class="card">
               <p class="section-label">提升动作</p>
@@ -303,11 +344,7 @@ function tabInsights(tabId) {
             </article>
             <article class="card">
               <p class="section-label">生命周期分布</p>
-              <div class="bar-stack">
-                <div v-for="row in lifecycleRows" :key="row.key" class="bar" :class="{ purple: row.key === 'STABLE', cyan: row.key === 'LONG_TAIL' }">
-                  <span :style="{ width: `${Math.max(18, row.views / totalViews * 100 || 0)}%` }">{{ lifecycleLabel(row.key) }} {{ formatNumber(row.views) }}</span>
-                </div>
-              </div>
+              <ChartPanel class="chart-panel-funnel" :option="lifecycleChartOption" />
             </article>
           </section>
         </section>

@@ -18,6 +18,10 @@ const loggingOut = ref(false);
 const avatarInput = ref(null);
 const uploadingAvatar = ref(false);
 const avatarObjectUrl = ref("");
+let countUpRunId = 0;
+let countUpObserver = null;
+let visualLoadRunId = 0;
+let chartReplayTimer = null;
 
 const defaultHashByPage = {
   growth: "overview",
@@ -108,15 +112,262 @@ function updateActiveTabSlider() {
   slider.style.left = `${activeRect.left - tabsRect.left}px`;
 }
 
+const countUpSelectors = [
+  ".metric-card strong",
+  ".value",
+  ".circle-copy strong",
+  ".path-step strong",
+  ".bar > span",
+  ".table td",
+  ".tag",
+  ".delta",
+  ".heat-cell",
+  ".bubble"
+].join(",");
+
+function getActivePageShell() {
+  const shells = document.querySelectorAll(".page-transition-shell");
+  return shells[shells.length - 1] || null;
+}
+
+function isCountUpCandidateVisible(element) {
+  return Boolean(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
+}
+
+function parseCountUpText(text) {
+  const original = text.trim();
+  if (!/\d/.test(original)) return null;
+  if (/\d{1,2}:\d{2}/.test(original) || /\d+\s*-\s*\d+/.test(original) || /[\\/]/.test(original)) return null;
+  if (original.length > 18 && !/^[\u4e00-\u9fa5]{1,6}\s*[+-]?\d/.test(original)) return null;
+
+  const matches = [...original.matchAll(/[+-]?\d[\d,]*(?:\.\d+)?/g)];
+  if (matches.length !== 1) return null;
+
+  const match = matches[0];
+  const numericText = match[0];
+  const start = match.index;
+  const end = start + numericText.length;
+  const rawValue = Number(numericText.replace(/[+,]/g, ""));
+  if (!Number.isFinite(rawValue)) return null;
+
+  const decimals = numericText.includes(".") ? numericText.split(".")[1].length : 0;
+  const hasPlus = numericText.startsWith("+");
+  const before = original.slice(0, start);
+  const after = original.slice(end);
+
+  return {
+    target: rawValue,
+    decimals,
+    hasPlus,
+    before,
+    after,
+    original
+  };
+}
+
+function formatCountUpValue(current, descriptor) {
+  const value = descriptor.target < 0 ? -current : current;
+  const absText = descriptor.decimals > 0
+    ? Math.abs(value).toFixed(descriptor.decimals)
+    : Math.round(Math.abs(value)).toLocaleString("zh-CN");
+  const sign = descriptor.target < 0 ? "-" : descriptor.hasPlus ? "+" : "";
+  return `${descriptor.before}${sign}${absText}${descriptor.after}`;
+}
+
+function animateCountUpElement(element, descriptor) {
+  if (element.dataset.countUpTarget === descriptor.original || element.dataset.countUpAnimating === "true") {
+    return;
+  }
+
+  element.dataset.countUpTarget = descriptor.original;
+  element.dataset.countUpAnimating = "true";
+  element.classList.add("count-up-number");
+
+  const target = Math.abs(descriptor.target);
+  const duration = 980;
+  const startTime = performance.now();
+
+  function tick(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    element.textContent = formatCountUpValue(target * eased, descriptor);
+
+    if (progress < 1) {
+      window.requestAnimationFrame(tick);
+      return;
+    }
+
+    element.textContent = descriptor.original;
+    element.dataset.countUpAnimating = "false";
+  }
+
+  element.textContent = formatCountUpValue(0, descriptor);
+  window.requestAnimationFrame(tick);
+}
+
+function animateNumericStyle(element, propertyName, targetValue, unit = "") {
+  const target = Number(targetValue);
+  if (!Number.isFinite(target)) return;
+  const targetKey = `${propertyName}:${target}${unit}`;
+  if (element.dataset.visualLoadTarget === targetKey) return;
+
+  element.dataset.visualLoadTarget = targetKey;
+  element.classList.add("visual-load-number");
+  element.style[propertyName] = `0${unit}`;
+
+  window.requestAnimationFrame(() => {
+    element.style[propertyName] = `${target}${unit}`;
+  });
+}
+
+function animateDashArray(circle) {
+  const dashArray = circle.getAttribute("stroke-dasharray") || "";
+  const match = dashArray.match(/^([+-]?\d+(?:\.\d+)?)\s+(.+)$/);
+  if (!match) return;
+
+  const target = Number(match[1]);
+  if (!Number.isFinite(target)) return;
+  const rest = match[2];
+  const targetKey = `dash:${target} ${rest}`;
+  if (circle.dataset.visualLoadTarget === targetKey) return;
+
+  circle.dataset.visualLoadTarget = targetKey;
+  circle.classList.add("visual-load-stroke");
+  circle.setAttribute("stroke-dasharray", `0 ${rest}`);
+
+  window.requestAnimationFrame(() => {
+    circle.setAttribute("stroke-dasharray", `${target} ${rest}`);
+  });
+}
+
+function animateDecorativeVisual(element, targetKey) {
+  if (element.dataset.visualLoadTarget === targetKey) return;
+  element.dataset.visualLoadTarget = targetKey;
+  element.classList.add("visual-load-pop");
+  element.style.opacity = "0";
+  element.style.transform = "scale(0.72)";
+
+  window.requestAnimationFrame(() => {
+    element.style.opacity = "";
+    element.style.transform = "";
+  });
+}
+
+function runVisualLoadScan(shell) {
+  const activeShell = shell || getActivePageShell();
+  if (!activeShell) return;
+
+  activeShell.querySelectorAll(".bar > span").forEach((bar) => {
+    const targetWidth = bar.style.width;
+    const match = targetWidth.match(/^([+-]?\d+(?:\.\d+)?)%$/);
+    if (match) {
+      animateNumericStyle(bar, "width", match[1], "%");
+    }
+  });
+
+  activeShell.querySelectorAll(".mini-bars span").forEach((bar) => {
+    const targetHeight = bar.style.height;
+    const match = targetHeight.match(/^([+-]?\d+(?:\.\d+)?)px$/);
+    if (match) {
+      animateNumericStyle(bar, "height", match[1], "px");
+    }
+  });
+
+  activeShell.querySelectorAll("circle[stroke-dasharray]").forEach(animateDashArray);
+
+  activeShell.querySelectorAll(".bubble").forEach((bubble) => {
+    animateDecorativeVisual(bubble, `bubble:${bubble.textContent.trim()}:${bubble.style.getPropertyValue("--s")}`);
+  });
+
+  activeShell.querySelectorAll(".heat-cell.hot, .heat-cell.mid").forEach((cell) => {
+    animateDecorativeVisual(cell, `heat:${cell.textContent.trim()}:${cell.className}`);
+  });
+}
+
+function runCountUpScan(shell) {
+  const activeShell = shell || getActivePageShell();
+  if (!activeShell) return 0;
+
+  let animatedCount = 0;
+  activeShell.querySelectorAll(countUpSelectors).forEach((element) => {
+    if (animatedCount >= 80) return;
+    if (!isCountUpCandidateVisible(element)) return;
+    const descriptor = parseCountUpText(element.textContent || "");
+    if (!descriptor) return;
+    animateCountUpElement(element, descriptor);
+    animatedCount += 1;
+  });
+  return animatedCount;
+}
+
+function scheduleCountUpNumbers() {
+  const shell = getActivePageShell();
+  const runId = ++countUpRunId;
+  const visualRunId = ++visualLoadRunId;
+  if (countUpObserver) {
+    countUpObserver.disconnect();
+    countUpObserver = null;
+  }
+
+  nextTick(() => {
+    const activeShell = shell || getActivePageShell();
+    if (!activeShell || runId !== countUpRunId) return;
+
+    [80, 220, 480, 860, 1320].forEach((delay) => {
+      window.setTimeout(() => {
+        if (runId === countUpRunId) {
+          runCountUpScan(activeShell);
+        }
+        if (visualRunId === visualLoadRunId) {
+          runVisualLoadScan(activeShell);
+        }
+      }, delay);
+    });
+
+    countUpObserver = new MutationObserver(() => {
+      if (runId === countUpRunId) {
+        window.requestAnimationFrame(() => {
+          runCountUpScan(activeShell);
+          if (visualRunId === visualLoadRunId) {
+            runVisualLoadScan(activeShell);
+          }
+        });
+      }
+    });
+    countUpObserver.observe(activeShell, { childList: true, subtree: true, characterData: true });
+
+    window.setTimeout(() => {
+      if (runId === countUpRunId && countUpObserver) {
+        countUpObserver.disconnect();
+        countUpObserver = null;
+      }
+    }, 1800);
+  });
+}
+
+function scheduleVisibleChartReplay() {
+  if (chartReplayTimer) {
+    window.clearTimeout(chartReplayTimer);
+  }
+
+  chartReplayTimer = window.setTimeout(() => {
+    window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+    chartReplayTimer = null;
+  }, 120);
+}
+
 function decorateTopNavigation() {
   nextTick(() => {
     decoratePageAvatar();
     updateActiveTabSlider();
+    scheduleCountUpNumbers();
   });
 }
 
 function handleHashChange() {
   window.requestAnimationFrame(updateActiveTabSlider);
+  scheduleCountUpNumbers();
+  scheduleVisibleChartReplay();
 }
 
 onMounted(async () => {
@@ -137,6 +388,14 @@ onMounted(async () => {
 
 onUnmounted(() => {
   window.removeEventListener("hashchange", handleHashChange);
+  if (countUpObserver) {
+    countUpObserver.disconnect();
+    countUpObserver = null;
+  }
+  if (chartReplayTimer) {
+    window.clearTimeout(chartReplayTimer);
+    chartReplayTimer = null;
+  }
 });
 
 watch([currentPage, avatarStyle], decorateTopNavigation, { flush: "post" });

@@ -24,6 +24,12 @@ export function platformLabel(platform) {
     DOUYIN: "抖音",
     BILIBILI: "B站",
     XIAOHONGSHU: "小红书",
+    KUAISHOU: "快手",
+    WEIBO: "微博",
+    ZUIYOU: "最右",
+    QQ: "QQ",
+    WECHAT: "微信",
+    NETEASE_CLOUD_MUSIC: "网易云",
     ALL: "全平台",
     MULTI: "多平台"
   }[platform] || platform;

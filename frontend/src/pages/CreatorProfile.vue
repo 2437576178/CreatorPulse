@@ -54,11 +54,44 @@ function setTab(tabId) {
 }
 
 const model = computed(() => payload.value?.data);
+const creator = computed(() => payload.value?.creator);
 const accounts = computed(() => model.value?.platformAccounts || []);
 const insights = computed(() => model.value?.insights || []);
 const insightByTab = computed(() => groupInsights(insights.value, tabs, "profile"));
+const reportInsights = computed(() => insightByTab.value.reports || []);
+const hasMetricReports = computed(() => reportInsights.value.length > 0);
+const isProfileOnly = computed(() => accounts.value.length === 0);
 const maxLatency = computed(() => Math.max(...accounts.value.map((item) => item.syncLatencySeconds), 0));
 const boundCount = computed(() => accounts.value.filter((item) => item.bindingStatus === "BOUND").length);
+const reportStatusText = computed(() => (hasMetricReports.value ? "已生成" : "待生成"));
+const reportIntroText = computed(() =>
+  hasMetricReports.value
+    ? "集中管理你的个人报告、平台绑定、采集频率和通知偏好。报告区用于复盘，设置区用于低频配置。"
+    : isProfileOnly.value
+    ? "账号档案和平台绑定已完成。增长日报、周报和月报会在模拟事件写入指标后生成。"
+    : "账号档案和平台绑定已完成，正在等待增长复盘指标生成。"
+);
+const weeklyReviewText = computed(() =>
+  hasMetricReports.value
+    ? "账号增长健康度保持稳定，教程类内容贡献最大"
+    : "账号档案已创建，等待模拟事件写入后生成增长复盘。"
+);
+const creatorName = computed(() => creator.value?.displayName || "你的账号");
+const creatorTags = computed(() => (creator.value?.nicheTags || []).join(" / ") || "等待完善账号领域");
+const profileFollowerText = computed(() => (hasMetricReports.value ? "已接入" : "待生成"));
+const profileFollowerSubText = computed(() => (hasMetricReports.value ? "指标已开始生成" : "等待复盘指标"));
+const dailyReportTitle = computed(() => (hasMetricReports.value ? "今日增长" : "暂无日报"));
+const dailyReportCopy = computed(() =>
+  hasMetricReports.value ? "净增粉丝保持增长，最佳视频来自教程内容。" : "模拟事件写入后，这里会生成你的单日新增、播放转粉和异常变化。"
+);
+const weeklyReportTitle = computed(() => (hasMetricReports.value ? "内容结构" : "暂无周报"));
+const weeklyReportCopy = computed(() =>
+  hasMetricReports.value ? "教程类内容贡献更稳，建议提高高转粉平台发布占比。" : "等待至少一段连续事件后，系统会汇总本周内容结构和涨粉来源。"
+);
+const monthlyReportTitle = computed(() => (hasMetricReports.value ? "账号复盘" : "暂无月报"));
+const monthlyReportCopy = computed(() =>
+  hasMetricReports.value ? "账号增长健康度稳定，粘性显著改善。" : "月报会在累计足够事件指标后生成，现在只保留账号档案和绑定状态。"
+);
 const bindingsDiagnosis = computed(() =>
   diagnosisItems(tabInsights("bindings"), [
     { label: "健康平台", title: "抖音、B站、小红书同步正常，可以继续参与实时分析", className: "strong" },
@@ -115,24 +148,24 @@ function tabInsights(tabId) {
         <section v-show="activeTab === 'reports'" class="tab-panel active">
           <section class="page-title">
             <div><p class="eyebrow">Creator Profile</p><h1>个人中心</h1></div>
-            <p class="page-copy">集中管理你的个人报告、平台绑定、采集频率和通知偏好。报告区用于复盘，设置区用于低频配置。</p>
+            <p class="page-copy">{{ reportIntroText }}</p>
           </section>
           <section class="diagnosis-strip">
-            <article class="diagnosis-card strong"><span>本周复盘</span><strong>账号增长健康度保持稳定，教程类内容贡献最大</strong></article>
+            <article class="diagnosis-card strong"><span>{{ isProfileOnly ? "等待数据" : "本周复盘" }}</span><strong>{{ weeklyReviewText }}</strong></article>
             <article class="diagnosis-card warning"><span>待处理</span><strong>授权状态需要定期检查，否则同步会继续延迟</strong></article>
             <article class="diagnosis-card"><span>提醒策略</span><strong>当前保留高价值提醒，未启用低价值噪声通知</strong></article>
           </section>
           <section class="profile-band">
             <article class="card green">
-              <p class="label" style="color:#111">美妆达人小A</p>
-              <strong class="value large">286万</strong>
-              <span style="font-size:12px;font-weight:800">全平台粉丝</span>
-              <p style="margin-top:18px;font-size:12px;line-height:1.6">领域标签：通勤妆 / 平价测评 / 新手教程</p>
+              <p class="label" style="color:#111">{{ creatorName }}</p>
+              <strong class="value large">{{ profileFollowerText }}</strong>
+              <span style="font-size:12px;font-weight:800">{{ profileFollowerSubText }}</span>
+              <p style="margin-top:18px;font-size:12px;line-height:1.6">领域标签：{{ creatorTags }}</p>
             </article>
             <div class="grid-4">
               <div class="metric-card"><p>绑定平台</p><strong>{{ boundCount }}</strong></div>
               <div class="metric-card"><p>当前同步</p><strong>{{ maxLatency }}s</strong></div>
-              <div class="metric-card"><p>本周报告</p><strong>已生成</strong></div>
+              <div class="metric-card"><p>本周报告</p><strong>{{ reportStatusText }}</strong></div>
               <div class="metric-card"><p>通知</p><strong>4 项开启</strong></div>
             </div>
           </section>
@@ -140,21 +173,21 @@ function tabInsights(tabId) {
           <section class="grid-3">
             <article class="card">
               <p class="section-label">个人日报</p>
-              <strong class="value">今日增长</strong>
-              <p class="page-copy" style="margin-top:12px">净增粉丝保持增长，最佳视频来自教程内容。</p>
-              <span class="tag hot" style="margin-top:14px">查看日报</span>
+              <strong class="value">{{ dailyReportTitle }}</strong>
+              <p class="page-copy" style="margin-top:12px">{{ dailyReportCopy }}</p>
+              <span class="tag hot" style="margin-top:14px">{{ isProfileOnly ? "等待事件数据" : "查看日报" }}</span>
             </article>
             <article class="card">
               <p class="section-label">个人周报</p>
-              <strong class="value">内容结构</strong>
-              <p class="page-copy" style="margin-top:12px">教程类内容贡献更稳，建议提高高转粉平台发布占比。</p>
-              <span class="tag purple" style="margin-top:14px">查看周报</span>
+              <strong class="value">{{ weeklyReportTitle }}</strong>
+              <p class="page-copy" style="margin-top:12px">{{ weeklyReportCopy }}</p>
+              <span class="tag purple" style="margin-top:14px">{{ isProfileOnly ? "等待事件数据" : "查看周报" }}</span>
             </article>
             <article class="card">
               <p class="section-label">个人月报</p>
-              <strong class="value">账号复盘</strong>
-              <p class="page-copy" style="margin-top:12px">账号增长健康度稳定，粘性显著改善。</p>
-              <span class="tag" style="margin-top:14px">导出月报</span>
+              <strong class="value">{{ monthlyReportTitle }}</strong>
+              <p class="page-copy" style="margin-top:12px">{{ monthlyReportCopy }}</p>
+              <span class="tag" style="margin-top:14px">{{ isProfileOnly ? "等待事件数据" : "导出月报" }}</span>
             </article>
           </section>
           <section class="grid-2">

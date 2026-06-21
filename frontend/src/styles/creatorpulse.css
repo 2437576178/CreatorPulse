@@ -352,6 +352,10 @@ h1 {
   color: #111;
 }
 
+.card.green.platform-best-card {
+  background: #ffffff;
+}
+
 .metric-card {
   background: rgba(0, 0, 0, 0.18);
   border-radius: 16px;
@@ -428,6 +432,50 @@ h1 {
   margin-top: 8px;
 }
 
+.chart-panel {
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+}
+
+.chart-panel-funnel {
+  height: 166px;
+  margin-top: 18px;
+}
+
+.chart-panel-bars {
+  height: 128px;
+  margin-top: 18px;
+}
+
+.chart-panel-bars.compact {
+  height: 104px;
+  margin-top: 14px;
+}
+
+.chart-panel-tall {
+  height: 180px;
+  margin-top: 10px;
+}
+
+.chart-panel-heat {
+  height: 150px;
+  margin-top: 16px;
+}
+
+.chart-panel-heat.compact {
+  height: 92px;
+}
+
+.chart-panel-radar {
+  height: 230px;
+}
+
+.chart-panel-mini {
+  height: 92px;
+  margin-top: 18px;
+}
+
 .bar-stack {
   display: flex;
   flex-direction: column;
@@ -485,6 +533,38 @@ h1 {
 .table {
   width: 100%;
   border-collapse: collapse;
+}
+
+.table-scroll {
+  max-height: 360px;
+  margin-top: 8px;
+  overflow: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) rgba(255, 255, 255, 0.06);
+}
+
+.table-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.26);
+  border-radius: 999px;
+}
+
+.table-scroll .table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: rgba(27, 39, 44, 0.94);
+  backdrop-filter: blur(12px);
 }
 
 .table th,
