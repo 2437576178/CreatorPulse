@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import ChartPanel from "../components/ChartPanel.vue";
 import { fetchGrowthDashboard } from "../services/api";
 import { horizontalBarOption } from "../utils/chartOptions";
@@ -15,22 +15,12 @@ defineProps({
 
 const emit = defineEmits(["navigate"]);
 
-const activeTab = ref(window.location.hash?.replace("#", "") || "overview");
 const loading = ref(true);
 const error = ref("");
 const payload = ref(null);
 const healthTooltip = ref({ visible: false, x: 130, y: 130 });
 
-const tabs = [
-  { id: "overview", label: "实时概览" },
-  { id: "conversion", label: "粉丝转化" },
-  { id: "stickiness", label: "粉丝粘性" },
-  { id: "distribution", label: "视频分布" }
-];
-
 onMounted(async () => {
-  window.addEventListener("hashchange", syncHash);
-  syncHash();
   await loadData();
 });
 
@@ -43,29 +33,6 @@ async function loadData() {
     error.value = apiError.message;
   } finally {
     loading.value = false;
-  }
-}
-
-function syncHash() {
-  const next = window.location.hash.replace("#", "");
-  if (tabs.some((tab) => tab.id === next)) {
-    activeTab.value = next;
-  } else {
-    activeTab.value = "overview";
-  }
-  nextTick(() => {
-    window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
-  });
-}
-
-function setTab(tabId) {
-  const shouldReplay = activeTab.value === tabId;
-  activeTab.value = tabId;
-  window.location.hash = tabId;
-  if (shouldReplay) {
-    nextTick(() => {
-      window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
-    });
   }
 }
 
@@ -109,31 +76,6 @@ const insightByTab = computed(() => {
 });
 
 const overviewInsights = computed(() => takeInsights("overview"));
-const conversionInsights = computed(() => takeInsights("conversion"));
-const stickinessInsights = computed(() => takeInsights("stickiness"));
-const distributionInsights = computed(() => takeInsights("distribution"));
-const conversionDiagnosis = computed(() =>
-  diagnosisItems(conversionInsights.value, [
-    { label: "今日结论", title: "教程内容正在把高质量互动转成关注", className: "strong" },
-    { label: "最大瓶颈", title: "主页访问承接效率关键，首屏 CTA 还需要更明确", className: "warning" },
-    { label: "最佳来源", title: "高转粉视频结构值得继续复刻", className: "" }
-  ])
-);
-const stickinessDiagnosis = computed(() =>
-  diagnosisItems(stickinessInsights.value, [
-    { label: "今日结论", title: "教程内容带来的收藏和复访最稳定", className: "strong" },
-    { label: "高价值互动", title: "提问评论说明粉丝愿意继续交流", className: "" },
-    { label: "低粘性风险", title: "泛流量点赞多，但复访偏低", className: "warning" }
-  ])
-);
-const distributionDiagnosis = computed(() =>
-  diagnosisItems(distributionInsights.value, [
-    { label: "结构判断", title: "高转粉内容占比不高，但涨粉贡献最高", className: "strong" },
-    { label: "内容倾向", title: "教程类贡献新粉，值得继续加码", className: "" },
-    { label: "投入偏差", title: "低转粉泛流量内容需要减少", className: "warning" }
-  ])
-);
-
 const totalViews = computed(() => sum(topVideos.value, "views"));
 const totalFollowers = computed(() => sum(topVideos.value, "newFollowers"));
 const totalProfiles = computed(() => sum(topVideos.value, "profileVisits"));
@@ -443,18 +385,6 @@ const stickinessChartOption = computed(() => ({
     }
   ]
 }));
-const stickinessTrendChartOption = computed(() =>
-  horizontalBarOption(
-    [
-      { label: "收藏", value: sum(topVideos.value, "saves"), text: formatNumber(sum(topVideos.value, "saves")) },
-      { label: "评论", value: sum(topVideos.value, "comments"), text: formatNumber(sum(topVideos.value, "comments")), color: "#9a8eff" },
-      { label: "分享", value: sum(topVideos.value, "shares"), text: formatNumber(sum(topVideos.value, "shares")), color: "#61f4ff" },
-      { label: "新增关注", value: totalFollowers.value, text: formatNumber(totalFollowers.value) }
-    ],
-    { barWidth: 34, animateLabels: true, duration: 2200, labelFormatter: (value) => formatNumber(value) }
-  )
-);
-
 function takeInsights(tab) {
   const items = insightByTab.value[tab] || [];
   return items.slice(0, 3);
@@ -499,20 +429,6 @@ function hideHealthTooltip() {
     <div class="dashboard-content">
       <header class="board-header">
         <div class="brand-logo"><i class="fa-solid fa-circle-notch"></i> CreatorPulse</div>
-        <div class="top-pills-tabs" role="tablist">
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            class="top-pill"
-            :class="{ active: activeTab === tab.id }"
-            type="button"
-            role="tab"
-            :aria-selected="activeTab === tab.id"
-            @click="setTab(tab.id)"
-          >
-            {{ tab.label }}
-          </button>
-        </div>
         <div class="user-profile">
           <span class="sync-chip">5s Sync</span>
           <i class="fa-regular fa-bell" style="color:var(--text-dim)"></i>
@@ -532,7 +448,7 @@ function hideHealthTooltip() {
       </section>
 
       <template v-else>
-        <section v-show="activeTab === 'overview'" class="tab-panel active">
+        <section class="tab-panel active">
           <section class="layout-main">
             <div>
               <p class="eyebrow">Growth Health</p>
@@ -682,7 +598,7 @@ function hideHealthTooltip() {
                 </article>
                 <article v-else class="card">
                   <p class="section-label">粉丝愿不愿意互动</p>
-                  <strong class="value">{{ snapshot?.stickinessScore }}</strong>
+                  <strong class="value">粉丝粘性-{{ snapshot?.stickinessScore }}</strong>
                   <span class="delta">收藏 {{ formatNumber(totalSaves) }}，评论 {{ formatNumber(totalComments) }}</span>
                   <ChartPanel class="chart-panel-mini" :option="stickinessChartOption" />
                 </article>
@@ -694,100 +610,6 @@ function hideHealthTooltip() {
                 </article>
               </div>
             </div>
-          </section>
-        </section>
-
-        <section v-show="activeTab === 'conversion'" class="tab-panel active">
-          <section class="page-title">
-            <div><p class="eyebrow">Conversion Diagnosis</p><h1>转化诊断台</h1></div>
-            <p class="page-copy">追踪你的内容从曝光到关注的每一步，找到今天最该修正的转化瓶颈和最值得复刻的涨粉路径。</p>
-          </section>
-          <section class="diagnosis-strip">
-            <article v-for="item in conversionDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
-              <span>{{ item.label }}</span>
-              <strong>{{ item.title }}</strong>
-            </article>
-          </section>
-          <section class="grid-2">
-            <article class="card white">
-              <p class="label" style="color:#666">路径漏斗与掉点</p>
-              <div class="path-flow">
-                <div class="path-step hot"><span>播放</span><strong>{{ formatNumber(totalViews) }}</strong><em>入口充足</em></div>
-                <div class="path-step"><span>互动</span><strong>{{ formatNumber(totalInteractions) }}</strong><em>互动形成兴趣</em></div>
-                <div class="path-step risk"><span>主页访问</span><strong>{{ formatNumber(totalProfiles) }}</strong><em>承接效率关键</em></div>
-                <div class="path-step"><span>关注</span><strong>{{ formatNumber(totalFollowers) }}</strong><em>{{ formatPercent(totalFollowers / totalViews) }}</em></div>
-              </div>
-            </article>
-            <article class="card">
-              <p class="section-label">下一步动作</p>
-              <div class="action-list">
-                <div v-for="item in conversionInsights.flatMap((insight) => insight.recommendedActions).slice(0, 3)" :key="item.actionId">
-                  <i class="fa-solid fa-arrow-up-right-dots"></i><span>{{ item.description }}</span>
-                </div>
-              </div>
-            </article>
-          </section>
-        </section>
-
-        <section v-show="activeTab === 'stickiness'" class="tab-panel active">
-          <section class="page-title">
-            <div><p class="eyebrow">Fan Quality Diagnosis</p><h1>粉丝质量诊断</h1></div>
-            <p class="page-copy">根据收藏、评论、分享和 Insight 判断你的粉丝是否正在形成高价值互动。</p>
-          </section>
-          <section class="diagnosis-strip">
-            <article v-for="item in stickinessDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
-              <span>{{ item.label }}</span>
-              <strong>{{ item.title }}</strong>
-            </article>
-          </section>
-          <section class="grid-2">
-            <article class="card">
-              <p class="section-label">粘性趋势拆解</p>
-              <ChartPanel class="chart-panel-funnel" :option="stickinessTrendChartOption" />
-            </article>
-            <article class="card">
-              <p class="section-label">下一步动作</p>
-              <div class="action-list">
-                <div v-for="item in stickinessInsights.flatMap((insight) => insight.recommendedActions).slice(0, 3)" :key="item.actionId">
-                  <i class="fa-solid fa-bookmark"></i><span>{{ item.description }}</span>
-                </div>
-              </div>
-            </article>
-          </section>
-        </section>
-
-        <section v-show="activeTab === 'distribution'" class="tab-panel active">
-          <section class="page-title">
-            <div><p class="eyebrow">Content Mix Calibration</p><h1>内容结构校准</h1></div>
-            <p class="page-copy">比较你的发布投入、播放贡献和涨粉贡献，判断下周内容应该多发什么、在哪发、什么时候发。</p>
-          </section>
-          <section class="diagnosis-strip">
-            <article v-for="item in distributionDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
-              <span>{{ item.label }}</span>
-              <strong>{{ item.title }}</strong>
-            </article>
-          </section>
-          <section class="grid-2">
-            <article class="card">
-              <p class="section-label">内容类型贡献</p>
-              <table class="table">
-                <tr><th>类型</th><th>播放</th><th>新粉</th><th>收藏</th></tr>
-                <tr v-for="row in contentTypeRows" :key="row.contentType">
-                  <td>{{ contentLabel(row.contentType) }}</td>
-                  <td>{{ formatNumber(row.views) }}</td>
-                  <td>{{ formatNumber(row.newFollowers) }}</td>
-                  <td>{{ formatNumber(row.saves) }}</td>
-                </tr>
-              </table>
-            </article>
-            <article class="card">
-              <p class="section-label">下周发布配比建议</p>
-              <div class="action-list">
-                <div v-for="item in distributionInsights.flatMap((insight) => insight.recommendedActions).slice(0, 3)" :key="item.actionId">
-                  <i class="fa-solid fa-video"></i><span>{{ item.description }}</span>
-                </div>
-              </div>
-            </article>
           </section>
         </section>
       </template>

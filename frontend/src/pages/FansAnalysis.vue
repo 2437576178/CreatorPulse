@@ -161,10 +161,29 @@ const profileDiagnosis = computed(() =>
 const trendMax = computed(() => Math.max(...trend.value.map((item) => item.newFollowers), 1));
 const coreSegments = computed(() => profile.value?.highValueSegments || []);
 const totalTrendViews = computed(() => trend.value.reduce((value, item) => value + Number(item.totalViews || 0), 0));
-const todayNewFollowers = computed(() =>
-  topVideos.value.reduce((value, item) => value + Number(item.newFollowers || 0), 0) || Number(latest.value?.newFollowers || 0)
-);
+const todayNewFollowers = computed(() => Number(latest.value?.newFollowers || 0));
 const todayNetFollowers = computed(() => Math.max(0, todayNewFollowers.value - Number(latest.value?.lostFollowers || 0)));
+const previousNewFollowers = computed(() => {
+  const previous = trend.value[trend.value.length - 2];
+  return Number(previous?.newFollowers || 0);
+});
+const newFollowersDelta = computed(() => todayNewFollowers.value - previousNewFollowers.value);
+const topFollowerVideo = computed(() =>
+  [...topVideos.value].sort((first, second) => Number(second.newFollowers || 0) - Number(first.newFollowers || 0))[0]
+);
+const topFollowerVideoTitle = computed(() => topFollowerVideo.value?.title || topFollowerVideo.value?.videoTitle || "最高转粉视频");
+const topFollowerVideoFollowers = computed(() => Number(topFollowerVideo.value?.newFollowers || 0));
+const coreAgeGroup = computed(() => topRecord(profile.value?.ageGroups || {})[0] || "--");
+const coreAgeShare = computed(() => Number(topRecord(profile.value?.ageGroups || {})[1] || 0));
+const growthEvidence = computed(() =>
+  `依据：今日新增 ${formatNumber(todayNewFollowers.value)}，较昨日 ${newFollowersDelta.value >= 0 ? "+" : ""}${formatNumber(newFollowersDelta.value)}，播放转粉率 ${formatPercent(latest.value?.viewToFollowerRate)}`
+);
+const anomalyEvidence = computed(() =>
+  `依据：掉粉 ${formatNumber(latest.value?.lostFollowers)}，净增 ${formatNumber(todayNetFollowers.value)}，粘性指数 ${formatNumber(latest.value?.stickinessScore)}`
+);
+const nextStepEvidence = computed(() =>
+  `依据：${coreAgeGroup.value} 占比 ${formatPercent(coreAgeShare.value)}，${topFollowerVideoTitle.value} 新增 ${formatNumber(topFollowerVideoFollowers.value)} 粉`
+);
 const displayTrend = computed(() =>
   trend.value.map((item, index) => (
     index === trend.value.length - 1
@@ -244,7 +263,8 @@ const activeHoursHeatmapOption = computed(() =>
   heatmapOption(
     ["8", "10", "12", "14", "18", "20", "21"],
     ["活跃"],
-    [[0, 0, 22], [1, 0, 32], [2, 0, 58], [3, 0, 36], [4, 0, 62], [5, 0, 94], [6, 0, 88]]
+    [[0, 0, 22], [1, 0, 32], [2, 0, 58], [3, 0, 36], [4, 0, 62], [5, 0, 94], [6, 0, 88]],
+    { countUpLabels: true, labelSuffix: "" }
   )
 );
 
@@ -314,25 +334,19 @@ function topRecord(record) {
           <section class="diagnosis-strip">
             <article class="diagnosis-card strong">
               <span>增长判断</span>
-              <strong>你的粉丝增长正在加速，主要由高转粉教程和收藏行为带动</strong>
+              <strong>今日新增 {{ formatNumber(todayNewFollowers) }} 粉，{{ newFollowersDelta >= 0 ? "增长在提速" : "增长较昨日回落" }}</strong>
+              <small>{{ growthEvidence }}</small>
             </article>
             <article class="diagnosis-card warning">
               <span>异常信号</span>
-              <strong>今日掉粉 {{ formatNumber(latest?.lostFollowers) }}，需要关注低转粉泛流量内容</strong>
+              <strong>{{ latest?.lostFollowers ? "掉粉需要跟进" : "暂未出现明显掉粉" }}，重点复盘低转粉流量</strong>
+              <small>{{ anomalyEvidence }}</small>
             </article>
             <article class="diagnosis-card">
               <span>下一步重点</span>
-              <strong>把新粉承接到教程系列，减少一次性浏览用户流失</strong>
+              <strong>围绕高转粉内容做连续选题，把新粉接到系列内容里</strong>
+              <small>{{ nextStepEvidence }}</small>
             </article>
-          </section>
-
-          <section class="grid-6">
-            <article class="metric-card"><p>总粉丝</p><strong>{{ formatNumber(latest?.totalFollowers) }}</strong></article>
-            <article class="metric-card"><p>今日新增</p><strong>{{ formatNumber(todayNewFollowers) }}</strong></article>
-            <article class="metric-card"><p>今日掉粉</p><strong>{{ formatNumber(latest?.lostFollowers) }}</strong></article>
-            <article class="metric-card"><p>净增粉丝</p><strong>{{ formatNumber(todayNetFollowers) }}</strong></article>
-            <article class="metric-card"><p>增长率</p><strong>{{ formatPercent(latest?.followerGrowthRate) }}</strong></article>
-            <article class="metric-card"><p>播放转粉率</p><strong>{{ formatPercent(latest?.viewToFollowerRate) }}</strong></article>
           </section>
 
           <section class="grid-2">

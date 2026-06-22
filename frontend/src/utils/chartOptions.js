@@ -148,13 +148,15 @@ export function verticalBarOption(items, options = {}) {
 
 export function heatmapOption(xLabels, yLabels, values, options = {}) {
   const max = Math.max(...values.map((item) => Number(item[2] || 0)), 1);
+  const min = Math.min(...values.map((item) => Number(item[2] || 0)), 0);
+  const labelSuffix = options.labelSuffix || "";
   return {
     animationDuration: options.duration || 1600,
     animationDurationUpdate: options.duration || 1600,
     tooltip: {
       formatter(params) {
         const [x, y, value] = params.value;
-        return `${yLabels[y]} ${xLabels[x]}<br/>强度 ${value}`;
+        return `${yLabels[y]} ${xLabels[x]}<br/>score ${Math.round(Number(value || 0))}${labelSuffix}`;
       }
     },
     grid: { left: 8, right: 8, top: 8, bottom: 8, containLabel: false },
@@ -174,9 +176,11 @@ export function heatmapOption(xLabels, yLabels, values, options = {}) {
     },
     visualMap: {
       show: false,
-      min: 0,
+      min,
       max,
-      inRange: { color: ["rgba(255,255,255,0.12)", palette.purple, palette.green] }
+      inRange: {
+        color: options.colors || ["rgba(204, 156, 60, 0.22)", "rgba(204, 156, 60, 0.62)", "rgb(204, 156, 60)"]
+      }
     },
     series: [
       {
@@ -190,8 +194,9 @@ export function heatmapOption(xLabels, yLabels, values, options = {}) {
           fontSize: 10,
           fontWeight: 800,
           formatter(params) {
-            if (options.countUpLabels) return String(Math.round(Number(params.value[2] || 0)));
-            return params.value[2] > max * 0.55 ? xLabels[params.value[0]] : "";
+            const value = Number(params.value[2] || 0);
+            if (options.countUpLabels) return `${Math.round(value)}${labelSuffix}`;
+            return value >= max * (options.labelThreshold ?? 0.45) ? `${Math.round(value)}${labelSuffix}` : "";
           }
         }
       }

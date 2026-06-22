@@ -47,8 +47,6 @@ const reportStatusTextMap = {
 
 const tabs = [
   { id: "reports", label: "数据报告" },
-  { id: "bindings", label: "平台绑定" },
-  { id: "settings", label: "采集设置" },
   { id: "notify", label: "通知偏好" }
 ];
 
@@ -219,7 +217,7 @@ const heartbeatHealthy = computed(() => heartbeatSecondsAgo.value <= 8 && !error
 const reportStatusText = computed(() => (hasMetricReports.value ? "已生成" : "待生成"));
 const reportIntroText = computed(() =>
   hasMetricReports.value
-    ? "集中管理你的个人报告、平台绑定、采集频率和通知偏好。报告区用于复盘，设置区用于低频配置。"
+    ? "集中管理你的个人报告和通知偏好。报告区用于复盘，通知区用于保留高价值提醒。"
     : isProfileOnly.value
     ? "账号档案和平台绑定已完成。增长日报、周报和月报会在模拟事件写入指标后生成。"
     : "账号档案和平台绑定已完成，正在等待增长复盘指标生成。"
@@ -301,20 +299,6 @@ const monthlyReportCopy = computed(() =>
   monthlyReport.value?.summary || "月报会在累计足够事件指标后生成，现在只保留账号档案和绑定状态。"
 );
 const weeklyReportMetric = computed(() => weeklyReport.value?.metrics?.netFollowers ?? dailyReport.value?.metrics?.netFollowers ?? "待生成");
-const bindingsDiagnosis = computed(() =>
-  diagnosisItems(tabInsights("bindings"), [
-    { label: "健康平台", title: "抖音、B站、小红书同步正常，可以继续参与实时分析", className: "strong" },
-    { label: "授权风险", title: "授权即将过期的平台需要刷新后再纳入周报", className: "warning" },
-    { label: "同步状态", title: "核心平台延迟保持在 5-10s，满足增长总览展示" }
-  ])
-);
-const settingsDiagnosis = computed(() =>
-  diagnosisItems(tabInsights("settings"), [
-    { label: "推荐策略", title: "视频和粉丝数据保持高频，话题和报告数据保持稳定批量", className: "strong" },
-    { label: "风险", title: "评论情绪采集过低会影响负面提醒准确性", className: "warning" },
-    { label: "稳定性", title: "当前策略可以支撑 5s 增长总览和 30s 粉丝趋势" }
-  ])
-);
 const notifyDiagnosis = computed(() =>
   diagnosisItems(tabInsights("notify"), [
     { label: "已开启", title: "高价值提醒覆盖热点、异常、掉粉和负面评论", className: "strong" },
@@ -449,66 +433,6 @@ function tabInsights(tabId) {
               <div class="action-list">
                 <div v-for="action in (dailyReport?.actions || weeklyReport?.actions || monthlyReport?.actions || []).slice(0, 3)" :key="action"><i class="fa-solid fa-file-lines"></i><span>{{ action }}</span></div>
                 <div v-if="!(dailyReport?.actions || weeklyReport?.actions || monthlyReport?.actions || []).length"><i class="fa-solid fa-chart-simple"></i><span>等待离线任务生成后，这里会展示日报、周报和月报的行动建议。</span></div>
-              </div>
-            </article>
-          </section>
-        </section>
-
-        <section v-show="activeTab === 'bindings'" class="tab-panel active">
-          <section class="page-title">
-            <div><p class="eyebrow">Authorization Health</p><h1>授权健康检查</h1></div>
-            <p class="page-copy">查看绑定状态、同步延迟、授权风险和需要刷新项。</p>
-          </section>
-          <section class="diagnosis-strip">
-            <article v-for="item in bindingsDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
-              <span>{{ item.label }}</span><strong>{{ item.title }}</strong>
-            </article>
-          </section>
-          <section class="grid-2">
-            <article class="card">
-              <p class="section-label">平台授权状态</p>
-              <div v-for="account in accounts" :key="account.accountId" class="form-row">
-                <span class="platform-cell">
-                  <img v-if="platformIcon(account.platform)" :src="platformIcon(account.platform)" :alt="platformLabel(account.platform)" />
-                  <span>{{ platformLabel(account.platform) }}</span>
-                </span>
-                <span class="tag hot">{{ bindingStatusText(account.bindingStatus) }}</span>
-                <span>{{ account.syncLatencySeconds }}s</span>
-              </div>
-            </article>
-            <article class="card">
-              <p class="section-label">处理建议</p>
-              <div class="action-list">
-                <div v-for="item in actionsFrom(tabInsights('bindings'), 3)" :key="item.actionId"><i class="fa-solid fa-rotate"></i><span>{{ item.description }}</span></div>
-                <div v-if="!actionsFrom(tabInsights('bindings'), 1).length"><i class="fa-solid fa-shield-halved"></i><span>每周检查一次授权状态，减少数据断点。</span></div>
-              </div>
-            </article>
-          </section>
-        </section>
-
-        <section v-show="activeTab === 'settings'" class="tab-panel active">
-          <section class="page-title">
-            <div><p class="eyebrow">Collection Strategy</p><h1>采集策略配置</h1></div>
-            <p class="page-copy">按数据价值设置采集频率，让实时页面够快，复盘页面够稳，不浪费采集资源。</p>
-          </section>
-          <section class="diagnosis-strip">
-            <article v-for="item in settingsDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
-              <span>{{ item.label }}</span><strong>{{ item.title }}</strong>
-            </article>
-          </section>
-          <section class="grid-2">
-            <article class="card">
-              <p class="section-label">采集频率</p>
-              <div class="form-row"><span>视频数据</span><span>5s</span><span class="tag hot">实时增长</span></div>
-              <div class="form-row"><span>粉丝数据</span><span>30s</span><span class="tag purple">趋势稳定</span></div>
-              <div class="form-row"><span>话题数据</span><span>60s</span><span class="tag">机会识别</span></div>
-              <div class="form-row"><span>评论情绪</span><span>30s</span><span class="tag">建议提高</span></div>
-            </article>
-            <article class="card">
-              <p class="section-label">策略说明</p>
-              <div class="action-list">
-                <div v-for="item in actionsFrom(tabInsights('settings'), 3)" :key="item.actionId"><i class="fa-solid fa-gauge-high"></i><span>{{ item.description }}</span></div>
-                <div v-if="!actionsFrom(tabInsights('settings'), 1).length"><i class="fa-solid fa-bell"></i><span>负面评论提醒需要 30s 以内采集，否则异常提示会滞后。</span></div>
               </div>
             </article>
           </section>

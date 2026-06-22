@@ -2,9 +2,9 @@
 import { computed, nextTick, onMounted, ref } from "vue";
 import ChartPanel from "../components/ChartPanel.vue";
 import { fetchOpportunities } from "../services/api";
-import { bubbleOption, horizontalBarOption } from "../utils/chartOptions";
+import { horizontalBarOption } from "../utils/chartOptions";
 import { formatPercent } from "../utils/format";
-import { actionsFrom, diagnosisItems, groupInsights, topRows } from "../utils/pageModels";
+import { actionsFrom, diagnosisItems, groupInsights } from "../utils/pageModels";
 
 defineProps({
   activePage: {
@@ -16,9 +16,9 @@ defineProps({
 const emit = defineEmits(["navigate"]);
 
 const tabs = [
-  { id: "hot", label: "热点机会" },
-  { id: "advice", label: "创作建议" },
-  { id: "reference", label: "参考洞察" }
+  { id: "hot", label: "选题机会" },
+  { id: "advice", label: "怎么拍" },
+  { id: "reference", label: "参考结构" }
 ];
 
 const activeTab = ref(window.location.hash?.replace("#", "") || "hot");
@@ -68,7 +68,26 @@ const topics = computed(() => model.value?.topics || []);
 const insights = computed(() => model.value?.insights || []);
 const isInitialReferenceOnly = computed(() => insights.value.length === 0);
 const insightByTab = computed(() => groupInsights(insights.value, tabs, "opportunities"));
-const hotTopics = computed(() => topRows(topics.value, "creatorFitScore", 6));
+const topicRecommendScore = (topic) =>
+  Math.round(Number(topic?.creatorFitScore || 0) * 0.5 + Number(topic?.heatScore || 0) * 0.25 + Number(topic?.growthRate || 0) * 100 * 0.25);
+const uniqueTopics = computed(() => {
+  const byName = new Map();
+  for (const topic of topics.value) {
+    const name = String(topic?.topicName || topic?.topicId || "").trim();
+    if (!name) continue;
+    const current = byName.get(name);
+    if (!current || topicRecommendScore(topic) > topicRecommendScore(current)) {
+      byName.set(name, topic);
+    }
+  }
+  return [...byName.values()];
+});
+const hotTopics = computed(() =>
+  uniqueTopics.value
+    .map((topic) => ({ ...topic, recommendScore: topicRecommendScore(topic) }))
+    .sort((a, b) => b.recommendScore - a.recommendScore)
+    .slice(0, 6)
+);
 const bestTopic = computed(() => hotTopics.value[0]);
 const opportunityIntroText = computed(() =>
   isInitialReferenceOnly.value
@@ -84,25 +103,91 @@ const bestTopicLabel = computed(() => (isInitialReferenceOnly.value ? "初始参
 const bestTopicScoreText = computed(() =>
   isInitialReferenceOnly.value ? `样本适配度 ${bestTopic.value?.creatorFitScore || 0}` : `适配度 ${bestTopic.value?.creatorFitScore || 0}`
 );
-const opportunityRadarChartOption = computed(() =>
-  bubbleOption(
-    hotTopics.value.map((topic, index) => ({
-      label: topic.topicName,
-      value: topic.creatorFitScore,
-      heat: topic.heatScore,
-      color: topic.topicId === bestTopic.value?.topicId ? "#bcff00" : topic.creatorFitScore >= 85 ? "#9a8eff" : "rgba(255,255,255,0.28)",
-      x: [18, 50, 78, 28, 62, 86][index] || 50,
-      y: [70, 82, 62, 34, 42, 22][index] || 50
-    }))
-  )
+const topicHeatText = (score) => (Number(score || 0) >= 85 ? "很热" : Number(score || 0) >= 70 ? "中高" : "一般");
+const topicFitText = (score) => (Number(score || 0) >= 90 ? "很适合" : Number(score || 0) >= 80 ? "适合" : "可观察");
+const topicRiskText = (risk) => ({ LOW: "低", MEDIUM: "中", HIGH: "高" })[risk] || risk || "-";
+const bestTopicReasonCards = computed(() => [
+  {
+    label: "现在热不热",
+    value: `${bestTopic.value?.heatScore || 0}`,
+    hint: topicHeatText(bestTopic.value?.heatScore)
+  },
+  {
+    label: "适不适合你",
+    value: `${bestTopic.value?.creatorFitScore || 0}`,
+    hint: topicFitText(bestTopic.value?.creatorFitScore)
+  },
+  {
+    label: "预计涨粉机会",
+    value: formatPercent(bestTopic.value?.growthRate),
+    hint: "高于普通选题"
+  },
+  {
+    label: "风险",
+    value: topicRiskText(bestTopic.value?.riskLevel),
+    hint: "可执行"
+  }
+]);
+const candidateTopics = computed(() =>
+  hotTopics.value.map((topic, index) => ({
+    ...topic,
+    rank: index + 1,
+    recommendScore: topic.recommendScore ?? topicRecommendScore(topic)
+  }))
 );
+const scriptStructureRows = computed(() => {
+  const topicName = bestTopic.value?.topicName || "下一条内容";
+  const includesAny = (words) => words.some((word) => topicName.includes(word));
+  const isMakeup = includesAny(["妆", "底妆", "眼妆", "粉底", "持妆"]);
+  const isProductList = includesAny(["好物", "包", "清单"]);
+  const isReview = includesAny(["测评", "横评", "复盘", "挑战"]);
+  const isCommute = includesAny(["通勤", "早八", "职场"]);
+
+  if (isProductList) {
+    return [
+      { label: "0-8s", value: 100, text: `展示「${topicName}」完整清单` },
+      { label: "8-90s", value: 100, text: "拆 3 个必备好物和使用场景", color: "#9a8eff" },
+      { label: "90-160s", value: 100, text: "讲避坑、替代选择和预算排序", color: "#61f4ff" },
+      { label: "结尾", value: 100, text: "引导收藏 + 评论想看哪种场景" }
+    ];
+  }
+
+  if (isReview) {
+    return [
+      { label: "0-8s", value: 100, text: `先给「${topicName}」结论排名` },
+      { label: "8-90s", value: 100, text: "按价格、效果和适合人群对比", color: "#9a8eff" },
+      { label: "90-160s", value: 100, text: "展示实测差异和不推荐理由", color: "#61f4ff" },
+      { label: "结尾", value: 100, text: "总结购买建议 + 引导收藏" }
+    ];
+  }
+
+  if (isMakeup) {
+    return [
+      { label: "0-8s", value: 100, text: `展示「${topicName}」前后对比` },
+      { label: "8-90s", value: 100, text: "拆 3 个关键步骤和产品顺序", color: "#9a8eff" },
+      { label: "90-160s", value: 100, text: "讲卡粉、脱妆、斑驳的修正", color: "#61f4ff" },
+      { label: "结尾", value: 100, text: "引导收藏 + 评论肤质场景" }
+    ];
+  }
+
+  if (isCommute) {
+    return [
+      { label: "0-8s", value: 100, text: `先给「${topicName}」省时结果` },
+      { label: "8-90s", value: 100, text: "拆通勤前、中、后的执行步骤", color: "#9a8eff" },
+      { label: "90-160s", value: 100, text: "讲迟到、补妆、携带的应急处理", color: "#61f4ff" },
+      { label: "结尾", value: 100, text: "引导收藏 + 评论通勤时长" }
+    ];
+  }
+
+  return [
+    { label: "0-8s", value: 100, text: `先展示「${topicName}」结果` },
+    { label: "8-90s", value: 100, text: "拆 3 个执行步骤和适合人群", color: "#9a8eff" },
+    { label: "90-160s", value: 100, text: "讲常见误区和可替代方案", color: "#61f4ff" },
+    { label: "结尾", value: 100, text: "引导收藏 + 评论下一条想看什么" }
+  ];
+});
 const scriptStructureChartOption = computed(() =>
-  horizontalBarOption([
-    { label: "0-8s", value: 100, text: "结果预览 + 痛点开场" },
-    { label: "8-90s", value: 100, text: "三步完成底妆和眼妆", color: "#9a8eff" },
-    { label: "90-160s", value: 100, text: "常见错误和修正", color: "#61f4ff" },
-    { label: "结尾", value: 100, text: "收藏引导 + 下一集预告" }
-  ])
+  horizontalBarOption(scriptStructureRows.value)
 );
 const adviceDiagnosis = computed(() =>
   isInitialReferenceOnly.value
@@ -164,36 +249,57 @@ function tabInsights(tabId) {
       <template v-else>
         <section v-show="activeTab === 'hot'" class="tab-panel active">
           <section class="page-title">
-            <div><p class="eyebrow">Opportunity Radar</p><h1>机会建议</h1></div>
-            <p class="page-copy">{{ opportunityIntroText }}</p>
+            <div><p class="eyebrow">Next Topic Decision</p><h1>下一条内容建议</h1></div>
+            <p class="page-copy">先看系统建议你下一条拍什么，再看为什么推荐、还有哪些备选选题。</p>
           </section>
-          <section class="diagnosis-strip">
-            <article class="diagnosis-card strong">
-              <span>{{ bestTopicLabel }}</span><strong>{{ bestTopicTitle }}</strong>
+
+          <section class="opportunity-decision-panel">
+            <article class="opportunity-decision-card">
+              <p class="label">系统建议</p>
+              <strong>下一条拍：{{ bestTopic?.topicName || "等待选题" }}</strong>
+              <span>{{ isInitialReferenceOnly ? "这是初始热点样本，等事件接入后会按你的账号表现重新校准。" : "这个选题兼顾话题热度、账号适配和预期涨粉机会。" }}</span>
+              <button class="decision-action" type="button" @click="setTab('advice')">查看怎么拍</button>
             </article>
-            <article class="diagnosis-card warning">
-              <span>{{ isInitialReferenceOnly ? "等待事件" : "注意风险" }}</span><strong>{{ isInitialReferenceOnly ? "模拟事件接入前，热点只代表外部样本，不代表你的账号已经验证过。" : "热点只做流量入口，标题必须明确人群和关注理由" }}</strong>
-            </article>
-            <article class="diagnosis-card">
-              <span>{{ isInitialReferenceOnly ? "后续生成" : "复刻结构" }}</span><strong>{{ isInitialReferenceOnly ? "播放、互动、涨粉事件写入后，会生成你的专属内容结构建议。" : "结果预览 + 步骤拆解 + 收藏引导仍是最稳结构" }}</strong>
+            <article class="opportunity-explain-card">
+              <p class="section-label">为什么推荐它</p>
+              <div class="reason-grid">
+                <div v-for="item in bestTopicReasonCards" :key="item.label" class="reason-tile">
+                  <span>{{ item.label }}</span>
+                  <strong>{{ item.value }}</strong>
+                  <em>{{ item.hint }}</em>
+                </div>
+              </div>
             </article>
           </section>
-          <section class="grid-3">
-            <article class="card green"><p class="label" style="color:#111">{{ bestTopicLabel }}</p><strong class="value large">{{ bestTopic?.topicName }}</strong><span style="font-size:12px;font-weight:800">{{ bestTopicScoreText }}</span></article>
-            <article class="card"><p class="section-label">最高热度</p><strong class="value">{{ hotTopics[0]?.heatScore }}</strong><span class="delta">话题雷达</span></article>
-            <article class="card"><p class="section-label">风险等级</p><strong class="value">{{ bestTopic?.riskLevel }}</strong><span class="delta">{{ isInitialReferenceOnly ? "初始样本" : "MVP 规则" }}</span></article>
-          </section>
+
           <section class="grid-2">
             <article class="card">
-              <p class="section-label">机会雷达</p>
-              <ChartPanel class="chart-panel-radar" :option="opportunityRadarChartOption" />
+              <p class="section-label">候选选题推荐排行</p>
+              <div class="topic-rank-list">
+                <article v-for="topic in candidateTopics" :key="topic.topicId" class="topic-rank-item" :class="{ best: topic.topicId === bestTopic?.topicId }">
+                  <span class="topic-rank-index">{{ topic.rank }}</span>
+                  <div class="topic-rank-body">
+                    <div class="topic-rank-title">
+                      <strong>{{ topic.topicName }}</strong>
+                      <div class="topic-rank-side">
+                        <span class="topic-rank-stats">适配 {{ topic.creatorFitScore }} · 热度 {{ topic.heatScore }} · 涨粉 {{ formatPercent(topic.growthRate) }}</span>
+                        <span class="topic-score">{{ topic.recommendScore }}</span>
+                        <span v-if="topic.topicId === bestTopic?.topicId" class="topic-best-chip">最推荐</span>
+                      </div>
+                    </div>
+                    <div class="topic-rank-track">
+                      <span :style="{ width: `${topic.recommendScore}%` }"></span>
+                    </div>
+                  </div>
+                </article>
+              </div>
             </article>
             <article class="card">
-              <p class="section-label">热点话题</p>
+              <p class="section-label">其他可以考虑的选题</p>
               <table class="table">
-                <tr><th>话题</th><th>热度</th><th>适配</th><th>增长</th></tr>
+                <tr><th>候选选题</th><th>现在热不热</th><th>适不适合你</th><th>预计涨粉机会</th></tr>
                 <tr v-for="topic in hotTopics" :key="topic.topicId">
-                  <td>{{ topic.topicName }}</td><td>{{ topic.heatScore }}</td><td>{{ topic.creatorFitScore }}</td><td>{{ formatPercent(topic.growthRate) }}</td>
+                  <td>{{ topic.topicName }}</td><td>{{ topic.heatScore }} · {{ topicHeatText(topic.heatScore) }}</td><td>{{ topic.creatorFitScore }} · {{ topicFitText(topic.creatorFitScore) }}</td><td>{{ formatPercent(topic.growthRate) }}</td>
                 </tr>
               </table>
             </article>
