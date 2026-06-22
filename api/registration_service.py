@@ -45,6 +45,14 @@ DERIVED_PLATFORM_FACTORS = {
     },
 }
 
+BASE_PLATFORM_FOLLOWERS = {
+    "DOUYIN": 82000,
+    "BILIBILI": 126000,
+    "XIAOHONGSHU": 68000,
+    "KUAISHOU": 52000,
+    "WEIBO": 43000,
+}
+
 
 def normalize_platforms(platforms: list[str]) -> list[str]:
     requested = {str(platform).strip().upper() for platform in platforms if str(platform).strip()}
@@ -163,6 +171,7 @@ def seed_registered_creator_rows(creator_id: str, display_name: str, platforms: 
         item["accountId"] = remap_id(item["accountId"], creator_id)
         item["creatorId"] = creator_id
         item["platformDisplayName"] = f"{display_name} · {PLATFORM_LABELS.get(item['platform'], item['platform'])}"
+        item["followerCount"] = BASE_PLATFORM_FOLLOWERS.get(item["platform"], 0)
 
     for item in data["videos"]:
         item["videoId"] = remap_id(item["videoId"], creator_id)

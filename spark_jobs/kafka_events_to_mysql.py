@@ -49,6 +49,13 @@ def normalize_source(source: str) -> str:
     return mapping.get(normalized, normalized)
 
 
+def metric_delta(growth: dict[str, Any], stats: dict[str, Any], delta_key: str, total_key: str) -> int:
+    explicit = growth.get(delta_key)
+    if explicit is not None:
+        return int(explicit)
+    return max(0, int(int(stats.get(total_key, 0)) * 0.0012))
+
+
 def load_events(path: Path = DEFAULT_EVENTS_PATH) -> list[dict[str, Any]]:
     events = []
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -69,6 +76,35 @@ def latest_video_stats_events(events: list[dict[str, Any]]) -> list[dict[str, An
         if current is None or event_timestamp(event) >= event_timestamp(current):
             latest[key] = event
     return list(latest.values())
+
+
+def archive_raw_video_stat_events(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = []
+    for event in video_stats_events(events):
+        stats = event["stats"]
+        growth = event["growth"]
+        fetch_time = event_timestamp(event)
+        rows.append(
+            {
+                "event_id": event["event_id"],
+                "creator_id": event["creator_id"],
+                "platform": event["platform"],
+                "video_id": event["content_id"],
+                "event_type": event["event_type"],
+                "event_date": fetch_time[:10],
+                "fetch_time": fetch_time,
+                "play_delta": growth.get("play_growth_5s") or stats["play_count"],
+                "like_delta": metric_delta(growth, stats, "like_delta", "like_count"),
+                "comment_delta": metric_delta(growth, stats, "comment_delta", "comment_count"),
+                "share_delta": metric_delta(growth, stats, "share_delta", "share_count"),
+                "save_delta": metric_delta(growth, stats, "save_delta", "save_count"),
+                "profile_visit_delta": growth["profile_visits"],
+                "new_follower_delta": growth.get("new_followers_delta", growth["new_followers"]),
+                "lost_follower_delta": growth.get("lost_followers", 0),
+                "raw_payload_json": json.dumps(event, ensure_ascii=False, sort_keys=True),
+            }
+        )
+    return rows
 
 
 def aggregate_platform_metrics(
@@ -238,6 +274,7 @@ def main() -> None:
     events = load_events(args.events)
     calculated_at = datetime.now(UTC).replace(microsecond=0, tzinfo=None).isoformat()
     metric_date = calculated_at[:10]
+    raw_event_rows = archive_raw_video_stat_events(events)
     platform_rows = aggregate_platform_metrics(events, args.run_id, calculated_at)
     contribution_rows = aggregate_video_contributions(events, args.run_id, calculated_at)
     video_snapshot_rows = aggregate_video_metric_snapshots(events, calculated_at)
@@ -251,6 +288,7 @@ def main() -> None:
                 "inputEvents": len(events),
                 "counts": {
                     "video_stats_events": len(video_stats_events(events)),
+                    "raw_video_stat_events": len(raw_event_rows),
                     "spark_platform_metric_summaries": len(platform_rows),
                     "spark_video_follower_contributions": len(contribution_rows),
                     "video_metric_snapshots": len(video_snapshot_rows),
@@ -258,6 +296,7 @@ def main() -> None:
                     "creator_metric_snapshots": len(creator_snapshot_rows),
                 },
                 "sample": {
+                    "rawVideoStatEvent": raw_event_rows[0] if raw_event_rows else None,
                     "platform": platform_rows[0] if platform_rows else None,
                     "videoContribution": contribution_rows[0] if contribution_rows else None,
                     "videoMetricSnapshot": video_snapshot_rows[0] if video_snapshot_rows else None,

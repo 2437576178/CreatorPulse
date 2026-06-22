@@ -71,6 +71,44 @@ def mysql_datetime(value: str) -> datetime:
     return parsed.replace(tzinfo=None)
 
 
+def platform_follower_counts(data: dict[str, Any]) -> dict[str, int]:
+    explicit = {
+        item["platform"]: int(item["followerCount"])
+        for item in data.get("platformAccounts", [])
+        if item.get("followerCount") is not None
+    }
+    platforms = [item["platform"] for item in data.get("platformAccounts", [])]
+    missing = [platform for platform in platforms if platform not in explicit]
+    if not missing:
+        return explicit
+
+    snapshots = data.get("creatorMetricSnapshots") or []
+    latest_total = int(snapshots[-1].get("totalFollowers", 0)) if snapshots else 0
+    if latest_total <= 0:
+        return {platform: explicit.get(platform, 0) for platform in platforms}
+
+    platform_new_followers: dict[str, int] = {platform: 0 for platform in platforms}
+    for snapshot in data.get("videoMetricSnapshots", []):
+        platform = snapshot.get("platform")
+        if platform in platform_new_followers:
+            platform_new_followers[platform] += int(snapshot.get("newFollowers", 0))
+
+    weight_total = sum(platform_new_followers[platform] for platform in missing)
+    if weight_total <= 0:
+        equal_share = latest_total // max(len(platforms), 1)
+        counts = {platform: explicit.get(platform, equal_share) for platform in platforms}
+        if platforms:
+            counts[platforms[-1]] += latest_total - sum(counts.values())
+        return counts
+
+    counts = dict(explicit)
+    remaining_total = max(0, latest_total - sum(explicit.values()))
+    for platform in missing[:-1]:
+        counts[platform] = int(round(remaining_total * platform_new_followers[platform] / weight_total))
+    counts[missing[-1]] = max(0, remaining_total - sum(counts[platform] for platform in missing[:-1]))
+    return counts
+
+
 def load_json(path: Path = DEFAULT_DATA_PATH) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -121,6 +159,7 @@ class MySQLConfig:
 def build_table_rows(data: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
     creator = data["creator"]
     audience = data["audienceProfileSnapshot"]
+    follower_counts = platform_follower_counts(data)
 
     rows: dict[str, list[dict[str, Any]]] = {
         "creators": [
@@ -139,6 +178,7 @@ def build_table_rows(data: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
                 "platform": item["platform"],
                 "platform_display_name": item["platformDisplayName"],
                 "binding_status": item["bindingStatus"],
+                "follower_count": follower_counts.get(item["platform"], 0),
                 "sync_latency_seconds": item["syncLatencySeconds"],
                 "collection_interval_seconds": item["collectionIntervalSeconds"],
                 "data_scopes": json_value(item["dataScopes"]),

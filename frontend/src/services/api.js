@@ -102,6 +102,11 @@ export function fetchProfile() {
   return request("/api/me/profile");
 }
 
+export function fetchReports(type = "") {
+  const query = type ? `?type=${encodeURIComponent(type)}` : "";
+  return request(`/api/me/reports${query}`);
+}
+
 export function fetchSimulationStatus() {
   return request("/api/admin/simulation/status");
 }

@@ -57,6 +57,22 @@ class AuthAPITest(unittest.TestCase):
         self.assertEqual(payload["creator"]["creatorId"], "creator_001")
         validate_api_payload(payload, "growthDashboard")
 
+    def test_me_reports_returns_creator_scoped_report_list(self) -> None:
+        login = self.client.post(
+            "/api/auth/login",
+            json={"email": "demo@creatorpulse.local", "password": "demo123456"},
+        )
+        self.assertEqual(login.status_code, 200, login.get_data(as_text=True))
+
+        response = self.client.get("/api/me/reports?type=DAILY")
+
+        self.assertEqual(response.status_code, 200, response.get_data(as_text=True))
+        payload = response.get_json()
+        self.assertIn("items", payload)
+        self.assertEqual(payload["page"], 1)
+        self.assertEqual(payload["pageSize"], 10)
+        self.assertTrue(all(item["creatorId"] == "creator_001" for item in payload["items"]))
+
     def test_second_account_cannot_see_first_creator_through_me_endpoint(self) -> None:
         login = self.client.post(
             "/api/auth/login",

@@ -65,6 +65,38 @@ class AdminSimulationAPITest(unittest.TestCase):
             self.assertIn("platform", event)
             self.assertIn("newFollowers", event)
 
+    def test_offline_status_returns_batch_and_report_summary(self) -> None:
+        response = self.client.get("/api/admin/offline/status")
+
+        self.assertEqual(response.status_code, 200, response.get_data(as_text=True))
+        payload = response.get_json()
+        self.assertEqual(payload["dataSource"], "mysql")
+        self.assertIn("rawEventCount", payload)
+        self.assertIn("creatorDailyCount", payload)
+        self.assertIn("reportCount", payload)
+        self.assertIn("pendingRecomputeCount", payload)
+        self.assertIn("recentRuns", payload)
+        self.assertIn("recentReports", payload)
+
+    def test_offline_recompute_creates_pending_request(self) -> None:
+        response = self.client.post(
+            "/api/admin/offline/recompute",
+            json={
+                "creatorId": "creator_001",
+                "periodStart": "2026-06-14",
+                "periodEnd": "2026-06-14",
+                "recomputeScope": "ALL",
+                "requestedBy": "test",
+            },
+        )
+
+        self.assertEqual(response.status_code, 201, response.get_data(as_text=True))
+        payload = response.get_json()
+        self.assertTrue(payload["requestId"].startswith("recompute_"))
+        self.assertEqual(payload["creatorId"], "creator_001")
+        self.assertEqual(payload["status"], "PENDING")
+        self.assertEqual(payload["recomputeScope"], "ALL")
+
 
 if __name__ == "__main__":
     unittest.main()

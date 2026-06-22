@@ -14,6 +14,11 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 from spark_jobs.static_mock_to_mysql import calculate_platform_summaries, calculate_video_contributions  # noqa: E402
+from spark_jobs.kafka_events_to_mysql import archive_raw_video_stat_events  # noqa: E402
+from spark_jobs.offline_daily_metrics import aggregate_daily_metrics  # noqa: E402
+from spark_jobs.offline_reports import camel_report, generate_reports  # noqa: E402
+from kafka_tools.mock_event_builder import build_events  # noqa: E402
+from database.import_mock_to_mysql import platform_follower_counts  # noqa: E402
 from spark_insights import merge_spark_insights  # noqa: E402
 from view_model_builder import make_view_models  # noqa: E402
 
@@ -32,6 +37,20 @@ class MockRepository:
 
     def get_view_model(self, creator_id: str, key: str) -> dict[str, Any]:
         return get_view_model(creator_id, key)
+
+    def list_reports(self, creator_id: str, report_type: str | None = None, page: int = 1, page_size: int = 10) -> dict[str, Any]:
+        data = get_creator_payload(creator_id)
+        reports = make_mock_reports(data, report_type)
+        start = (page - 1) * page_size
+        end = start + page_size
+        return {"items": reports[start:end], "page": page, "pageSize": page_size, "total": len(reports)}
+
+    def get_report(self, creator_id: str, report_id: str) -> dict[str, Any]:
+        data = get_creator_payload(creator_id)
+        for report in make_mock_reports(data):
+            if report["reportId"] == report_id:
+                return report
+        raise KeyError(report_id)
 
 
 @lru_cache(maxsize=1)
@@ -67,6 +86,14 @@ def load_mock_data(path: str | None = None) -> dict[str, Any]:
 
 def with_runtime_outputs(data: dict[str, Any]) -> dict[str, Any]:
     enriched = {**data}
+    follower_counts = platform_follower_counts(enriched)
+    enriched["platformAccounts"] = [
+        {
+            **item,
+            "followerCount": follower_counts.get(item["platform"], 0),
+        }
+        for item in data["platformAccounts"]
+    ]
     enriched["sparkOutputs"] = data.get("sparkOutputs") or {
         "platformMetricSummaries": [
             {
@@ -139,3 +166,31 @@ def get_health() -> dict[str, Any]:
             "sparkVideoFollowerContributions": len(data["sparkOutputs"]["videoFollowerContributions"]),
         },
     }
+
+
+def make_mock_reports(data: dict[str, Any], report_type: str | None = None) -> list[dict[str, Any]]:
+    raw_rows = archive_raw_video_stat_events(build_events(data))
+    daily_metrics = aggregate_daily_metrics(
+        raw_rows,
+        data["videos"],
+        batch_run_id="mock_offline_daily_report_source",
+        start_date="2026-06-14",
+        end_date="2026-06-14",
+        creator_id=data["creator"]["creatorId"],
+    )
+    wanted_types = [report_type.upper()] if report_type else ["DAILY", "WEEKLY", "MONTHLY"]
+    reports = []
+    for current_type in wanted_types:
+        reports.extend(
+            camel_report(report)
+            for report in generate_reports(
+                daily_metrics,
+                data,
+                report_type=current_type,
+                period_start="2026-06-14",
+                period_end="2026-06-14",
+                batch_run_id=f"mock_offline_report_{current_type.lower()}",
+                creator_id=data["creator"]["creatorId"],
+            )
+        )
+    return reports

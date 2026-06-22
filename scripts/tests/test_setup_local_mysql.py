@@ -68,7 +68,7 @@ class SetupLocalMySQLTest(unittest.TestCase):
         self.assertEqual(result["mode"], "dry-run")
         self.assertEqual(result["contractCheck"], "ok")
         self.assertEqual(result["rows"]["videos"], 27)
-        self.assertEqual(result["schema"]["createTables"], 14)
+        self.assertEqual(result["schema"]["createTables"], 22)
         self.assertEqual(result["executionPlan"]["willWriteMySQL"], False)
         self.assertEqual(
             result["executionPlan"]["steps"],

@@ -19,6 +19,7 @@ const activeTab = ref(window.location.hash?.replace("#", "") || "overview");
 const loading = ref(true);
 const error = ref("");
 const payload = ref(null);
+const healthTooltip = ref({ visible: false, x: 130, y: 130 });
 
 const tabs = [
   { id: "overview", label: "实时概览" },
@@ -142,9 +143,24 @@ const totalInteractions = computed(() =>
 const totalSaves = computed(() => sum(topVideos.value, "saves"));
 const totalComments = computed(() => sum(topVideos.value, "comments"));
 const totalShares = computed(() => sum(topVideos.value, "shares"));
-const platformCount = computed(() => new Set(topVideos.value.map((video) => video.platform)).size);
-const latestVideoChartValues = [38, 54, 78, 92, 68];
-const latestVideoChartDisplayValues = computed(() => (isWaitingForEvents.value ? [0, 0, 0, 0, 0] : latestVideoChartValues));
+const accountPlatformCount = computed(() => model.value?.platformCount ?? new Set(topVideos.value.map((video) => video.platform)).size);
+const accountNewPlatformCount = computed(() => model.value?.newPlatformCount ?? 0);
+const accountVideoCount = computed(() => model.value?.videoCount ?? topVideos.value.length);
+const accountNewVideoCount = computed(() => model.value?.newVideoCount ?? 0);
+const accountTotalViews = computed(() => model.value?.totalViews ?? totalViews.value);
+const accountNewViews = computed(() => model.value?.newViews ?? 0);
+const accountTotalFollowers = computed(() => model.value?.totalFollowers ?? snapshot.value?.totalFollowers ?? 0);
+const accountNewFollowers = computed(() => totalFollowers.value || snapshot.value?.newFollowers || 0);
+const latestVideoFollowerRows = computed(() => {
+  if (isWaitingForEvents.value) {
+    return Array.from({ length: 5 }, (_, index) => ({ label: `第${index + 1}条`, value: 0 }));
+  }
+  return topVideos.value.slice(0, 5).map((video, index) => ({
+    label: index === 0 ? "最涨粉" : `第${index + 1}名`,
+    value: numberForChart(video?.newFollowers),
+    title: video?.title || `第${index + 1}条视频`
+  }));
+});
 
 const contentTypeRows = computed(() => {
   const rows = {};
@@ -158,6 +174,45 @@ const contentTypeRows = computed(() => {
 });
 const leadingContentType = computed(() => contentTypeRows.value[0]);
 const numberForChart = (value) => Number(value || 0);
+const clampScore = (value) => Math.max(0, Math.min(100, Number(value || 0)));
+const currentGrowthHealthScoreDisplay = computed(() => Math.round(clampScore(snapshot.value?.growthHealthScore)));
+
+const healthFormulaParts = computed(() => {
+  const current = snapshot.value || {};
+  const newFollowers = numberForChart(current.newFollowers);
+  const profileVisits = numberForChart(current.profileVisits);
+  const viewToFollowerRate = numberForChart(current.viewToFollowerRate);
+  const profileConversionRate = profileVisits ? newFollowers / profileVisits : 0;
+  const stickinessScore = numberForChart(current.stickinessScore);
+  const parts = [
+    {
+      label: "播放转粉",
+      source: `${formatPercent(viewToFollowerRate)} × 7200`,
+      points: viewToFollowerRate * 7200
+    },
+    {
+      label: "主页承接",
+      source: `${formatPercent(profileConversionRate)} × 120`,
+      points: profileConversionRate * 120
+    },
+    {
+      label: "粉丝粘性",
+      source: `${stickinessScore.toFixed(1)} × 0.35`,
+      points: stickinessScore * 0.35
+    }
+  ];
+  let runningTotal = 0;
+  const rows = parts.map((part) => {
+    runningTotal += part.points;
+    return {
+      ...part,
+      cumulative: runningTotal
+    };
+  });
+  const subtotal = rows.reduce((total, item) => total + item.points, 0);
+  const finalScore = currentGrowthHealthScoreDisplay.value;
+  return { parts: rows, subtotal, finalScore };
+});
 
 const chartTextColor = "rgba(255,255,255,0.82)";
 const chartMutedColor = "rgba(255,255,255,0.46)";
@@ -166,8 +221,7 @@ const growthHealthChartOption = computed(() => ({
   animationDuration: 1600,
   animationDurationUpdate: 1600,
   tooltip: {
-    trigger: "item",
-    formatter: "{b}<br/>{c} 分"
+    show: false
   },
   series: [
     {
@@ -194,7 +248,7 @@ const growthHealthChartOption = computed(() => ({
       axisLabel: { show: false },
       title: { show: false },
       detail: { show: false },
-      data: [{ value: Math.round(numberForChart(snapshot.value?.growthHealthScore)), name: "账号增长健康度" }]
+      data: [{ value: currentGrowthHealthScoreDisplay.value, name: "账号增长健康度" }]
     },
     {
       type: "gauge",
@@ -284,23 +338,45 @@ const latestVideoChartOption = computed(() => ({
     axisPointer: { type: "shadow" },
     formatter(params) {
       const item = params[0];
-      return `${item.name}<br/>增长强度 ${item.value}`;
+      const row = latestVideoFollowerRows.value[item.dataIndex];
+      return `${row?.title || item.name}<br/>新增粉丝 +${formatNumber(item.value)}`;
     }
   },
-  grid: { left: 0, right: 0, top: 10, bottom: 0, containLabel: false },
-  xAxis: { type: "category", show: false, data: ["曝光", "点击", "互动", "关注", "回看"] },
-  yAxis: { type: "value", show: false, max: Math.max(...latestVideoChartDisplayValues.value, 1) },
+  grid: { left: 8, right: 8, top: 30, bottom: 28, containLabel: false },
+  xAxis: {
+    type: "category",
+    axisLine: { show: false },
+    axisTick: { show: false },
+    axisLabel: {
+      color: "rgba(17,17,17,0.68)",
+      fontSize: 11,
+      fontWeight: 850,
+      interval: 0
+    },
+    data: latestVideoFollowerRows.value.map((row) => row.label)
+  },
+  yAxis: { type: "value", show: false, max: Math.max(...latestVideoFollowerRows.value.map((row) => row.value), 1) },
   series: [
     {
       type: "bar",
-      barWidth: 86,
+      barWidth: 48,
       itemStyle: {
-        borderRadius: 6,
+        borderRadius: [8, 8, 8, 8],
         color(params) {
-          return params.dataIndex === 2 ? "#bcff00" : "rgba(255,255,255,0.28)";
+          return params.dataIndex === 0 ? "#bcff00" : "rgba(255,255,255,0.36)";
         }
       },
-      data: latestVideoChartDisplayValues.value
+      label: {
+        show: true,
+        position: "top",
+        color: "#111",
+        fontSize: 12,
+        fontWeight: 900,
+        formatter(params) {
+          return `+${formatNumber(params.value)}粉`;
+        }
+      },
+      data: latestVideoFollowerRows.value.map((row) => row.value)
     }
   ]
 }));
@@ -313,7 +389,7 @@ const contentMixChartOption = computed(() => ({
     axisPointer: { type: "shadow" },
     formatter(params) {
       const row = contentTypeRows.value[params[0].dataIndex];
-      return `${contentLabel(row?.contentType)}<br/>播放 ${formatNumber(row?.views)}<br/>涨粉 ${formatNumber(row?.newFollowers)}`;
+      return `${contentLabel(row?.contentType)}内容<br/>播放 ${formatNumber(row?.views)}<br/>新增粉丝 ${formatNumber(row?.newFollowers)}`;
     }
   },
   grid: { left: 0, right: 0, top: 8, bottom: 0, containLabel: false },
@@ -326,8 +402,26 @@ const contentMixChartOption = computed(() => ({
       itemStyle: {
         borderRadius: 6,
         color(params) {
-          return ["rgba(255,255,255,0.34)", "#9a8eff", "#bcff00", "#9a8eff", "rgba(255,255,255,0.26)"][params.dataIndex] || "#bcff00";
+          return ["#ffffff", "#9a8eff", "#bcff00", "#9a8eff", "#ffffff"][params.dataIndex] || "#ffffff";
         }
+      },
+      label: {
+        show: true,
+        position: "insideTop",
+        distance: 8,
+        color: "#111",
+        fontSize: 11,
+        fontWeight: 850,
+        width: 48,
+        overflow: "truncate",
+        ellipsis: "",
+        formatter(params) {
+          const row = contentTypeRows.value[params.dataIndex];
+          return `${contentLabel(row?.contentType)}\n${formatNumber(params.value)}新粉`;
+        }
+      },
+      labelLayout: {
+        hideOverlap: true
       },
       data: contentTypeRows.value.slice(0, 5).map((row) => row.newFollowers || 0)
     }
@@ -342,7 +436,7 @@ const stickinessChartOption = computed(() => ({
     axisPointer: { type: "shadow" },
     formatter(params) {
       const item = params[0];
-      return `${item.name}<br/>${formatNumber(item.value)}`;
+      return `${item.name}次数<br/>${formatNumber(item.value)}`;
     }
   },
   grid: { left: 0, right: 0, top: 4, bottom: 4, containLabel: false },
@@ -394,6 +488,29 @@ const stickinessTrendChartOption = computed(() =>
 function takeInsights(tab) {
   const items = insightByTab.value[tab] || [];
   return items.slice(0, 3);
+}
+
+function moveHealthTooltip(event) {
+  const rect = event.currentTarget.getBoundingClientRect();
+  const cardWidth = Math.min(320, window.innerWidth - 56);
+  const cardHeight = 340;
+  const pointerX = Number.isFinite(event.clientX) ? event.clientX : rect.right;
+  const pointerY = Number.isFinite(event.clientY) ? event.clientY : rect.top + rect.height / 2;
+  const nextX = Math.min(pointerX + 18, window.innerWidth - cardWidth - 18);
+  const nextY = Math.min(pointerY + 18, window.innerHeight - cardHeight - 18);
+  healthTooltip.value = {
+    visible: true,
+    x: Math.max(18, nextX),
+    y: Math.max(18, nextY)
+  };
+}
+
+function showHealthTooltip(event) {
+  moveHealthTooltip(event);
+}
+
+function hideHealthTooltip() {
+  healthTooltip.value.visible = false;
 }
 
 </script>
@@ -455,13 +572,40 @@ function takeInsights(tab) {
                 综合粉丝增长趋势、播放转粉率、粉丝粘性和内容效率，判断你的账号今天是否处在健康增长状态。
               </p>
 
-              <div class="huge-circle" aria-label="账号增长健康度">
+              <div
+                class="huge-circle health-tooltip-anchor"
+                aria-label="账号增长健康度"
+                :style="{ '--tooltip-x': `${healthTooltip.x}px`, '--tooltip-y': `${healthTooltip.y}px` }"
+                tabindex="0"
+                @mouseenter="showHealthTooltip"
+                @mousemove="moveHealthTooltip"
+                @mouseleave="hideHealthTooltip"
+                @focusin="showHealthTooltip"
+                @focusout="hideHealthTooltip"
+              >
                 <ChartPanel :option="growthHealthChartOption" />
                 <div class="circle-copy">
-                  <strong>{{ Math.round(snapshot?.growthHealthScore || 0) }}</strong>
+                  <strong>{{ currentGrowthHealthScoreDisplay }}</strong>
                   <span>账号增长健康度</span>
                   <span style="color:var(--neon-green);font-weight:800">粘性 {{ snapshot?.stickinessScore }}</span>
                 </div>
+                <aside v-show="healthTooltip.visible" class="health-formula-tooltip" aria-hidden="true">
+                  <span class="health-formula-kicker">健康度公式</span>
+                  <strong>{{ currentGrowthHealthScoreDisplay }} 分</strong>
+                  <p>播放转粉 + 主页承接 + 粉丝粘性，公式测算封顶 100 分。</p>
+                  <div class="health-formula-list">
+                    <div v-for="part in healthFormulaParts.parts" :key="part.label">
+                      <span>{{ part.label }}</span>
+                      <em>{{ part.source }}</em>
+                      <strong>+{{ part.points.toFixed(1) }}</strong>
+                      <small>累计 {{ part.cumulative.toFixed(1) }}</small>
+                    </div>
+                  </div>
+                  <footer>
+                    <span>封顶前 {{ healthFormulaParts.subtotal.toFixed(1) }}</span>
+                    <strong>{{ currentGrowthHealthScoreDisplay }} 分</strong>
+                  </footer>
+                </aside>
               </div>
 
               <div v-if="isWaitingForEvents" class="grid-3">
@@ -470,7 +614,7 @@ function takeInsights(tab) {
                 <div class="metric-card"><p>粘性指数</p><strong>0</strong><span class="delta">等待互动事件</span></div>
               </div>
               <div v-else class="grid-3">
-                <div class="metric-card"><p>今日新粉</p><strong>{{ formatNumber(snapshot?.newFollowers) }}</strong><span class="delta">净增 {{ formatNumber(snapshot?.netFollowers) }}</span></div>
+                <div class="metric-card"><p>今日新粉</p><strong>{{ formatNumber(accountNewFollowers) }}</strong><span class="delta">合计新增 {{ formatNumber(accountNewFollowers) }}</span></div>
                 <div class="metric-card"><p>播放转粉率</p><strong>{{ formatPercent(snapshot?.viewToFollowerRate) }}</strong><span class="delta">高于均值</span></div>
                 <div class="metric-card"><p>粘性指数</p><strong>{{ snapshot?.stickinessScore }}</strong><span class="delta">高价值互动</span></div>
               </div>
@@ -478,52 +622,54 @@ function takeInsights(tab) {
 
             <div style="display:flex;flex-direction:column;gap:22px">
               <div class="grid-6">
-                <div class="metric-card"><p>平台</p><strong>{{ platformCount }}</strong></div>
-                <div class="metric-card"><p>内容</p><strong>{{ topVideos.length }}</strong></div>
-                <div class="metric-card"><p>总播放</p><strong>{{ formatNumber(totalViews) }}</strong></div>
-                <div class="metric-card"><p>新粉</p><strong>{{ formatNumber(totalFollowers) }}</strong></div>
-                <div class="metric-card"><p>转粉率</p><strong>{{ formatPercent(totalFollowers / totalViews) }}</strong></div>
-                <div class="metric-card"><p>同步延迟</p><strong>5s</strong></div>
+                <div class="metric-card"><p>总粉丝</p><strong>{{ formatNumber(accountTotalFollowers) }}</strong><span class="delta">+{{ formatNumber(accountNewFollowers) }}</span></div>
+                <div class="metric-card"><p>总播放</p><strong>{{ formatNumber(accountTotalViews) }}</strong><span class="delta">+{{ formatNumber(accountNewViews) }}</span></div>
+                <div class="metric-card"><p>总视频</p><strong>{{ formatNumber(accountVideoCount) }}</strong><span class="delta">+{{ formatNumber(accountNewVideoCount) }}</span></div>
+                <div class="metric-card"><p>转粉率</p><strong>{{ formatPercent(totalFollowers / totalViews) }}</strong><span class="delta">{{ conversionRateHint }}</span></div>
+                <div class="metric-card"><p>平台</p><strong>{{ accountPlatformCount }}</strong><span class="delta">{{ accountNewPlatformCount > 0 ? `+${formatNumber(accountNewPlatformCount)}` : "已绑定" }}</span></div>
+                <div class="metric-card"><p>同步延迟</p><strong>5s</strong><span class="delta">实时同步</span></div>
               </div>
 
               <div class="grid-2">
                 <article v-if="isWaitingForEvents" class="card white">
-                  <p class="label" style="color:#666">粉丝转化漏斗</p>
+                  <p class="label" style="color:#666">看过的人怎么变成粉丝</p>
                   <strong class="value large">0</strong>
-                  <span style="font-size:12px;color:#ff5e5e;font-weight:800">等待播放、主页访问和关注事件</span>
+                  <span style="font-size:12px;color:#ff5e5e;font-weight:800">从播放、互动、进主页到最后关注，看看粉丝是在哪一步流失的</span>
                   <ChartPanel class="chart-panel-funnel" :option="funnelChartOption" />
                 </article>
                 <article v-else class="card white">
-                  <p class="label" style="color:#666">粉丝转化漏斗</p>
+                  <p class="label" style="color:#666">看过的人怎么变成粉丝</p>
                   <strong class="value large">{{ formatNumber(totalFollowers) }}</strong>
-                  <span style="font-size:12px;color:#ff5e5e;font-weight:800">主页访问到关注 {{ formatPercent(totalFollowers / totalProfiles) }}</span>
+                  <span style="font-size:12px;color:#ff5e5e;font-weight:800">进主页后关注率 {{ formatPercent(totalFollowers / totalProfiles) }}</span>
                   <ChartPanel class="chart-panel-funnel" :option="funnelChartOption" />
                 </article>
                 <article v-if="isWaitingForEvents" class="card purple">
-                  <p class="label" style="color:#111">最新视频涨粉表现</p>
+                  <p class="label" style="color:#111">最近哪条视频最涨粉</p>
                   <strong class="value large">+0</strong>
-                  <span style="font-size:12px;color:#fff;font-weight:800">等待视频指标事件</span>
+                  <span style="font-size:12px;color:#fff;font-weight:800">这条内容新增 +0 粉，适合继续观察</span>
+                  <span style="display:block;margin-top:4px;font-size:11px;color:rgba(17,17,17,0.62);font-weight:850">下方对比最近 5 条视频的新增粉丝</span>
                   <ChartPanel class="chart-panel-bars" :option="latestVideoChartOption" />
                 </article>
                 <article v-else class="card purple">
-                  <p class="label" style="color:#111">最新视频涨粉表现</p>
+                  <p class="label" style="color:#111">最近哪条视频最涨粉</p>
                   <strong class="value large">+{{ formatNumber(topVideos[0]?.newFollowers) }}</strong>
-                  <span style="font-size:12px;color:#fff;font-weight:800">{{ topVideos[0]?.title }}</span>
+                  <span style="font-size:12px;color:#fff;font-weight:800">这条内容新增 +{{ formatNumber(topVideos[0]?.newFollowers) }} 粉，适合继续复刻</span>
+                  <span style="display:block;margin-top:4px;font-size:11px;color:rgba(17,17,17,0.62);font-weight:850">下方对比最近 5 条视频的新增粉丝</span>
                   <ChartPanel class="chart-panel-bars" :option="latestVideoChartOption" />
                 </article>
               </div>
 
               <div class="grid-3">
                 <article v-if="isWaitingForEvents" class="card">
-                  <p class="section-label">视频分布情况</p>
-                  <strong class="value">待接入</strong>
-                  <span class="delta">涨粉 0</span>
+                  <p class="section-label">哪类视频更容易涨粉</p>
+                  <strong class="value">暂无数据</strong>
+                  <span class="delta">同步后看内容类型表现</span>
                   <ChartPanel class="chart-panel-bars compact" :option="contentMixChartOption" />
                 </article>
                 <article v-if="!isWaitingForEvents" class="card">
-                  <p class="section-label">视频分布情况</p>
+                  <p class="section-label">哪类视频更容易涨粉</p>
                   <strong class="value">{{ contentLabel(leadingContentType?.contentType) }}</strong>
-                  <span class="delta">涨粉 {{ formatNumber(leadingContentType?.newFollowers) }}</span>
+                  <span class="delta">带来 {{ formatNumber(leadingContentType?.newFollowers) }} 个新粉</span>
                   <ChartPanel class="chart-panel-bars compact" :option="contentMixChartOption" />
                 </article>
                 <article v-if="isWaitingForEvents" class="card">
@@ -533,9 +679,9 @@ function takeInsights(tab) {
                   <p class="page-copy" style="margin-top:12px">模拟事件接入后，将基于播放、互动和涨粉表现生成专属创作建议。</p>
                 </article>
                 <article v-else class="card">
-                  <p class="section-label">粉丝粘性信号</p>
+                  <p class="section-label">粉丝愿不愿意互动</p>
                   <strong class="value">{{ snapshot?.stickinessScore }}</strong>
-                  <span class="delta">收藏 {{ formatNumber(totalSaves) }}</span>
+                  <span class="delta">收藏 {{ formatNumber(totalSaves) }}，评论 {{ formatNumber(totalComments) }}</span>
                   <ChartPanel class="chart-panel-mini" :option="stickinessChartOption" />
                 </article>
                 <article v-if="!isWaitingForEvents" class="card">

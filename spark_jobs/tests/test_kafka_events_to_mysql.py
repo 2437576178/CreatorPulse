@@ -19,6 +19,7 @@ from spark_jobs.kafka_events_to_mysql import (  # noqa: E402
     aggregate_video_metric_snapshots,
     aggregate_video_traffic_source_metrics,
     aggregate_video_contributions,
+    archive_raw_video_stat_events,
     normalize_source,
     video_stats_events,
 )
@@ -35,6 +36,29 @@ class KafkaEventsToMySQLTest(unittest.TestCase):
 
         self.assertEqual(len(rows), 27)
         self.assertTrue(all(event["event_type"] == "video_stats" for event in rows))
+
+    def test_archives_raw_video_stat_events(self) -> None:
+        rows = archive_raw_video_stat_events(self.events)
+
+        self.assertEqual(len(rows), 27)
+        first_event = video_stats_events(self.events)[0]
+        first_row = rows[0]
+        self.assertEqual(first_row["event_id"], first_event["event_id"])
+        self.assertEqual(first_row["creator_id"], first_event["creator_id"])
+        self.assertEqual(first_row["platform"], first_event["platform"])
+        self.assertEqual(first_row["video_id"], first_event["content_id"])
+        self.assertEqual(first_row["event_type"], "video_stats")
+        self.assertEqual(first_row["event_date"], first_event["fetch_time"][:10])
+        self.assertEqual(first_row["fetch_time"], first_event["fetch_time"])
+        self.assertEqual(first_row["play_delta"], first_event["growth"]["play_growth_5s"])
+        self.assertEqual(first_row["like_delta"], first_event["growth"]["like_delta"])
+        self.assertEqual(first_row["comment_delta"], first_event["growth"]["comment_delta"])
+        self.assertEqual(first_row["share_delta"], first_event["growth"]["share_delta"])
+        self.assertEqual(first_row["save_delta"], first_event["growth"]["save_delta"])
+        self.assertEqual(first_row["profile_visit_delta"], first_event["growth"]["profile_visits"])
+        self.assertEqual(first_row["new_follower_delta"], first_event["growth"]["new_followers_delta"])
+        self.assertEqual(first_row["lost_follower_delta"], 0)
+        self.assertIn('"event_type": "video_stats"', first_row["raw_payload_json"])
 
     def test_aggregates_platform_metrics_from_events(self) -> None:
         rows = aggregate_platform_metrics(self.events, "test_run", "2026-06-15T00:00:00")

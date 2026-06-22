@@ -112,6 +112,58 @@ class MySQLRepository:
             "data": view_models[key],
         }
 
+    def list_reports(self, creator_id: str, report_type: str | None = None, page: int = 1, page_size: int = 10) -> dict[str, Any]:
+        resolved_creator_id = self.resolve_creator_id(creator_id)
+        page = max(page, 1)
+        page_size = min(max(page_size, 1), 100)
+        offset = (page - 1) * page_size
+        params: dict[str, Any] = {"creator_id": resolved_creator_id, "limit": page_size, "offset": offset}
+        where = "creator_id = :creator_id"
+        if report_type:
+            where += " AND report_type = :report_type"
+            params["report_type"] = report_type.upper()
+
+        with self.engine.connect() as connection:
+            rows = self.fetch_all(
+                connection,
+                f"""
+                SELECT *
+                FROM creator_reports
+                WHERE {where}
+                ORDER BY generated_at DESC, period_end DESC, report_id
+                LIMIT :limit OFFSET :offset
+                """,
+                params,
+            )
+            total_rows = self.fetch_all(
+                connection,
+                f"SELECT COUNT(*) AS total FROM creator_reports WHERE {where}",
+                {key: value for key, value in params.items() if key not in {"limit", "offset"}},
+            )
+
+        return {
+            "items": [self.map_report(row) for row in rows],
+            "page": page,
+            "pageSize": page_size,
+            "total": int(total_rows[0]["total"]) if total_rows else 0,
+        }
+
+    def get_report(self, creator_id: str, report_id: str) -> dict[str, Any]:
+        resolved_creator_id = self.resolve_creator_id(creator_id)
+        with self.engine.connect() as connection:
+            rows = self.fetch_all(
+                connection,
+                """
+                SELECT *
+                FROM creator_reports
+                WHERE creator_id = :creator_id AND report_id = :report_id
+                """,
+                {"creator_id": resolved_creator_id, "report_id": report_id},
+            )
+        if not rows:
+            raise KeyError(report_id)
+        return self.map_report(rows[0])
+
     def load_creator_payload(self, creator_id: str) -> dict[str, Any]:
         resolved_creator_id = self.resolve_creator_id(creator_id)
         with self.engine.connect() as connection:
@@ -287,6 +339,7 @@ class MySQLRepository:
                     "platform": item["platform"],
                     "platformDisplayName": item["platform_display_name"],
                     "bindingStatus": item["binding_status"],
+                    "followerCount": item.get("follower_count", 0),
                     "syncLatencySeconds": item["sync_latency_seconds"],
                     "collectionIntervalSeconds": item["collection_interval_seconds"],
                     "dataScopes": parse_json(item["data_scopes"]),
@@ -537,4 +590,23 @@ class MySQLRepository:
                 }
                 for item in rows.get("spark_video_follower_contributions", [])
             ],
+        }
+
+    @staticmethod
+    def map_report(row: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "reportId": row["report_id"],
+            "creatorId": row["creator_id"],
+            "reportType": row["report_type"],
+            "periodStart": iso_datetime(row["period_start"]),
+            "periodEnd": iso_datetime(row["period_end"]),
+            "status": row["status"],
+            "title": row["title"],
+            "summary": row["summary"],
+            "highlights": parse_json(row["highlights_json"]),
+            "risks": parse_json(row["risks_json"]),
+            "actions": parse_json(row["actions_json"]),
+            "metrics": parse_json(row["metrics_json"]),
+            "generatedAt": iso_datetime(row["generated_at"]),
+            "batchRunId": row["batch_run_id"],
         }

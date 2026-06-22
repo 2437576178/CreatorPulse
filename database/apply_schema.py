@@ -134,6 +134,39 @@ def apply_schema(statements: list[str], config: MySQLConfig) -> None:
         with connection.cursor() as cursor:
             for statement in statements:
                 cursor.execute(statement)
+            cursor.execute(
+                """
+                SELECT COUNT(*)
+                FROM information_schema.COLUMNS
+                WHERE TABLE_SCHEMA = %s
+                  AND TABLE_NAME = 'platform_accounts'
+                  AND COLUMN_NAME = 'follower_count'
+                """,
+                (config.database,),
+            )
+            has_follower_count = cursor.fetchone()[0] > 0
+            if not has_follower_count:
+                cursor.execute(
+                    """
+                    ALTER TABLE platform_accounts
+                    ADD COLUMN follower_count BIGINT NOT NULL DEFAULT 0
+                    AFTER binding_status
+                    """
+                )
+            cursor.execute(
+                """
+                UPDATE platform_accounts
+                SET follower_count = CASE platform
+                    WHEN 'DOUYIN' THEN 82000
+                    WHEN 'BILIBILI' THEN 126000
+                    WHEN 'XIAOHONGSHU' THEN 68000
+                    WHEN 'KUAISHOU' THEN 52000
+                    WHEN 'WEIBO' THEN 43000
+                    ELSE follower_count
+                END
+                WHERE follower_count = 0
+                """
+            )
     finally:
         connection.close()
 

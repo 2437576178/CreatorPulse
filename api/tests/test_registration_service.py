@@ -38,6 +38,7 @@ class RegistrationServiceTest(unittest.TestCase):
 
         self.assertEqual(rows["creators"][0]["creator_id"], "creator_signup_001")
         self.assertEqual({row["platform"] for row in rows["platform_accounts"]}, {"DOUYIN", "XIAOHONGSHU"})
+        self.assertTrue(all(row["follower_count"] > 0 for row in rows["platform_accounts"]))
         self.assertEqual({row["platform"] for row in rows["videos"]}, {"DOUYIN", "XIAOHONGSHU"})
         self.assertEqual({row["creator_id"] for row in rows["videos"]}, {"creator_signup_001"})
         self.assertTrue(all(row["video_id"].endswith("_creator_signup_001") for row in rows["videos"]))
@@ -58,6 +59,7 @@ class RegistrationServiceTest(unittest.TestCase):
         )
 
         self.assertEqual({row["platform"] for row in rows["platform_accounts"]}, {"KUAISHOU", "WEIBO"})
+        self.assertTrue(all(row["follower_count"] > 0 for row in rows["platform_accounts"]))
         self.assertEqual({row["platform"] for row in rows["videos"]}, {"KUAISHOU", "WEIBO"})
         self.assertEqual(rows["video_metric_snapshots"], [])
         self.assertEqual(rows["video_traffic_source_metrics"], [])

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import ChartPanel from "../components/ChartPanel.vue";
 import { fetchFansAnalysis } from "../services/api";
 import { heatmapOption, horizontalBarOption, verticalBarOption } from "../utils/chartOptions";
@@ -19,6 +19,8 @@ const activeTab = ref(window.location.hash?.replace("#", "") || "growth");
 const loading = ref(true);
 const error = ref("");
 const payload = ref(null);
+const radarAnimationProgress = ref(0);
+let radarAnimationFrame = null;
 
 const tabs = [
   { id: "growth", label: "增长趋势" },
@@ -33,11 +35,19 @@ onMounted(async () => {
   await loadData();
 });
 
+onBeforeUnmount(() => {
+  window.removeEventListener("hashchange", syncHash);
+  if (radarAnimationFrame) {
+    window.cancelAnimationFrame(radarAnimationFrame);
+  }
+});
+
 async function loadData() {
   loading.value = true;
   error.value = "";
   try {
     payload.value = await fetchFansAnalysis();
+    replayRadarAnimation();
   } catch (apiError) {
     error.value = apiError.message;
   } finally {
@@ -54,6 +64,7 @@ function syncHash() {
   }
   nextTick(() => {
     window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+    replayRadarAnimation();
   });
 }
 
@@ -64,14 +75,42 @@ function setTab(tabId) {
   if (shouldReplay) {
     nextTick(() => {
       window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+      replayRadarAnimation();
     });
   }
+}
+
+function easeOutCubic(value) {
+  return 1 - Math.pow(1 - value, 3);
+}
+
+function replayRadarAnimation() {
+  if (activeTab.value !== "growth") return;
+  if (radarAnimationFrame) {
+    window.cancelAnimationFrame(radarAnimationFrame);
+  }
+  radarAnimationProgress.value = 0;
+  const duration = 1600;
+  const startTime = performance.now();
+
+  function tick(now) {
+    const rawProgress = Math.min((now - startTime) / duration, 1);
+    radarAnimationProgress.value = easeOutCubic(rawProgress);
+    if (rawProgress < 1) {
+      radarAnimationFrame = window.requestAnimationFrame(tick);
+      return;
+    }
+    radarAnimationFrame = null;
+  }
+
+  radarAnimationFrame = window.requestAnimationFrame(tick);
 }
 
 const creator = computed(() => payload.value?.creator);
 const model = computed(() => payload.value?.data);
 const trend = computed(() => model.value?.trend || []);
 const latest = computed(() => trend.value[trend.value.length - 1]);
+const topVideos = computed(() => model.value?.topVideos || []);
 const profile = computed(() => model.value?.audienceProfile);
 const insights = computed(() => model.value?.insights || []);
 
@@ -122,9 +161,70 @@ const profileDiagnosis = computed(() =>
 const trendMax = computed(() => Math.max(...trend.value.map((item) => item.newFollowers), 1));
 const coreSegments = computed(() => profile.value?.highValueSegments || []);
 const totalTrendViews = computed(() => trend.value.reduce((value, item) => value + Number(item.totalViews || 0), 0));
+const todayNewFollowers = computed(() =>
+  topVideos.value.reduce((value, item) => value + Number(item.newFollowers || 0), 0) || Number(latest.value?.newFollowers || 0)
+);
+const todayNetFollowers = computed(() => Math.max(0, todayNewFollowers.value - Number(latest.value?.lostFollowers || 0)));
+const displayTrend = computed(() =>
+  trend.value.map((item, index) => (
+    index === trend.value.length - 1
+      ? { ...item, newFollowers: todayNewFollowers.value, netFollowers: todayNetFollowers.value }
+      : item
+  ))
+);
+const latestViewToFollowerScore = computed(() => Math.min(100, Math.round(Number(latest.value?.viewToFollowerRate || 0) * 1600)));
+const latestGrowthSpeedScore = computed(() => Math.min(100, Math.round(todayNewFollowers.value / Math.max(trendMax.value, 1) * 100)));
+const latestNetGrowthScore = computed(() => Math.min(100, Math.round(todayNetFollowers.value / Math.max(todayNewFollowers.value || 1, 1) * 100)));
+const latestStickinessScore = computed(() => Math.min(100, Math.round(Number(latest.value?.stickinessScore || 0))));
+const latestRetentionRiskScore = computed(() => Math.max(0, 100 - Math.min(100, Math.round(Number(latest.value?.lostFollowers || 0) / Math.max(todayNewFollowers.value || 1, 1) * 100))));
+const growthJudgementRadarItems = computed(() => [
+  { label: "增长速度", value: latestGrowthSpeedScore.value },
+  { label: "转粉效率", value: latestViewToFollowerScore.value },
+  { label: "净增稳定", value: latestNetGrowthScore.value },
+  { label: "粘性质量", value: latestStickinessScore.value },
+  { label: "风险控制", value: latestRetentionRiskScore.value }
+]);
+function radarPoint(index, value = 100, total = 5, radius = 70) {
+  const angle = (-90 + (360 / total) * index) * Math.PI / 180;
+  const distance = radius * (Number(value) / 100);
+  return {
+    x: 100 + Math.cos(angle) * distance,
+    y: 100 + Math.sin(angle) * distance
+  };
+}
+function smoothClosedPath(points) {
+  if (!points.length) return "";
+  const commands = [`M ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}`];
+  for (let index = 0; index < points.length; index += 1) {
+    const previous = points[(index - 1 + points.length) % points.length];
+    const current = points[index];
+    const next = points[(index + 1) % points.length];
+    const afterNext = points[(index + 2) % points.length];
+    const controlOne = {
+      x: current.x + (next.x - previous.x) / 6,
+      y: current.y + (next.y - previous.y) / 6
+    };
+    const controlTwo = {
+      x: next.x - (afterNext.x - current.x) / 6,
+      y: next.y - (afterNext.y - current.y) / 6
+    };
+    commands.push(`C ${controlOne.x.toFixed(2)} ${controlOne.y.toFixed(2)} ${controlTwo.x.toFixed(2)} ${controlTwo.y.toFixed(2)} ${next.x.toFixed(2)} ${next.y.toFixed(2)}`);
+  }
+  return `${commands.join(" ")} Z`;
+}
+const growthJudgementRadarAxes = computed(() =>
+  growthJudgementRadarItems.value.map((item, index, items) => {
+    const end = radarPoint(index, 100, items.length, 86);
+    const labelPoint = radarPoint(index, 136, items.length);
+    return { ...item, end, labelPoint };
+  })
+);
+const growthJudgementRadarPath = computed(() =>
+  smoothClosedPath(growthJudgementRadarItems.value.map((item, index, items) => radarPoint(index, item.value * radarAnimationProgress.value, items.length)))
+);
 const trendChartOption = computed(() =>
   verticalBarOption(
-    trend.value.map((item) => ({
+    displayTrend.value.map((item) => ({
       label: item.date?.slice(5) || "",
       value: item.newFollowers,
       detail: `新增 ${formatNumber(item.newFollowers)}`
@@ -135,8 +235,8 @@ const trendChartOption = computed(() =>
 const fanConversionPathOption = computed(() =>
   horizontalBarOption([
     { label: "播放", value: latest.value?.totalViews || 0, text: formatNumber(latest.value?.totalViews) },
-    { label: "新粉", value: latest.value?.newFollowers || 0, text: formatNumber(latest.value?.newFollowers), color: "#9a8eff" },
-    { label: "净增", value: latest.value?.netFollowers || 0, text: formatNumber(latest.value?.netFollowers), color: "#61f4ff" },
+    { label: "新粉", value: todayNewFollowers.value, text: formatNumber(todayNewFollowers.value), color: "#9a8eff" },
+    { label: "净增", value: todayNetFollowers.value, text: formatNumber(todayNetFollowers.value), color: "#61f4ff" },
     { label: "掉粉", value: latest.value?.lostFollowers || 0, text: formatNumber(latest.value?.lostFollowers) }
   ])
 );
@@ -228,9 +328,9 @@ function topRecord(record) {
 
           <section class="grid-6">
             <article class="metric-card"><p>总粉丝</p><strong>{{ formatNumber(latest?.totalFollowers) }}</strong></article>
-            <article class="metric-card"><p>今日新增</p><strong>{{ formatNumber(latest?.newFollowers) }}</strong></article>
+            <article class="metric-card"><p>今日新增</p><strong>{{ formatNumber(todayNewFollowers) }}</strong></article>
             <article class="metric-card"><p>今日掉粉</p><strong>{{ formatNumber(latest?.lostFollowers) }}</strong></article>
-            <article class="metric-card"><p>净增粉丝</p><strong>{{ formatNumber(latest?.netFollowers) }}</strong></article>
+            <article class="metric-card"><p>净增粉丝</p><strong>{{ formatNumber(todayNetFollowers) }}</strong></article>
             <article class="metric-card"><p>增长率</p><strong>{{ formatPercent(latest?.followerGrowthRate) }}</strong></article>
             <article class="metric-card"><p>播放转粉率</p><strong>{{ formatPercent(latest?.viewToFollowerRate) }}</strong></article>
           </section>
@@ -240,8 +340,8 @@ function topRecord(record) {
               <p class="section-label">7 天新增粉丝</p>
               <ChartPanel class="chart-panel-tall" :option="trendChartOption" />
               <div class="grid-3" style="margin-top:18px">
-                <span class="tag hot">新增 {{ formatNumber(latest?.newFollowers) }}</span>
-                <span class="tag purple">净增 {{ formatNumber(latest?.netFollowers) }}</span>
+                <span class="tag hot">新增 {{ formatNumber(todayNewFollowers) }}</span>
+                <span class="tag purple">净增 {{ formatNumber(todayNetFollowers) }}</span>
                 <span class="tag">播放 {{ formatNumber(totalTrendViews) }}</span>
               </div>
             </article>
@@ -256,11 +356,25 @@ function topRecord(record) {
           <section class="grid-3">
             <article class="card">
               <p class="section-label">增长判断</p>
-              <div class="action-list">
-                <div v-for="item in growthInsights" :key="item.insightId">
-                  <i class="fa-solid fa-chart-line"></i><span>{{ item.summary }}</span>
-                </div>
+              <div class="smooth-radar-chart" aria-label="增长判断雷达图">
+                <svg viewBox="0 0 200 200" role="img">
+                  <circle cx="100" cy="100" r="28" class="smooth-radar-ring"></circle>
+                  <circle cx="100" cy="100" r="48" class="smooth-radar-ring"></circle>
+                  <circle cx="100" cy="100" r="70" class="smooth-radar-ring strong"></circle>
+                  <g v-for="axis in growthJudgementRadarAxes" :key="axis.label">
+                    <line x1="100" y1="100" :x2="axis.end.x" :y2="axis.end.y" class="smooth-radar-axis"></line>
+                    <text :x="axis.labelPoint.x" :y="axis.labelPoint.y" text-anchor="middle" dominant-baseline="middle">{{ axis.label }}</text>
+                  </g>
+                  <path :d="growthJudgementRadarPath" class="smooth-radar-area"></path>
+                  <path :d="growthJudgementRadarPath" class="smooth-radar-edge"></path>
+                </svg>
               </div>
+              <div class="grid-3" style="margin-top:14px">
+                <span class="tag hot">速度 {{ latestGrowthSpeedScore }}</span>
+                <span class="tag purple">转粉 {{ latestViewToFollowerScore }}</span>
+                <span class="tag">风险 {{ latestRetentionRiskScore }}</span>
+              </div>
+              <p class="page-copy growth-judgement-copy" style="margin-top:12px">{{ growthInsights[0]?.summary || "当前增长判断会综合新增、净增、播放转粉、粘性和掉粉风险。" }}</p>
             </article>
             <article class="card">
               <p class="section-label">粉丝画像</p>

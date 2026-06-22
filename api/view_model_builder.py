@@ -34,9 +34,23 @@ def make_view_models(data: dict[str, Any]) -> dict[str, Any]:
         return [item for item in insights if any(page.startswith(prefix) for page in item["pageTargets"])]
 
     creator_id = data["creator"]["creatorId"]
+    platform_count = len(data.get("platformAccounts", []))
+    total_platform_followers = sum(int(item.get("followerCount") or 0) for item in data.get("platformAccounts", []))
     creator_snapshots = data["creatorMetricSnapshots"] or [empty_creator_snapshot(creator_id)]
+    creator_snapshots = [
+        {**snapshot, "totalFollowers": total_platform_followers}
+        for snapshot in creator_snapshots
+    ]
     latest_creator = creator_snapshots[-1]
     snapshots = data["videoMetricSnapshots"]
+    total_video_views = sum(int(item.get("views") or 0) for item in snapshots)
+    latest_metric_date = str(latest_creator.get("date") or "")[:10]
+    new_video_count = sum(
+        1
+        for item in data["videos"]
+        if latest_metric_date and str(item.get("publishTime") or "")[:10] == latest_metric_date
+    )
+    estimated_new_views = sum(max(1, int(int(item.get("views") or 0) * 0.0012)) for item in snapshots) if snapshots else 0
     spark_outputs = data.get(
         "sparkOutputs",
         {
@@ -61,11 +75,19 @@ def make_view_models(data: dict[str, Any]) -> dict[str, Any]:
     return {
         "growthDashboard": {
             "currentSnapshot": latest_creator,
+            "platformCount": platform_count,
+            "newPlatformCount": 0,
+            "videoCount": len(data["videos"]),
+            "newVideoCount": new_video_count,
+            "totalViews": total_video_views,
+            "newViews": estimated_new_views,
+            "totalFollowers": total_platform_followers,
             "topVideos": top_videos,
             "insights": target("growth."),
         },
         "fansAnalysis": {
             "trend": creator_snapshots,
+            "topVideos": top_videos,
             "audienceProfile": data["audienceProfileSnapshot"],
             "insights": target("fans."),
         },

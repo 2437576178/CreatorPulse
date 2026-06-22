@@ -1,11 +1,11 @@
 <script setup>
 import * as echarts from "echarts/core";
-import { BarChart, GaugeChart, HeatmapChart, ScatterChart } from "echarts/charts";
-import { GridComponent, TooltipComponent, VisualMapComponent } from "echarts/components";
+import { BarChart, GaugeChart, HeatmapChart, RadarChart, ScatterChart } from "echarts/charts";
+import { GridComponent, RadarComponent, TooltipComponent, VisualMapComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
-echarts.use([BarChart, GaugeChart, HeatmapChart, ScatterChart, GridComponent, TooltipComponent, VisualMapComponent, CanvasRenderer]);
+echarts.use([BarChart, GaugeChart, HeatmapChart, RadarChart, ScatterChart, GridComponent, RadarComponent, TooltipComponent, VisualMapComponent, CanvasRenderer]);
 
 const props = defineProps({
   option: {
@@ -30,6 +30,9 @@ function smoothProgress(progress) {
 }
 
 function interpolateArrayValue(values, progress, dimension) {
+  if (dimension === "all") {
+    return values.map((value) => (Number.isFinite(Number(value)) ? Number(value) * progress : value));
+  }
   return values.map((value, index) => {
     if (index !== dimension || !Number.isFinite(Number(value))) return value;
     return Number(value) * progress;

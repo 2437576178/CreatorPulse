@@ -115,7 +115,6 @@ function updateActiveTabSlider() {
 const countUpSelectors = [
   ".metric-card strong",
   ".value",
-  ".circle-copy strong",
   ".path-step strong",
   ".bar > span",
   ".table td",

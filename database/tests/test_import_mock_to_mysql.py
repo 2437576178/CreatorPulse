@@ -46,6 +46,13 @@ class ImportMockToMySQLTest(unittest.TestCase):
     def test_references_are_valid(self) -> None:
         validate_rows(self.rows)
 
+    def test_platform_accounts_include_follower_count(self) -> None:
+        self.assertEqual(
+            sum(row["follower_count"] for row in self.rows["platform_accounts"]),
+            self.data["creatorMetricSnapshots"][-1]["totalFollowers"],
+        )
+        self.assertTrue(all(row["follower_count"] > 0 for row in self.rows["platform_accounts"]))
+
     def test_json_columns_are_serialized_as_valid_json(self) -> None:
         creator = self.rows["creators"][0]
         self.assertEqual(json.loads(creator["niche_tags"]), self.data["creator"]["nicheTags"])
@@ -93,6 +100,7 @@ class SchemaFileTest(unittest.TestCase):
             "spark_video_follower_contributions",
         ]:
             self.assertIn(f"CREATE TABLE IF NOT EXISTS {table}", schema)
+        self.assertIn("follower_count BIGINT NOT NULL DEFAULT 0", schema)
 
 
 if __name__ == "__main__":

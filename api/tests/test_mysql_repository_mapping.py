@@ -95,6 +95,30 @@ class MySQLRepositoryMappingTest(unittest.TestCase):
         self.assertEqual(view_models["videoAnalysis"]["sparkContributions"], [])
         self.assertEqual(view_models["contentDistribution"]["sparkPlatformSummaries"], [])
 
+    def test_growth_total_followers_comes_from_platform_accounts(self) -> None:
+        rows = {table: [dict(row) for row in table_rows] for table, table_rows in self.table_rows.items()}
+        for index, row in enumerate(rows["platform_accounts"]):
+            row["follower_count"] = (index + 1) * 1000
+        latest_creator_snapshot = rows["creator_metric_snapshots"][-1]
+        latest_creator_snapshot["total_followers"] = 9
+
+        contract = MySQLRepository().to_contract(rows, "creator_001")
+
+        self.assertEqual(contract["viewModels"]["growthDashboard"]["totalFollowers"], 6000)
+        self.assertEqual(contract["viewModels"]["growthDashboard"]["currentSnapshot"]["totalFollowers"], 6000)
+
+    def test_growth_top_kpis_expose_totals_and_deltas(self) -> None:
+        contract = MySQLRepository().to_contract(self.table_rows, "creator_001")
+        growth = contract["viewModels"]["growthDashboard"]
+
+        self.assertEqual(growth["platformCount"], len(contract["platformAccounts"]))
+        self.assertEqual(growth["newPlatformCount"], 0)
+        self.assertEqual(growth["videoCount"], len(contract["videos"]))
+        self.assertIsInstance(growth["newVideoCount"], int)
+        self.assertEqual(growth["totalViews"], sum(row["views"] for row in contract["videoMetricSnapshots"]))
+        self.assertGreaterEqual(growth["newViews"], 0)
+        self.assertEqual(growth["totalFollowers"], sum(row["followerCount"] for row in contract["platformAccounts"]))
+
     def test_api_contract_exposes_latest_metric_snapshots_and_latest_spark_rows_only(self) -> None:
         rows = {table: [dict(row) for row in table_rows] for table, table_rows in self.table_rows.items()}
         first_video = rows["video_metric_snapshots"][0]

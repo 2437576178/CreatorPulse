@@ -17,6 +17,12 @@ class CreatorPulseRepository(Protocol):
     def get_view_model(self, creator_id: str, key: str) -> dict:
         ...
 
+    def list_reports(self, creator_id: str, report_type: str | None = None, page: int = 1, page_size: int = 10) -> dict:
+        ...
+
+    def get_report(self, creator_id: str, report_id: str) -> dict:
+        ...
+
 
 class RepositoryError(RuntimeError):
     """Raised when the configured repository cannot be created or queried."""

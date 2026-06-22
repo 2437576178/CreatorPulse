@@ -54,6 +54,11 @@ def video_stats_events(data: dict[str, Any]) -> list[dict[str, Any]]:
             "growth": {
                 "play_growth_5s": max(1, int(snapshot["views"] * 0.0012)),
                 "play_growth_1h": max(1, int(snapshot["views"] * 0.045)),
+                "like_delta": max(1, int(snapshot["likes"] * 0.0012)),
+                "comment_delta": max(1, int(snapshot["comments"] * 0.0012)),
+                "share_delta": max(1, int(snapshot["shares"] * 0.0012)),
+                "save_delta": max(1, int(snapshot["saves"] * 0.0012)),
+                "new_followers_delta": max(1, int(snapshot["newFollowers"] * 0.0012)),
                 "is_accelerating": snapshot["conversionRate"] >= 0.006,
                 "velocity_score": round(min(100, snapshot["engagementRate"] * 420), 2),
                 "new_followers": snapshot["newFollowers"],

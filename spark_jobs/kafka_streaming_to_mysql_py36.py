@@ -54,6 +54,11 @@ VIDEO_STATS_SCHEMA_JSON = {
                 "type": "struct",
                 "fields": [
                     {"name": "play_growth_5s", "type": "long", "nullable": True, "metadata": {}},
+                    {"name": "like_delta", "type": "long", "nullable": True, "metadata": {}},
+                    {"name": "comment_delta", "type": "long", "nullable": True, "metadata": {}},
+                    {"name": "share_delta", "type": "long", "nullable": True, "metadata": {}},
+                    {"name": "save_delta", "type": "long", "nullable": True, "metadata": {}},
+                    {"name": "new_followers_delta", "type": "long", "nullable": True, "metadata": {}},
                     {"name": "new_followers", "type": "long", "nullable": False, "metadata": {}},
                     {"name": "profile_visits", "type": "long", "nullable": False, "metadata": {}},
                 ],
@@ -113,7 +118,7 @@ def build_upsert_sql(table, columns, primary_keys):
 def main():
     from pyspark.sql import SparkSession
     from pyspark.sql.functions import col, concat, count, current_date, current_timestamp, date_format, desc, explode, from_json, lit, lower
-    from pyspark.sql.functions import regexp_replace, row_number, sum as spark_sum, when
+    from pyspark.sql.functions import regexp_replace, row_number, sum as spark_sum, to_date, to_json, when
     from pyspark.sql.types import StructType
     from pyspark.sql.window import Window
 
@@ -187,6 +192,28 @@ def main():
         run_id = lit("%s_batch_%s" % (run_prefix, batch_id))
         by_creator_video = Window.partitionBy("creator_id", "content_id").orderBy(desc("fetch_time"), desc("event_id"))
         latest_df = batch_df.withColumn("rn", row_number().over(by_creator_video)).filter(col("rn") == 1).drop("rn")
+        raw_event_df = (
+            batch_df.withColumn("event_date", to_date(col("fetch_time")))
+            .withColumn("raw_payload_json", to_json(col("event_json")))
+            .select(
+                "event_id",
+                "creator_id",
+                "platform",
+                col("content_id").alias("video_id"),
+                "event_type",
+                "event_date",
+                "fetch_time",
+                "play_delta",
+                "like_delta",
+                "comment_delta",
+                "share_delta",
+                "save_delta",
+                col("profile_visits").alias("profile_visit_delta"),
+                col("new_followers_delta").alias("new_follower_delta"),
+                lit(0).alias("lost_follower_delta"),
+                "raw_payload_json",
+            )
+        )
         platform_df = (
             latest_df.groupBy("creator_id", "platform")
             .agg(
@@ -321,6 +348,7 @@ def main():
             )
         )
 
+        jdbc_write(raw_event_df, "raw_video_stat_events", "append")
         jdbc_write(platform_df, "spark_platform_metric_summaries", write_mode)
         jdbc_write(ranked_df, "spark_video_follower_contributions", write_mode)
         mysql_upsert(video_metric_df, "video_metric_snapshots")
@@ -338,26 +366,32 @@ def main():
     )
     parsed_df = (
         kafka_df.select(from_json(col("value").cast("string"), schema).alias("event"))
-        .select("event.*")
-        .filter(col("event_type") == "video_stats")
+        .filter(col("event.event_type") == "video_stats")
         .select(
-            "creator_id",
-            "platform",
-            "event_id",
-            "fetch_time",
-            "content_id",
-            "title",
-            col("stats.play_count").alias("views"),
-            col("stats.like_count").alias("likes"),
-            col("stats.comment_count").alias("comments"),
-            col("stats.share_count").alias("shares"),
-            col("stats.save_count").alias("saves"),
-            col("stats.completion_rate").alias("completion_rate"),
-            col("stats.average_watch_seconds").alias("average_watch_seconds"),
-            col("growth.new_followers").alias("new_followers"),
-            col("growth.profile_visits").alias("profile_visits"),
-            when(col("growth.play_growth_5s").isNotNull() & (col("growth.play_growth_5s") > 0), col("growth.play_growth_5s")).otherwise(col("stats.play_count")).alias("play_delta"),
-            "traffic_source",
+            col("event.creator_id").alias("creator_id"),
+            col("event.platform").alias("platform"),
+            col("event.event_id").alias("event_id"),
+            col("event.event_type").alias("event_type"),
+            col("event.fetch_time").alias("fetch_time"),
+            col("event.content_id").alias("content_id"),
+            col("event.title").alias("title"),
+            col("event.stats.play_count").alias("views"),
+            col("event.stats.like_count").alias("likes"),
+            col("event.stats.comment_count").alias("comments"),
+            col("event.stats.share_count").alias("shares"),
+            col("event.stats.save_count").alias("saves"),
+            col("event.stats.completion_rate").alias("completion_rate"),
+            col("event.stats.average_watch_seconds").alias("average_watch_seconds"),
+            col("event.growth.new_followers").alias("new_followers"),
+            when(col("event.growth.new_followers_delta").isNotNull(), col("event.growth.new_followers_delta")).otherwise(col("event.growth.new_followers")).alias("new_followers_delta"),
+            col("event.growth.profile_visits").alias("profile_visits"),
+            when(col("event.growth.play_growth_5s").isNotNull() & (col("event.growth.play_growth_5s") > 0), col("event.growth.play_growth_5s")).otherwise(col("event.stats.play_count")).alias("play_delta"),
+            when(col("event.growth.like_delta").isNotNull(), col("event.growth.like_delta")).otherwise((col("event.stats.like_count") * lit(0.0012)).cast("long")).alias("like_delta"),
+            when(col("event.growth.comment_delta").isNotNull(), col("event.growth.comment_delta")).otherwise((col("event.stats.comment_count") * lit(0.0012)).cast("long")).alias("comment_delta"),
+            when(col("event.growth.share_delta").isNotNull(), col("event.growth.share_delta")).otherwise((col("event.stats.share_count") * lit(0.0012)).cast("long")).alias("share_delta"),
+            when(col("event.growth.save_delta").isNotNull(), col("event.growth.save_delta")).otherwise((col("event.stats.save_count") * lit(0.0012)).cast("long")).alias("save_delta"),
+            col("event.traffic_source").alias("traffic_source"),
+            col("event").alias("event_json"),
         )
     )
 

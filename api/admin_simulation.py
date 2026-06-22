@@ -2,7 +2,11 @@
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from typing import Any
+from uuid import uuid4
+
+from sqlalchemy import text
 
 from mysql_repository import MySQLRepository, iso_datetime
 
@@ -144,4 +148,124 @@ class AdminSimulationRepository:
                 }
                 for row in rows
             ]
+        }
+
+    def get_offline_status(self) -> dict[str, Any]:
+        with self.repository.engine.connect() as connection:
+            counts = self.repository.fetch_all(
+                connection,
+                """
+                SELECT
+                  (SELECT COUNT(*) FROM raw_video_stat_events) AS raw_event_count,
+                  (SELECT COUNT(*) FROM offline_creator_daily_metrics) AS creator_daily_count,
+                  (SELECT COUNT(*) FROM creator_reports) AS report_count,
+                  (SELECT COUNT(*) FROM offline_recompute_requests WHERE status = 'PENDING') AS pending_recompute_count
+                """,
+            )[0]
+            recent_runs = self.repository.fetch_all(
+                connection,
+                """
+                SELECT batch_run_id, job_name, job_type, period_start, period_end, status,
+                       triggered_by, input_event_count, output_row_count, error_message,
+                       started_at, finished_at
+                FROM offline_batch_runs
+                ORDER BY started_at DESC, batch_run_id DESC
+                LIMIT 10
+                """,
+            )
+            recent_reports = self.repository.fetch_all(
+                connection,
+                """
+                SELECT report_id, creator_id, report_type, period_start, period_end, status,
+                       title, generated_at, batch_run_id
+                FROM creator_reports
+                ORDER BY generated_at DESC, report_id DESC
+                LIMIT 10
+                """,
+            )
+
+        return {
+            "dataSource": "mysql",
+            "rawEventCount": counts["raw_event_count"],
+            "creatorDailyCount": counts["creator_daily_count"],
+            "reportCount": counts["report_count"],
+            "pendingRecomputeCount": counts["pending_recompute_count"],
+            "recentRuns": [
+                {
+                    "batchRunId": row["batch_run_id"],
+                    "jobName": row["job_name"],
+                    "jobType": row["job_type"],
+                    "periodStart": iso_datetime(row["period_start"]) if row["period_start"] else None,
+                    "periodEnd": iso_datetime(row["period_end"]) if row["period_end"] else None,
+                    "status": row["status"],
+                    "triggeredBy": row["triggered_by"],
+                    "inputEventCount": row["input_event_count"],
+                    "outputRowCount": row["output_row_count"],
+                    "errorMessage": row["error_message"],
+                    "startedAt": iso_datetime(row["started_at"]),
+                    "finishedAt": iso_datetime(row["finished_at"]) if row["finished_at"] else None,
+                }
+                for row in recent_runs
+            ],
+            "recentReports": [
+                {
+                    "reportId": row["report_id"],
+                    "creatorId": row["creator_id"],
+                    "reportType": row["report_type"],
+                    "periodStart": iso_datetime(row["period_start"]),
+                    "periodEnd": iso_datetime(row["period_end"]),
+                    "status": row["status"],
+                    "title": row["title"],
+                    "generatedAt": iso_datetime(row["generated_at"]),
+                    "batchRunId": row["batch_run_id"],
+                }
+                for row in recent_reports
+            ],
+        }
+
+    def create_recompute_request(
+        self,
+        creator_id: str,
+        period_start: str,
+        period_end: str,
+        recompute_scope: str = "ALL",
+        requested_by: str = "admin",
+    ) -> dict[str, Any]:
+        allowed_scopes = {"CREATOR_DAILY", "PLATFORM_DAILY", "VIDEO_DAILY", "CONTENT_TYPE_DAILY", "REPORTS", "ALL"}
+        scope = recompute_scope.upper()
+        if scope not in allowed_scopes:
+            raise ValueError("Invalid recompute scope")
+
+        request_id = f"recompute_{uuid4().hex[:24]}"
+        requested_at = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None).isoformat()
+        with self.repository.engine.begin() as connection:
+            connection.execute(
+                text(
+                    """
+                INSERT INTO offline_recompute_requests
+                  (request_id, creator_id, period_start, period_end, recompute_scope, status, requested_by, requested_at)
+                VALUES
+                  (:request_id, :creator_id, :period_start, :period_end, :recompute_scope, 'PENDING', :requested_by, :requested_at)
+                """,
+                ),
+                {
+                    "request_id": request_id,
+                    "creator_id": creator_id,
+                    "period_start": period_start,
+                    "period_end": period_end,
+                    "recompute_scope": scope,
+                    "requested_by": requested_by,
+                    "requested_at": requested_at,
+                },
+            )
+
+        return {
+            "requestId": request_id,
+            "creatorId": creator_id,
+            "periodStart": period_start,
+            "periodEnd": period_end,
+            "recomputeScope": scope,
+            "status": "PENDING",
+            "requestedBy": requested_by,
+            "requestedAt": requested_at,
         }

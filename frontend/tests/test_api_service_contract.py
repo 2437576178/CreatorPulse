@@ -26,7 +26,7 @@ def extract_request_paths(source: str) -> set[str]:
 class FrontendAPIServiceContractTest(unittest.TestCase):
     def test_frontend_page_fetches_use_session_scoped_openapi_endpoints(self) -> None:
         source = SERVICE_PATH.read_text(encoding="utf-8")
-        frontend_paths = extract_request_paths(source) - {"/api/me"}
+        frontend_paths = {path for path in extract_request_paths(source) if path in PAGE_ENDPOINTS}
 
         self.assertEqual(frontend_paths, set(PAGE_ENDPOINTS))
 

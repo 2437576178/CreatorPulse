@@ -127,6 +127,87 @@ def openapi_schema() -> dict[str, Any]:
                 },
             }
         },
+        "/api/me/reports": {
+            "get": {
+                "summary": "List offline reports for the current creator",
+                "operationId": "listMyReports",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": False,
+                        "schema": {"type": "string", "enum": ["DAILY", "WEEKLY", "MONTHLY"]},
+                    },
+                    {"name": "page", "in": "query", "required": False, "schema": {"type": "integer", "minimum": 1}},
+                    {"name": "pageSize", "in": "query", "required": False, "schema": {"type": "integer", "minimum": 1, "maximum": 100}},
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated current creator reports",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ReportListResponse"}}},
+                    },
+                    "401": {
+                        "description": "Login required",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}},
+                    },
+                },
+            }
+        },
+        "/api/me/reports/{reportId}": {
+            "get": {
+                "summary": "Get one offline report for the current creator",
+                "operationId": "getMyReport",
+                "parameters": [
+                    {"name": "reportId", "in": "path", "required": True, "schema": {"type": "string"}},
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Current creator report detail",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Report"}}},
+                    },
+                    "401": {
+                        "description": "Login required",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}},
+                    },
+                    "404": {
+                        "description": "Report not found",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}},
+                    },
+                },
+            }
+        },
+        "/api/admin/offline/status": {
+            "get": {
+                "summary": "Get offline job status, recent batch runs, and recent reports",
+                "operationId": "getAdminOfflineStatus",
+                "responses": {
+                    "200": {
+                        "description": "Offline processing status",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AdminOfflineStatus"}}},
+                    }
+                },
+            }
+        },
+        "/api/admin/offline/recompute": {
+            "post": {
+                "summary": "Create a pending offline recompute request",
+                "operationId": "createOfflineRecomputeRequest",
+                "requestBody": {
+                    "required": True,
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/RecomputeRequestCreate"}}},
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pending recompute request",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/RecomputeRequest"}}},
+                    },
+                    "400": {
+                        "description": "Invalid recompute request",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}},
+                    },
+                },
+            }
+        },
     }
 
     for path, view_model in PAGE_ENDPOINTS.items():
@@ -275,6 +356,72 @@ def component_schemas() -> dict[str, Any]:
             },
         ),
         "AuthUserResponse": object_schema(["user"], {"user": {"$ref": "#/components/schemas/AuthUser"}}),
+        "Report": object_schema(
+            ["reportId", "creatorId", "reportType", "periodStart", "periodEnd", "status", "title", "summary", "highlights", "risks", "actions", "metrics", "generatedAt", "batchRunId"],
+            {
+                "reportId": {"type": "string"},
+                "creatorId": {"type": "string"},
+                "reportType": {"type": "string", "enum": ["DAILY", "WEEKLY", "MONTHLY"]},
+                "periodStart": {"type": "string", "format": "date"},
+                "periodEnd": {"type": "string", "format": "date"},
+                "status": {"type": "string", "enum": ["GENERATED", "EMPTY", "FAILED"]},
+                "title": {"type": "string"},
+                "summary": {"type": "string"},
+                "highlights": {"type": "array", "items": {"type": "string"}},
+                "risks": {"type": "array", "items": {"type": "string"}},
+                "actions": {"type": "array", "items": {"type": "string"}},
+                "metrics": {"type": "object", "additionalProperties": True},
+                "generatedAt": {"type": "string"},
+                "batchRunId": {"type": "string"},
+            },
+        ),
+        "ReportListResponse": object_schema(
+            ["items", "page", "pageSize", "total"],
+            {
+                "items": {"type": "array", "items": {"$ref": "#/components/schemas/Report"}},
+                "page": {"type": "integer"},
+                "pageSize": {"type": "integer"},
+                "total": {"type": "integer"},
+            },
+        ),
+        "AdminOfflineStatus": object_schema(
+            ["dataSource", "rawEventCount", "creatorDailyCount", "reportCount", "pendingRecomputeCount", "recentRuns", "recentReports"],
+            {
+                "dataSource": {"type": "string"},
+                "rawEventCount": {"type": "integer"},
+                "creatorDailyCount": {"type": "integer"},
+                "reportCount": {"type": "integer"},
+                "pendingRecomputeCount": {"type": "integer"},
+                "recentRuns": {"type": "array", "items": {"type": "object"}},
+                "recentReports": {"type": "array", "items": {"$ref": "#/components/schemas/Report"}},
+            },
+        ),
+        "RecomputeRequestCreate": object_schema(
+            ["creatorId", "periodStart", "periodEnd"],
+            {
+                "creatorId": {"type": "string"},
+                "periodStart": {"type": "string", "format": "date"},
+                "periodEnd": {"type": "string", "format": "date"},
+                "recomputeScope": {
+                    "type": "string",
+                    "enum": ["CREATOR_DAILY", "PLATFORM_DAILY", "VIDEO_DAILY", "CONTENT_TYPE_DAILY", "REPORTS", "ALL"],
+                },
+                "requestedBy": {"type": "string"},
+            },
+        ),
+        "RecomputeRequest": object_schema(
+            ["requestId", "creatorId", "periodStart", "periodEnd", "recomputeScope", "status", "requestedBy", "requestedAt"],
+            {
+                "requestId": {"type": "string"},
+                "creatorId": {"type": "string"},
+                "periodStart": {"type": "string", "format": "date"},
+                "periodEnd": {"type": "string", "format": "date"},
+                "recomputeScope": {"type": "string"},
+                "status": {"type": "string"},
+                "requestedBy": {"type": "string"},
+                "requestedAt": {"type": "string"},
+            },
+        ),
         "Meta": object_schema(["schemaVersion", "generatedAt"]),
         "Creator": object_schema(["creatorId", "displayName", "nicheTags", "timezone"]),
         "Insight": insight,

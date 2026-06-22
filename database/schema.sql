@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS platform_accounts (
   platform VARCHAR(32) NOT NULL,
   platform_display_name VARCHAR(128) NOT NULL,
   binding_status VARCHAR(32) NOT NULL,
+  follower_count BIGINT NOT NULL DEFAULT 0,
   sync_latency_seconds INT NOT NULL,
   collection_interval_seconds INT NOT NULL,
   data_scopes JSON NOT NULL,
@@ -263,4 +264,218 @@ CREATE TABLE IF NOT EXISTS spark_video_follower_contributions (
     FOREIGN KEY (video_id) REFERENCES videos (video_id)
     ON DELETE CASCADE,
   KEY idx_spark_video_follower_contributions_video (video_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS raw_video_stat_events (
+  event_id VARCHAR(96) PRIMARY KEY,
+  creator_id VARCHAR(64) NOT NULL,
+  platform VARCHAR(32) NOT NULL,
+  video_id VARCHAR(96) NOT NULL,
+  event_type VARCHAR(32) NOT NULL DEFAULT 'video_stats',
+  event_date DATE NOT NULL,
+  fetch_time DATETIME NOT NULL,
+  play_delta BIGINT NOT NULL DEFAULT 0,
+  like_delta BIGINT NOT NULL DEFAULT 0,
+  comment_delta BIGINT NOT NULL DEFAULT 0,
+  share_delta BIGINT NOT NULL DEFAULT 0,
+  save_delta BIGINT NOT NULL DEFAULT 0,
+  profile_visit_delta BIGINT NOT NULL DEFAULT 0,
+  new_follower_delta BIGINT NOT NULL DEFAULT 0,
+  lost_follower_delta BIGINT NOT NULL DEFAULT 0,
+  raw_payload_json JSON NOT NULL,
+  ingested_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_raw_video_stat_events_creator
+    FOREIGN KEY (creator_id) REFERENCES creators (creator_id)
+    ON DELETE CASCADE,
+  CONSTRAINT fk_raw_video_stat_events_video
+    FOREIGN KEY (video_id) REFERENCES videos (video_id)
+    ON DELETE CASCADE,
+  KEY idx_raw_video_stat_events_creator_date (creator_id, event_date),
+  KEY idx_raw_video_stat_events_video_date (video_id, event_date),
+  KEY idx_raw_video_stat_events_platform_date (platform, event_date),
+  KEY idx_raw_video_stat_events_fetch_time (fetch_time)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS offline_batch_runs (
+  batch_run_id VARCHAR(96) PRIMARY KEY,
+  job_name VARCHAR(96) NOT NULL,
+  job_type VARCHAR(32) NOT NULL,
+  period_start DATE NULL,
+  period_end DATE NULL,
+  status VARCHAR(16) NOT NULL,
+  triggered_by VARCHAR(16) NOT NULL,
+  input_event_count BIGINT NOT NULL DEFAULT 0,
+  output_row_count BIGINT NOT NULL DEFAULT 0,
+  error_message TEXT NULL,
+  started_at DATETIME NOT NULL,
+  finished_at DATETIME NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY idx_offline_batch_runs_status (status),
+  KEY idx_offline_batch_runs_job_period (job_type, period_start, period_end)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS offline_creator_daily_metrics (
+  creator_id VARCHAR(64) NOT NULL,
+  metric_date DATE NOT NULL,
+  total_views_delta BIGINT NOT NULL DEFAULT 0,
+  total_interactions_delta BIGINT NOT NULL DEFAULT 0,
+  profile_visits_delta BIGINT NOT NULL DEFAULT 0,
+  new_followers_delta BIGINT NOT NULL DEFAULT 0,
+  lost_followers_delta BIGINT NOT NULL DEFAULT 0,
+  net_followers_delta BIGINT NOT NULL DEFAULT 0,
+  view_to_follower_rate DECIMAL(12, 6) NOT NULL DEFAULT 0,
+  engagement_rate DECIMAL(12, 6) NOT NULL DEFAULT 0,
+  stickiness_score DECIMAL(8, 2) NOT NULL DEFAULT 0,
+  growth_health_score DECIMAL(8, 2) NOT NULL DEFAULT 0,
+  batch_run_id VARCHAR(96) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (creator_id, metric_date),
+  CONSTRAINT fk_offline_creator_daily_metrics_creator
+    FOREIGN KEY (creator_id) REFERENCES creators (creator_id)
+    ON DELETE CASCADE,
+  CONSTRAINT fk_offline_creator_daily_metrics_batch_run
+    FOREIGN KEY (batch_run_id) REFERENCES offline_batch_runs (batch_run_id)
+    ON DELETE RESTRICT,
+  UNIQUE KEY uk_offline_creator_daily_metrics_creator_date (creator_id, metric_date),
+  KEY idx_offline_creator_daily_metrics_batch_run (batch_run_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS offline_platform_daily_metrics (
+  creator_id VARCHAR(64) NOT NULL,
+  platform VARCHAR(32) NOT NULL,
+  metric_date DATE NOT NULL,
+  views_delta BIGINT NOT NULL DEFAULT 0,
+  interactions_delta BIGINT NOT NULL DEFAULT 0,
+  profile_visits_delta BIGINT NOT NULL DEFAULT 0,
+  new_followers_delta BIGINT NOT NULL DEFAULT 0,
+  lost_followers_delta BIGINT NOT NULL DEFAULT 0,
+  view_to_follower_rate DECIMAL(12, 6) NOT NULL DEFAULT 0,
+  engagement_rate DECIMAL(12, 6) NOT NULL DEFAULT 0,
+  contribution_score DECIMAL(8, 2) NOT NULL DEFAULT 0,
+  batch_run_id VARCHAR(96) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (creator_id, platform, metric_date),
+  CONSTRAINT fk_offline_platform_daily_metrics_creator
+    FOREIGN KEY (creator_id) REFERENCES creators (creator_id)
+    ON DELETE CASCADE,
+  CONSTRAINT fk_offline_platform_daily_metrics_batch_run
+    FOREIGN KEY (batch_run_id) REFERENCES offline_batch_runs (batch_run_id)
+    ON DELETE RESTRICT,
+  UNIQUE KEY uk_offline_platform_daily_metrics_creator_platform_date (creator_id, platform, metric_date),
+  KEY idx_offline_platform_daily_metrics_batch_run (batch_run_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS offline_video_daily_metrics (
+  creator_id VARCHAR(64) NOT NULL,
+  video_id VARCHAR(96) NOT NULL,
+  platform VARCHAR(32) NOT NULL,
+  metric_date DATE NOT NULL,
+  views_delta BIGINT NOT NULL DEFAULT 0,
+  likes_delta BIGINT NOT NULL DEFAULT 0,
+  comments_delta BIGINT NOT NULL DEFAULT 0,
+  shares_delta BIGINT NOT NULL DEFAULT 0,
+  saves_delta BIGINT NOT NULL DEFAULT 0,
+  profile_visits_delta BIGINT NOT NULL DEFAULT 0,
+  new_followers_delta BIGINT NOT NULL DEFAULT 0,
+  lost_followers_delta BIGINT NOT NULL DEFAULT 0,
+  view_to_follower_rate DECIMAL(12, 6) NOT NULL DEFAULT 0,
+  engagement_rate DECIMAL(12, 6) NOT NULL DEFAULT 0,
+  follower_contribution_score DECIMAL(8, 2) NOT NULL DEFAULT 0,
+  batch_run_id VARCHAR(96) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (creator_id, video_id, metric_date),
+  CONSTRAINT fk_offline_video_daily_metrics_creator
+    FOREIGN KEY (creator_id) REFERENCES creators (creator_id)
+    ON DELETE CASCADE,
+  CONSTRAINT fk_offline_video_daily_metrics_video
+    FOREIGN KEY (video_id) REFERENCES videos (video_id)
+    ON DELETE CASCADE,
+  CONSTRAINT fk_offline_video_daily_metrics_batch_run
+    FOREIGN KEY (batch_run_id) REFERENCES offline_batch_runs (batch_run_id)
+    ON DELETE RESTRICT,
+  UNIQUE KEY uk_offline_video_daily_metrics_creator_video_date (creator_id, video_id, metric_date),
+  KEY idx_offline_video_daily_metrics_platform_date (platform, metric_date),
+  KEY idx_offline_video_daily_metrics_batch_run (batch_run_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS offline_content_type_daily_metrics (
+  creator_id VARCHAR(64) NOT NULL,
+  content_type VARCHAR(32) NOT NULL,
+  metric_date DATE NOT NULL,
+  video_count INT NOT NULL DEFAULT 0,
+  views_delta BIGINT NOT NULL DEFAULT 0,
+  interactions_delta BIGINT NOT NULL DEFAULT 0,
+  new_followers_delta BIGINT NOT NULL DEFAULT 0,
+  view_to_follower_rate DECIMAL(12, 6) NOT NULL DEFAULT 0,
+  engagement_rate DECIMAL(12, 6) NOT NULL DEFAULT 0,
+  efficiency_score DECIMAL(8, 2) NOT NULL DEFAULT 0,
+  batch_run_id VARCHAR(96) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (creator_id, content_type, metric_date),
+  CONSTRAINT fk_offline_content_type_daily_metrics_creator
+    FOREIGN KEY (creator_id) REFERENCES creators (creator_id)
+    ON DELETE CASCADE,
+  CONSTRAINT fk_offline_content_type_daily_metrics_batch_run
+    FOREIGN KEY (batch_run_id) REFERENCES offline_batch_runs (batch_run_id)
+    ON DELETE RESTRICT,
+  UNIQUE KEY uk_offline_content_type_daily_metrics_creator_type_date (creator_id, content_type, metric_date),
+  KEY idx_offline_content_type_daily_metrics_batch_run (batch_run_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS creator_reports (
+  report_id VARCHAR(96) PRIMARY KEY,
+  creator_id VARCHAR(64) NOT NULL,
+  report_type VARCHAR(16) NOT NULL,
+  period_start DATE NOT NULL,
+  period_end DATE NOT NULL,
+  status VARCHAR(16) NOT NULL,
+  title VARCHAR(128) NOT NULL,
+  summary TEXT NOT NULL,
+  highlights_json JSON NOT NULL,
+  risks_json JSON NOT NULL,
+  actions_json JSON NOT NULL,
+  metrics_json JSON NOT NULL,
+  generated_at DATETIME NOT NULL,
+  batch_run_id VARCHAR(96) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_creator_reports_creator
+    FOREIGN KEY (creator_id) REFERENCES creators (creator_id)
+    ON DELETE CASCADE,
+  CONSTRAINT fk_creator_reports_batch_run
+    FOREIGN KEY (batch_run_id) REFERENCES offline_batch_runs (batch_run_id)
+    ON DELETE RESTRICT,
+  UNIQUE KEY uk_creator_reports_creator_type_period (creator_id, report_type, period_start, period_end),
+  KEY idx_creator_reports_creator_generated (creator_id, generated_at),
+  KEY idx_creator_reports_batch_run (batch_run_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS offline_recompute_requests (
+  request_id VARCHAR(96) PRIMARY KEY,
+  creator_id VARCHAR(64) NOT NULL,
+  period_start DATE NOT NULL,
+  period_end DATE NOT NULL,
+  recompute_scope VARCHAR(32) NOT NULL,
+  status VARCHAR(16) NOT NULL,
+  requested_by VARCHAR(64) NOT NULL,
+  requested_at DATETIME NOT NULL,
+  started_at DATETIME NULL,
+  finished_at DATETIME NULL,
+  batch_run_id VARCHAR(96) NULL,
+  error_message TEXT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_offline_recompute_requests_creator
+    FOREIGN KEY (creator_id) REFERENCES creators (creator_id)
+    ON DELETE CASCADE,
+  CONSTRAINT fk_offline_recompute_requests_batch_run
+    FOREIGN KEY (batch_run_id) REFERENCES offline_batch_runs (batch_run_id)
+    ON DELETE SET NULL,
+  KEY idx_offline_recompute_requests_status (status),
+  KEY idx_offline_recompute_requests_creator_period (creator_id, period_start, period_end)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

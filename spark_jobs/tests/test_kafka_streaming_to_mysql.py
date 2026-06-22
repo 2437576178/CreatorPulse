@@ -42,6 +42,7 @@ class KafkaStreamingToMySQLTest(unittest.TestCase):
         self.assertEqual(config.bootstrap_servers, "127.0.0.1:9092")
         self.assertEqual(config.trigger_seconds, 15)
         self.assertEqual(config.platform_table, "spark_platform_metric_summaries")
+        self.assertEqual(config.raw_event_table, "raw_video_stat_events")
 
     def test_dry_run_summary_exposes_expected_targets(self) -> None:
         summary = dry_run_summary(load_streaming_config())
@@ -52,6 +53,7 @@ class KafkaStreamingToMySQLTest(unittest.TestCase):
         self.assertEqual(summary["mysql"]["videoMetricTable"], "video_metric_snapshots")
         self.assertEqual(summary["mysql"]["trafficSourceTable"], "video_traffic_source_metrics")
         self.assertEqual(summary["mysql"]["creatorMetricTable"], "creator_metric_snapshots")
+        self.assertEqual(summary["mysql"]["rawEventTable"], "raw_video_stat_events")
         self.assertEqual(summary["executionPlan"]["willStartStreaming"], False)
         self.assertEqual(summary["executionPlan"]["requiresExecuteFlag"], True)
         self.assertEqual(summary["executionPlan"]["requiresFullPipelineLiveFlag"], True)
@@ -64,6 +66,7 @@ class KafkaStreamingToMySQLTest(unittest.TestCase):
                 "video_metric_snapshots",
                 "video_traffic_source_metrics",
                 "creator_metric_snapshots",
+                "raw_video_stat_events",
             ],
         )
         self.assertIn("stats", summary["schemaFields"])
@@ -76,6 +79,7 @@ class KafkaStreamingToMySQLTest(unittest.TestCase):
         self.assertEqual(plan["willStartStreaming"], True)
         self.assertEqual(plan["checkpointDir"], config.checkpoint_dir)
         self.assertIn("read video_stats_topic from Kafka", plan["steps"])
+        self.assertIn("archive raw video stat events", plan["steps"])
 
     def test_schema_contains_video_stats_fields(self) -> None:
         field_names = [field["name"] for field in VIDEO_STATS_SCHEMA_JSON["fields"]]

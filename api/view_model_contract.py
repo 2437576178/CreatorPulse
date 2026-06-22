@@ -8,6 +8,13 @@ from typing import Any
 VIEW_MODEL_REQUIRED_FIELDS = {
     "growthDashboard": {
         "currentSnapshot": dict,
+        "platformCount": int,
+        "newPlatformCount": int,
+        "videoCount": int,
+        "newVideoCount": int,
+        "totalViews": int,
+        "newViews": int,
+        "totalFollowers": int,
         "topVideos": list,
         "insights": list,
     },

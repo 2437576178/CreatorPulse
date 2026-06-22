@@ -167,6 +167,19 @@ def create_app() -> Flask:
         user = current_user()
         return jsonify(get_repository().get_view_model(user.creator_id, "profile"))
 
+    @app.get("/api/me/reports")
+    def my_reports() -> Any:
+        user = current_user()
+        report_type = request.args.get("type")
+        page = max(int(request.args.get("page", "1")), 1)
+        page_size = min(max(int(request.args.get("pageSize", "10")), 1), 100)
+        return jsonify(get_repository().list_reports(user.creator_id, report_type=report_type, page=page, page_size=page_size))
+
+    @app.get("/api/me/reports/<report_id>")
+    def my_report_detail(report_id: str) -> Any:
+        user = current_user()
+        return jsonify(get_repository().get_report(user.creator_id, report_id))
+
     @app.get("/api/admin/simulation/status")
     def admin_simulation_status() -> Any:
         return jsonify(AdminSimulationRepository().get_status())
@@ -179,6 +192,35 @@ def create_app() -> Flask:
     def admin_simulation_events() -> Any:
         limit = min(max(int(request.args.get("limit", "30")), 1), 100)
         return jsonify(AdminSimulationRepository().list_events(limit=limit))
+
+    @app.get("/api/admin/offline/status")
+    def admin_offline_status() -> Any:
+        return jsonify(AdminSimulationRepository().get_offline_status())
+
+    @app.post("/api/admin/offline/recompute")
+    def admin_offline_recompute() -> Any:
+        payload = request.get_json(silent=True) or {}
+        creator_id = str(payload.get("creatorId", ""))
+        period_start = str(payload.get("periodStart", ""))
+        period_end = str(payload.get("periodEnd", ""))
+        recompute_scope = str(payload.get("recomputeScope", "ALL"))
+        requested_by = str(payload.get("requestedBy", "admin"))
+        if not creator_id or not period_start or not period_end:
+            return (
+                jsonify({"error": {"code": "VALIDATION_ERROR", "message": "creatorId, periodStart, and periodEnd are required"}}),
+                400,
+            )
+        try:
+            result = AdminSimulationRepository().create_recompute_request(
+                creator_id=creator_id,
+                period_start=period_start,
+                period_end=period_end,
+                recompute_scope=recompute_scope,
+                requested_by=requested_by,
+            )
+        except ValueError as error:
+            return jsonify({"error": {"code": "VALIDATION_ERROR", "message": str(error)}}), 400
+        return jsonify(result), 201
 
     @app.get("/api/creators/<creator_id>/dashboard/growth")
     def growth_dashboard(creator_id: str) -> Any:

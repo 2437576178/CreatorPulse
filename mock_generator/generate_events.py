@@ -251,10 +251,10 @@ def make_event(video, state, sequence):
     fetch_time = now_iso()
     prefix = "%s:%s" % (video["creator_id"], video["content_id"])
     play_count, play_growth_5s = next_counter(state, prefix + ":play", video["base_play"], 80, 420)
-    like_count, _ = next_counter(state, prefix + ":like", video["base_like"], 8, 38)
-    comment_count, _ = next_counter(state, prefix + ":comment", video["base_comment"], 1, 9)
-    share_count, _ = next_counter(state, prefix + ":share", video["base_share"], 2, 16)
-    save_count, _ = next_counter(state, prefix + ":save", video["base_save"], 4, 28)
+    like_count, like_step = next_counter(state, prefix + ":like", video["base_like"], 8, 38)
+    comment_count, comment_step = next_counter(state, prefix + ":comment", video["base_comment"], 1, 9)
+    share_count, share_step = next_counter(state, prefix + ":share", video["base_share"], 2, 16)
+    save_count, save_step = next_counter(state, prefix + ":save", video["base_save"], 4, 28)
     followers, follower_step = next_counter(state, prefix + ":followers", video["base_followers"], 2, 18)
     profile_visits = max(followers * random.randint(4, 8), 1)
     interactions = like_count + comment_count + share_count + save_count
@@ -289,6 +289,10 @@ def make_event(video, state, sequence):
         "growth": {
             "play_growth_5s": play_growth_5s,
             "play_growth_1h": play_growth_5s * random.randint(34, 58),
+            "like_delta": like_step,
+            "comment_delta": comment_step,
+            "share_delta": share_step,
+            "save_delta": save_step,
             "is_accelerating": play_growth_5s >= 220,
             "velocity_score": round(min(100.0, interaction_rate * 420), 2),
             "new_followers": follower_step,
