@@ -1,10 +1,9 @@
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import ChartPanel from "../components/ChartPanel.vue";
 import { fetchFansAnalysis } from "../services/api";
-import { heatmapOption, horizontalBarOption, verticalBarOption } from "../utils/chartOptions";
-import { formatNumber, formatPercent } from "../utils/format";
-import { diagnosisItems } from "../utils/pageModels";
+import { heatmapOption } from "../utils/chartOptions";
+import { contentLabel, formatNumber, formatPercent } from "../utils/format";
 
 defineProps({
   activePage: {
@@ -15,28 +14,17 @@ defineProps({
 
 const emit = defineEmits(["navigate"]);
 
-const activeTab = ref(window.location.hash?.replace("#", "") || "growth");
 const loading = ref(true);
 const error = ref("");
 const payload = ref(null);
 const radarAnimationProgress = ref(0);
 let radarAnimationFrame = null;
 
-const tabs = [
-  { id: "growth", label: "增长趋势" },
-  { id: "source", label: "转化来源" },
-  { id: "stickiness", label: "粘性行为" },
-  { id: "profile", label: "粉丝画像" }
-];
-
 onMounted(async () => {
-  window.addEventListener("hashchange", syncHash);
-  syncHash();
   await loadData();
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("hashchange", syncHash);
   if (radarAnimationFrame) {
     window.cancelAnimationFrame(radarAnimationFrame);
   }
@@ -55,37 +43,11 @@ async function loadData() {
   }
 }
 
-function syncHash() {
-  const next = window.location.hash.replace("#", "");
-  if (tabs.some((tab) => tab.id === next)) {
-    activeTab.value = next;
-  } else {
-    activeTab.value = "growth";
-  }
-  nextTick(() => {
-    window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
-    replayRadarAnimation();
-  });
-}
-
-function setTab(tabId) {
-  const shouldReplay = activeTab.value === tabId;
-  activeTab.value = tabId;
-  window.location.hash = tabId;
-  if (shouldReplay) {
-    nextTick(() => {
-      window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
-      replayRadarAnimation();
-    });
-  }
-}
-
 function easeOutCubic(value) {
   return 1 - Math.pow(1 - value, 3);
 }
 
 function replayRadarAnimation() {
-  if (activeTab.value !== "growth") return;
   if (radarAnimationFrame) {
     window.cancelAnimationFrame(radarAnimationFrame);
   }
@@ -114,54 +76,20 @@ const topVideos = computed(() => model.value?.topVideos || []);
 const profile = computed(() => model.value?.audienceProfile);
 const insights = computed(() => model.value?.insights || []);
 
-const insightByTab = computed(() => {
-  const grouped = {
-    growth: [],
-    source: [],
-    stickiness: [],
-    profile: []
-  };
-  for (const insight of insights.value) {
-    for (const target of insight.pageTargets || []) {
-      if (target === "fans.growth") grouped.growth.push(insight);
-      if (target === "fans.source") grouped.source.push(insight);
-      if (target === "fans.stickiness") grouped.stickiness.push(insight);
-      if (target === "fans.profile") grouped.profile.push(insight);
-    }
-  }
-  return grouped;
-});
-
-const growthInsights = computed(() => insightByTab.value.growth.slice(0, 3));
-const sourceInsights = computed(() => insightByTab.value.source.slice(0, 3));
-const stickinessInsights = computed(() => insightByTab.value.stickiness.slice(0, 3));
-const profileInsights = computed(() => insightByTab.value.profile.slice(0, 3));
-const sourceDiagnosis = computed(() =>
-  diagnosisItems(sourceInsights.value, [
-    { label: "主来源", title: "高转粉教程贡献今日最强新粉入口", className: "strong" },
-    { label: "浪费来源", title: "推荐流播放高，但转粉效率偏低", className: "warning" },
-    { label: "可复刻视频", title: "收藏后关注路径最清晰的视频值得继续延展", className: "" }
-  ])
-);
-const fanStickinessDiagnosis = computed(() =>
-  diagnosisItems(stickinessInsights.value, [
-    { label: "质量判断", title: "深度粉丝占比提升，教程系列正在形成复访", className: "strong" },
-    { label: "关键行为", title: "收藏回看和评论提问是当前最强留存信号", className: "" },
-    { label: "流失风险", title: "泛推荐新粉复访偏低，需要系列化承接", className: "warning" }
-  ])
-);
-const profileDiagnosis = computed(() =>
-  diagnosisItems(profileInsights.value, [
-    { label: "核心人群", title: "年轻女性更偏好可保存的教程内容", className: "strong" },
-    { label: "增长人群", title: "职场人群增长快，更关注测评和效率", className: "" },
-    { label: "沉默人群", title: "低互动人群需要更明确的场景内容", className: "warning" }
-  ])
+const growthInsights = computed(() =>
+  insights.value.filter((insight) => (insight.pageTargets || []).includes("fans.growth")).slice(0, 3)
 );
 
-const trendMax = computed(() => Math.max(...trend.value.map((item) => item.newFollowers), 1));
-const coreSegments = computed(() => profile.value?.highValueSegments || []);
-const totalTrendViews = computed(() => trend.value.reduce((value, item) => value + Number(item.totalViews || 0), 0));
-const todayNewFollowers = computed(() => Number(latest.value?.newFollowers || 0));
+const todayNewFollowers = computed(() => Number(model.value?.newFollowers ?? latest.value?.newFollowers ?? 0));
+const displayTrend = computed(() =>
+  trend.value.map((item, index) => (
+    index === trend.value.length - 1
+      ? { ...item, newFollowers: todayNewFollowers.value, netFollowers: todayNetFollowers.value }
+      : item
+  ))
+);
+const trendMax = computed(() => Math.max(...displayTrend.value.map((item) => item.newFollowers), 1));
+const totalLostFollowers = computed(() => displayTrend.value.reduce((value, item) => value + Number(item.lostFollowers || 0), 0));
 const todayNetFollowers = computed(() => Math.max(0, todayNewFollowers.value - Number(latest.value?.lostFollowers || 0)));
 const previousNewFollowers = computed(() => {
   const previous = trend.value[trend.value.length - 2];
@@ -175,21 +103,71 @@ const topFollowerVideoTitle = computed(() => topFollowerVideo.value?.title || to
 const topFollowerVideoFollowers = computed(() => Number(topFollowerVideo.value?.newFollowers || 0));
 const coreAgeGroup = computed(() => topRecord(profile.value?.ageGroups || {})[0] || "--");
 const coreAgeShare = computed(() => Number(topRecord(profile.value?.ageGroups || {})[1] || 0));
+const profileLabelMap = {
+  female: "女性",
+  male: "男性",
+  other: "其他",
+  unknown: "未知",
+  tutorial: "教程",
+  review: "测评",
+  seeding: "种草",
+  vlog: "Vlog",
+  live_clip: "直播切片",
+  lifestyle: "生活方式",
+  beauty: "美妆",
+  office: "职场",
+  student: "学生",
+  commuter: "通勤",
+  "18-24 女性新手用户": "年轻女性",
+  "25-30 职场女性": "职场女性"
+};
+const labelForProfileKey = (key) => {
+  if (!key) return "--";
+  const raw = String(key).trim();
+  const normalized = raw.toLowerCase();
+  if (/^\d{1,2}$/.test(normalized)) return `${normalized}:00`;
+  return profileLabelMap[raw] || profileLabelMap[normalized] || contentLabel(raw) || raw;
+};
+const audienceWordCloudItems = computed(() => {
+  const items = [];
+  const addRecord = (record, type, limit = 3) => {
+    for (const [key, value] of Object.entries(record || {}).sort((a, b) => Number(b[1]) - Number(a[1])).slice(0, limit)) {
+      items.push({ label: labelForProfileKey(key), value: Number(value || 0), type });
+    }
+  };
+
+  addRecord(profile.value?.ageGroups, "age", 2);
+  addRecord(profile.value?.gender, "gender", 2);
+  addRecord(profile.value?.regions, "region", 2);
+  addRecord(profile.value?.activeHours, "time", 2);
+
+  for (const segment of (profile.value?.highValueSegments || []).slice(0, 2)) {
+    items.push({ label: labelForProfileKey(segment.label), value: Number(segment.share || 0), type: "segment" });
+    for (const contentType of (segment.preferredContentTypes || []).slice(0, 2)) {
+      items.push({ label: labelForProfileKey(contentType), value: Number(segment.share || 0) * 0.82, type: "content" });
+    }
+  }
+
+  const max = Math.max(...items.map((item) => item.value), 1);
+  return items
+    .filter((item) => item.label && item.label !== "--")
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 12)
+    .map((item, index) => ({
+      ...item,
+      size: Math.round(12 + (item.value / max) * 22),
+      weight: index < 3 ? 900 : 800,
+      tone: index % 4
+    }));
+});
 const growthEvidence = computed(() =>
-  `依据：今日新增 ${formatNumber(todayNewFollowers.value)}，较昨日 ${newFollowersDelta.value >= 0 ? "+" : ""}${formatNumber(newFollowersDelta.value)}，播放转粉率 ${formatPercent(latest.value?.viewToFollowerRate)}`
+  `依据：今日新增 ${formatNumber(animatedNumber(todayNewFollowers.value))}，较昨日 ${newFollowersDelta.value >= 0 ? "+" : "-"}${formatNumber(Math.abs(animatedNumber(newFollowersDelta.value)))}，播放转粉率 ${formatPercent(animatedViewToFollowerRate.value)}`
 );
 const anomalyEvidence = computed(() =>
-  `依据：掉粉 ${formatNumber(latest.value?.lostFollowers)}，净增 ${formatNumber(todayNetFollowers.value)}，粘性指数 ${formatNumber(latest.value?.stickinessScore)}`
+  `依据：掉粉 ${formatNumber(animatedNumber(latest.value?.lostFollowers))}，净增 ${formatNumber(animatedNumber(todayNetFollowers.value))}，粘性指数 ${formatNumber(Number(latest.value?.stickinessScore || 0) * radarAnimationProgress.value)}`
 );
 const nextStepEvidence = computed(() =>
-  `依据：${coreAgeGroup.value} 占比 ${formatPercent(coreAgeShare.value)}，${topFollowerVideoTitle.value} 新增 ${formatNumber(topFollowerVideoFollowers.value)} 粉`
-);
-const displayTrend = computed(() =>
-  trend.value.map((item, index) => (
-    index === trend.value.length - 1
-      ? { ...item, newFollowers: todayNewFollowers.value, netFollowers: todayNetFollowers.value }
-      : item
-  ))
+  `依据：${coreAgeGroup.value} 占比 ${formatPercent(coreAgeShare.value * radarAnimationProgress.value)}，${topFollowerVideoTitle.value} 新增 ${formatNumber(animatedNumber(topFollowerVideoFollowers.value))} 粉`
 );
 const latestViewToFollowerScore = computed(() => Math.min(100, Math.round(Number(latest.value?.viewToFollowerRate || 0) * 1600)));
 const latestGrowthSpeedScore = computed(() => Math.min(100, Math.round(todayNewFollowers.value / Math.max(trendMax.value, 1) * 100)));
@@ -241,36 +219,99 @@ const growthJudgementRadarAxes = computed(() =>
 const growthJudgementRadarPath = computed(() =>
   smoothClosedPath(growthJudgementRadarItems.value.map((item, index, items) => radarPoint(index, item.value * radarAnimationProgress.value, items.length)))
 );
-const trendChartOption = computed(() =>
-  verticalBarOption(
-    displayTrend.value.map((item) => ({
-      label: item.date?.slice(5) || "",
-      value: item.newFollowers,
-      detail: `新增 ${formatNumber(item.newFollowers)}`
-    })),
-    { barWidth: 38 }
-  )
-);
-const fanConversionPathOption = computed(() =>
-  horizontalBarOption([
-    { label: "播放", value: latest.value?.totalViews || 0, text: formatNumber(latest.value?.totalViews) },
-    { label: "新粉", value: todayNewFollowers.value, text: formatNumber(todayNewFollowers.value), color: "#9a8eff" },
-    { label: "净增", value: todayNetFollowers.value, text: formatNumber(todayNetFollowers.value), color: "#61f4ff" },
-    { label: "掉粉", value: latest.value?.lostFollowers || 0, text: formatNumber(latest.value?.lostFollowers) }
-  ])
-);
+const animatedNumber = (value) => Math.round(Number(value || 0) * radarAnimationProgress.value);
+const animatedViewToFollowerRate = computed(() => Number(latest.value?.viewToFollowerRate || 0) * radarAnimationProgress.value);
+const trendChartOption = computed(() => {
+  const rows = displayTrend.value.map((item) => ({
+    date: item.date?.slice(5) || "",
+    newFollowers: Number(item.newFollowers || 0),
+    netFollowers: Math.max(0, Number(item.netFollowers || 0))
+  }));
+  const maxValue = Math.max(...rows.flatMap((item) => [item.newFollowers, item.netFollowers]), 1);
+  return {
+    animationDuration: 1600,
+    animationDurationUpdate: 1600,
+    tooltip: {
+      trigger: "axis",
+      axisPointer: { type: "line", lineStyle: { color: "rgba(255,255,255,0.34)", width: 1 } },
+      formatter(params) {
+        const row = rows[params[0]?.dataIndex] || {};
+        return `${row.date}<br/>新增粉丝 ${formatNumber(row.newFollowers)}<br/>净增粉丝 ${formatNumber(row.netFollowers)}`;
+      }
+    },
+    grid: { left: 12, right: 16, top: 34, bottom: 30, containLabel: false },
+    legend: {
+      top: 0,
+      right: 4,
+      itemWidth: 10,
+      itemHeight: 10,
+      textStyle: { color: "rgba(255,255,255,0.72)", fontSize: 11, fontWeight: 800 },
+      data: ["新增", "净增"]
+    },
+    xAxis: {
+      type: "category",
+      data: rows.map((item) => item.date),
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { color: "rgba(255,255,255,0.66)", fontSize: 10, fontWeight: 800 }
+    },
+    yAxis: {
+      type: "value",
+      show: true,
+      max: Math.ceil(maxValue * 1.2),
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { show: false },
+      splitLine: { lineStyle: { color: "rgba(255,255,255,0.08)", type: "dashed" } }
+    },
+    series: [
+      {
+        name: "新增",
+        type: "line",
+        smooth: true,
+        symbol: "circle",
+        symbolSize: 10,
+        lineStyle: { width: 5, color: "#ff89b1" },
+        itemStyle: { color: "#ff89b1", borderColor: "#fff", borderWidth: 2 },
+        label: {
+          show: true,
+          position: "top",
+          color: "#fff",
+          fontSize: 11,
+          fontWeight: 850,
+          formatter(params) {
+            return Number(params.value || 0) > 0 ? `+${formatNumber(params.value)}` : "";
+          }
+        },
+        data: rows.map((item) => item.newFollowers)
+      },
+      {
+        name: "净增",
+        type: "line",
+        smooth: true,
+        symbol: "circle",
+        symbolSize: 9,
+        lineStyle: { width: 4, color: "#9a8eff" },
+        itemStyle: { color: "#9a8eff", borderColor: "#fff", borderWidth: 2 },
+        data: rows.map((item) => item.netFollowers)
+      }
+    ]
+  };
+});
+const conversionPathRows = computed(() => [
+  { key: "views", label: "播放", value: latest.value?.totalViews || 0, hint: "流量入口", connector: "× 转粉率" },
+  { key: "followers", label: "新增关注", value: todayNewFollowers.value, hint: formatPercent(animatedViewToFollowerRate.value), connector: "- 掉粉" },
+  { key: "lost", label: "掉粉", value: latest.value?.lostFollowers || 0, hint: "流失", connector: "=" },
+  { key: "net", label: "净增", value: todayNetFollowers.value, hint: "最终增长" }
+]);
 const activeHoursHeatmapOption = computed(() =>
   heatmapOption(
     ["8", "10", "12", "14", "18", "20", "21"],
     ["活跃"],
     [[0, 0, 22], [1, 0, 32], [2, 0, 58], [3, 0, 36], [4, 0, 62], [5, 0, 94], [6, 0, 88]],
-    { countUpLabels: true, labelSuffix: "" }
+    { countUpLabels: true, labelSuffix: "", colors: ["rgba(255, 137, 177, 0.28)", "rgba(255, 137, 177, 0.68)", "#ff89b1"] }
   )
 );
-
-function firstAction(insight) {
-  return insight?.recommendedActions?.[0]?.description || "";
-}
 
 function topRecord(record) {
   if (!record) return ["--", 0];
@@ -292,20 +333,6 @@ function topRecord(record) {
     <div class="dashboard-content">
       <header class="board-header">
         <div class="brand-logo"><i class="fa-solid fa-circle-notch"></i> CreatorPulse</div>
-        <div class="top-pills-tabs" role="tablist">
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            class="top-pill"
-            :class="{ active: activeTab === tab.id }"
-            type="button"
-            role="tab"
-            :aria-selected="activeTab === tab.id"
-            @click="setTab(tab.id)"
-          >
-            {{ tab.label }}
-          </button>
-        </div>
         <div class="user-profile">
           <span class="sync-chip">10s Sync</span>
           <i class="fa-regular fa-bell" style="color:var(--text-dim)"></i>
@@ -325,7 +352,7 @@ function topRecord(record) {
       </section>
 
       <template v-else>
-        <section v-show="activeTab === 'growth'" class="tab-panel active">
+        <section class="tab-panel active">
           <section class="page-title">
             <div><p class="eyebrow">Fan Growth System</p><h1>粉丝分析</h1></div>
             <p class="page-copy">从增长、转化、粘性和画像四个角度判断你的粉丝是否稳定增长，以及你的下一批内容应该服务哪类粉丝。</p>
@@ -334,7 +361,7 @@ function topRecord(record) {
           <section class="diagnosis-strip">
             <article class="diagnosis-card strong">
               <span>增长判断</span>
-              <strong>今日新增 {{ formatNumber(todayNewFollowers) }} 粉，{{ newFollowersDelta >= 0 ? "增长在提速" : "增长较昨日回落" }}</strong>
+              <strong>今日新增 {{ formatNumber(animatedNumber(todayNewFollowers)) }} 粉，{{ newFollowersDelta >= 0 ? "增长在提速" : "增长较昨日回落" }}</strong>
               <small>{{ growthEvidence }}</small>
             </article>
             <article class="diagnosis-card warning">
@@ -351,19 +378,33 @@ function topRecord(record) {
 
           <section class="grid-2">
             <article class="card">
-              <p class="section-label">7 天新增粉丝</p>
+              <p class="section-label">7 天新增/净增趋势</p>
               <ChartPanel class="chart-panel-tall" :option="trendChartOption" />
               <div class="grid-3" style="margin-top:18px">
-                <span class="tag hot">新增 {{ formatNumber(todayNewFollowers) }}</span>
+                <span class="tag hot trend-new-followers-tag">新增 {{ formatNumber(todayNewFollowers) }}</span>
                 <span class="tag purple">净增 {{ formatNumber(todayNetFollowers) }}</span>
-                <span class="tag">播放 {{ formatNumber(totalTrendViews) }}</span>
+                <span class="tag">掉粉 {{ formatNumber(totalLostFollowers) }}</span>
               </div>
             </article>
             <article class="card white">
               <p class="label" style="color:#666">粉丝转化路径</p>
-              <strong class="value large">{{ formatPercent(latest?.viewToFollowerRate) }}</strong>
+              <strong class="value large">{{ formatPercent(animatedViewToFollowerRate) }}</strong>
               <span style="font-size:12px;color:#ff5e5e;font-weight:800">播放到关注</span>
-              <ChartPanel class="chart-panel-funnel" :option="fanConversionPathOption" />
+              <div class="fan-conversion-path" aria-label="播放到关注的转化路径">
+                <template v-for="row in conversionPathRows" :key="row.key">
+                  <div
+                    class="fan-conversion-step"
+                    :class="`step-${row.key}`"
+                    :style="{ '--step-progress': radarAnimationProgress }"
+                  >
+                    <span>{{ row.label }}</span>
+                    <strong>{{ formatNumber(animatedNumber(row.value)) }}</strong>
+                    <em>{{ row.hint }}</em>
+                  </div>
+                  <b v-if="row.connector" class="fan-conversion-connector">{{ row.connector }}</b>
+                </template>
+              </div>
+              <p class="fan-conversion-formula">播放 × 转粉率 = 新增关注；新增关注 - 掉粉 = 净增</p>
             </article>
           </section>
 
@@ -392,9 +433,17 @@ function topRecord(record) {
             </article>
             <article class="card">
               <p class="section-label">粉丝画像</p>
-              <strong class="value">{{ topRecord(profile?.ageGroups)[0] }}</strong>
-              <p class="page-copy" style="margin-top:12px">核心人群占比 {{ formatPercent(topRecord(profile?.ageGroups)[1]) }}，内容应优先服务当前高价值受众。</p>
-              <div style="margin-top:14px"><span class="tag hot">{{ topRecord(profile?.regions)[0] }}</span> <span class="tag purple">{{ topRecord(profile?.gender)[0] }}</span></div>
+              <div class="audience-word-cloud" aria-label="粉丝画像词云">
+                <span
+                  v-for="item in audienceWordCloudItems"
+                  :key="`${item.type}-${item.label}`"
+                  :class="`tone-${item.tone}`"
+                  :style="{ fontSize: `${item.size}px`, fontWeight: item.weight }"
+                >
+                  {{ item.label }}
+                </span>
+              </div>
+              <p class="page-copy" style="margin-top:12px">核心人群 {{ labelForProfileKey(topRecord(profile?.ageGroups)[0]) }}，占比 {{ formatPercent(topRecord(profile?.ageGroups)[1]) }}。</p>
             </article>
             <article class="card">
               <p class="section-label">活跃时间段</p>
@@ -404,125 +453,6 @@ function topRecord(record) {
           </section>
         </section>
 
-        <section v-show="activeTab === 'source'" class="tab-panel active">
-          <section class="page-title">
-            <div><p class="eyebrow">New Fan Attribution</p><h1>新粉来源归因台</h1></div>
-            <p class="page-copy">把新粉来源拆成可复刻的视频和平台路径，避免只看播放量。</p>
-          </section>
-
-          <section class="diagnosis-strip">
-            <article v-for="item in sourceDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
-              <span>{{ item.label }}</span>
-              <strong>{{ item.title }}</strong>
-            </article>
-          </section>
-
-          <section class="grid-2">
-            <article class="card">
-              <p class="section-label">来源证据</p>
-              <div class="insight-list">
-                <div v-for="item in sourceInsights" :key="item.insightId" class="insight-item">
-                  <div><strong>{{ item.title }}</strong><span>{{ item.summary }}</span></div>
-                  <span class="tag hot">{{ item.priority }}</span>
-                </div>
-              </div>
-            </article>
-            <article class="card">
-              <p class="section-label">下一步动作</p>
-              <div class="action-list">
-                <div v-for="item in sourceInsights" :key="item.insightId">
-                  <i class="fa-solid fa-route"></i><span>{{ firstAction(item) }}</span>
-                </div>
-              </div>
-            </article>
-          </section>
-        </section>
-
-        <section v-show="activeTab === 'stickiness'" class="tab-panel active">
-          <section class="page-title">
-            <div><p class="eyebrow">Retention Quality</p><h1>粉丝留存质量台</h1></div>
-            <p class="page-copy">用收藏、评论和连续互动类 Insight 判断你的粉丝是否有质量。</p>
-          </section>
-
-          <section class="diagnosis-strip">
-            <article v-for="item in fanStickinessDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
-              <span>{{ item.label }}</span>
-              <strong>{{ item.title }}</strong>
-            </article>
-          </section>
-
-          <section class="grid-2">
-            <article class="card">
-              <p class="section-label">高粘性行为</p>
-              <div class="insight-list">
-                <div v-for="item in stickinessInsights" :key="item.insightId" class="insight-item">
-                  <div><strong>{{ item.title }}</strong><span>{{ item.summary }}</span></div>
-                  <span class="tag purple">{{ item.type }}</span>
-                </div>
-              </div>
-            </article>
-            <article class="card">
-              <p class="section-label">提升动作</p>
-              <div class="action-list">
-                <div v-for="item in stickinessInsights.flatMap((insight) => insight.recommendedActions).slice(0, 3)" :key="item.actionId">
-                  <i class="fa-solid fa-bookmark"></i><span>{{ item.description }}</span>
-                </div>
-              </div>
-            </article>
-          </section>
-        </section>
-
-        <section v-show="activeTab === 'profile'" class="tab-panel active">
-          <section class="page-title">
-            <div><p class="eyebrow">Audience Strategy Map</p><h1>受众策略地图</h1></div>
-            <p class="page-copy">把粉丝画像转成下一批内容应该服务的人群和时间窗口。</p>
-          </section>
-
-          <section class="diagnosis-strip">
-            <article v-for="item in profileDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
-              <span>{{ item.label }}</span>
-              <strong>{{ item.title }}</strong>
-            </article>
-          </section>
-
-          <section class="grid-3">
-            <article class="card green">
-              <p class="label" style="color:#111">核心人群</p>
-              <strong class="value large">{{ topRecord(profile?.ageGroups)[0] }}</strong>
-              <span style="font-size:12px;font-weight:800">{{ formatPercent(topRecord(profile?.ageGroups)[1]) }}</span>
-            </article>
-            <article class="card">
-              <p class="section-label">主要地域</p>
-              <strong class="value">{{ topRecord(profile?.regions)[0] }}</strong>
-              <span class="delta">{{ formatPercent(topRecord(profile?.regions)[1]) }}</span>
-            </article>
-            <article class="card">
-              <p class="section-label">最佳活跃窗口</p>
-              <strong class="value">{{ topRecord(profile?.activeHours)[0] }}:00</strong>
-              <span class="delta">粉丝活跃高峰</span>
-            </article>
-          </section>
-
-          <section class="grid-2">
-            <article class="card">
-              <p class="section-label">高价值人群分层</p>
-              <div class="insight-list">
-                <div v-for="segment in coreSegments" :key="segment.segmentId" class="insight-item">
-                  <div><strong>{{ segment.label }}</strong><span>偏好 {{ segment.preferredContentTypes.join(" / ") }}，活跃 {{ segment.preferredActiveHours.join(" / ") }} 点</span></div>
-                  <span class="tag hot">{{ formatPercent(segment.share) }}</span>
-                </div>
-              </div>
-            </article>
-            <article class="card">
-              <p class="section-label">内容方向建议</p>
-              <div class="action-list">
-                <div v-for="item in profileInsights.flatMap((insight) => insight.recommendedActions).slice(0, 3)" :key="item.actionId">
-                  <i class="fa-solid fa-user-check"></i><span>{{ item.description }}</span>
-                </div>
-              </div>
-            </article>
-          </section>
-        </section>
       </template>
     </div>
   </main>

@@ -433,17 +433,20 @@ def component_schemas() -> dict[str, Any]:
             },
         ),
         "growthDashboard": object_schema(
-            ["currentSnapshot", "topVideos", "insights"],
+            ["currentSnapshot", "newFollowers", "topVideos", "contentTypeRows", "insights"],
             {
                 "currentSnapshot": {"type": "object"},
+                "newFollowers": {"type": "integer"},
                 "topVideos": {"type": "array", "items": {"type": "object"}},
+                "contentTypeRows": {"type": "array", "items": {"type": "object"}},
                 "insights": {"type": "array", "items": {"$ref": "#/components/schemas/Insight"}},
             },
         ),
         "fansAnalysis": object_schema(
-            ["trend", "audienceProfile", "insights"],
+            ["trend", "newFollowers", "audienceProfile", "insights"],
             {
                 "trend": {"type": "array", "items": {"type": "object"}},
+                "newFollowers": {"type": "integer"},
                 "audienceProfile": {"type": "object"},
                 "insights": {"type": "array", "items": {"$ref": "#/components/schemas/Insight"}},
             },

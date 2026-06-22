@@ -345,9 +345,11 @@ def make_creator_trend(snapshots: list[dict[str, Any]]) -> list[dict[str, Any]]:
         total_views = int(total_views_today / 7 * random.uniform(0.78, 1.24))
         total_interactions = int(total_interactions_today / 7 * random.uniform(0.82, 1.18))
         profile_visits = int(total_profile_visits_today / 7 * random.uniform(0.78, 1.18))
-        stickiness_score = round(random.uniform(68, 82), 1)
+        engagement_rate = pct(total_interactions, total_views)
+        profile_conversion_rate = pct(new_followers, profile_visits)
+        stickiness_score = round(min(100, engagement_rate * 180), 1)
         growth_health_score = round(
-            min(96, 60 + pct(new_followers, max(1, lost_followers)) * 3 + stickiness_score * 0.22),
+            min(100, pct(new_followers, total_views) * 900 + profile_conversion_rate * 100 + stickiness_score * 0.25),
             1,
         )
         rows.append(

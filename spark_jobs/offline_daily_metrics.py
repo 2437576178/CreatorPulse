@@ -42,6 +42,11 @@ OFFLINE_PRIMARY_KEYS = {
     "creator_reports": {"report_id"},
 }
 
+STICKINESS_SCORE_MULTIPLIER = 180
+HEALTH_VIEW_TO_FOLLOWER_MULTIPLIER = 900
+HEALTH_PROFILE_CONVERSION_MULTIPLIER = 100
+HEALTH_STICKINESS_MULTIPLIER = 0.25
+
 
 def pct(numerator: float, denominator: float) -> float:
     if denominator <= 0:
@@ -133,8 +138,12 @@ def aggregate_group(
     view_to_follower_rate = pct(new_followers, views)
     engagement_rate = pct(interactions, views)
     profile_conversion_rate = pct(new_followers, profile_visits)
-    stickiness_score = bounded_score(engagement_rate * 420)
-    growth_health_score = bounded_score(view_to_follower_rate * 7200 + profile_conversion_rate * 120 + stickiness_score * 0.35)
+    stickiness_score = bounded_score(engagement_rate * STICKINESS_SCORE_MULTIPLIER)
+    growth_health_score = bounded_score(
+        view_to_follower_rate * HEALTH_VIEW_TO_FOLLOWER_MULTIPLIER
+        + profile_conversion_rate * HEALTH_PROFILE_CONVERSION_MULTIPLIER
+        + stickiness_score * HEALTH_STICKINESS_MULTIPLIER
+    )
     return {
         **extra_keys,
         "metric_date": metric_date,

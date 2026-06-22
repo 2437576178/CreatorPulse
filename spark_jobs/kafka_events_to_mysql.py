@@ -214,8 +214,8 @@ def aggregate_creator_metric_snapshots(events: list[dict[str, Any]], metric_date
         view_to_follower_rate = pct(new_followers, play_delta)
         engagement_rate = pct(total_interactions, total_views)
         profile_conversion_rate = pct(new_followers, profile_visits)
-        stickiness_score = bounded_score(engagement_rate * 420)
-        growth_health_score = bounded_score(view_to_follower_rate * 7200 + profile_conversion_rate * 120 + stickiness_score * 0.35)
+        stickiness_score = bounded_score(engagement_rate * 180)
+        growth_health_score = bounded_score(view_to_follower_rate * 900 + profile_conversion_rate * 100 + stickiness_score * 0.25)
         rows.append(
             {
                 "snapshot_id": snapshot_id("cms", creator_id, metric_date),

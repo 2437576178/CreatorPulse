@@ -1,11 +1,11 @@
 <script setup>
 import * as echarts from "echarts/core";
-import { BarChart, GaugeChart, HeatmapChart, RadarChart, ScatterChart } from "echarts/charts";
-import { GridComponent, RadarComponent, TooltipComponent, VisualMapComponent } from "echarts/components";
+import { BarChart, GaugeChart, HeatmapChart, LineChart, RadarChart, ScatterChart } from "echarts/charts";
+import { GridComponent, LegendComponent, RadarComponent, TooltipComponent, VisualMapComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
-echarts.use([BarChart, GaugeChart, HeatmapChart, RadarChart, ScatterChart, GridComponent, RadarComponent, TooltipComponent, VisualMapComponent, CanvasRenderer]);
+echarts.use([BarChart, GaugeChart, HeatmapChart, LineChart, RadarChart, ScatterChart, GridComponent, LegendComponent, RadarComponent, TooltipComponent, VisualMapComponent, CanvasRenderer]);
 
 const props = defineProps({
   option: {

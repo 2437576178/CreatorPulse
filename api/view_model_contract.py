@@ -15,11 +15,14 @@ VIEW_MODEL_REQUIRED_FIELDS = {
         "totalViews": int,
         "newViews": int,
         "totalFollowers": int,
+        "newFollowers": int,
         "topVideos": list,
+        "contentTypeRows": list,
         "insights": list,
     },
     "fansAnalysis": {
         "trend": list,
+        "newFollowers": int,
         "audienceProfile": dict,
         "insights": list,
     },
@@ -79,6 +82,7 @@ def validate_view_model(name: str, view_model: dict[str, Any]) -> None:
         waiting_for_events = view_model["currentSnapshot"].get("dataStatus") == "WAITING_FOR_EVENTS"
         if not waiting_for_events:
             require(view_model["topVideos"], "growthDashboard.topVideos cannot be empty")
+            require(view_model["contentTypeRows"], "growthDashboard.contentTypeRows cannot be empty")
 
     if name == "fansAnalysis":
         require(view_model["trend"], "fansAnalysis.trend cannot be empty")

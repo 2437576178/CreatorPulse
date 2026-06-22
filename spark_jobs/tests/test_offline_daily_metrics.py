@@ -71,6 +71,18 @@ class OfflineDailyMetricsTest(unittest.TestCase):
         self.assertLessEqual(creator_row["stickiness_score"], 100)
         self.assertGreaterEqual(creator_row["growth_health_score"], 0)
         self.assertLessEqual(creator_row["growth_health_score"], 100)
+        expected_stickiness = min(100, round((creator_row["total_interactions_delta"] / creator_row["total_views_delta"]) * 180, 2))
+        expected_health = min(
+            100,
+            round(
+                creator_row["view_to_follower_rate"] * 900
+                + (creator_row["new_followers_delta"] / creator_row["profile_visits_delta"]) * 100
+                + expected_stickiness * 0.25,
+                2,
+            ),
+        )
+        self.assertEqual(creator_row["stickiness_score"], expected_stickiness)
+        self.assertEqual(creator_row["growth_health_score"], expected_health)
 
         platform_views = sum(row["views_delta"] for row in result["offline_platform_daily_metrics"])
         video_views = sum(row["views_delta"] for row in result["offline_video_daily_metrics"])

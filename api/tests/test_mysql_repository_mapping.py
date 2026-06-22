@@ -110,6 +110,8 @@ class MySQLRepositoryMappingTest(unittest.TestCase):
     def test_growth_top_kpis_expose_totals_and_deltas(self) -> None:
         contract = MySQLRepository().to_contract(self.table_rows, "creator_001")
         growth = contract["viewModels"]["growthDashboard"]
+        fans = contract["viewModels"]["fansAnalysis"]
+        video_new_followers = sum(row["newFollowers"] for row in contract["videoMetricSnapshots"])
 
         self.assertEqual(growth["platformCount"], len(contract["platformAccounts"]))
         self.assertEqual(growth["newPlatformCount"], 0)
@@ -118,6 +120,25 @@ class MySQLRepositoryMappingTest(unittest.TestCase):
         self.assertEqual(growth["totalViews"], sum(row["views"] for row in contract["videoMetricSnapshots"]))
         self.assertGreaterEqual(growth["newViews"], 0)
         self.assertEqual(growth["totalFollowers"], sum(row["followerCount"] for row in contract["platformAccounts"]))
+        self.assertEqual(growth["newFollowers"], video_new_followers)
+        self.assertEqual(sum(row["newFollowers"] for row in growth["contentTypeRows"]), video_new_followers)
+        self.assertEqual(fans["newFollowers"], growth["newFollowers"])
+        self.assertEqual(fans["trend"][-1]["newFollowers"], growth["newFollowers"])
+        expected_stickiness = round(min(100, max(0, growth["currentSnapshot"]["totalInteractions"] / growth["totalViews"] * 180)), 2)
+        expected_health = round(
+            min(
+                100,
+                max(
+                    0,
+                    growth["newFollowers"] / growth["totalViews"] * 900
+                    + growth["newFollowers"] / growth["currentSnapshot"]["profileVisits"] * 100
+                    + expected_stickiness * 0.25,
+                ),
+            ),
+            2,
+        )
+        self.assertEqual(growth["currentSnapshot"]["stickinessScore"], expected_stickiness)
+        self.assertEqual(growth["currentSnapshot"]["growthHealthScore"], expected_health)
 
     def test_api_contract_exposes_latest_metric_snapshots_and_latest_spark_rows_only(self) -> None:
         rows = {table: [dict(row) for row in table_rows] for table, table_rows in self.table_rows.items()}

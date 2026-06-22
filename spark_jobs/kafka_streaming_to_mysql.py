@@ -440,13 +440,13 @@ def run_streaming_job(config: StreamingConfig, jdbc: dict[str, str]) -> None:
             .withColumn("total_followers", col("new_followers"))
             .withColumn("follower_growth_rate", lit(0.0))
             .withColumn("view_to_follower_rate", col("new_followers") / col("play_delta"))
-            .withColumn("stickiness_score", when(((col("total_interactions") / col("total_views")) * 420) > 100, 100).otherwise((col("total_interactions") / col("total_views")) * 420))
+            .withColumn("stickiness_score", when(((col("total_interactions") / col("total_views")) * 180) > 100, 100).otherwise((col("total_interactions") / col("total_views")) * 180))
             .withColumn(
                 "growth_health_score",
                 when(
-                    ((col("view_to_follower_rate") * 7200) + ((col("new_followers") / col("profile_visits")) * 120) + (col("stickiness_score") * 0.35)) > 100,
+                    ((col("view_to_follower_rate") * 900) + ((col("new_followers") / col("profile_visits")) * 100) + (col("stickiness_score") * 0.25)) > 100,
                     100,
-                ).otherwise((col("view_to_follower_rate") * 7200) + ((col("new_followers") / col("profile_visits")) * 120) + (col("stickiness_score") * 0.35)),
+                ).otherwise((col("view_to_follower_rate") * 900) + ((col("new_followers") / col("profile_visits")) * 100) + (col("stickiness_score") * 0.25)),
             )
             .select(
                 "snapshot_id",

@@ -1132,6 +1132,114 @@ h1 {
   margin-top: 18px;
 }
 
+.fan-conversion-path {
+  display: grid;
+  grid-template-columns: minmax(132px, 1.15fr) 58px minmax(118px, 0.92fr) 50px minmax(96px, 0.72fr) 32px minmax(118px, 0.92fr);
+  gap: 0;
+  align-items: stretch;
+  margin-top: 24px;
+}
+
+.fan-conversion-step {
+  position: relative;
+  min-height: 104px;
+  padding: 14px 12px;
+  border-radius: 16px;
+  background: rgba(17, 17, 17, 0.06);
+  color: #111;
+}
+
+.fan-conversion-step::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: calc(var(--step-progress, 1) * 100%);
+  background: var(--step-color, rgba(17, 17, 17, 0.06));
+  border-radius: 16px;
+  transition: width 120ms linear;
+}
+
+.fan-conversion-connector {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: calc(100% + 26px);
+  min-width: 0;
+  height: 24px;
+  margin: 0 -13px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #fff;
+  color: rgba(17, 17, 17, 0.72);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  font-size: 10px;
+  font-weight: 900;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.fan-conversion-step span,
+.fan-conversion-step em {
+  position: relative;
+  z-index: 1;
+  display: block;
+  color: rgba(17, 17, 17, 0.58);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.fan-conversion-step span {
+  position: absolute;
+  top: 14px;
+  left: 12px;
+  right: 12px;
+}
+
+.fan-conversion-step em {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 14px;
+}
+
+.fan-conversion-step strong {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  right: 12px;
+  z-index: 1;
+  display: block;
+  margin: 0;
+  font-size: 25px;
+  line-height: 1;
+  transform: translateY(-50%);
+}
+
+.fan-conversion-step.step-views {
+  --step-color: #bcff00;
+}
+
+.fan-conversion-step.step-followers,
+.fan-conversion-step.step-net {
+  --step-color: #ff89b1;
+}
+
+.fan-conversion-step.step-lost {
+  --step-color: rgba(17, 17, 17, 0.08);
+}
+
+.fan-conversion-formula {
+  margin-top: 16px;
+  color: rgba(17, 17, 17, 0.62);
+  font-size: 12px;
+  font-weight: 850;
+}
+
 .straight-funnel {
   position: relative;
   display: flex;
@@ -1338,6 +1446,41 @@ h1 {
 
 .chart-panel-heat.compact {
   height: 92px;
+}
+
+.audience-word-cloud {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  min-height: 142px;
+  padding: 12px 2px 4px;
+}
+
+.audience-word-cloud span {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+  white-space: nowrap;
+}
+
+.audience-word-cloud .tone-0 {
+  color: var(--neon-green);
+}
+
+.audience-word-cloud .tone-1 {
+  color: #ff89b1;
+}
+
+.audience-word-cloud .tone-2 {
+  color: var(--neon-purple);
+}
+
+.audience-word-cloud .tone-3 {
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .chart-panel-radar {
@@ -1547,6 +1690,10 @@ h1 {
   background: var(--neon-green);
 }
 
+.tag.trend-new-followers-tag {
+  background: #ff89b1;
+}
+
 .tag.purple {
   color: #111;
   background: var(--neon-purple);
@@ -1618,7 +1765,7 @@ h1 {
 }
 
 .diagnosis-card.warning {
-  background: var(--gold);
+  background: #ff89b1;
   border-color: transparent;
 }
 

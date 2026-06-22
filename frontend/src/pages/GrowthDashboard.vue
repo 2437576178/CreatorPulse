@@ -92,7 +92,8 @@ const accountNewVideoCount = computed(() => model.value?.newVideoCount ?? 0);
 const accountTotalViews = computed(() => model.value?.totalViews ?? totalViews.value);
 const accountNewViews = computed(() => model.value?.newViews ?? 0);
 const accountTotalFollowers = computed(() => model.value?.totalFollowers ?? snapshot.value?.totalFollowers ?? 0);
-const accountNewFollowers = computed(() => totalFollowers.value || snapshot.value?.newFollowers || 0);
+const accountNewFollowers = computed(() => Number(model.value?.newFollowers || 0));
+const accountViewToFollowerRate = computed(() => (accountTotalViews.value ? accountNewFollowers.value / accountTotalViews.value : 0));
 const latestVideoFollowerRows = computed(() => {
   if (isWaitingForEvents.value) {
     return Array.from({ length: 5 }, (_, index) => ({ label: `第${index + 1}条`, value: 0 }));
@@ -105,6 +106,9 @@ const latestVideoFollowerRows = computed(() => {
 });
 
 const contentTypeRows = computed(() => {
+  if (model.value?.contentTypeRows?.length) {
+    return [...model.value.contentTypeRows].sort((a, b) => Number(b.newFollowers || 0) - Number(a.newFollowers || 0));
+  }
   const rows = {};
   for (const video of topVideos.value) {
     rows[video.contentType] ||= { contentType: video.contentType, views: 0, newFollowers: 0, saves: 0 };
@@ -117,12 +121,18 @@ const contentTypeRows = computed(() => {
 const leadingContentType = computed(() => contentTypeRows.value[0]);
 const numberForChart = (value) => Number(value || 0);
 const clampScore = (value) => Math.max(0, Math.min(100, Number(value || 0)));
-const currentGrowthHealthScoreDisplay = computed(() => Math.round(clampScore(snapshot.value?.growthHealthScore)));
+const calibratedStickinessScore = computed(() =>
+  accountTotalViews.value ? clampScore((numberForChart(snapshot.value?.totalInteractions) / accountTotalViews.value) * 180) : clampScore(snapshot.value?.stickinessScore)
+);
+const calibratedGrowthHealthScore = computed(() =>
+  clampScore(accountViewToFollowerRate.value * 900 + (numberForChart(snapshot.value?.profileVisits) ? accountNewFollowers.value / numberForChart(snapshot.value?.profileVisits) : 0) * 100 + calibratedStickinessScore.value * 0.25)
+);
+const currentGrowthHealthScoreDisplay = computed(() => Math.round(calibratedGrowthHealthScore.value));
 const conversionSteps = computed(() => [
   { key: "views", label: "播放", value: totalViews.value, tone: "green" },
   { key: "interactions", label: "互动", value: totalInteractions.value, tone: "purple" },
   { key: "profiles", label: "进主页", value: totalProfiles.value, tone: "cyan" },
-  { key: "followers", label: "关注", value: totalFollowers.value, tone: "green" }
+  { key: "followers", label: "关注", value: accountNewFollowers.value, tone: "green" }
 ]);
 const conversionFunnelRows = computed(() => {
   const maxValue = Math.max(...conversionSteps.value.map((step) => Number(step.value || 0)), 1);
@@ -142,26 +152,25 @@ const conversionFunnelRows = computed(() => {
 const conversionStepHint = (step) => (step.nextRate === null ? "最终关注" : `下一步 ${formatPercent(step.nextRate)}`);
 const healthFormulaParts = computed(() => {
   const current = snapshot.value || {};
-  const newFollowers = numberForChart(current.newFollowers);
   const profileVisits = numberForChart(current.profileVisits);
-  const viewToFollowerRate = numberForChart(current.viewToFollowerRate);
-  const profileConversionRate = profileVisits ? newFollowers / profileVisits : 0;
-  const stickinessScore = numberForChart(current.stickinessScore);
+  const viewToFollowerRate = accountViewToFollowerRate.value;
+  const profileConversionRate = profileVisits ? accountNewFollowers.value / profileVisits : 0;
+  const stickinessScore = calibratedStickinessScore.value;
   const parts = [
     {
       label: "播放转粉",
-      source: `${formatPercent(viewToFollowerRate)} × 7200`,
-      points: viewToFollowerRate * 7200
+      source: `${formatPercent(viewToFollowerRate)} × 900`,
+      points: viewToFollowerRate * 900
     },
     {
       label: "主页承接",
-      source: `${formatPercent(profileConversionRate)} × 120`,
-      points: profileConversionRate * 120
+      source: `${formatPercent(profileConversionRate)} × 100`,
+      points: profileConversionRate * 100
     },
     {
       label: "粉丝粘性",
-      source: `${stickinessScore.toFixed(1)} × 0.35`,
-      points: stickinessScore * 0.35
+      source: `${stickinessScore.toFixed(1)} × 0.25`,
+      points: stickinessScore * 0.25
     }
   ];
   let runningTotal = 0;
@@ -237,7 +246,7 @@ const growthHealthChartOption = computed(() => ({
       axisLabel: { show: false },
       title: { show: false },
       detail: { show: false },
-      data: [{ value: numberForChart(snapshot.value?.stickinessScore), name: "粉丝粘性" }]
+      data: [{ value: calibratedStickinessScore.value, name: "粉丝粘性" }]
     }
   ]
 }));
@@ -473,7 +482,7 @@ function hideHealthTooltip() {
                 <div class="circle-copy">
                   <strong>{{ currentGrowthHealthScoreDisplay }}</strong>
                   <span>账号增长健康度</span>
-                  <span style="color:var(--neon-green);font-weight:800">粘性 {{ snapshot?.stickinessScore }}</span>
+                  <span style="color:var(--neon-green);font-weight:800">粘性 {{ calibratedStickinessScore.toFixed(2) }}</span>
                 </div>
                 <aside v-show="healthTooltip.visible" class="health-formula-tooltip" aria-hidden="true">
                   <span class="health-formula-kicker">健康度公式</span>
@@ -502,7 +511,7 @@ function hideHealthTooltip() {
               <div v-else class="grid-3">
                 <div class="metric-card"><p>今日新粉</p><strong>{{ formatNumber(accountNewFollowers) }}</strong><span class="delta">合计新增 {{ formatNumber(accountNewFollowers) }}</span></div>
                 <div class="metric-card"><p>播放转粉率</p><strong>{{ formatPercent(snapshot?.viewToFollowerRate) }}</strong><span class="delta">高于均值</span></div>
-                <div class="metric-card"><p>粘性指数</p><strong>{{ snapshot?.stickinessScore }}</strong><span class="delta">高价值互动</span></div>
+                <div class="metric-card"><p>粘性指数</p><strong>{{ calibratedStickinessScore.toFixed(2) }}</strong><span class="delta">互动率校准</span></div>
               </div>
             </div>
 
@@ -511,7 +520,7 @@ function hideHealthTooltip() {
                 <div class="metric-card"><p>总粉丝</p><strong>{{ formatNumber(accountTotalFollowers) }}</strong><span class="delta">+{{ formatNumber(accountNewFollowers) }}</span></div>
                 <div class="metric-card"><p>总播放</p><strong>{{ formatNumber(accountTotalViews) }}</strong><span class="delta">+{{ formatNumber(accountNewViews) }}</span></div>
                 <div class="metric-card"><p>总视频</p><strong>{{ formatNumber(accountVideoCount) }}</strong><span class="delta">+{{ formatNumber(accountNewVideoCount) }}</span></div>
-                <div class="metric-card"><p>转粉率</p><strong>{{ formatPercent(totalFollowers / totalViews) }}</strong><span class="delta">{{ conversionRateHint }}</span></div>
+                <div class="metric-card"><p>转粉率</p><strong>{{ formatPercent(accountViewToFollowerRate) }}</strong><span class="delta">{{ conversionRateHint }}</span></div>
                 <div class="metric-card"><p>平台</p><strong>{{ accountPlatformCount }}</strong><span class="delta">{{ accountNewPlatformCount > 0 ? `+${formatNumber(accountNewPlatformCount)}` : "已绑定" }}</span></div>
                 <div class="metric-card"><p>同步延迟</p><strong>5s</strong><span class="delta">实时同步</span></div>
               </div>
@@ -541,8 +550,8 @@ function hideHealthTooltip() {
                 </article>
                 <article v-else class="card white">
                   <p class="label" style="color:#666">看过的人怎么变成粉丝</p>
-                  <strong class="value large">{{ formatNumber(totalFollowers) }}</strong>
-                  <span style="font-size:12px;color:#ff5e5e;font-weight:800">进主页后关注率 {{ formatPercent(totalFollowers / totalProfiles) }}</span>
+                  <strong class="value large">{{ formatNumber(accountNewFollowers) }}</strong>
+                  <span style="font-size:12px;color:#ff5e5e;font-weight:800">进主页后关注率 {{ formatPercent(accountNewFollowers / totalProfiles) }}</span>
                   <div class="straight-funnel" aria-label="播放到关注的转化路径">
                     <span class="straight-funnel-arrow left" aria-hidden="true"></span>
                     <span class="straight-funnel-arrow right" aria-hidden="true"></span>
@@ -562,17 +571,17 @@ function hideHealthTooltip() {
                   </div>
                 </article>
                 <article v-if="isWaitingForEvents" class="card purple">
-                  <p class="label" style="color:#111">最近哪条视频最涨粉</p>
+                  <p class="label" style="color:#111">单条视频最高涨粉</p>
                   <strong class="value large">+0</strong>
-                  <span style="font-size:12px;color:#fff;font-weight:800">这条内容新增 +0 粉，适合继续观察</span>
-                  <span style="display:block;margin-top:4px;font-size:11px;color:rgba(17,17,17,0.62);font-weight:850">下方对比最近 5 条视频的新增粉丝</span>
+                  <span style="font-size:12px;color:#fff;font-weight:800">单条内容新增 +0 粉，适合继续观察</span>
+                  <span style="display:block;margin-top:4px;font-size:11px;color:rgba(17,17,17,0.62);font-weight:850">下方对比涨粉前 5 条视频的新增粉丝</span>
                   <ChartPanel class="chart-panel-bars" :option="latestVideoChartOption" />
                 </article>
                 <article v-else class="card purple">
-                  <p class="label" style="color:#111">最近哪条视频最涨粉</p>
+                  <p class="label" style="color:#111">单条视频最高涨粉</p>
                   <strong class="value large">+{{ formatNumber(topVideos[0]?.newFollowers) }}</strong>
-                  <span style="font-size:12px;color:#fff;font-weight:800">这条内容新增 +{{ formatNumber(topVideos[0]?.newFollowers) }} 粉，适合继续复刻</span>
-                  <span style="display:block;margin-top:4px;font-size:11px;color:rgba(17,17,17,0.62);font-weight:850">下方对比最近 5 条视频的新增粉丝</span>
+                  <span style="font-size:12px;color:#fff;font-weight:800">单条内容新增 +{{ formatNumber(topVideos[0]?.newFollowers) }} 粉，适合继续复刻</span>
+                  <span style="display:block;margin-top:4px;font-size:11px;color:rgba(17,17,17,0.62);font-weight:850">下方对比涨粉前 5 条视频的新增粉丝</span>
                   <ChartPanel class="chart-panel-bars" :option="latestVideoChartOption" />
                 </article>
               </div>
@@ -598,7 +607,7 @@ function hideHealthTooltip() {
                 </article>
                 <article v-else class="card">
                   <p class="section-label">粉丝愿不愿意互动</p>
-                  <strong class="value">粉丝粘性-{{ snapshot?.stickinessScore }}</strong>
+                  <strong class="value">粉丝粘性-{{ calibratedStickinessScore.toFixed(2) }}</strong>
                   <span class="delta">收藏 {{ formatNumber(totalSaves) }}，评论 {{ formatNumber(totalComments) }}</span>
                   <ChartPanel class="chart-panel-mini" :option="stickinessChartOption" />
                 </article>

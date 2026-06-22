@@ -27,6 +27,16 @@ def empty_creator_snapshot(creator_id: str) -> dict[str, Any]:
     }
 
 
+def pct(numerator: float, denominator: float) -> float:
+    if denominator <= 0:
+        return 0.0
+    return round(numerator / denominator, 6)
+
+
+def bounded_score(value: float) -> float:
+    return round(max(0.0, min(100.0, value)), 2)
+
+
 def make_view_models(data: dict[str, Any]) -> dict[str, Any]:
     insights = data["insights"]
 
@@ -44,6 +54,24 @@ def make_view_models(data: dict[str, Any]) -> dict[str, Any]:
     latest_creator = creator_snapshots[-1]
     snapshots = data["videoMetricSnapshots"]
     total_video_views = sum(int(item.get("views") or 0) for item in snapshots)
+    video_new_followers = sum(int(item.get("newFollowers") or 0) for item in snapshots)
+    total_interactions = int(latest_creator.get("totalInteractions") or 0)
+    profile_visits = int(latest_creator.get("profileVisits") or 0)
+    calibrated_stickiness_score = bounded_score(pct(total_interactions, total_video_views) * 180)
+    calibrated_growth_health_score = bounded_score(
+        pct(video_new_followers, total_video_views) * 900
+        + pct(video_new_followers, profile_visits) * 100
+        + calibrated_stickiness_score * 0.25
+    )
+    latest_creator = {
+        **latest_creator,
+        "newFollowers": video_new_followers,
+        "netFollowers": max(0, video_new_followers - int(latest_creator.get("lostFollowers") or 0)),
+        "viewToFollowerRate": pct(video_new_followers, total_video_views),
+        "stickinessScore": calibrated_stickiness_score,
+        "growthHealthScore": calibrated_growth_health_score,
+    }
+    creator_snapshots = [*creator_snapshots[:-1], latest_creator]
     latest_metric_date = str(latest_creator.get("date") or "")[:10]
     new_video_count = sum(
         1
@@ -71,6 +99,29 @@ def make_view_models(data: dict[str, Any]) -> dict[str, Any]:
         key=lambda item: item["newFollowers"],
         reverse=True,
     )[:5]
+    content_type_rows_by_type: dict[str, dict[str, Any]] = {}
+    for row in snapshots:
+        content_type = videos_by_id[row["videoId"]]["contentType"]
+        content_type_rows_by_type.setdefault(
+            content_type,
+            {"contentType": content_type, "views": 0, "newFollowers": 0, "saves": 0},
+        )
+        content_type_rows_by_type[content_type]["views"] += int(row.get("views") or 0)
+        content_type_rows_by_type[content_type]["newFollowers"] += int(row.get("newFollowers") or 0)
+        content_type_rows_by_type[content_type]["saves"] += int(row.get("saves") or 0)
+    content_type_rows = sorted(
+        content_type_rows_by_type.values(),
+        key=lambda item: item["newFollowers"],
+        reverse=True,
+    )
+    fans_trend = [
+        (
+            {**snapshot, "newFollowers": video_new_followers, "netFollowers": max(0, video_new_followers - int(snapshot.get("lostFollowers") or 0))}
+            if index == len(creator_snapshots) - 1
+            else snapshot
+        )
+        for index, snapshot in enumerate(creator_snapshots)
+    ]
 
     return {
         "growthDashboard": {
@@ -82,11 +133,14 @@ def make_view_models(data: dict[str, Any]) -> dict[str, Any]:
             "totalViews": total_video_views,
             "newViews": estimated_new_views,
             "totalFollowers": total_platform_followers,
+            "newFollowers": video_new_followers,
             "topVideos": top_videos,
+            "contentTypeRows": content_type_rows,
             "insights": target("growth."),
         },
         "fansAnalysis": {
-            "trend": creator_snapshots,
+            "trend": fans_trend,
+            "newFollowers": video_new_followers,
             "topVideos": top_videos,
             "audienceProfile": data["audienceProfileSnapshot"],
             "insights": target("fans."),

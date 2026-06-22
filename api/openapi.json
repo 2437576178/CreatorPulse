@@ -1541,14 +1541,25 @@
         "additionalProperties": true,
         "required": [
           "currentSnapshot",
+          "newFollowers",
           "topVideos",
+          "contentTypeRows",
           "insights"
         ],
         "properties": {
           "currentSnapshot": {
             "type": "object"
           },
+          "newFollowers": {
+            "type": "integer"
+          },
           "topVideos": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "contentTypeRows": {
             "type": "array",
             "items": {
               "type": "object"
@@ -1567,6 +1578,7 @@
         "additionalProperties": true,
         "required": [
           "trend",
+          "newFollowers",
           "audienceProfile",
           "insights"
         ],
@@ -1576,6 +1588,9 @@
             "items": {
               "type": "object"
             }
+          },
+          "newFollowers": {
+            "type": "integer"
           },
           "audienceProfile": {
             "type": "object"

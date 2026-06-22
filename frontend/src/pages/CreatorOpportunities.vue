@@ -17,8 +17,7 @@ const emit = defineEmits(["navigate"]);
 
 const tabs = [
   { id: "hot", label: "选题机会" },
-  { id: "advice", label: "怎么拍" },
-  { id: "reference", label: "参考结构" }
+  { id: "advice", label: "怎么拍" }
 ];
 
 const activeTab = ref(window.location.hash?.replace("#", "") || "hot");
@@ -202,20 +201,6 @@ const adviceDiagnosis = computed(() =>
     { label: "预期收益", title: "预计播放转粉率和收藏率会高于泛流量内容" }
   ])
 );
-const referenceDiagnosis = computed(() =>
-  isInitialReferenceOnly.value
-    ? [
-        { key: "initial-structure", label: "初始结构", title: "这里先保留通用高转粉结构，等待你的账号事件后再筛选。", className: "strong" },
-        { key: "initial-warning", label: "避免误用", title: "没有账号事件前，不应该把样本热点当成你的专属结论。", className: "warning" },
-        { key: "initial-action", label: "可先准备", title: "可以先准备标题、封面和脚本模板，等事件数据接入后再发布。", className: "" }
-      ]
-    : diagnosisItems(tabInsights("reference"), [
-    { label: "最强结构", title: "前 8 秒结果预览能显著提高完播和关注", className: "strong" },
-    { label: "避免误用", title: "不要照搬人设，只借鉴转粉结构和节奏", className: "warning" },
-    { label: "可迁移动作", title: "标题、封面、结尾 CTA 都可复用到下一条内容" }
-  ])
-);
-
 function tabInsights(tabId) {
   return (insightByTab.value[tabId] || []).slice(0, 3);
 }
@@ -331,37 +316,6 @@ function tabInsights(tabId) {
           </section>
         </section>
 
-        <section v-show="activeTab === 'reference'" class="tab-panel active">
-          <section class="page-title">
-            <div><p class="eyebrow">High Conversion Pattern</p><h1>高转粉结构拆解</h1></div>
-            <p class="page-copy">只提取可复用内容结构，不做复杂竞品管理。</p>
-          </section>
-          <section class="diagnosis-strip">
-            <article v-for="item in referenceDiagnosis" :key="item.key" class="diagnosis-card" :class="item.className">
-              <span>{{ item.label }}</span><strong>{{ item.title }}</strong>
-            </article>
-          </section>
-          <section class="grid-2">
-            <article class="card">
-              <p class="section-label">结构拆解</p>
-              <table class="table">
-                <tr><th>参考内容特征</th><th>表现</th><th>可借鉴动作</th></tr>
-                <tr><td>前 8 秒结果预览</td><td>完播率 +18%</td><td><span class="tag hot">加入开场</span></td></tr>
-                <tr><td>标题含新手必看</td><td>转粉率 +42%</td><td><span class="tag purple">标题复用</span></td></tr>
-                <tr><td>结尾收藏引导</td><td>收藏率 +31%</td><td><span class="tag">脚本加入</span></td></tr>
-                <tr><td>步骤编号清晰</td><td>评论提问 +24%</td><td><span class="tag">保留章节</span></td></tr>
-              </table>
-            </article>
-            <article class="card">
-              <p class="section-label">你的可复用模板</p>
-              <div class="action-list">
-                <div><i class="fa-solid fa-eye"></i><span>开场先给完整结果，再进入步骤，不先讲背景。</span></div>
-                <div><i class="fa-solid fa-heading"></i><span>标题固定包含人群、时间和结果：新手 / 5 分钟 / 通勤。</span></div>
-                <div><i class="fa-solid fa-bookmark"></i><span>结尾明确说“收藏这条，明早按步骤做”。</span></div>
-              </div>
-            </article>
-          </section>
-        </section>
       </template>
     </div>
   </main>
