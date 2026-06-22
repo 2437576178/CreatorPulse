@@ -858,8 +858,163 @@ h1 {
 }
 
 .chart-panel-funnel {
-  height: 166px;
+  height: 184px;
   margin-top: 18px;
+}
+
+.straight-funnel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-height: 184px;
+  margin-top: 18px;
+  padding: 0 34px 2px;
+}
+
+.straight-funnel-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: var(--funnel-width);
+  min-width: 42%;
+  min-height: 36px;
+  padding: 7px 13px;
+  color: #111;
+  border: 1px solid rgba(255, 255, 255, 0.74);
+  border-radius: 8px;
+  box-shadow: 0 10px 22px rgba(17, 17, 17, 0.1);
+  animation: straight-funnel-grow 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--funnel-delay);
+  transform-origin: center;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  overflow: hidden;
+}
+
+.straight-funnel-step:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(17, 17, 17, 0.16);
+}
+
+.straight-funnel-main {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.straight-funnel-main,
+.straight-funnel-step em {
+  animation: straight-funnel-label 0.28s ease both;
+  animation-delay: calc(var(--funnel-delay) + 0.32s);
+}
+
+.straight-funnel-step span,
+.straight-funnel-step strong,
+.straight-funnel-step em {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.straight-funnel-step span {
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.straight-funnel-step strong {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.straight-funnel-step em {
+  flex: 0 1 auto;
+  max-width: 104px;
+  margin-left: 10px;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 850;
+  color: rgba(17, 17, 17, 0.58);
+}
+
+.straight-funnel-step.tone-green {
+  background: var(--neon-green);
+}
+
+.straight-funnel-step.tone-purple {
+  background: #9a8eff;
+}
+
+.straight-funnel-step.tone-cyan {
+  background: #61f4ff;
+}
+
+.straight-funnel-arrow {
+  position: absolute;
+  top: 2px;
+  bottom: 6px;
+  width: 18px;
+  opacity: 0.82;
+  pointer-events: none;
+}
+
+.straight-funnel-arrow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 11px;
+  left: 50%;
+  width: 2px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.3);
+  transform: translateX(-50%);
+}
+
+.straight-funnel-arrow::after {
+  content: "";
+  position: absolute;
+  right: 3px;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid rgba(17, 17, 17, 0.38);
+  border-bottom: 2px solid rgba(17, 17, 17, 0.38);
+  transform: rotate(45deg);
+}
+
+.straight-funnel-arrow.left {
+  left: 8px;
+}
+
+.straight-funnel-arrow.right {
+  right: 8px;
+}
+
+@keyframes straight-funnel-grow {
+  from {
+    width: 0;
+    min-width: 0;
+  }
+
+  to {
+    width: var(--funnel-width);
+    min-width: 42%;
+  }
+}
+
+@keyframes straight-funnel-label {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .chart-panel-bars {
@@ -1555,6 +1710,7 @@ h1 {
   .diagnosis-strip {
     grid-template-columns: 1fr;
   }
+
 }
 
 @media (max-width: 820px) {

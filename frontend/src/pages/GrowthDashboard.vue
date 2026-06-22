@@ -176,7 +176,28 @@ const leadingContentType = computed(() => contentTypeRows.value[0]);
 const numberForChart = (value) => Number(value || 0);
 const clampScore = (value) => Math.max(0, Math.min(100, Number(value || 0)));
 const currentGrowthHealthScoreDisplay = computed(() => Math.round(clampScore(snapshot.value?.growthHealthScore)));
-
+const conversionSteps = computed(() => [
+  { key: "views", label: "播放", value: totalViews.value, tone: "green" },
+  { key: "interactions", label: "互动", value: totalInteractions.value, tone: "purple" },
+  { key: "profiles", label: "进主页", value: totalProfiles.value, tone: "cyan" },
+  { key: "followers", label: "关注", value: totalFollowers.value, tone: "green" }
+]);
+const conversionFunnelRows = computed(() => {
+  const maxValue = Math.max(...conversionSteps.value.map((step) => Number(step.value || 0)), 1);
+  return conversionSteps.value.map((step, index) => {
+    const next = conversionSteps.value[index + 1];
+    const visualRatio = Math.sqrt(Number(step.value || 0) / maxValue);
+    const nextRate = next && step.value ? next.value / step.value : null;
+    return {
+      ...step,
+      index,
+      realValue: Number(step.value || 0),
+      value: Math.max(34, Math.round(54 + visualRatio * 46)),
+      nextRate
+    };
+  });
+});
+const conversionStepHint = (step) => (step.nextRate === null ? "最终关注" : `下一步 ${formatPercent(step.nextRate)}`);
 const healthFormulaParts = computed(() => {
   const current = snapshot.value || {};
   const newFollowers = numberForChart(current.newFollowers);
@@ -275,57 +296,6 @@ const growthHealthChartOption = computed(() => ({
       title: { show: false },
       detail: { show: false },
       data: [{ value: numberForChart(snapshot.value?.stickinessScore), name: "粉丝粘性" }]
-    }
-  ]
-}));
-
-const funnelChartOption = computed(() => ({
-  animationDuration: 1600,
-  animationDurationUpdate: 1600,
-  tooltip: {
-    trigger: "axis",
-    axisPointer: { type: "shadow" },
-    formatter(params) {
-      const item = params[0];
-      return `${item.name}<br/>${formatNumber(item.value)}`;
-    }
-  },
-  grid: { left: 0, right: 0, top: 4, bottom: 4, containLabel: false },
-  xAxis: { type: "value", show: false, max: Math.max(numberForChart(totalViews.value), 1) },
-  yAxis: {
-    type: "category",
-    inverse: true,
-    axisLine: { show: false },
-    axisTick: { show: false },
-    axisLabel: { show: false },
-    data: ["播放", "互动", "主页访问", "新增关注"]
-  },
-  series: [
-    {
-      type: "bar",
-      barWidth: 34,
-      itemStyle: {
-        borderRadius: 8,
-        color(params) {
-          return ["#bcff00", "#9a8eff", "#61f4ff", "#bcff00"][params.dataIndex];
-        }
-      },
-      label: {
-        show: true,
-        position: "insideLeft",
-        color: "#111",
-        fontSize: 11,
-        fontWeight: 850,
-        formatter(params) {
-          return `${params.name} ${formatNumber(params.value)}`;
-        }
-      },
-      data: [
-        numberForChart(totalViews.value),
-        numberForChart(totalInteractions.value),
-        numberForChart(totalProfiles.value),
-        numberForChart(totalFollowers.value)
-      ]
     }
   ]
 }));
@@ -635,13 +605,45 @@ function hideHealthTooltip() {
                   <p class="label" style="color:#666">看过的人怎么变成粉丝</p>
                   <strong class="value large">0</strong>
                   <span style="font-size:12px;color:#ff5e5e;font-weight:800">从播放、互动、进主页到最后关注，看看粉丝是在哪一步流失的</span>
-                  <ChartPanel class="chart-panel-funnel" :option="funnelChartOption" />
+                  <div class="straight-funnel" aria-label="播放到关注的转化路径">
+                    <span class="straight-funnel-arrow left" aria-hidden="true"></span>
+                    <span class="straight-funnel-arrow right" aria-hidden="true"></span>
+                    <article
+                      v-for="step in conversionFunnelRows"
+                      :key="step.key"
+                      class="straight-funnel-step"
+                      :class="`tone-${step.tone}`"
+                      :style="{ '--funnel-width': `${step.value}%`, '--funnel-delay': `${step.index * 0.12}s` }"
+                    >
+                      <div class="straight-funnel-main">
+                        <span>{{ step.label }}</span>
+                        <strong>{{ formatNumber(step.realValue) }}</strong>
+                      </div>
+                      <em>{{ conversionStepHint(step) }}</em>
+                    </article>
+                  </div>
                 </article>
                 <article v-else class="card white">
                   <p class="label" style="color:#666">看过的人怎么变成粉丝</p>
                   <strong class="value large">{{ formatNumber(totalFollowers) }}</strong>
                   <span style="font-size:12px;color:#ff5e5e;font-weight:800">进主页后关注率 {{ formatPercent(totalFollowers / totalProfiles) }}</span>
-                  <ChartPanel class="chart-panel-funnel" :option="funnelChartOption" />
+                  <div class="straight-funnel" aria-label="播放到关注的转化路径">
+                    <span class="straight-funnel-arrow left" aria-hidden="true"></span>
+                    <span class="straight-funnel-arrow right" aria-hidden="true"></span>
+                    <article
+                      v-for="step in conversionFunnelRows"
+                      :key="step.key"
+                      class="straight-funnel-step"
+                      :class="`tone-${step.tone}`"
+                      :style="{ '--funnel-width': `${step.value}%`, '--funnel-delay': `${step.index * 0.12}s` }"
+                    >
+                      <div class="straight-funnel-main">
+                        <span>{{ step.label }}</span>
+                        <strong>{{ formatNumber(step.realValue) }}</strong>
+                      </div>
+                      <em>{{ conversionStepHint(step) }}</em>
+                    </article>
+                  </div>
                 </article>
                 <article v-if="isWaitingForEvents" class="card purple">
                   <p class="label" style="color:#111">最近哪条视频最涨粉</p>
