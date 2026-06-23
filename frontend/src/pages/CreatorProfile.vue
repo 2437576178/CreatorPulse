@@ -212,6 +212,7 @@ const hasMetricReports = computed(() => reports.value.some((report) => report.st
 const isProfileOnly = computed(() => accounts.value.length === 0);
 const maxLatency = computed(() => Math.max(...accounts.value.map((item) => item.syncLatencySeconds), 0));
 const boundCount = computed(() => accounts.value.filter((item) => item.bindingStatus === "BOUND").length);
+const platformChipText = computed(() => `${boundCount.value}/${accounts.value.length || 0} Platforms`);
 const heartbeatSecondsAgo = computed(() => Math.max(0, Math.floor((heartbeatTick.value - heartbeatAt.value) / 1000)));
 const heartbeatHealthy = computed(() => heartbeatSecondsAgo.value <= 8 && !error.value);
 const reportStatusText = computed(() => (hasMetricReports.value ? "已生成" : "待生成"));
@@ -316,7 +317,6 @@ function tabInsights(tabId) {
   <nav class="left-dock" aria-label="主导航">
     <button class="dock-item" type="button" aria-label="增长总览" @click="emit('navigate', 'growth')"><i class="fa-solid fa-house"></i></button>
     <button class="dock-item" type="button" aria-label="粉丝分析" @click="emit('navigate', 'fans')"><i class="fa-solid fa-users"></i></button>
-    <button class="dock-item" type="button" aria-label="视频分析" @click="emit('navigate', 'video')"><i class="fa-solid fa-play"></i></button>
     <button class="dock-item" type="button" aria-label="内容分布" @click="emit('navigate', 'content')"><i class="fa-solid fa-chart-pie"></i></button>
     <button class="dock-item" type="button" aria-label="机会建议" @click="emit('navigate', 'opportunities')"><i class="fa-solid fa-fire"></i></button>
     <button class="dock-item active" type="button" aria-label="个人中心" @click="emit('navigate', 'profile')"><i class="fa-solid fa-gear"></i></button>
@@ -331,7 +331,7 @@ function tabInsights(tabId) {
             {{ tab.label }}
           </button>
         </div>
-        <div class="user-profile"><span class="sync-chip">6 Platforms</span><i class="fa-regular fa-bell" style="color:var(--text-dim)"></i><div class="user-avatar"></div></div>
+        <div class="user-profile"><span class="sync-chip">{{ platformChipText }}</span><i class="fa-regular fa-bell" style="color:var(--text-dim)"></i><div class="user-avatar"></div></div>
       </header>
 
       <section v-if="loading" class="card app-state-card"><p class="section-label">Loading</p><strong class="value">正在加载个人中心数据</strong></section>

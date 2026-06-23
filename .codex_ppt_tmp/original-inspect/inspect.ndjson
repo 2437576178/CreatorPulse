@@ -1,0 +1,124 @@
+{"kind":"slide","id":"sl/2x4nap4r","slide":1,"title":"CreatorPulse：达人粉丝增长分析与智能创作建议平台","textShapes":4}
+{"kind":"textbox","id":"sh/nyd0z610","slide":1,"textChars":30,"textLines":1}
+{"kind":"textbox","id":"sh/judg7ads","slide":1,"textChars":23,"textLines":1}
+{"kind":"textbox","id":"sh/udg7adsj","slide":1,"textChars":4,"textLines":1}
+{"kind":"textbox","id":"sh/54zidony","slide":1,"textChars":10,"textLines":1}
+{"kind":"image","id":"im/cfa9w3m9","slide":1,"name":"图片 1","bbox":[0,0,124,124]}
+{"kind":"image","id":"im/1032lszq","slide":1,"name":"图片 2","bbox":[124,1.07,118.6,122.93]}
+{"kind":"slide","id":"sl/pg3ex0nu","slide":2,"title":"Slide 2","textShapes":0}
+{"kind":"image","id":"im/idonyd0z","slide":2,"name":"图片 9","bbox":[0,-5.33,124,124]}
+{"kind":"image","id":"im/byhgn29g","slide":2,"name":"图片 10","bbox":[119.33,-4.27,118.6,122.93]}
+{"kind":"slide","id":"sl/s72x4nap","slide":3,"title":"项目团队介绍","textShapes":2}
+{"kind":"textbox","id":"sh/vy90je9c","slide":3,"textChars":6,"textLines":1}
+{"kind":"textbox","id":"sh/o7qpg3ex","slide":3,"textChars":14,"textLines":1}
+{"kind":"image","id":"im/psfil0rq","slide":3,"name":"图片 9","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/w7mp0bi9","slide":3,"name":"图片 10","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/val87ed8","slide":4,"title":"团队成员与分工","textShapes":1}
+{"kind":"textbox","id":"sh/hgn29gr2","slide":4,"textChars":7,"textLines":1}
+{"kind":"image","id":"im/judg7ads","slide":4,"name":"图片 9","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/u9knih4b","slide":4,"name":"图片 10","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/mlkjm1cf","slide":5,"title":"项目背景与痛点","textShapes":2}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":5,"textChars":7,"textLines":1}
+{"kind":"textbox","id":"sh/val87ed8","slide":5,"textChars":18,"textLines":1}
+{"kind":"image","id":"im/bq1oryts","slide":5,"name":"图片 9","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/m58z25kb","slide":5,"name":"图片 10","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/58z25kb6","slide":6,"title":"Slide 6","textShapes":0}
+{"kind":"image","id":"im/ytsvu9kn","slide":6,"name":"图片 5","bbox":[0,0,124,124]}
+{"kind":"image","id":"im/5sneloj2","slide":6,"name":"图片 13","bbox":[124,0,118.6,122.93]}
+{"kind":"slide","id":"sl/0z61032l","slide":7,"title":"Slide 7","textShapes":0}
+{"kind":"image","id":"im/jm1cfa9w","slide":7,"name":"图片 9","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/9knih4by","slide":7,"name":"图片 7","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/fu18jqh0","slide":8,"title":"CreatorPulse解决方案概述","textShapes":1}
+{"kind":"textbox","id":"sh/u9knih4b","slide":8,"textChars":18,"textLines":1}
+{"kind":"image","id":"im/8v6psfil","slide":8,"name":"图片 9","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/je9cvixc","slide":8,"name":"图片 7","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/qh0fepkz","slide":9,"title":"Slide 9","textShapes":0}
+{"kind":"image","id":"im/eloj2t83","slide":9,"name":"图片 17","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/wra5gbq1","slide":9,"name":"图片 18","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/29gr2p8n","slide":10,"title":"系统架构设计","textShapes":2}
+{"kind":"textbox","id":"sh/2hwfyxob","slide":10,"textChars":6,"textLines":1}
+{"kind":"textbox","id":"sh/8jqh0fep","slide":10,"textChars":13,"textLines":1}
+{"kind":"image","id":"im/wfyxobm5","slide":10,"name":"图片 17","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/l0rqd4vm","slide":10,"name":"图片 18","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/re1w7mp0","slide":11,"title":"整体技术架构图","textShapes":1}
+{"kind":"textbox","id":"sh/jqh0fepk","slide":11,"textChars":7,"textLines":1}
+{"kind":"image","id":"im/re1w7mp0","slide":11,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/2t83itgf","slide":11,"name":"图片 8","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/4fu18jqh","slide":12,"title":"核心技术栈选型","textShapes":1}
+{"kind":"textbox","id":"sh/s72x4nap","slide":12,"textChars":7,"textLines":1}
+{"kind":"image","id":"im/rqd4vmtw","slide":12,"name":"图片 4","bbox":[1070,0,108.47,108.47]}
+{"kind":"image","id":"im/25kb6xkf","slide":12,"name":"图片 7","bbox":[1178.47,0,101.53,105.27]}
+{"kind":"slide","id":"sl/lwval87e","slide":13,"title":"Kafka Topic设计与数据流","textShapes":1}
+{"kind":"textbox","id":"sh/l0rqd4vm","slide":13,"textChars":17,"textLines":1}
+{"kind":"image","id":"im/ytsvu9kn","slide":13,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/58z25kb6","slide":13,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/25kb6xkf","slide":14,"title":"Slide 14","textShapes":0}
+{"kind":"image","id":"im/czed8v6p","slide":14,"name":"图片 5","bbox":[0,0,124,124]}
+{"kind":"image","id":"im/nqxs72x4","slide":14,"name":"图片 2","bbox":[124,0,118.6,122.93]}
+{"kind":"slide","id":"sl/7y1kre1w","slide":15,"title":"数据分层存储架构","textShapes":1}
+{"kind":"textbox","id":"sh/yd0z6103","slide":15,"textChars":8,"textLines":1}
+{"kind":"image","id":"im/e9cvixcz","slide":15,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/l87ed8ba","slide":15,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/8z25kb6x","slide":16,"title":"平台功能详解","textShapes":2}
+{"kind":"textbox","id":"sh/e1w7mp0b","slide":16,"textChars":6,"textLines":1}
+{"kind":"textbox","id":"sh/obm58z25","slide":16,"textChars":14,"textLines":1}
+{"kind":"image","id":"im/oj2t83it","slide":16,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/d4vmtwra","slide":16,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/54zidony","slide":17,"title":"增长总览：账号健康度仪表盘","textShapes":1}
+{"kind":"textbox","id":"sh/g3ex0nux","slide":17,"textChars":13,"textLines":1}
+{"kind":"image","id":"im/knih4byh","slide":17,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/v6psfil0","slide":17,"name":"图片 3","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/m58z25kb","slide":18,"title":"粉丝分析：转化与粘性评估","textShapes":1}
+{"kind":"textbox","id":"sh/8v6psfil","slide":18,"textChars":12,"textLines":1}
+{"kind":"image","id":"im/4nap4r65","slide":18,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/t83itgfm","slide":18,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/bat47y1k","slide":19,"title":"视频分析：爆款基因挖掘","textShapes":13}
+{"kind":"textbox","id":"sh/pkzupwb2","slide":19,"textChars":11,"textLines":1}
+{"kind":"shape","id":"sh/ulwval87","slide":19,"name":"圆角矩形 1","bbox":[132.95,132.6,476.06,235.09]}
+{"kind":"textbox","id":"sh/j6tovaho","slide":19,"textChars":36,"textLines":1}
+{"kind":"textbox","id":"sh/c3ylc7u5","slide":19,"textChars":8,"textLines":1}
+{"kind":"textbox","id":"sh/1kre1w7m","slide":19,"textChars":1,"textLines":1}
+{"kind":"shape","id":"sh/uxc3ylc7","slide":19,"name":"圆角矩形 1","bbox":[733.39,132.6,476.06,235.09]}
+{"kind":"textbox","id":"sh/ji5snelo","slide":19,"textChars":1,"textLines":1}
+{"kind":"shape","id":"sh/8bat47y1","slide":19,"name":"圆角矩形 1","bbox":[132.95,395.85,476.06,235.09]}
+{"kind":"textbox","id":"sh/1w7mp0bi","slide":19,"textChars":9,"textLines":1}
+{"kind":"textbox","id":"sh/7ed8bat4","slide":19,"textChars":33,"textLines":1}
+{"kind":"textbox","id":"sh/itgfmlkj","slide":19,"textChars":1,"textLines":1}
+{"kind":"shape","id":"sh/pkzupwb2","slide":19,"name":"圆角矩形 1","bbox":[733.39,395.85,476.06,235.09]}
+{"kind":"textbox","id":"sh/0z61032l","slide":19,"textChars":1,"textLines":1}
+{"kind":"textbox","id":"sh/72x4nap4","slide":19,"textChars":9,"textLines":1}
+{"kind":"textbox","id":"sh/ih4byhgn","slide":19,"textChars":36,"textLines":1}
+{"kind":"textbox","id":"sh/p8nqxs72","slide":19,"textChars":10,"textLines":1}
+{"kind":"textbox","id":"sh/0nuxc3yl","slide":19,"textChars":31,"textLines":1}
+{"kind":"image","id":"im/4fu18jqh","slide":19,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/x0nuxc3y","slide":19,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/j2t83itg","slide":20,"title":"内容分布：多维策略优化","textShapes":1}
+{"kind":"textbox","id":"sh/mhk3q5o7","slide":20,"textChars":11,"textLines":1}
+{"kind":"image","id":"im/4r65wjud","slide":20,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/fu18jqh0","slide":20,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/mhk3q5o7","slide":21,"title":"机会建议：智能创作引擎","textShapes":1}
+{"kind":"textbox","id":"sh/onyd0z61","slide":21,"textChars":11,"textLines":1}
+{"kind":"image","id":"im/eloj2t83","slide":21,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/36hcrmhk","slide":21,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/5wjudg7a","slide":22,"title":"Slide 22","textShapes":0}
+{"kind":"image","id":"im/l87ed8ba","slide":22,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/sneloj2t","slide":22,"name":"图片 3","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/crmhk3q5","slide":23,"title":"核心指标体系定义","textShapes":1}
+{"kind":"textbox","id":"sh/tsvu9kni","slide":23,"textChars":8,"textLines":1}
+{"kind":"image","id":"im/s72x4nap","slide":23,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/lszqtcj6","slide":23,"name":"图片 3","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/bq1oryts","slide":24,"title":"个人中心与报告体系","textShapes":1}
+{"kind":"textbox","id":"sh/dg7adsji","slide":24,"textChars":9,"textLines":1}
+{"kind":"image","id":"im/xs72x4na","slide":24,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/q1orytsv","slide":24,"name":"图片 3","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/61032lsz","slide":25,"title":"项目总结与展望","textShapes":1}
+{"kind":"textbox","id":"sh/0je9cvix","slide":25,"textChars":7,"textLines":1}
+{"kind":"image","id":"im/re1w7mp0","slide":25,"name":"图片 3","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/2t83itgf","slide":25,"name":"图片 4","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"slide","id":"sl/psfil0rq","slide":26,"title":"谢谢观看","textShapes":2}
+{"kind":"textbox","id":"sh/xs72x4na","slide":26,"textChars":4,"textLines":1}
+{"kind":"shape","id":"sh/87ed8bat","slide":26,"name":"文本占位符 3","placeholder":"body","bbox":[0,0,0,0]}
+{"kind":"textbox","id":"sh/fmlkjm1c","slide":26,"textChars":10,"textLines":1}
+{"kind":"image","id":"im/tgfmlkjm","slide":26,"name":"图片 1","bbox":[0,0,124,124]}
+{"kind":"image","id":"im/4vmtwra5","slide":26,"name":"图片 2","bbox":[124,1.07,118.6,122.93]}
+{"kind":"notice","message":"Truncated: omitted 0 lines. Increase maxChars or narrow target."}

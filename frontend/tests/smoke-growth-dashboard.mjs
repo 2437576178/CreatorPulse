@@ -58,12 +58,6 @@ await page.screenshot({ path: resolve(outputDir, "fans-analysis-desktop.png"), f
 
 const pageChecks = [
   {
-    nav: "视频分析",
-    heading: "视频分析",
-    tabs: ["涨粉贡献", "互动质量", "生命周期", "最新视频"],
-    filename: "video-analysis-desktop.png"
-  },
-  {
     nav: "内容分布",
     heading: "内容分布",
     tabs: ["内容类型", "发布时间", "流量来源", "平台分布"],

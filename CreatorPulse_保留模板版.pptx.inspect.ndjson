@@ -1,0 +1,238 @@
+{"kind":"deck","id":"pr/qlo8bp","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"","type":"master","placeholders":[{"name":"title","type":"title","textPreview":"Click to add title"},{"name":"body","type":"body","textPreview":"Click to add text | Second level | Third level | Fourth level | Fifth level"},{"name":"dateTime","type":"dateTime"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"title","placeholders":[{"name":"title","type":"title","textPreview":"Click to add title"},{"name":"subtitle","type":"subtitle","textPreview":"Click to add subtitle"},{"name":"body","type":"body","textPreview":"Presenter name"},{"name":"body","type":"body","textPreview":"20XX.XX.XX"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout2.xml","name":"Title and Content","type":"obj","placeholders":[{"name":"title","type":"title","textPreview":"Click to add title"},{"name":"2","textPreview":"Click to add text | Second level | Third level | Fourth level | Fifth level"},{"name":"dateTime","type":"dateTime"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout3.xml","name":"Agenda","placeholders":[{"name":"title","type":"title","textPreview":"Agenda"},{"name":"8","textPreview":"Click to add text | Second level | Third level | Fourth level | Fifth level"},{"name":"dateTime","type":"dateTime"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout4.xml","name":"Section Header","type":"secHead","placeholders":[{"name":"title","type":"title","textPreview":"Click to add title"},{"name":"body","type":"body","textPreview":"Click to add text"},{"name":"dateTime","type":"dateTime"},{"name":"footer","type":"footer","textPreview":"iSlide"},{"name":"slideNumber","type":"slideNumber"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout5.xml","name":"Title Only","type":"titleOnly","placeholders":[{"name":"title","type":"title","textPreview":"Click to add title"},{"name":"dateTime","type":"dateTime"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout6.xml","name":"Blank","type":"blank","placeholders":[{"name":"dateTime","type":"dateTime"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout7.xml","name":"Closing","placeholders":[{"name":"title","type":"title","textPreview":"Click to add title"},{"name":"body","type":"body","textPreview":"Presenter name"},{"name":"body","type":"body","textPreview":"20XX.XX.XX"}]}
+{"kind":"slide","id":"sl/2x4nap4r","slide":1,"title":"CreatorPulse：达人粉丝增长分析与智能创作建议平台","textShapes":4}
+{"kind":"textbox","id":"sh/nyd0z610","slide":1,"name":"标题 4","placeholder":"title","text":"CreatorPulse：达人粉丝增长分析与智能创作建议平台","textPreview":"CreatorPulse：达人粉丝增长分析与智能创作建议平台","textChars":30,"textLines":1,"bbox":[0,0,0,0]}
+{"kind":"textbox","id":"sh/judg7ads","slide":1,"name":"副标题 8","placeholder":"subtitle","text":"基于大数据的内容创作者增长分析与创作建议平台","textPreview":"基于大数据的内容创作者增长分析与创作建议平台","textChars":22,"textLines":1,"bbox":[0,0,0,0]}
+{"kind":"textbox","id":"sh/udg7adsj","slide":1,"name":"文本占位符 3","placeholder":"body","text":"智人TV","textPreview":"智人TV","textChars":4,"textLines":1,"bbox":[0,0,0,0]}
+{"kind":"textbox","id":"sh/54zidony","slide":1,"name":"文本占位符 6","placeholder":"body","text":"2026/06/21","textPreview":"2026/06/21","textChars":10,"textLines":1,"bbox":[0,0,0,0]}
+{"kind":"image","id":"im/cfa9w3m9","slide":1,"name":"图片 1","bbox":[0,0,124,124]}
+{"kind":"image","id":"im/1032lszq","slide":1,"name":"图片 2","bbox":[124,1.07,118.6,122.93]}
+{"kind":"notes","id":"nt/2x4nap4r","slide":1,"text":""}
+{"kind":"slide","id":"sl/s72x4nap","slide":2,"title":"项目团队介绍","textShapes":2}
+{"kind":"textbox","id":"sh/vy90je9c","slide":2,"name":"标题 4","placeholder":"title","text":"项目团队介绍","textPreview":"项目团队介绍","textChars":6,"textLines":1,"bbox":[325.27,187.8,598.67,155.27]}
+{"kind":"textbox","id":"sh/o7qpg3ex","slide":2,"name":"文本框 1","text":"跨学科协作，构建高效研发体系","textPreview":"跨学科协作，构建高效研发体系","textChars":14,"textLines":1,"bbox":[434.93,342.47,379.27,51.93]}
+{"kind":"image","id":"im/psfil0rq","slide":2,"name":"图片 9","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/w7mp0bi9","slide":2,"name":"图片 10","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/s72x4nap","slide":2,"text":""}
+{"kind":"slide","id":"sl/val87ed8","slide":3,"title":"团队成员与分工","textShapes":1}
+{"kind":"textbox","id":"sh/hgn29gr2","slide":3,"name":"标题 156","placeholder":"title","text":"团队成员与分工","textPreview":"团队成员与分工","textChars":7,"textLines":1,"bbox":[0,0,0,0]}
+{"kind":"image","id":"im/judg7ads","slide":3,"name":"图片 9","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/u9knih4b","slide":3,"name":"图片 10","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/val87ed8","slide":3,"text":""}
+{"kind":"slide","id":"sl/mlkjm1cf","slide":4,"title":"项目介绍：用户痛点","textShapes":6}
+{"kind":"textbox","id":"sh/2lszqtcj","slide":4,"text":"项目介绍：用户痛点","textPreview":"项目介绍：用户痛点","textChars":9,"textLines":1,"bbox":[80,66,850,54]}
+{"kind":"textbox","id":"sh/v6psfil0","slide":4,"text":"内容创作者面对多平台运营时，最难的是把数据变成下一步行动。","textPreview":"内容创作者面对多平台运营时，最难的是把数据变成下一步行动。","textChars":29,"textLines":1,"bbox":[82,128,850,36]}
+{"kind":"shape","id":"sh/h4byhgn2","slide":4,"bbox":[120,227,15,15]}
+{"kind":"textbox","id":"sh/sji5snel","slide":4,"text":"平台数据分散：抖音、B站、小红书等后台割裂，无法统一判断整体增长。","textPreview":"平台数据分散：抖音、B站、小红书等后台割裂，无法统一判断整体增长。","textChars":33,"textLines":1,"bbox":[154,218,960,42]}
+{"kind":"shape","id":"sh/3ylc7u54","slide":4,"bbox":[120,289,15,15]}
+{"kind":"textbox","id":"sh/adsji5sn","slide":4,"text":"播放量难解释增长：高播放不一定带来关注，需要看转粉率和互动质量。","textPreview":"播放量难解释增长：高播放不一定带来关注，需要看转粉率和互动质量。","textChars":32,"textLines":1,"bbox":[154,280,960,42]}
+{"kind":"shape","id":"sh/lszqtcj6","slide":4,"bbox":[120,351,15,15]}
+{"kind":"textbox","id":"sh/s72x4nap","slide":4,"text":"复盘缺少依据：不知道哪些视频真正带来粉丝，下一条内容仍依赖经验。","textPreview":"复盘缺少依据：不知道哪些视频真正带来粉丝，下一条内容仍依赖经验。","textChars":32,"textLines":1,"bbox":[154,342,960,42]}
+{"kind":"shape","id":"sh/3m94fu18","slide":4,"bbox":[120,413,15,15]}
+{"kind":"textbox","id":"sh/a5gbq1or","slide":4,"text":"创作建议不够具体：选题、发布时间、平台侧重缺少可解释的数据支撑。","textPreview":"创作建议不够具体：选题、发布时间、平台侧重缺少可解释的数据支撑。","textChars":32,"textLines":1,"bbox":[154,404,960,42]}
+{"kind":"image","id":"im/bq1oryts","slide":4,"name":"图片 9","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/m58z25kb","slide":4,"name":"图片 10","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/mlkjm1cf","slide":4,"text":""}
+{"kind":"slide","id":"sl/fu18jqh0","slide":5,"title":"项目介绍：我们做了什么","textShapes":12}
+{"kind":"textbox","id":"sh/5wjudg7a","slide":5,"text":"项目介绍：我们做了什么","textPreview":"项目介绍：我们做了什么","textChars":11,"textLines":1,"bbox":[80,66,850,54]}
+{"kind":"textbox","id":"sh/v6psfil0","slide":5,"text":"CreatorPulse 将跨平台数据聚合、增长分析和创作建议放到一个工作台。","textPreview":"CreatorPulse 将跨平台数据聚合、增长分析和创作建议放到一个工作台。","textChars":39,"textLines":1,"bbox":[82,128,850,36]}
+{"kind":"shape","id":"sh/2lszqtcj","slide":5,"bbox":[88,210,500,360]}
+{"kind":"textbox","id":"sh/d8bat47y","slide":5,"text":"核心思路","textPreview":"核心思路","textChars":4,"textLines":1,"bbox":[122,240,430,38]}
+{"kind":"shape","id":"sh/knih4byh","slide":5,"bbox":[128,314,12,12]}
+{"kind":"textbox","id":"sh/vu9knih4","slide":5,"text":"统一采集多平台数据","textPreview":"统一采集多平台数据","textChars":9,"textLines":1,"bbox":[154,302,390,42]}
+{"kind":"shape","id":"sh/29gr2p8n","slide":5,"bbox":[128,372,12,12]}
+{"kind":"textbox","id":"sh/d0z61032","slide":5,"text":"用指标解释粉丝增长","textPreview":"用指标解释粉丝增长","textChars":9,"textLines":1,"bbox":[154,360,390,42]}
+{"kind":"shape","id":"sh/kf6dcbul","slide":5,"bbox":[128,430,12,12]}
+{"kind":"textbox","id":"sh/vixczed8","slide":5,"text":"把分析结果转成创作建议","textPreview":"把分析结果转成创作建议","textChars":11,"textLines":1,"bbox":[154,418,390,42]}
+{"kind":"shape","id":"sh/2x4nap4r","slide":5,"bbox":[128,488,12,12]}
+{"kind":"textbox","id":"sh/25kb6xkf","slide":5,"text":"前端页面直接展示结论","textPreview":"前端页面直接展示结论","textChars":10,"textLines":1,"bbox":[154,476,390,42]}
+{"kind":"shape","id":"sh/rqd4vmtw","slide":5,"bbox":[668,210,500,360]}
+{"kind":"textbox","id":"sh/kb6xkf6d","slide":5,"text":"当前实现","textPreview":"当前实现","textChars":4,"textLines":1,"bbox":[702,240,430,38]}
+{"kind":"shape","id":"sh/9w3m94fu","slide":5,"bbox":[708,314,12,12]}
+{"kind":"textbox","id":"sh/2t83itgf","slide":5,"text":"Vue + Flask 可运行 MVP","textPreview":"Vue + Flask 可运行 MVP","textChars":19,"textLines":1,"bbox":[734,302,390,42]}
+{"kind":"shape","id":"sh/re1w7mp0","slide":5,"bbox":[708,372,12,12]}
+{"kind":"textbox","id":"sh/kzupwb2h","slide":5,"text":"mock / MySQL 双数据源","textPreview":"mock / MySQL 双数据源","textChars":17,"textLines":1,"bbox":[734,360,390,42]}
+{"kind":"shape","id":"sh/9knih4by","slide":5,"bbox":[708,430,12,12]}
+{"kind":"textbox","id":"sh/2p8nqxs7","slide":5,"text":"Kafka / Spark dry-run 链路","textPreview":"Kafka / Spark dry-run 链路","textChars":24,"textLines":1,"bbox":[734,418,390,42]}
+{"kind":"shape","id":"sh/ra5gbq1o","slide":5,"bbox":[708,488,12,12]}
+{"kind":"textbox","id":"sh/xs72x4na","slide":5,"text":"OpenAPI 与预检脚本","textPreview":"OpenAPI 与预检脚本","textChars":13,"textLines":1,"bbox":[734,476,390,42]}
+{"kind":"image","id":"im/8v6psfil","slide":5,"name":"图片 9","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/je9cvixc","slide":5,"name":"图片 7","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/fu18jqh0","slide":5,"text":""}
+{"kind":"slide","id":"sl/29gr2p8n","slide":6,"title":"项目架构","textShapes":2}
+{"kind":"textbox","id":"sh/2hwfyxob","slide":6,"name":"标题 4","placeholder":"title","text":"项目架构","textPreview":"项目架构","textChars":4,"textLines":1,"bbox":[0,0,0,0]}
+{"kind":"textbox","id":"sh/8jqh0fep","slide":6,"name":"文本占位符 24","placeholder":"body","text":"前端展示、后端接口、数据存储和大数据链路分层解耦","textPreview":"前端展示、后端接口、数据存储和大数据链路分层解耦","textChars":24,"textLines":1,"bbox":[0,0,0,0]}
+{"kind":"image","id":"im/wfyxobm5","slide":6,"name":"图片 17","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/l0rqd4vm","slide":6,"name":"图片 18","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/29gr2p8n","slide":6,"text":""}
+{"kind":"slide","id":"sl/re1w7mp0","slide":7,"title":"项目架构：整体链路","textShapes":17}
+{"kind":"textbox","id":"sh/qh0fepkz","slide":7,"text":"项目架构：整体链路","textPreview":"项目架构：整体链路","textChars":9,"textLines":1,"bbox":[80,66,850,54]}
+{"kind":"textbox","id":"sh/j2t83itg","slide":7,"text":"Flask 和 Vue 只读取 API / MySQL，大数据链路可以独立启动和排查。","textPreview":"Flask 和 Vue 只读取 API / MySQL，大数据链路可以独立启动和排查。","textChars":43,"textLines":1,"bbox":[82,128,850,36]}
+{"kind":"shape","id":"sh/8nqxs72x","slide":7,"bbox":[76,292,145,88]}
+{"kind":"textbox","id":"sh/18jqh0fe","slide":7,"text":"Vue 前端","textPreview":"Vue 前端","textChars":6,"textLines":1,"bbox":[86,310,125,26]}
+{"kind":"textbox","id":"sh/ulwval87","slide":7,"text":"页面展示","textPreview":"页面展示","textChars":4,"textLines":1,"bbox":[88,342,121,26]}
+{"kind":"shape","id":"sh/j6tovaho","slide":7,"bbox":[228,336,28,0]}
+{"kind":"shape","id":"sh/pwb2hwfy","slide":7,"bbox":[266,292,145,88]}
+{"kind":"textbox","id":"sh/0bi9s36h","slide":7,"text":"Flask API","textPreview":"Flask API","textChars":9,"textLines":1,"bbox":[276,310,125,26]}
+{"kind":"textbox","id":"sh/7qpg3ex0","slide":7,"text":"接口服务","textPreview":"接口服务","textChars":4,"textLines":1,"bbox":[278,342,121,26]}
+{"kind":"shape","id":"sh/i5sneloj","slide":7,"bbox":[418,336,28,0]}
+{"kind":"shape","id":"sh/p4r65wju","slide":7,"bbox":[456,292,145,88]}
+{"kind":"textbox","id":"sh/wjudg7ad","slide":7,"text":"MySQL","textPreview":"MySQL","textChars":5,"textLines":1,"bbox":[466,310,125,26]}
+{"kind":"textbox","id":"sh/7y1kre1w","slide":7,"text":"指标存储","textPreview":"指标存储","textChars":4,"textLines":1,"bbox":[468,342,121,26]}
+{"kind":"shape","id":"sh/ed8v6psf","slide":7,"bbox":[608,336,28,0]}
+{"kind":"shape","id":"sh/p8nqxs72","slide":7,"bbox":[646,292,145,88]}
+{"kind":"textbox","id":"sh/0nuxc3yl","slide":7,"text":"Flume","textPreview":"Flume","textChars":5,"textLines":1,"bbox":[656,310,125,26]}
+{"kind":"textbox","id":"sh/wval87ed","slide":7,"text":"数据采集","textPreview":"数据采集","textChars":4,"textLines":1,"bbox":[658,342,121,26]}
+{"kind":"shape","id":"sh/pg3ex0nu","slide":7,"bbox":[798,336,28,0]}
+{"kind":"shape","id":"sh/epkzupwb","slide":7,"bbox":[836,292,145,88]}
+{"kind":"textbox","id":"sh/7adsji5s","slide":7,"text":"Kafka","textPreview":"Kafka","textChars":5,"textLines":1,"bbox":[846,310,125,26]}
+{"kind":"textbox","id":"sh/w7mp0bi9","slide":7,"text":"消息队列","textPreview":"消息队列","textChars":4,"textLines":1,"bbox":[848,342,121,26]}
+{"kind":"shape","id":"sh/psfil0rq","slide":7,"bbox":[988,336,28,0]}
+{"kind":"shape","id":"sh/e1w7mp0b","slide":7,"bbox":[1026,292,145,88]}
+{"kind":"textbox","id":"sh/7mp0bi9s","slide":7,"text":"Spark","textPreview":"Spark","textChars":5,"textLines":1,"bbox":[1036,310,125,26]}
+{"kind":"textbox","id":"sh/wfyxobm5","slide":7,"text":"聚合计算","textPreview":"聚合计算","textChars":4,"textLines":1,"bbox":[1038,342,121,26]}
+{"kind":"shape","id":"sh/l0rqd4vm","slide":7,"bbox":[130,479,15,15]}
+{"kind":"textbox","id":"sh/b2hwfyxo","slide":7,"text":"演示主线：Vue -> Flask API -> mock JSON / MySQL。","textPreview":"演示主线：Vue -> Flask API -> mock JSON / MySQL。","textChars":43,"textLines":1,"bbox":[164,470,960,42]}
+{"kind":"shape","id":"sh/mhk3q5o7","slide":7,"bbox":[130,523,15,15]}
+{"kind":"textbox","id":"sh/t83itgfm","slide":7,"text":"大数据链路：mock_generator -> Flume -> Kafka -> Spark Streaming -> MySQL。","textPreview":"大数据链路：mock_generator -> Flume -> Kafka -> Spark Streaming -> MySQL。","textChars":67,"textLines":1,"bbox":[164,514,960,42]}
+{"kind":"shape","id":"sh/4nap4r65","slide":7,"bbox":[130,567,15,15]}
+{"kind":"textbox","id":"sh/bq1oryts","slide":7,"text":"好处：前端、后端、数据处理可以分开开发、验证和排查。","textPreview":"好处：前端、后端、数据处理可以分开开发、验证和排查。","textChars":26,"textLines":1,"bbox":[164,558,960,42]}
+{"kind":"image","id":"im/re1w7mp0","slide":7,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/2t83itgf","slide":7,"name":"图片 8","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/re1w7mp0","slide":7,"text":""}
+{"kind":"slide","id":"sl/8z25kb6x","slide":8,"title":"详细介绍：平台有哪些功能","textShapes":20}
+{"kind":"textbox","id":"sh/h0fepkzu","slide":8,"text":"详细介绍：平台有哪些功能","textPreview":"详细介绍：平台有哪些功能","textChars":12,"textLines":1,"bbox":[80,66,850,54]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":8,"text":"平台围绕“看增长、找原因、给建议”设计 6 个核心页面。","textPreview":"平台围绕“看增长、找原因、给建议”设计 6 个核心页面。","textChars":28,"textLines":1,"bbox":[82,128,850,36]}
+{"kind":"shape","id":"sh/ixczed8v","slide":8,"bbox":[92,198,310,128]}
+{"kind":"shape","id":"sh/bi9s36hc","slide":8,"bbox":[116,226,36,36]}
+{"kind":"textbox","id":"sh/032lszqt","slide":8,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[116,232,36,22]}
+{"kind":"textbox","id":"sh/tovahoza","slide":8,"text":"增长总览","textPreview":"增长总览","textChars":4,"textLines":1,"bbox":[170,222,210,30]}
+{"kind":"textbox","id":"sh/i9s36hcr","slide":8,"text":"账号健康度、粉丝趋势、转化漏斗","textPreview":"账号健康度、粉丝趋势、转化漏斗","textChars":15,"textLines":1,"bbox":[170,262,205,44]}
+{"kind":"shape","id":"sh/bulwval8","slide":8,"bbox":[467,198,310,128]}
+{"kind":"shape","id":"sh/0fepkzup","slide":8,"bbox":[491,226,36,36]}
+{"kind":"textbox","id":"sh/p0bi9s36","slide":8,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[491,232,36,22]}
+{"kind":"textbox","id":"sh/idonyd0z","slide":8,"text":"粉丝分析","textPreview":"粉丝分析","textChars":4,"textLines":1,"bbox":[545,222,210,30]}
+{"kind":"textbox","id":"sh/byhgn29g","slide":8,"text":"新增/掉粉、画像、粘性行为","textPreview":"新增/掉粉、画像、粘性行为","textChars":13,"textLines":1,"bbox":[545,262,205,44]}
+{"kind":"shape","id":"sh/fil0rqd4","slide":8,"bbox":[842,198,310,128]}
+{"kind":"shape","id":"sh/qxs72x4n","slide":8,"bbox":[866,226,36,36]}
+{"kind":"textbox","id":"sh/xobm58z2","slide":8,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[866,232,36,22]}
+{"kind":"textbox","id":"sh/83itgfml","slide":8,"text":"视频分析","textPreview":"视频分析","textChars":4,"textLines":1,"bbox":[920,222,210,30]}
+{"kind":"textbox","id":"sh/fu18jqh0","slide":8,"text":"视频表现、转粉贡献、完播率","textPreview":"视频表现、转粉贡献、完播率","textChars":13,"textLines":1,"bbox":[920,262,205,44]}
+{"kind":"shape","id":"sh/m94fu18j","slide":8,"bbox":[92,368,310,128]}
+{"kind":"shape","id":"sh/x0nuxc3y","slide":8,"bbox":[116,396,36,36]}
+{"kind":"textbox","id":"sh/4fu18jqh","slide":8,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[116,402,36,22]}
+{"kind":"textbox","id":"sh/f6dcbulw","slide":8,"text":"内容分布","textPreview":"内容分布","textChars":4,"textLines":1,"bbox":[170,392,210,30]}
+{"kind":"textbox","id":"sh/mlkjm1cf","slide":8,"text":"平台、类型、发布时间分布","textPreview":"平台、类型、发布时间分布","textChars":12,"textLines":1,"bbox":[170,432,205,44]}
+{"kind":"shape","id":"sh/wra5gbq1","slide":8,"bbox":[467,368,310,128]}
+{"kind":"shape","id":"sh/lc7u54zi","slide":8,"bbox":[491,396,36,36]}
+{"kind":"textbox","id":"sh/eloj2t83","slide":8,"text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[491,402,36,22]}
+{"kind":"textbox","id":"sh/36hcrmhk","slide":8,"text":"机会建议","textPreview":"机会建议","textChars":4,"textLines":1,"bbox":[545,392,210,30]}
+{"kind":"textbox","id":"sh/wfyxobm5","slide":8,"text":"热点话题、选题和发布时间建议","textPreview":"热点话题、选题和发布时间建议","textChars":14,"textLines":1,"bbox":[545,432,205,44]}
+{"kind":"shape","id":"sh/l0rqd4vm","slide":8,"bbox":[842,368,310,128]}
+{"kind":"shape","id":"sh/ed8bat47","slide":8,"bbox":[866,396,36,36]}
+{"kind":"textbox","id":"sh/7u54zido","slide":8,"text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[866,402,36,22]}
+{"kind":"textbox","id":"sh/w7mp0bi9","slide":8,"text":"个人中心","textPreview":"个人中心","textChars":4,"textLines":1,"bbox":[920,392,210,30]}
+{"kind":"textbox","id":"sh/psfil0rq","slide":8,"text":"账号绑定、偏好设置、头像上传","textPreview":"账号绑定、偏好设置、头像上传","textChars":14,"textLines":1,"bbox":[920,432,205,44]}
+{"kind":"image","id":"im/oj2t83it","slide":8,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/d4vmtwra","slide":8,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/8z25kb6x","slide":8,"text":""}
+{"kind":"slide","id":"sl/54zidony","slide":9,"title":"功能一：增长总览","textShapes":5}
+{"kind":"textbox","id":"sh/nih4byhg","slide":9,"text":"功能一：增长总览","textPreview":"功能一：增长总览","textChars":8,"textLines":1,"bbox":[80,66,850,54]}
+{"kind":"textbox","id":"sh/g7adsji5","slide":9,"text":"作用：快速判断账号整体增长状态。","textPreview":"作用：快速判断账号整体增长状态。","textChars":16,"textLines":1,"bbox":[82,128,850,36]}
+{"kind":"shape","id":"sh/9s36hcrm","slide":9,"bbox":[135,239,15,15]}
+{"kind":"textbox","id":"sh/vy90je9c","slide":9,"text":"展示账号健康度、总粉丝、今日新增、今日掉粉和净增趋势。","textPreview":"展示账号健康度、总粉丝、今日新增、今日掉粉和净增趋势。","textChars":27,"textLines":1,"bbox":[169,230,900,42]}
+{"kind":"shape","id":"sh/6dcbulwv","slide":9,"bbox":[135,311,15,15]}
+{"kind":"textbox","id":"sh/d4vmtwra","slide":9,"text":"通过播放 -> 互动 -> 主页访问 -> 关注，查看粉丝转化漏斗。","textPreview":"通过播放 -> 互动 -> 主页访问 -> 关注，查看粉丝转化漏斗。","textChars":34,"textLines":1,"bbox":[169,302,900,42]}
+{"kind":"shape","id":"sh/oj2t83it","slide":9,"bbox":[135,383,15,15]}
+{"kind":"textbox","id":"sh/vmtwra5g","slide":9,"text":"汇总最近视频的涨粉表现，帮助发现增长来源。","textPreview":"汇总最近视频的涨粉表现，帮助发现增长来源。","textChars":21,"textLines":1,"bbox":[169,374,900,42]}
+{"kind":"image","id":"im/knih4byh","slide":9,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/v6psfil0","slide":9,"name":"图片 3","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/54zidony","slide":9,"text":""}
+{"kind":"slide","id":"sl/m58z25kb","slide":10,"title":"功能二：粉丝分析","textShapes":5}
+{"kind":"textbox","id":"sh/nap4r65w","slide":10,"text":"功能二：粉丝分析","textPreview":"功能二：粉丝分析","textChars":8,"textLines":1,"bbox":[80,66,850,54]}
+{"kind":"textbox","id":"sh/upwb2hwf","slide":10,"text":"作用：判断粉丝从哪里来，以及是否具有持续互动价值。","textPreview":"作用：判断粉丝从哪里来，以及是否具有持续互动价值。","textChars":25,"textLines":1,"bbox":[82,128,850,36]}
+{"kind":"shape","id":"sh/54zidony","slide":10,"bbox":[135,239,15,15]}
+{"kind":"textbox","id":"sh/cj6tovah","slide":10,"text":"按平台查看新增粉丝、掉粉和净增粉丝变化。","textPreview":"按平台查看新增粉丝、掉粉和净增粉丝变化。","textChars":20,"textLines":1,"bbox":[169,230,900,42]}
+{"kind":"shape","id":"sh/nyd0z610","slide":10,"bbox":[135,311,15,15]}
+{"kind":"textbox","id":"sh/udg7adsj","slide":10,"text":"分析播放、互动、主页访问到关注的转化路径。","textPreview":"分析播放、互动、主页访问到关注的转化路径。","textChars":21,"textLines":1,"bbox":[169,302,900,42]}
+{"kind":"shape","id":"sh/1032lszq","slide":10,"bbox":[135,383,15,15]}
+{"kind":"textbox","id":"sh/cfa9w3m9","slide":10,"text":"结合评论、收藏、分享、弹幕等行为评估粉丝粘性。","textPreview":"结合评论、收藏、分享、弹幕等行为评估粉丝粘性。","textChars":23,"textLines":1,"bbox":[169,374,900,42]}
+{"kind":"image","id":"im/4nap4r65","slide":10,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/t83itgfm","slide":10,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/m58z25kb","slide":10,"text":""}
+{"kind":"slide","id":"sl/bat47y1k","slide":11,"title":"功能三：视频分析","textShapes":5}
+{"kind":"textbox","id":"sh/mlkjm1cf","slide":11,"text":"功能三：视频分析","textPreview":"功能三：视频分析","textChars":8,"textLines":1,"bbox":[80,66,850,54]}
+{"kind":"textbox","id":"sh/f6dcbulw","slide":11,"text":"作用：找出真正带来粉丝增长的视频。","textPreview":"作用：找出真正带来粉丝增长的视频。","textChars":17,"textLines":1,"bbox":[82,128,850,36]}
+{"kind":"shape","id":"sh/4r65wjud","slide":11,"bbox":[135,239,15,15]}
+{"kind":"textbox","id":"sh/xc3ylc7u","slide":11,"text":"查看单条视频播放、点赞、评论、分享、收藏和完播率。","textPreview":"查看单条视频播放、点赞、评论、分享、收藏和完播率。","textChars":25,"textLines":1,"bbox":[169,230,900,42]}
+{"kind":"shape","id":"sh/mtwra5gb","slide":11,"bbox":[135,311,15,15]}
+{"kind":"textbox","id":"sh/fepkzupw","slide":11,"text":"计算视频涨粉贡献，避免只看播放量判断内容价值。","textPreview":"计算视频涨粉贡献，避免只看播放量判断内容价值。","textChars":23,"textLines":1,"bbox":[169,302,900,42]}
+{"kind":"shape","id":"sh/4zidonyd","slide":11,"bbox":[135,383,15,15]}
+{"kind":"textbox","id":"sh/xkf6dcbu","slide":11,"text":"对比不同视频表现，辅助复盘爆款内容特征。","textPreview":"对比不同视频表现，辅助复盘爆款内容特征。","textChars":20,"textLines":1,"bbox":[169,374,900,42]}
+{"kind":"image","id":"im/4fu18jqh","slide":11,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/x0nuxc3y","slide":11,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/bat47y1k","slide":11,"text":""}
+{"kind":"slide","id":"sl/j2t83itg","slide":12,"title":"功能四：内容分布","textShapes":5}
+{"kind":"textbox","id":"sh/fepkzupw","slide":12,"text":"功能四：内容分布","textPreview":"功能四：内容分布","textChars":8,"textLines":1,"bbox":[80,66,850,54]}
+{"kind":"textbox","id":"sh/72x4nap4","slide":12,"text":"作用：帮助创作者优化平台投入和内容结构。","textPreview":"作用：帮助创作者优化平台投入和内容结构。","textChars":20,"textLines":1,"bbox":[82,128,850,36]}
+{"kind":"shape","id":"sh/ih4byhgn","slide":12,"bbox":[135,239,15,15]}
+{"kind":"textbox","id":"sh/p8nqxs72","slide":12,"text":"按平台查看内容数量、播放和互动表现。","textPreview":"按平台查看内容数量、播放和互动表现。","textChars":18,"textLines":1,"bbox":[169,230,900,42]}
+{"kind":"shape","id":"sh/0nuxc3yl","slide":12,"bbox":[135,311,15,15]}
+{"kind":"textbox","id":"sh/7ed8bat4","slide":12,"text":"按内容类型分析哪类视频更容易涨粉。","textPreview":"按内容类型分析哪类视频更容易涨粉。","textChars":17,"textLines":1,"bbox":[169,302,900,42]}
+{"kind":"shape","id":"sh/itgfmlkj","slide":12,"bbox":[135,383,15,15]}
+{"kind":"textbox","id":"sh/pkzupwb2","slide":12,"text":"按发布时间观察效果，辅助调整发布节奏。","textPreview":"按发布时间观察效果，辅助调整发布节奏。","textChars":19,"textLines":1,"bbox":[169,374,900,42]}
+{"kind":"image","id":"im/4r65wjud","slide":12,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/fu18jqh0","slide":12,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/j2t83itg","slide":12,"text":""}
+{"kind":"slide","id":"sl/mhk3q5o7","slide":13,"title":"功能五：机会建议","textShapes":5}
+{"kind":"textbox","id":"sh/7y1kre1w","slide":13,"text":"功能五：机会建议","textPreview":"功能五：机会建议","textChars":8,"textLines":1,"bbox":[80,66,850,54]}
+{"kind":"textbox","id":"sh/ed8v6psf","slide":13,"text":"作用：把数据分析转成下一条内容的行动建议。","textPreview":"作用：把数据分析转成下一条内容的行动建议。","textChars":21,"textLines":1,"bbox":[82,128,850,36]}
+{"kind":"shape","id":"sh/p8nqxs72","slide":13,"bbox":[135,239,15,15]}
+{"kind":"textbox","id":"sh/0nuxc3yl","slide":13,"text":"根据热点话题、历史表现和粉丝画像推荐选题。","textPreview":"根据热点话题、历史表现和粉丝画像推荐选题。","textChars":21,"textLines":1,"bbox":[169,230,900,42]}
+{"kind":"shape","id":"sh/4zidonyd","slide":13,"bbox":[135,311,15,15]}
+{"kind":"textbox","id":"sh/xkf6dcbu","slide":13,"text":"给出发布时间、平台侧重、标题封面等建议。","textPreview":"给出发布时间、平台侧重、标题封面等建议。","textChars":20,"textLines":1,"bbox":[169,302,900,42]}
+{"kind":"shape","id":"sh/mtwra5gb","slide":13,"bbox":[135,383,15,15]}
+{"kind":"textbox","id":"sh/fepkzupw","slide":13,"text":"每条建议保留证据指标，便于解释为什么推荐。","textPreview":"每条建议保留证据指标，便于解释为什么推荐。","textChars":21,"textLines":1,"bbox":[169,374,900,42]}
+{"kind":"image","id":"im/eloj2t83","slide":13,"name":"图片 5","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/36hcrmhk","slide":13,"name":"图片 2","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/mhk3q5o7","slide":13,"text":""}
+{"kind":"slide","id":"sl/61032lsz","slide":14,"title":"项目总结与展望","textShapes":12}
+{"kind":"textbox","id":"sh/rytsvu9k","slide":14,"text":"项目总结与展望","textPreview":"项目总结与展望","textChars":7,"textLines":1,"bbox":[80,66,850,54]}
+{"kind":"textbox","id":"sh/yd0z6103","slide":14,"text":"当前项目已形成可运行 MVP，后续重点是真实链路联调。","textPreview":"当前项目已形成可运行 MVP，后续重点是真实链路联调。","textChars":27,"textLines":1,"bbox":[82,128,850,36]}
+{"kind":"shape","id":"sh/90je9cvi","slide":14,"bbox":[88,210,500,360]}
+{"kind":"textbox","id":"sh/gfmlkjm1","slide":14,"text":"已完成","textPreview":"已完成","textChars":3,"textLines":1,"bbox":[122,240,430,38]}
+{"kind":"shape","id":"sh/rmhk3q5o","slide":14,"bbox":[128,314,12,12]}
+{"kind":"textbox","id":"sh/y1kre1w7","slide":14,"text":"6 个 Vue 前端页面","textPreview":"6 个 Vue 前端页面","textChars":12,"textLines":1,"bbox":[154,302,390,42]}
+{"kind":"shape","id":"sh/9s36hcrm","slide":14,"bbox":[128,372,12,12]}
+{"kind":"textbox","id":"sh/g7adsji5","slide":14,"text":"Flask API 与 OpenAPI","textPreview":"Flask API 与 OpenAPI","textChars":19,"textLines":1,"bbox":[154,360,390,42]}
+{"kind":"shape","id":"sh/nih4byhg","slide":14,"bbox":[128,430,12,12]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":14,"text":"mock / MySQL 数据源","textPreview":"mock / MySQL 数据源","textChars":16,"textLines":1,"bbox":[154,418,390,42]}
+{"kind":"shape","id":"sh/61032lsz","slide":14,"bbox":[128,488,12,12]}
+{"kind":"textbox","id":"sh/vmtwra5g","slide":14,"text":"Kafka / Spark dry-run","textPreview":"Kafka / Spark dry-run","textChars":21,"textLines":1,"bbox":[154,476,390,42]}
+{"kind":"shape","id":"sh/o7qpg3ex","slide":14,"bbox":[668,210,500,360]}
+{"kind":"textbox","id":"sh/dsji5sne","slide":14,"text":"下一步","textPreview":"下一步","textChars":3,"textLines":1,"bbox":[702,240,430,38]}
+{"kind":"shape","id":"sh/6dcbulwv","slide":14,"bbox":[708,314,12,12]}
+{"kind":"textbox","id":"sh/vy90je9c","slide":14,"text":"补齐真实 .env 配置","textPreview":"补齐真实 .env 配置","textChars":12,"textLines":1,"bbox":[734,302,390,42]}
+{"kind":"shape","id":"sh/oj2t83it","slide":14,"bbox":[708,372,12,12]}
+{"kind":"textbox","id":"sh/d4vmtwra","slide":14,"text":"按 preflight 分阶段验证","textPreview":"按 preflight 分阶段验证","textChars":17,"textLines":1,"bbox":[734,360,390,42]}
+{"kind":"shape","id":"sh/6hcrmhk3","slide":14,"bbox":[708,430,12,12]}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":14,"text":"联通 Kafka -> Spark -> MySQL","textPreview":"联通 Kafka -> Spark -> MySQL","textChars":26,"textLines":1,"bbox":[734,418,390,42]}
+{"kind":"shape","id":"sh/l87ed8ba","slide":14,"bbox":[708,488,12,12]}
+{"kind":"textbox","id":"sh/sneloj2t","slide":14,"text":"完善更多真实数据场景","textPreview":"完善更多真实数据场景","textChars":10,"textLines":1,"bbox":[734,476,390,42]}
+{"kind":"image","id":"im/re1w7mp0","slide":14,"name":"图片 3","bbox":[1044.33,0,124,124]}
+{"kind":"image","id":"im/2t83itgf","slide":14,"name":"图片 4","bbox":[1161.4,0,118.6,122.93]}
+{"kind":"notes","id":"nt/61032lsz","slide":14,"text":""}
+{"kind":"slide","id":"sl/psfil0rq","slide":15,"title":"谢谢观看","textShapes":2}
+{"kind":"textbox","id":"sh/xs72x4na","slide":15,"name":"标题 4","placeholder":"title","text":"谢谢观看","textPreview":"谢谢观看","textChars":4,"textLines":1,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/87ed8bat","slide":15,"name":"文本占位符 3","placeholder":"body","bbox":[0,0,0,0]}
+{"kind":"textbox","id":"sh/fmlkjm1c","slide":15,"name":"文本占位符 6","placeholder":"body","text":"2026/06/21","textPreview":"2026/06/21","textChars":10,"textLines":1,"bbox":[0,0,0,0]}
+{"kind":"image","id":"im/tgfmlkjm","slide":15,"name":"图片 1","bbox":[0,0,124,124]}
+{"kind":"image","id":"im/4vmtwra5","slide":15,"name":"图片 2","bbox":[124,1.07,118.6,122.93]}
+{"kind":"notes","id":"nt/psfil0rq","slide":15,"text":""}

@@ -17,6 +17,7 @@ if str(ROOT_DIR) not in sys.path:
 from database.import_mock_to_mysql import build_table_rows, load_json  # noqa: E402
 from mysql_repository import MySQLRepository  # noqa: E402
 from registration_service import seed_registered_creator_rows  # noqa: E402
+from view_model_builder import growth_health_score, pct  # noqa: E402
 
 
 class MySQLRepositoryMappingTest(unittest.TestCase):
@@ -111,7 +112,8 @@ class MySQLRepositoryMappingTest(unittest.TestCase):
         contract = MySQLRepository().to_contract(self.table_rows, "creator_001")
         growth = contract["viewModels"]["growthDashboard"]
         fans = contract["viewModels"]["fansAnalysis"]
-        video_new_followers = sum(row["newFollowers"] for row in contract["videoMetricSnapshots"])
+        latest_creator_snapshot = contract["creatorMetricSnapshots"][-1]
+        today_new_followers = latest_creator_snapshot["newFollowers"]
 
         self.assertEqual(growth["platformCount"], len(contract["platformAccounts"]))
         self.assertEqual(growth["newPlatformCount"], 0)
@@ -119,23 +121,25 @@ class MySQLRepositoryMappingTest(unittest.TestCase):
         self.assertIsInstance(growth["newVideoCount"], int)
         self.assertEqual(growth["totalViews"], sum(row["views"] for row in contract["videoMetricSnapshots"]))
         self.assertGreaterEqual(growth["newViews"], 0)
+        self.assertEqual(growth["totalInteractions"], growth["currentSnapshot"]["totalInteractions"])
+        self.assertEqual(growth["profileVisits"], growth["currentSnapshot"]["profileVisits"])
         self.assertEqual(growth["totalFollowers"], sum(row["followerCount"] for row in contract["platformAccounts"]))
-        self.assertEqual(growth["newFollowers"], video_new_followers)
-        self.assertEqual(sum(row["newFollowers"] for row in growth["contentTypeRows"]), video_new_followers)
+        self.assertEqual(growth["newFollowers"], today_new_followers)
+        self.assertEqual(growth["currentSnapshot"]["newFollowers"], today_new_followers)
+        self.assertEqual(growth["syncLatencySeconds"], max(row["syncLatencySeconds"] for row in contract["platformAccounts"]))
+        self.assertEqual(fans["syncLatencySeconds"], growth["syncLatencySeconds"])
+        self.assertEqual(contract["viewModels"]["contentDistribution"]["syncLatencySeconds"], growth["syncLatencySeconds"])
+        self.assertEqual(contract["viewModels"]["opportunities"]["syncLatencySeconds"], growth["syncLatencySeconds"])
+        self.assertIn(growth["conversionRateStatus"], {"高于目标", "接近目标", "低于目标"})
+        self.assertEqual(sum(row["newFollowers"] for row in growth["contentTypeRows"]), today_new_followers)
         self.assertEqual(fans["newFollowers"], growth["newFollowers"])
         self.assertEqual(fans["trend"][-1]["newFollowers"], growth["newFollowers"])
         expected_stickiness = round(min(100, max(0, growth["currentSnapshot"]["totalInteractions"] / growth["totalViews"] * 180)), 2)
-        expected_health = round(
-            min(
-                100,
-                max(
-                    0,
-                    growth["newFollowers"] / growth["totalViews"] * 900
-                    + growth["newFollowers"] / growth["currentSnapshot"]["profileVisits"] * 100
-                    + expected_stickiness * 0.25,
-                ),
-            ),
-            2,
+        expected_health = growth_health_score(
+            view_to_follower_rate=pct(growth["newFollowers"], growth["totalViews"]),
+            profile_conversion_rate=pct(growth["newFollowers"], growth["currentSnapshot"]["profileVisits"]),
+            interaction_rate=pct(growth["currentSnapshot"]["totalInteractions"], growth["totalViews"]),
+            retained_follower_rate=pct(growth["currentSnapshot"]["netFollowers"], growth["newFollowers"]),
         )
         self.assertEqual(growth["currentSnapshot"]["stickinessScore"], expected_stickiness)
         self.assertEqual(growth["currentSnapshot"]["growthHealthScore"], expected_health)

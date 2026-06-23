@@ -14,8 +14,12 @@ VIEW_MODEL_REQUIRED_FIELDS = {
         "newVideoCount": int,
         "totalViews": int,
         "newViews": int,
+        "totalInteractions": int,
+        "profileVisits": int,
         "totalFollowers": int,
         "newFollowers": int,
+        "syncLatencySeconds": int,
+        "conversionRateStatus": str,
         "topVideos": list,
         "contentTypeRows": list,
         "insights": list,
@@ -23,6 +27,7 @@ VIEW_MODEL_REQUIRED_FIELDS = {
     "fansAnalysis": {
         "trend": list,
         "newFollowers": int,
+        "syncLatencySeconds": int,
         "audienceProfile": dict,
         "insights": list,
     },
@@ -35,10 +40,12 @@ VIEW_MODEL_REQUIRED_FIELDS = {
     },
     "contentDistribution": {
         "sparkPlatformSummaries": list,
+        "syncLatencySeconds": int,
         "insights": list,
     },
     "opportunities": {
         "topics": list,
+        "syncLatencySeconds": int,
         "insights": list,
     },
     "profile": {

@@ -7,7 +7,6 @@ import CreatorProfile from "./pages/CreatorProfile.vue";
 import FansAnalysis from "./pages/FansAnalysis.vue";
 import GrowthDashboard from "./pages/GrowthDashboard.vue";
 import LoginPage from "./pages/LoginPage.vue";
-import VideoAnalysis from "./pages/VideoAnalysis.vue";
 import { fetchMe, logout, uploadAvatar } from "./services/api";
 
 const isAdminSimulationPath = () => window.location.pathname === "/admin/simulation";
@@ -26,7 +25,6 @@ let chartReplayTimer = null;
 const defaultHashByPage = {
   growth: "overview",
   fans: "growth",
-  video: "latest",
   content: "platform",
   opportunities: "hot",
   profile: "reports"
@@ -58,7 +56,7 @@ const currentPage = computed(() => {
   if (page.value === "adminSimulation") {
     return page.value;
   }
-  if (["growth", "fans", "video", "content", "opportunities", "profile"].includes(page.value)) {
+  if (["growth", "fans", "content", "opportunities", "profile"].includes(page.value)) {
     return page.value;
   }
   return "growth";
@@ -468,7 +466,6 @@ async function handleLogout() {
         <div :key="currentPage" class="page-transition-shell">
           <GrowthDashboard v-if="currentPage === 'growth'" :active-page="currentPage" @navigate="setPage" />
           <FansAnalysis v-else-if="currentPage === 'fans'" :active-page="currentPage" @navigate="setPage" />
-          <VideoAnalysis v-else-if="currentPage === 'video'" :active-page="currentPage" @navigate="setPage" />
           <ContentDistribution v-else-if="currentPage === 'content'" :active-page="currentPage" @navigate="setPage" />
           <CreatorOpportunities v-else-if="currentPage === 'opportunities'" :active-page="currentPage" @navigate="setPage" />
           <CreatorProfile v-else :active-page="currentPage" @navigate="setPage" />

@@ -75,6 +75,8 @@ const latest = computed(() => trend.value[trend.value.length - 1]);
 const topVideos = computed(() => model.value?.topVideos || []);
 const profile = computed(() => model.value?.audienceProfile);
 const insights = computed(() => model.value?.insights || []);
+const syncLatencySeconds = computed(() => Number(model.value?.syncLatencySeconds ?? 0));
+const syncLatencyDisplay = computed(() => `${formatNumber(syncLatencySeconds.value)}s`);
 
 const growthInsights = computed(() =>
   insights.value.filter((insight) => (insight.pageTargets || []).includes("fans.growth")).slice(0, 3)
@@ -323,7 +325,6 @@ function topRecord(record) {
   <nav class="left-dock" aria-label="主导航">
     <button class="dock-item" type="button" aria-label="增长总览" @click="emit('navigate', 'growth')"><i class="fa-solid fa-house"></i></button>
     <button class="dock-item active" type="button" aria-label="粉丝分析" @click="emit('navigate', 'fans')"><i class="fa-solid fa-users"></i></button>
-    <button class="dock-item" type="button" aria-label="视频分析" @click="emit('navigate', 'video')"><i class="fa-solid fa-play"></i></button>
     <button class="dock-item" type="button" aria-label="内容分布" @click="emit('navigate', 'content')"><i class="fa-solid fa-chart-pie"></i></button>
     <button class="dock-item" type="button" aria-label="机会建议" @click="emit('navigate', 'opportunities')"><i class="fa-solid fa-fire"></i></button>
     <button class="dock-item" type="button" aria-label="个人中心" @click="emit('navigate', 'profile')"><i class="fa-solid fa-gear"></i></button>
@@ -334,7 +335,7 @@ function topRecord(record) {
       <header class="board-header">
         <div class="brand-logo"><i class="fa-solid fa-circle-notch"></i> CreatorPulse</div>
         <div class="user-profile">
-          <span class="sync-chip">10s Sync</span>
+          <span class="sync-chip">{{ syncLatencyDisplay }} Sync</span>
           <i class="fa-regular fa-bell" style="color:var(--text-dim)"></i>
           <div class="user-avatar"></div>
         </div>

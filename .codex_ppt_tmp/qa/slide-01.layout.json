@@ -1,0 +1,603 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/27fsrk",
+    "id": "27fsrk",
+    "slide": 1,
+    "layoutId": "7a5d6366-2b33-4e13-8288-bc3805569a55",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "f6ce776a-c33e-4897-b19b-1ec0a914a7cc",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#0B1220",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "CreatorPulse",
+    "colors": {
+      "accent1": "#246BFE",
+      "accent2": "#16A3A6",
+      "accent3": "#F59E0B",
+      "accent4": "#20A66A",
+      "accent5": "#E45757",
+      "accent6": "#7C3AED",
+      "bg1": "#FFFFFF",
+      "bg2": "#F7FAFC",
+      "tx1": "#172033",
+      "tx2": "#5F6B7A",
+      "dk1": "#000000",
+      "dk2": "#0B1220",
+      "lt1": "#FFFFFF",
+      "lt2": "#EEF4F8",
+      "hlink": "#246BFE",
+      "folHlink": "#7C3AED"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "7a5d6366-2b33-4e13-8288-bc3805569a55",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "f6ce776a-c33e-4897-b19b-1ec0a914a7cc",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "f6ce776a-c33e-4897-b19b-1ec0a914a7cc",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/qd4vmtwr",
+      "id": "1",
+      "bbox": [
+        700,
+        0,
+        580,
+        720
+      ],
+      "alt": "数据分析工作台",
+      "contentType": "image/png",
+      "imageCrop": {
+        "left": 0.12,
+        "top": 0.05,
+        "right": 0.08,
+        "bottom": 0.02
+      },
+      "imageFit": "cover",
+      "asset": {
+        "assetId": "ea31390b-d266-44e2-9b38-60b24ae35179",
+        "contentType": "image/png",
+        "byteLength": 1741198
+      }
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gn29gr2p",
+      "id": "2",
+      "bbox": [
+        640,
+        0,
+        640,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "rgba(11, 18, 32, 0.66667)",
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/58z25kb6",
+      "id": "3",
+      "bbox": [
+        0,
+        0,
+        760,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#0B1220",
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/y90je9cv",
+      "id": "4",
+      "bbox": [
+        76,
+        110,
+        600,
+        72
+      ],
+      "geometry": "rect",
+      "text": "CreatorPulse",
+      "textPreview": "CreatorPulse",
+      "resolvedFontSize": 58,
+      "resolvedTextStyle": {
+        "fontSize": 58,
+        "typeface": "+mn-lt",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "CreatorPulse"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "CreatorPulse",
+          "resolvedTextStyle": {
+            "fontSize": 58,
+            "color": "#FFFFFF",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "CreatorPulse",
+              "fontSize": 58,
+              "color": "#FFFFFF",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/nuxc3ylc",
+      "id": "5",
+      "bbox": [
+        80,
+        200,
+        620,
+        58
+      ],
+      "geometry": "rect",
+      "text": "达人粉丝增长分析与智能创作建议平台",
+      "textPreview": "达人粉丝增长分析与智能创作建议平台",
+      "resolvedFontSize": 30,
+      "resolvedTextStyle": {
+        "fontSize": 30,
+        "typeface": "+mn-lt",
+        "color": "#DCE7F1",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "达人粉丝增长分析与智能创作建议平台"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "达人粉丝增长分析与智能创作建议平台",
+          "resolvedTextStyle": {
+            "fontSize": 30,
+            "color": "#DCE7F1"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "达人粉丝增长分析与智能创作建议平台",
+              "fontSize": 30,
+              "color": "#DCE7F1"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gbq1oryt",
+      "id": "6",
+      "bbox": [
+        82,
+        300,
+        560,
+        78
+      ],
+      "geometry": "rect",
+      "text": "用统一数据视图回答三个问题：谁在涨粉、为什么涨粉、下一条内容怎么做。",
+      "textPreview": "用统一数据视图回答三个问题：谁在涨粉、为什么涨粉、下一条内容怎么做。",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "fontSize": 24,
+        "typeface": "+mn-lt",
+        "color": "#B9C7D6",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "用统一数据视图回答三个问题：谁在涨粉、为什么"
+          },
+          {
+            "index": 2,
+            "text": "涨粉、下一条内容怎么做。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "用统一数据视图回答三个问题：谁在涨粉、为什么涨粉、下一条内容怎么做。",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "color": "#B9C7D6"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "用统一数据视图回答三个问题：谁在涨粉、为什么涨粉、下一条内容怎么做。",
+              "fontSize": 24,
+              "color": "#B9C7D6"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5wjudg7a",
+      "id": "7",
+      "bbox": [
+        82,
+        430,
+        145,
+        38
+      ],
+      "geometry": "roundRect",
+      "fillColor": "rgba(22, 163, 166, 0.09412)",
+      "lineColor": "rgba(22, 163, 166, 0.33333)",
+      "lineWidth": 1
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/u54zidon",
+      "id": "8",
+      "bbox": [
+        96,
+        438,
+        117,
+        22
+      ],
+      "geometry": "rect",
+      "text": "Vue + Flask",
+      "textPreview": "Vue + Flask",
+      "resolvedFontSize": 15,
+      "resolvedTextStyle": {
+        "fontSize": 15,
+        "typeface": "+mn-lt",
+        "color": "#16A3A6",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Vue + Flask"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Vue + Flask",
+          "resolvedTextStyle": {
+            "fontSize": 15,
+            "color": "#16A3A6",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Vue + Flask",
+              "fontSize": 15,
+              "color": "#16A3A6",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/nqxs72x4",
+      "id": "9",
+      "bbox": [
+        246,
+        430,
+        110,
+        38
+      ],
+      "geometry": "roundRect",
+      "fillColor": "rgba(32, 166, 106, 0.09412)",
+      "lineColor": "rgba(32, 166, 106, 0.33333)",
+      "lineWidth": 1
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/z25kb6xk",
+      "id": "10",
+      "bbox": [
+        260,
+        438,
+        82,
+        22
+      ],
+      "geometry": "rect",
+      "text": "MySQL",
+      "textPreview": "MySQL",
+      "resolvedFontSize": 15,
+      "resolvedTextStyle": {
+        "fontSize": 15,
+        "typeface": "+mn-lt",
+        "color": "#20A66A",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "MySQL"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "MySQL",
+          "resolvedTextStyle": {
+            "fontSize": 15,
+            "color": "#20A66A",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "MySQL",
+              "fontSize": 15,
+              "color": "#20A66A",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/6hcrmhk3",
+      "id": "11",
+      "bbox": [
+        376,
+        430,
+        170,
+        38
+      ],
+      "geometry": "roundRect",
+      "fillColor": "rgba(245, 158, 11, 0.09412)",
+      "lineColor": "rgba(245, 158, 11, 0.33333)",
+      "lineWidth": 1
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/d8v6psfi",
+      "id": "12",
+      "bbox": [
+        390,
+        438,
+        142,
+        22
+      ],
+      "geometry": "rect",
+      "text": "Kafka + Spark",
+      "textPreview": "Kafka + Spark",
+      "resolvedFontSize": 15,
+      "resolvedTextStyle": {
+        "fontSize": 15,
+        "typeface": "+mn-lt",
+        "color": "#F59E0B",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Kafka + Spark"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Kafka + Spark",
+          "resolvedTextStyle": {
+            "fontSize": 15,
+            "color": "#F59E0B",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Kafka + Spark",
+              "fontSize": 15,
+              "color": "#F59E0B",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/onyd0z61",
+      "id": "13",
+      "bbox": [
+        82,
+        620,
+        360,
+        24
+      ],
+      "geometry": "rect",
+      "text": "项目简洁版汇报",
+      "textPreview": "项目简洁版汇报",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "fontSize": 16,
+        "typeface": "+mn-lt",
+        "color": "#94A3B8",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "项目简洁版汇报"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "项目简洁版汇报",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "color": "#94A3B8"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "项目简洁版汇报",
+              "fontSize": 16,
+              "color": "#94A3B8"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

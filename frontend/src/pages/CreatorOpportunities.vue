@@ -1,9 +1,9 @@
 <script setup>
-import { computed, nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import ChartPanel from "../components/ChartPanel.vue";
 import { fetchOpportunities } from "../services/api";
 import { horizontalBarOption } from "../utils/chartOptions";
-import { formatPercent } from "../utils/format";
+import { formatNumber, formatPercent } from "../utils/format";
 import { actionsFrom, diagnosisItems, groupInsights } from "../utils/pageModels";
 
 defineProps({
@@ -24,6 +24,8 @@ const activeTab = ref(window.location.hash?.replace("#", "") || "hot");
 const loading = ref(true);
 const error = ref("");
 const payload = ref(null);
+const opportunityAnimationProgress = ref(0);
+let opportunityAnimationFrame = null;
 
 onMounted(async () => {
   window.addEventListener("hashchange", syncHash);
@@ -31,11 +33,18 @@ onMounted(async () => {
   await loadData();
 });
 
+onBeforeUnmount(() => {
+  if (opportunityAnimationFrame) {
+    window.cancelAnimationFrame(opportunityAnimationFrame);
+  }
+});
+
 async function loadData() {
   loading.value = true;
   error.value = "";
   try {
     payload.value = await fetchOpportunities();
+    replayOpportunityAnimation();
   } catch (apiError) {
     error.value = apiError.message;
   } finally {
@@ -43,11 +52,38 @@ async function loadData() {
   }
 }
 
+function easeOutCubic(value) {
+  return 1 - Math.pow(1 - value, 3);
+}
+
+function replayOpportunityAnimation() {
+  if (activeTab.value !== "hot") return;
+  if (opportunityAnimationFrame) {
+    window.cancelAnimationFrame(opportunityAnimationFrame);
+  }
+  opportunityAnimationProgress.value = 0;
+  const duration = 1600;
+  const startTime = performance.now();
+
+  function tick(now) {
+    const rawProgress = Math.min((now - startTime) / duration, 1);
+    opportunityAnimationProgress.value = easeOutCubic(rawProgress);
+    if (rawProgress < 1) {
+      opportunityAnimationFrame = window.requestAnimationFrame(tick);
+      return;
+    }
+    opportunityAnimationFrame = null;
+  }
+
+  opportunityAnimationFrame = window.requestAnimationFrame(tick);
+}
+
 function syncHash() {
   const next = window.location.hash.replace("#", "");
   activeTab.value = tabs.some((tab) => tab.id === next) ? next : "hot";
   nextTick(() => {
     window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+    replayOpportunityAnimation();
   });
 }
 
@@ -55,9 +91,10 @@ function setTab(tabId) {
   const shouldReplay = activeTab.value === tabId;
   activeTab.value = tabId;
   window.location.hash = tabId;
-  if (shouldReplay) {
+  if (shouldReplay || tabId === "hot") {
     nextTick(() => {
       window.dispatchEvent(new CustomEvent("creatorpulse:replay-visible-charts"));
+      replayOpportunityAnimation();
     });
   }
 }
@@ -65,10 +102,14 @@ function setTab(tabId) {
 const model = computed(() => payload.value?.data);
 const topics = computed(() => model.value?.topics || []);
 const insights = computed(() => model.value?.insights || []);
+const syncLatencySeconds = computed(() => Number(model.value?.syncLatencySeconds ?? 0));
+const syncLatencyDisplay = computed(() => `${formatNumber(syncLatencySeconds.value)}s`);
 const isInitialReferenceOnly = computed(() => insights.value.length === 0);
 const insightByTab = computed(() => groupInsights(insights.value, tabs, "opportunities"));
 const topicRecommendScore = (topic) =>
   Math.round(Number(topic?.creatorFitScore || 0) * 0.5 + Number(topic?.heatScore || 0) * 0.25 + Number(topic?.growthRate || 0) * 100 * 0.25);
+const animatedNumber = (value) => Math.round(Number(value || 0) * opportunityAnimationProgress.value);
+const animatedPercent = (value) => Number(value || 0) * opportunityAnimationProgress.value;
 const uniqueTopics = computed(() => {
   const byName = new Map();
   for (const topic of topics.value) {
@@ -108,17 +149,17 @@ const topicRiskText = (risk) => ({ LOW: "低", MEDIUM: "中", HIGH: "高" })[ris
 const bestTopicReasonCards = computed(() => [
   {
     label: "现在热不热",
-    value: `${bestTopic.value?.heatScore || 0}`,
+    value: `${animatedNumber(bestTopic.value?.heatScore)}`,
     hint: topicHeatText(bestTopic.value?.heatScore)
   },
   {
     label: "适不适合你",
-    value: `${bestTopic.value?.creatorFitScore || 0}`,
+    value: `${animatedNumber(bestTopic.value?.creatorFitScore)}`,
     hint: topicFitText(bestTopic.value?.creatorFitScore)
   },
   {
     label: "预计涨粉机会",
-    value: formatPercent(bestTopic.value?.growthRate),
+    value: formatPercent(animatedPercent(bestTopic.value?.growthRate)),
     hint: "高于普通选题"
   },
   {
@@ -210,7 +251,6 @@ function tabInsights(tabId) {
   <nav class="left-dock" aria-label="主导航">
     <button class="dock-item" type="button" aria-label="增长总览" @click="emit('navigate', 'growth')"><i class="fa-solid fa-house"></i></button>
     <button class="dock-item" type="button" aria-label="粉丝分析" @click="emit('navigate', 'fans')"><i class="fa-solid fa-users"></i></button>
-    <button class="dock-item" type="button" aria-label="视频分析" @click="emit('navigate', 'video')"><i class="fa-solid fa-play"></i></button>
     <button class="dock-item" type="button" aria-label="内容分布" @click="emit('navigate', 'content')"><i class="fa-solid fa-chart-pie"></i></button>
     <button class="dock-item active" type="button" aria-label="机会建议" @click="emit('navigate', 'opportunities')"><i class="fa-solid fa-fire"></i></button>
     <button class="dock-item" type="button" aria-label="个人中心" @click="emit('navigate', 'profile')"><i class="fa-solid fa-gear"></i></button>
@@ -225,7 +265,7 @@ function tabInsights(tabId) {
             {{ tab.label }}
           </button>
         </div>
-        <div class="user-profile"><span class="sync-chip">60s Sync</span><i class="fa-regular fa-bell" style="color:var(--text-dim)"></i><div class="user-avatar"></div></div>
+        <div class="user-profile"><span class="sync-chip">{{ syncLatencyDisplay }} Sync</span><i class="fa-regular fa-bell" style="color:var(--text-dim)"></i><div class="user-avatar"></div></div>
       </header>
 
       <section v-if="loading" class="card app-state-card"><p class="section-label">Loading</p><strong class="value">正在加载机会建议数据</strong></section>
@@ -267,13 +307,13 @@ function tabInsights(tabId) {
                     <div class="topic-rank-title">
                       <strong>{{ topic.topicName }}</strong>
                       <div class="topic-rank-side">
-                        <span class="topic-rank-stats">适配 {{ topic.creatorFitScore }} · 热度 {{ topic.heatScore }} · 涨粉 {{ formatPercent(topic.growthRate) }}</span>
-                        <span class="topic-score">{{ topic.recommendScore }}</span>
+                        <span class="topic-rank-stats">适配 {{ animatedNumber(topic.creatorFitScore) }} · 热度 {{ animatedNumber(topic.heatScore) }} · 涨粉 {{ formatPercent(animatedPercent(topic.growthRate)) }}</span>
+                        <span class="topic-score">{{ animatedNumber(topic.recommendScore) }}</span>
                         <span v-if="topic.topicId === bestTopic?.topicId" class="topic-best-chip">最推荐</span>
                       </div>
                     </div>
                     <div class="topic-rank-track">
-                      <span :style="{ width: `${topic.recommendScore}%` }"></span>
+                      <span :style="{ width: `${animatedNumber(topic.recommendScore)}%` }"></span>
                     </div>
                   </div>
                 </article>
@@ -284,7 +324,7 @@ function tabInsights(tabId) {
               <table class="table">
                 <tr><th>候选选题</th><th>现在热不热</th><th>适不适合你</th><th>预计涨粉机会</th></tr>
                 <tr v-for="topic in hotTopics" :key="topic.topicId">
-                  <td>{{ topic.topicName }}</td><td>{{ topic.heatScore }} · {{ topicHeatText(topic.heatScore) }}</td><td>{{ topic.creatorFitScore }} · {{ topicFitText(topic.creatorFitScore) }}</td><td>{{ formatPercent(topic.growthRate) }}</td>
+                  <td>{{ topic.topicName }}</td><td>{{ animatedNumber(topic.heatScore) }} · {{ topicHeatText(topic.heatScore) }}</td><td>{{ animatedNumber(topic.creatorFitScore) }} · {{ topicFitText(topic.creatorFitScore) }}</td><td>{{ formatPercent(animatedPercent(topic.growthRate)) }}</td>
                 </tr>
               </table>
             </article>

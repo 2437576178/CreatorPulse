@@ -433,20 +433,22 @@ def component_schemas() -> dict[str, Any]:
             },
         ),
         "growthDashboard": object_schema(
-            ["currentSnapshot", "newFollowers", "topVideos", "contentTypeRows", "insights"],
+            ["currentSnapshot", "newFollowers", "syncLatencySeconds", "topVideos", "contentTypeRows", "insights"],
             {
                 "currentSnapshot": {"type": "object"},
                 "newFollowers": {"type": "integer"},
+                "syncLatencySeconds": {"type": "integer"},
                 "topVideos": {"type": "array", "items": {"type": "object"}},
                 "contentTypeRows": {"type": "array", "items": {"type": "object"}},
                 "insights": {"type": "array", "items": {"$ref": "#/components/schemas/Insight"}},
             },
         ),
         "fansAnalysis": object_schema(
-            ["trend", "newFollowers", "audienceProfile", "insights"],
+            ["trend", "newFollowers", "syncLatencySeconds", "audienceProfile", "insights"],
             {
                 "trend": {"type": "array", "items": {"type": "object"}},
                 "newFollowers": {"type": "integer"},
+                "syncLatencySeconds": {"type": "integer"},
                 "audienceProfile": {"type": "object"},
                 "insights": {"type": "array", "items": {"$ref": "#/components/schemas/Insight"}},
             },
@@ -462,16 +464,18 @@ def component_schemas() -> dict[str, Any]:
             },
         ),
         "contentDistribution": object_schema(
-            ["sparkPlatformSummaries", "insights"],
+            ["sparkPlatformSummaries", "syncLatencySeconds", "insights"],
             {
                 "sparkPlatformSummaries": {"type": "array", "items": {"type": "object"}},
+                "syncLatencySeconds": {"type": "integer"},
                 "insights": {"type": "array", "items": {"$ref": "#/components/schemas/Insight"}},
             },
         ),
         "opportunities": object_schema(
-            ["topics", "insights"],
+            ["topics", "syncLatencySeconds", "insights"],
             {
                 "topics": {"type": "array", "items": {"type": "object"}},
+                "syncLatencySeconds": {"type": "integer"},
                 "insights": {"type": "array", "items": {"$ref": "#/components/schemas/Insight"}},
             },
         ),

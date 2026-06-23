@@ -217,6 +217,32 @@ class MySQLRepository:
                     "SELECT * FROM creator_metric_snapshots WHERE creator_id = :creator_id ORDER BY metric_date",
                     {"creator_id": resolved_creator_id},
                 ),
+                "offline_creator_daily_metrics": self.fetch_optional_all(
+                    connection,
+                    """
+                    SELECT *
+                    FROM offline_creator_daily_metrics
+                    WHERE creator_id = :creator_id
+                    ORDER BY metric_date DESC
+                    LIMIT 1
+                    """,
+                    {"creator_id": resolved_creator_id},
+                ),
+                "offline_content_type_daily_metrics": self.fetch_optional_all(
+                    connection,
+                    """
+                    SELECT *
+                    FROM offline_content_type_daily_metrics
+                    WHERE creator_id = :creator_id
+                      AND metric_date = (
+                        SELECT MAX(metric_date)
+                        FROM offline_content_type_daily_metrics
+                        WHERE creator_id = :creator_id
+                      )
+                    ORDER BY new_followers_delta DESC, content_type
+                    """,
+                    {"creator_id": resolved_creator_id},
+                ),
                 "audience_profile_snapshots": self.fetch_all(
                     connection,
                     "SELECT * FROM audience_profile_snapshots WHERE creator_id = :creator_id ORDER BY snapshot_id",
@@ -311,6 +337,15 @@ class MySQLRepository:
 
         result = connection.execute(text(sql), params or {})
         return [dict(row._mapping) for row in result]
+
+    @staticmethod
+    def fetch_optional_all(connection: Any, sql: str, params: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+        try:
+            return MySQLRepository.fetch_all(connection, sql, params)
+        except Exception as exc:
+            if "doesn't exist" in str(exc) or "no such table" in str(exc):
+                return []
+            raise
 
     def to_contract(self, rows: dict[str, list[dict[str, Any]]], creator_id: str | None = None) -> dict[str, Any]:
         rows = self.filter_rows_by_creator(rows, creator_id)
@@ -416,6 +451,7 @@ class MySQLRepository:
                 }
                 for item in rows["creator_metric_snapshots"]
             ],
+            "dailyMetrics": self.map_daily_metrics(rows),
             "audienceProfileSnapshot": self.map_audience(rows["audience_profile_snapshots"]),
             "topicTrendSnapshots": [
                 {
@@ -476,13 +512,15 @@ class MySQLRepository:
             "videos",
             "video_metric_snapshots",
             "creator_metric_snapshots",
+            "offline_creator_daily_metrics",
+            "offline_content_type_daily_metrics",
             "audience_profile_snapshots",
             "insights",
             "spark_platform_metric_summaries",
             "spark_video_follower_contributions",
         ]
         for table in direct_creator_tables:
-            filtered[table] = [item for item in rows[table] if item["creator_id"] == creator_id]
+            filtered[table] = [item for item in rows.get(table, []) if item["creator_id"] == creator_id]
 
         video_ids = {item["video_id"] for item in filtered["videos"]}
         insight_ids = {item["insight_id"] for item in filtered["insights"]}
@@ -589,6 +627,44 @@ class MySQLRepository:
                     "calculatedAt": iso_datetime(item["calculated_at"]),
                 }
                 for item in rows.get("spark_video_follower_contributions", [])
+            ],
+        }
+
+    @staticmethod
+    def map_daily_metrics(rows: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
+        creator_rows = rows.get("offline_creator_daily_metrics", [])
+        creator = creator_rows[0] if creator_rows else None
+        return {
+            "creator": (
+                {
+                    "creatorId": creator["creator_id"],
+                    "date": iso_datetime(creator["metric_date"]),
+                    "totalViews": creator["total_views_delta"],
+                    "totalInteractions": creator["total_interactions_delta"],
+                    "profileVisits": creator["profile_visits_delta"],
+                    "newFollowers": creator["new_followers_delta"],
+                    "lostFollowers": creator["lost_followers_delta"],
+                    "netFollowers": creator["net_followers_delta"],
+                    "viewToFollowerRate": float(creator["view_to_follower_rate"]),
+                    "stickinessScore": float(creator["stickiness_score"]),
+                    "growthHealthScore": float(creator["growth_health_score"]),
+                }
+                if creator
+                else None
+            ),
+            "contentTypes": [
+                {
+                    "creatorId": item["creator_id"],
+                    "contentType": item["content_type"],
+                    "date": iso_datetime(item["metric_date"]),
+                    "videoCount": item["video_count"],
+                    "views": item["views_delta"],
+                    "interactions": item["interactions_delta"],
+                    "newFollowers": item["new_followers_delta"],
+                    "viewToFollowerRate": float(item["view_to_follower_rate"]),
+                    "efficiencyScore": float(item["efficiency_score"]),
+                }
+                for item in rows.get("offline_content_type_daily_metrics", [])
             ],
         }
 
